@@ -1,8 +1,8 @@
-require_relative 'differ_test_base'
+require_relative 'creator_test_base'
 require_relative 'rack_request_stub'
-require_relative '../src/rack_dispatcher'
+require_relative '../rack_dispatcher'
 
-class RackDispatcherTest < DifferTestBase
+class RackDispatcherTest < CreatorTestBase
 
   def self.hex_prefix
     '4AF'
@@ -42,10 +42,21 @@ class RackDispatcherTest < DifferTestBase
     end
   end
 
-  test '134', 'diff 200' do
-    args = { id:hex_test_id, old_files:{}, new_files:{} }
-    assert_200('diff', args) do |response|
-      assert_equal({}, response['diff'])
+  test '134', 'create_group 200' do
+    any_manifest = manifest
+    args = { manifest:any_manifest }
+    assert_200('create_group', args) do |response|
+      id = response['create_group']
+      assert group_exists?(id), id
+    end
+  end
+
+  test '135', 'create_kata 200' do
+    any_manifest = manifest
+    args = { manifest:any_manifest }
+    assert_200('create_kata', args) do |response|
+      id = response['create_kata']
+      assert kata_exists?(id), id
     end
   end
 
@@ -69,16 +80,15 @@ class RackDispatcherTest < DifferTestBase
   end
 
   test '228',
-  'diff returns 400 when id is missing' do
-    args = { old_files:{}, new_files:{} }
-    assert_dispatch_error('diff', args.to_json, 400, 'id is missing')
+  'create_group returns 400 when manifest is missing' do
+    assert_dispatch_error('create_group', {}.to_json, 400, 'manifest is missing')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
   # 500
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  class DifferShaRaiser
+  class CreatorShaRaiser
     def initialize(*args)
       @klass = args[0]
       @message = args[1]
@@ -90,13 +100,13 @@ class RackDispatcherTest < DifferTestBase
 
   test 'F1A',
   'dispatch returns 500 status when implementation raises' do
-    @differ = DifferShaRaiser.new(ArgumentError, 'wibble')
+    @differ = CreatorShaRaiser.new(ArgumentError, 'wibble')
     assert_dispatch_error('sha', {}.to_json, 500, 'wibble')
   end
 
   test 'F1B',
   'dispatch returns 500 status when implementation has syntax error' do
-    @differ = DifferShaRaiser.new(SyntaxError, 'fubar')
+    @differ = CreatorShaRaiser.new(SyntaxError, 'fubar')
     assert_dispatch_error('sha', {}.to_json, 500, 'fubar')
   end
 
@@ -131,7 +141,7 @@ class RackDispatcherTest < DifferTestBase
     diagnostic = "body:#{__LINE__}"
     assert_equal body, exception['body'], diagnostic
     diagnostic = "exception['class']:#{__LINE__}"
-    assert_equal 'DifferService', exception['class'], diagnostic
+    assert_equal 'CreatorService', exception['class'], diagnostic
     diagnostic = "exception['message']:#{__LINE__}"
     assert_equal message, exception['message'], diagnostic
     diagnostic = "exception['backtrace'].class.name:#{__LINE__}"
@@ -143,7 +153,7 @@ class RackDispatcherTest < DifferTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def rack_call(name, args)
-    @differ ||= Differ.new(externals)
+    @differ ||= Creator.new(externals)
     rack = RackDispatcher.new(@differ, RackRequestStub)
     env = { path_info:name, body:args }
     rack.call(env)

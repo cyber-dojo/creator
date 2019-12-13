@@ -22,5 +22,5 @@ class ShaTest < CreatorTestBase
   def is_hex?(ch)
     '0123456789abcdef'.include?(ch)
   end
-  
+
 end
