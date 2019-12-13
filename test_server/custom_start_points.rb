@@ -15,24 +15,8 @@ class CustomStartPoints
     @http = HttpJson::service(http, 'custom-start-points', 4526, Error)
   end
 
-  def alive?
-    @http.get(__method__, {})
-  end
-
-  def ready?
-    @http.get(__method__, {})
-  end
-
-  def sha
-    @http.get(__method__, {})
-  end
-
   def display_names
     @http.get(:names, {})
-  end
-
-  def manifests
-    @http.get(__method__, {})
   end
 
   def manifest(display_name)

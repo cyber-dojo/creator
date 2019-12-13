@@ -15,15 +15,7 @@ class Saver
     @http = HttpJson::service(http, 'saver', 4537, Error)
   end
 
-  def alive?
-    @http.get(__method__, {})
-  end
-
   def ready?
-    @http.get(__method__, {})
-  end
-
-  def sha
     @http.get(__method__, {})
   end
 
@@ -32,18 +24,6 @@ class Saver
   end
 
   def exists?(key)
-    @http.get(__method__, { key:key })
-  end
-
-  def write(key, value)
-    @http.post(__method__, { key:key, value:value })
-  end
-
-  def append(key, value)
-    @http.post(__method__, { key:key, value:value })
-  end
-
-  def read(key)
     @http.get(__method__, { key:key })
   end
 
