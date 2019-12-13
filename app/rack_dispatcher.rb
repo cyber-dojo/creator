@@ -2,7 +2,7 @@
 
 require_relative 'services/http_json/error'
 require_relative 'http_json_args'
-require 'json'
+require_relative 'json_generate'
 
 class RackDispatcher
 
@@ -26,13 +26,14 @@ class RackDispatcher
 
   private
 
+  include JsonGenerate
+
   def json_response(status, json)
     if status === 200
-      body = JSON.fast_generate(json)
+      body = json_fast(json)
     else
-      body = JSON.pretty_generate(json)
+      body = json_pretty(json)
       $stderr.puts(body)
-      $stderr.flush
     end
     [ status,
       { 'Content-Type' => 'application/json' },
@@ -46,7 +47,7 @@ class RackDispatcher
     { 'exception' => {
         'path' => path,
         'body' => body,
-        'class' => 'DifferService',
+        'class' => 'CreatorService',
         'message' => error.message,
         'backtrace' => error.backtrace
       }
