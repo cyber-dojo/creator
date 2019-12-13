@@ -2,7 +2,6 @@ $stdout.sync = true
 $stderr.sync = true
 
 require 'rack'
-
 unless ENV['NO_PROMETHEUS']
   require 'prometheus/middleware/collector'
   require 'prometheus/middleware/exporter'
