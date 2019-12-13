@@ -69,30 +69,26 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '066', %w(
-  no kata-id duplicates in 1000 repeats
-  ) do
+  test '066', %w( kata-ids are spread across whole alphabet ) do
     id_generator = IdGenerator.new(externals)
     ids = {}
-    repeats = 1000
-    repeats.times do
-      ids[id_generator.kata_id] = true
+    until ids.size === alphabet.size
+      ch = id_generator.kata_id[0]
+      ids[ch] ||= 0
+      ids[ch] += 1
     end
-    assert_equal repeats, ids.keys.size
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '067', %w(
-  no group-id duplicates in 1000 repeats
-  ) do
+  test '067', %w( group-ids are spread across whole alphabet ) do
     id_generator = IdGenerator.new(externals)
     ids = {}
-    repeats = 1000
-    repeats.times do
-      ids[id_generator.group_id] = true
+    until ids.size === alphabet.size
+      ch = id_generator.group_id[0]
+      ids[ch] ||= 0
+      ids[ch] += 1
     end
-    assert_equal repeats, ids.keys.size
   end
 
   # - - - - - - - - - - - - - - - - - - -
