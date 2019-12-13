@@ -62,7 +62,7 @@ class Creator
 
   include IdPather # group_id_path, kata_id_path
   include JsonGenerate # json_pretty
-  
+
   #- - - - - - - - - - - - - - - - - -
 
   def set_version(manifest)

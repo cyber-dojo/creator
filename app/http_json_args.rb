@@ -21,8 +21,8 @@ class HttpJsonArgs
     when '/sha'          then ['sha',[]]
     when '/alive'        then ['alive?',[]]
     when '/ready'        then ['ready?',[]]
-    when '/create_group' then ['create_group',manifest]
-    when '/create_kata'  then ['create_kata',manifest]
+    when '/create_group' then ['create_group',[manifest]]
+    when '/create_kata'  then ['create_kata',[manifest]]
     else
       raise request_error('unknown path')
     end
