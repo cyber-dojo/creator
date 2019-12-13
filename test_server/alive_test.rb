@@ -9,7 +9,7 @@ class AliveTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '93b',
-  %w( its alive ) do
+  %w( creator service is alive ) do
     assert creator.alive?
   end
 
