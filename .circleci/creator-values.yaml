@@ -20,7 +20,7 @@ podSecurityContext:
   fsGroup: 65534 # nobody
 
 containers:
-  - name: custom
+  - name: creator
     image: cyberdojo/creator
     securityContext:
       allowPrivilegeEscalation: false
