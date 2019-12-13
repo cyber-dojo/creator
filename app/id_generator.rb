@@ -40,7 +40,7 @@ class IdGenerator
 
   def generate_id(pather)
     pather = method(pather)
-    4.times.find do
+    42.times.find do
       id = SIZE.times.map{ ALPHABET[random_index] }.join
       if unreserved?(id) && saver.create(pather.call(id))
         break id

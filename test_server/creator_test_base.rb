@@ -8,12 +8,16 @@ class CreatorTestBase < HexMiniTest
     super(arg)
   end
 
-  def creator
-    @creator ||= Creator.new(externals)
-  end
-
   def externals
     @externals ||= Externals.new
+  end
+
+  def creator
+    Creator.new(externals)
+  end
+
+  def saver
+    externals.saver
   end
 
 end

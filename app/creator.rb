@@ -22,9 +22,11 @@ class Creator
     saver.ready?
   end
 
+  # - - - - - - - - - - - - - -
+
   def create_group(manifest)
-    manifest['created'] = time.now
-    manifest['version'] = 1
+    set_version(manifest)
+    time_stamp(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     saver_assert_batch(
       group_manifest_write_cmd(id, json_plain(manifest)),
@@ -33,9 +35,11 @@ class Creator
     id
   end
 
+  # - - - - - - - - - - - - - -
+
   def create_kata(manifest)
-    manifest['created'] = time.now
-    manifest['version'] = 1
+    set_version(manifest)
+    time_stamp(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).kata_id
     event_summary = {
       'index' => 0,
@@ -55,7 +59,21 @@ class Creator
 
   private
 
-  include IdPather
+  def set_version(manifest)
+    manifest['version'] = 1
+  end
+
+  #- - - - - - - - - - - - - - - - - -
+
+  def time_stamp(manifest)
+    manifest['created'] = time.now
+  end
+
+  def time
+    @externals.time
+  end
+
+  #- - - - - - - - - - - - - - - - - -
 
   def saver_assert_batch(*commands)
     results = saver.batch(commands)
@@ -116,20 +134,16 @@ class Creator
     kata_id_path(id, "#{index}.event.json")
   end
 
-  #- - - - - - - - - - - - - - - - - -
-
-  def json_plain(obj)
-    JSON.generate(obj)
-  end
-
-  #- - - - - - - - - - - - - - - - - -
+  include IdPather # group_id_path, kata_id_path
 
   def saver
     @externals.saver
   end
 
-  def time
-    @externals.time
+  #- - - - - - - - - - - - - - - - - -
+
+  def json_plain(obj)
+    JSON.generate(obj)
   end
 
 end
