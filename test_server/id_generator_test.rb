@@ -69,30 +69,6 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '066', %w( kata-ids are spread across whole alphabet ) do
-    id_generator = IdGenerator.new(externals)
-    ids = {}
-    until ids.size === alphabet.size
-      ch = id_generator.kata_id[0]
-      ids[ch] ||= 0
-      ids[ch] += 1
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  test '067', %w( group-ids are spread across whole alphabet ) do
-    id_generator = IdGenerator.new(externals)
-    ids = {}
-    until ids.size === alphabet.size
-      ch = id_generator.group_id[0]
-      ids[ch] ||= 0
-      ids[ch] += 1
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   test '13b', %w(
   group-id does not exist before generation, does after
   ) do
