@@ -1,6 +1,7 @@
 require_relative 'hex_mini_test'
 require_relative '../externals'
 require_relative '../creator'
+require_relative '../id_pather'
 
 class CreatorTestBase < HexMiniTest
 
@@ -19,5 +20,17 @@ class CreatorTestBase < HexMiniTest
   def saver
     externals.saver
   end
+
+  def group_exists?(id)
+    saver.exists?(group_id_path(id))
+  end
+
+  def kata_exists?(id)
+    saver.exists?(kata_id_path(id))
+  end
+
+  private
+
+  include IdPather # group_id_path, kata_id_path
 
 end

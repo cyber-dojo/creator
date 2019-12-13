@@ -2,6 +2,7 @@
 
 require_relative 'id_generator'
 require_relative 'id_pather'
+require_relative 'json_generate'
 require_relative 'saver_asserter'
 
 class Creator
@@ -29,7 +30,7 @@ class Creator
     time_stamp(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     saver_asserter.batch(
-      group_manifest_write_cmd(id, json_plain(manifest)),
+      group_manifest_write_cmd(id, json_pretty(manifest)),
       group_katas_write_cmd(id, '')
     )
     id
@@ -50,9 +51,9 @@ class Creator
       'files' => manifest['visible_files']
     }
     saver_asserter.batch(
-      kata_manifest_write_cmd(id, json_plain(manifest)),
-      kata_events_write_cmd(id, json_plain(event_summary)),
-      kata_event_write_cmd(id, 0, json_plain(event0.merge(event_summary)))
+      kata_manifest_write_cmd(id, json_pretty(manifest)),
+      kata_events_write_cmd(id, json_pretty(event_summary)),
+      kata_event_write_cmd(id, 0, json_pretty(event0.merge(event_summary)))
     )
     id
   end
@@ -60,7 +61,8 @@ class Creator
   private
 
   include IdPather # group_id_path, kata_id_path
-
+  include JsonGenerate # json_pretty
+  
   #- - - - - - - - - - - - - - - - - -
 
   def set_version(manifest)

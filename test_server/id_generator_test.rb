@@ -1,6 +1,5 @@
 require_relative 'creator_test_base'
 require_relative '../id_generator'
-require_relative '../id_pather'
 require 'fileutils'
 require 'tmpdir'
 
@@ -103,9 +102,9 @@ class IdGeneratorTest < CreatorTestBase
   ) do
     id =  'sD92wM'
     id_generator = stubbed_id_generator(id)
-    refute saver.exists?(group_id_path(id))
+    refute group_exists?(id), id
     assert_equal id, id_generator.group_id
-    assert saver.exists?(group_id_path(id))
+    assert group_exists?(id), id
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -115,9 +114,9 @@ class IdGeneratorTest < CreatorTestBase
   ) do
     id =  '7w3RPx'
     id_generator = stubbed_id_generator(id)
-    refute saver.exists?(kata_id_path(id))
+    refute kata_exists?(id), id
     assert_equal id, id_generator.kata_id
-    assert saver.exists?(kata_id_path(id))
+    assert kata_exists?(id), id
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -183,8 +182,6 @@ class IdGeneratorTest < CreatorTestBase
   end
 
   private
-
-  include IdPather # group_id_path, kata_id_path
 
   def id?(s)
     IdGenerator::id?(s)
