@@ -21,18 +21,4 @@ class CreatorTest < CreatorTestBase
     assert kata_exists?(id), id
   end
 
-  private
-
-  def manifest
-    custom.manifest(display_name)
-  end
-
-  def display_name
-    custom.display_names.shuffle[0]
-  end
-
-  def custom
-    CustomStartPoints.new(externals.http)
-  end
-
 end

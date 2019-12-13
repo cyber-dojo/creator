@@ -36,6 +36,7 @@ class HexMiniTest < MiniTest::Test
     end
   end
 
+  # :nocov:
   ObjectSpace.define_finalizer(self, proc {
     slow = @@timings.select{ |_name,secs| secs > 0.000 }
     sorted = slow.sort_by{ |name,secs| -secs }.to_h
@@ -47,6 +48,7 @@ class HexMiniTest < MiniTest::Test
     }
     puts
   })
+  # :nocov:
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
@@ -77,8 +79,6 @@ class HexMiniTest < MiniTest::Test
 
   def _hex_setup_caller(hex_id, hex_name)
     ENV['CYBER_DOJO_HEX_TEST_ID'] = hex_id
-    @_hex_test_id = hex_id
-    @_hex_test_name = hex_name
     hex_setup
   end
 
@@ -87,10 +87,6 @@ class HexMiniTest < MiniTest::Test
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-
-  def hex_test_id
-    @_hex_test_id
-  end
 
   def hex_setup
   end

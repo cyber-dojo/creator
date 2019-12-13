@@ -29,6 +29,18 @@ class CreatorTestBase < HexMiniTest
     saver.exists?(kata_id_path(id))
   end
 
+  def manifest
+    custom.manifest(display_name)
+  end
+
+  def display_name
+    custom.display_names.shuffle[0]
+  end
+
+  def custom
+    CustomStartPoints.new(externals.http)
+  end
+
   private
 
   include IdPather # group_id_path, kata_id_path
