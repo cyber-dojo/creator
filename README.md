@@ -76,14 +76,4 @@ The git commit sha used to create the Docker image.
   ```
 
 - - - -
-# build the demo and run it
-- Runs inside the creator-client's container.
-- Calls the creator-server's methods and displays their json results and how long they took.
-
-```bash
-$ ./sh/run_demo.sh
-```
-![demo screenshot](test_client/src/demo_screenshot.png?raw=true "demo screenshot")
-
-- - - -
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
