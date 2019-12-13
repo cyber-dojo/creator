@@ -6,9 +6,6 @@ readonly PORT=4523
 
 export $(docker run --rm cyberdojo/versioner:latest sh -c 'cat /app/.env')
 
-"${SH_DIR}/build_docker_images.sh"
-"${SH_DIR}/docker_containers_up.sh"
-
 ip_address()
 {
   if [ -n "${DOCKER_MACHINE_NAME}" ]; then
@@ -18,4 +15,6 @@ ip_address()
   fi
 }
 
+"${SH_DIR}/build_docker_images.sh"
+"${SH_DIR}/docker_containers_up.sh"
 open "http://$(ip_address):${PORT}/alive?"
