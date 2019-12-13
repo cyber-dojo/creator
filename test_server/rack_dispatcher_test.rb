@@ -22,22 +22,19 @@ class RackDispatcherTest < CreatorTestBase
   end
 
   test '131', 'sha 200' do
-    args = {}
-    assert_200('sha', args) do |response|
+    assert_200('sha', args={}) do |response|
       assert_equal ENV['SHA'], response['sha']
     end
   end
 
   test '132', 'alive 200' do
-    args = {}
-    assert_200('alive', args) do |response|
+    assert_200('alive', args={}) do |response|
       assert_equal true, response['alive?']
     end
   end
 
   test '133', 'ready 200' do
-    args = {}
-    assert_200('ready', args) do |response|
+    assert_200('ready', args={}) do |response|
       assert_equal true, response['ready?']
     end
   end
@@ -100,13 +97,13 @@ class RackDispatcherTest < CreatorTestBase
 
   test 'F1A',
   'dispatch returns 500 status when implementation raises' do
-    @differ = CreatorShaRaiser.new(ArgumentError, 'wibble')
+    @creator = CreatorShaRaiser.new(ArgumentError, 'wibble')
     assert_dispatch_error('sha', {}.to_json, 500, 'wibble')
   end
 
   test 'F1B',
   'dispatch returns 500 status when implementation has syntax error' do
-    @differ = CreatorShaRaiser.new(SyntaxError, 'fubar')
+    @creator = CreatorShaRaiser.new(SyntaxError, 'fubar')
     assert_dispatch_error('sha', {}.to_json, 500, 'fubar')
   end
 
@@ -122,7 +119,7 @@ class RackDispatcherTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def assert_dispatch_error(name, args, status, message)
-    @differ ||= Object.new
+    @creator ||= Object.new
     response,stderr = with_captured_stderr { rack_call(name, args) }
     assert_equal status, response[0], "message:#{message},stderr:#{stderr}"
     assert_equal({ 'Content-Type' => 'application/json' }, response[1])
@@ -153,8 +150,8 @@ class RackDispatcherTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def rack_call(name, args)
-    @differ ||= Creator.new(externals)
-    rack = RackDispatcher.new(@differ, RackRequestStub)
+    @creator ||= Creator.new(externals)
+    rack = RackDispatcher.new(@creator, RackRequestStub)
     env = { path_info:name, body:args }
     rack.call(env)
   end
