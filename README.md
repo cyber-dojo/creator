@@ -1,15 +1,15 @@
-[![CircleCI](https://circleci.com/gh/cyber-dojo/differ.svg?style=svg)](https://circleci.com/gh/cyber-dojo/differ)
+[![CircleCI](https://circleci.com/gh/cyber-dojo/creator.svg?style=svg)](https://circleci.com/gh/cyber-dojo/creator)
 
-# cyberdojo/differ docker image
+# cyberdojo/creator docker image
 
-- The source for the [cyberdojo/differ](https://hub.docker.com/r/cyberdojo/differ/tags) Docker image.
+- The source for the [cyberdojo/creator](https://hub.docker.com/r/cyberdojo/creator/tags) Docker image.
 - A docker-containerized stateless micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
-- Diffs two sets of files.
+- Creates a new group or kata.
 
 - - - -
 # API
   * [POST create_group(manifest)](#get-creategroupmanifest)
-  * [PIST create_kata(manifest)](#get-createkatamanifest)
+  * [POST create_kata(manifest)](#get-createkatamanifest)
   * [GET ready?](#get-ready)
   * [GET alive?](#get-alive)  
   * [GET sha](#get-sha)
@@ -23,10 +23,10 @@
   * If the method raises an exception, a key equals "exception".
 
 - - - -
-## POST create_group(manifest)
+# POST create_group(manifest)
 
 - - - -
-## POST create_kata(manifest)
+# POST create_kata(manifest)
 
 - - - -
 # GET ready?
@@ -67,7 +67,7 @@ The git commit sha used to create the Docker image.
   * The 40 character sha string.
   * eg
   ```json
-  { "sha": "b28b3e13c0778fe409a50d23628f631f87920ce5" }
+  { "sha": "41d7e6068ab75716e4c7b9262a3a44323b4d1448" }
   ```
 - parameters
   * none
@@ -78,7 +78,7 @@ The git commit sha used to create the Docker image.
 - - - -
 # build the demo and run it
 - Runs inside the creator-client's container.
-- Calls the differ-server's methods and displays their json results and how long they took.
+- Calls the creator-server's methods and displays their json results and how long they took.
 
 ```bash
 $ ./sh/run_demo.sh
