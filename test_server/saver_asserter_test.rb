@@ -28,7 +28,7 @@ class SaverAsserterTest < CreatorTestBase
 
   test '968', %w(
   when any command fails
-  saver_assert_batch(commands) raises a SaverService::Error
+  saver_assert_batch(commands) raises a Saver::Error
   with a json error.message
   ) do
     error = assert_raises(Saver::Error) {
