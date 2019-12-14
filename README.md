@@ -24,7 +24,6 @@
       a value as documented below. eg
       ```bash
       curl \
-        --data '{}' \
         --header 'Content-type: application/json' \        
         --silent \
         -X GET \
@@ -38,7 +37,6 @@
       a json-hash as its value. eg
       ```bash
       curl \
-        --data '{}' \
         --header 'Content-type: application/json' \
         --silent \
         -X POST \
@@ -104,8 +102,7 @@ Useful as a liveness probe.
 # GET sha
 The git commit sha used to create the Docker image.
 - returns
-  * The 40 character sha string.
-  * eg
+  * The 40 character sha string. eg
   ```json
   { "sha": "41d7e6068ab75716e4c7b9262a3a44323b4d1448" }
   ```
