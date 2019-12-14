@@ -5,11 +5,12 @@
 - The source for the [cyberdojo/creator](https://hub.docker.com/r/cyberdojo/creator/tags) Docker image.
 - A docker-containerized stateless micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
 - Creates a new group or kata.
+- Work in progress. Not live yet.
 
 - - - -
 # API
-  * [POST create_group(manifest)](#get-creategroupmanifest)
-  * [POST create_kata(manifest)](#get-createkatamanifest)
+  * [POST create_group(manifest)](#post-creategroupmanifest)
+  * [POST create_kata(manifest)](#post-createkatamanifest)
   * [GET ready?](#get-ready)
   * [GET alive?](#get-alive)  
   * [GET sha](#get-sha)
