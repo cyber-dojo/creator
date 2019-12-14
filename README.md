@@ -4,7 +4,7 @@
 
 - The source for the [cyberdojo/creator](https://hub.docker.com/r/cyberdojo/creator/tags) Docker image.
 - A docker-containerized stateless micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
-- Creates a new group or kata.
+- An http service for creating a new group or a new kata from a start-point manifest.
 - Work in progress. Not live yet.
 
 - - - -
@@ -16,12 +16,51 @@
   * [GET sha](#get-sha)
 
 - - - -
-# JSON in, JSON out  
-* All methods receive a JSON hash.
-  * The hash contains any method arguments as key-value pairs.
-* All methods return a JSON hash.
-  * If the method completes, a key equals the method's name.
-  * If the method raises an exception, a key equals "exception".
+# JSON in, JSON out
+  * All methods are named in the http request path, and pass any
+    arguments as a json hash in the http request's body.
+  * All methods return a json hash in the http response's body.
+    * If the method completes, a string key equals the method's name, with
+      a value as documented below. eg
+      ```bash
+      curl \
+        --data '{}' \
+        --header 'Content-type: application/json' \        
+        --silent \
+        -X GET \
+        http://${IP_ADDRESS}:${PORT}/alive? \
+          | jq      
+      {
+        "alive?": true
+      }
+      ```
+    * If the method raises an exception, a string key equals ```exception```, with
+      a json-hash as its value. eg
+      ```bash
+      curl \
+        --data '{}' \
+        --header 'Content-type: application/json' \
+        --silent \
+        -X POST \
+        http://${IP_ADDRESS}:${PORT}/create_group \
+          | jq      
+      {
+        "exception": {
+          "path": "/create_group",
+          "body": "{}",
+          "class": "CreatorService",
+          "message": "manifest is missing",
+          "backtrace": [
+            "/app/http_json_args.rb:51:in `exists_arg'",
+            "/app/http_json_args.rb:44:in `manifest'",
+            "/app/http_json_args.rb:24:in `get'",
+            "/app/rack_dispatcher.rb:18:in `call'",
+            ...
+            "/usr/bin/rackup:23:in `<main>'"
+          ]
+        }
+      }
+      ```
 
 - - - -
 # POST create_group(manifest)
