@@ -13,7 +13,7 @@ class RackDispatcherTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test '130', %w(
-  allow empty body instead of {} which is
+  allow empty json body '' instead of {} which is
   useful for kubernetes live/ready probes ) do
     response = rack_call('ready', '')
     assert_equal 200, response[0]
@@ -21,36 +21,36 @@ class RackDispatcherTest < CreatorTestBase
     assert_equal({"ready?" => true}, JSON.parse(response[2][0]))
   end
 
-  test '131', 'sha 200' do
+  test '131', '/sha 200' do
     assert_200('sha', args={}) do |response|
       assert_equal ENV['SHA'], response['sha']
     end
   end
 
-  test '132', 'alive 200' do
+  test '132', '/alive 200' do
     assert_200('alive', args={}) do |response|
       assert_equal true, response['alive?']
     end
   end
 
-  test '133', 'ready 200' do
+  test '133', '/ready 200' do
     assert_200('ready', args={}) do |response|
       assert_equal true, response['ready?']
     end
   end
 
-  test '134', 'create_group 200' do
-    any_manifest = manifest
-    args = { manifest:any_manifest }
+  test '134', '/create_group 200' do
+    manifest = any_manifest
+    args = { manifest:manifest }
     assert_200('create_group', args) do |response|
       id = response['create_group']
       assert group_exists?(id), id
     end
   end
 
-  test '135', 'create_kata 200' do
-    any_manifest = manifest
-    args = { manifest:any_manifest }
+  test '135', '/create_kata 200' do
+    manifest = any_manifest
+    args = { manifest:manifest }
     assert_200('create_kata', args) do |response|
       id = response['create_kata']
       assert kata_exists?(id), id
@@ -72,12 +72,12 @@ class RackDispatcherTest < CreatorTestBase
   end
 
   test 'E2A',
-  'dispatch returns 400 when method name is unknown' do
+  'dispatch returns 400 when path is unknown' do
     assert_dispatch_error('xyz', {}.to_json, 400, 'unknown path')
   end
 
   test '228',
-  'create_group returns 400 when manifest is missing' do
+  '/create_group returns 400 when manifest is missing' do
     assert_dispatch_error('create_group', {}.to_json, 400, 'manifest is missing')
   end
 

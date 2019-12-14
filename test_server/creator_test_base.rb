@@ -29,11 +29,11 @@ class CreatorTestBase < HexMiniTest
     saver.exists?(kata_id_path(id))
   end
 
-  def manifest
-    custom.manifest(display_name)
+  def any_manifest
+    custom.manifest(any_display_name)
   end
 
-  def display_name
+  def any_display_name
     custom.display_names.shuffle[0]
   end
 

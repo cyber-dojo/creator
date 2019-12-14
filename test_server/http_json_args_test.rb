@@ -57,19 +57,19 @@ class HttpJsonArgsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'e12', 'sha has no args' do
+  test 'e12', '/sha has no args' do
     name,args = HttpJsonArgs.new('{}').get('/sha')
     assert_equal name, 'sha'
     assert_equal [], args
   end
 
-  test 'e13', 'alive has no args' do
+  test 'e13', '/alive has no args' do
     name,args = HttpJsonArgs.new('{}').get('/alive')
     assert_equal name, 'alive?'
     assert_equal [], args
   end
 
-  test 'e14', 'ready has no args' do
+  test 'e14', '/ready has no args' do
     name,args = HttpJsonArgs.new('{}').get('/ready')
     assert_equal name, 'ready?'
     assert_equal [], args
@@ -77,20 +77,20 @@ class HttpJsonArgsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '1BC', %w( create_group has one arg ) do
-    any_manifest = manifest
-    body = { manifest:any_manifest }.to_json
+  test '1BC', %w( /create_group has one arg called manifest ) do
+    manifest = any_manifest
+    body = { manifest:manifest }.to_json
     name,args = HttpJsonArgs.new(body).get('/create_group')
     assert_equal 'create_group', name
-    assert_equal any_manifest, args[0]
+    assert_equal manifest, args[0]
   end
 
-  test '1BD', %w( create_group has one arg ) do
-    any_manifest = manifest
-    body = { manifest:any_manifest }.to_json
+  test '1BD', %w( /create_group has one arg called manifest ) do
+    manifest = any_manifest
+    body = { manifest:manifest }.to_json
     name,args = HttpJsonArgs.new(body).get('/create_kata')
     assert_equal 'create_kata', name
-    assert_equal any_manifest, args[0]
+    assert_equal manifest, args[0]
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -107,8 +107,12 @@ class HttpJsonArgsTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '7B1',
-  %w( missing manifest raises HttpJson::RequestError ) do
+  %w( /create_group with missing manifest arg raises HttpJson::Error ) do
     assert_missing_manifest('/create_group')
+  end
+
+  test '7B2',
+  %w( /create_kata with missing manifest arg raises HttpJson::Error ) do
     assert_missing_manifest('/create_kata')
   end
 

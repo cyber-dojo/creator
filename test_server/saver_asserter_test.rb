@@ -12,7 +12,7 @@ class SaverAsserterTest < CreatorTestBase
 
   test '967', %w(
   when all commands succeed
-  then saver_assert_batch(commands) succeeds
+  then saver_assert.batch(commands) succeeds
   and returns an array of the results
   ) do
     results = saver_asserter.batch(
@@ -28,7 +28,7 @@ class SaverAsserterTest < CreatorTestBase
 
   test '968', %w(
   when any command fails
-  saver_assert_batch(commands) raises a Saver::Error
+  saver_assert.batch(commands) raises a Saver::Error
   with a json error.message
   ) do
     error = assert_raises(Saver::Error) {

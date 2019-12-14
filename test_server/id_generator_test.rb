@@ -9,14 +9,6 @@ class IdGeneratorTest < CreatorTestBase
     'A6D'
   end
 
-  def alphabet
-    IdGenerator::ALPHABET
-  end
-
-  def saver_offline_id
-    IdGenerator::SAVER_OFFLINE_ID
-  end
-
   # - - - - - - - - - - - - - - - - - - -
 
   test '062', %w( alphabet has 58 characters ) do
@@ -70,7 +62,7 @@ class IdGeneratorTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '13b', %w(
-  group-id does not exist before generation, does after
+  group-id does not exist in saver before generation, does after
   ) do
     id =  'sD92wM'
     id_generator = stubbed_id_generator(id)
@@ -82,7 +74,7 @@ class IdGeneratorTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '13c', %w(
-  kata-id does not exist before generation, does after
+  kata-id does not exist in saver before generation, does after
   ) do
     id =  '7w3RPx'
     id_generator = stubbed_id_generator(id)
@@ -154,6 +146,14 @@ class IdGeneratorTest < CreatorTestBase
   end
 
   private
+
+  def alphabet
+    IdGenerator::ALPHABET
+  end
+
+  def saver_offline_id
+    IdGenerator::SAVER_OFFLINE_ID
+  end
 
   def id?(s)
     IdGenerator::id?(s)
