@@ -7,7 +7,9 @@ WORKDIR /app
 ARG SHA
 ENV SHA=${SHA}
 
-EXPOSE 4523
+ARG PORT
+ENV PORT=${PORT}
+EXPOSE ${PORT}
 
 USER nobody
 CMD [ "/app/up.sh" ]

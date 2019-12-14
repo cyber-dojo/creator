@@ -21,7 +21,7 @@ services:
   creator-server:
     build:
       context: .
-      args: [ SHA ]
+      args: [ SHA, PORT ]
     depends_on:
       - saver
     user: nobody
