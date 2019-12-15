@@ -11,16 +11,37 @@
 # API
   * [POST create_group(manifest)](#post-creategroupmanifest)
   * [POST create_kata(manifest)](#post-createkatamanifest)
-  * [GET HTTP ready?](#get-http-ready)
-  * [GET HTTP alive?](#get-http-alive)  
-  * [GET HTTP sha](#get-http-sha)
+  * [GET ready?](#get-http-ready)
+  * [GET alive?](#get-alive)  
+  * [GET sha](#get-sha)
 
 - - - -
 # JSON in, JSON out
+  * All methods are named in the http request path, and pass any
+    arguments as a json hash in the http request's body.
+  * All methods return a json hash in the http response's body.
+    * If the method completes, a string key equals the method's name, with
+      a value as documented below. eg
+      ```bash
+      curl \
+        --data '{}' `# no args to alive?`                      \
+        --header 'Content-type: application/json' `# json in ` \
+        --header 'Accept: application/json'       `# json out` \
+        --silent \
+        -X GET \
+        http://${IP_ADDRESS}:${PORT}/alive? \
+          | jq      
+      {
+        "alive?": true
+      }
+      ```
     * If the method raises an exception, a string key equals ```exception```, with
       a json-hash as its value. eg
       ```bash
       curl \
+        --data '{}' \
+        --header 'Content-type: application/json' \        
+        --header 'Accept: application/json' \
         --silent \
         -X POST \
         http://${IP_ADDRESS}:${PORT}/create_group \
@@ -50,7 +71,7 @@
 # POST create_kata(manifest)
 
 - - - -
-# GET HTTP ready?
+# GET ready?
 Used as a [Kubernetes](https://kubernetes.io/) readiness probe.
 - example
   ```bash     
@@ -70,7 +91,7 @@ Used as a [Kubernetes](https://kubernetes.io/) readiness probe.
   ```
 
 - - - -
-# GET HTTP alive?
+# GET alive?
 Used as a [Kubernetes](https://kubernetes.io/) liveness probe.
 - example
   ```bash     
@@ -85,7 +106,7 @@ Used as a [Kubernetes](https://kubernetes.io/) liveness probe.
   ```
 
 - - - -
-# GET HTTP sha
+# GET sha
 The git commit sha used to create the Docker image.
 - example
   ```bash     
