@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-ip_address()
+#- - - - - - - - - - - - - - - - - - - - - - - - - - -
+ip_address_slow()
 {
   if [ -n "${DOCKER_MACHINE_NAME}" ]; then
     docker-machine ip ${DOCKER_MACHINE_NAME}
@@ -9,49 +10,69 @@ ip_address()
     echo localhost
   fi
 }
+readonly IP_ADDRESS=$(ip_address_slow)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-readonly IP_ADDRESS=$(ip_address)
-readonly PORT=4523
+manifest_slow()
+{
+  local -r PORT=4526 # custom-start-points
+  local -r DISPLAY_NAME='Java Countdown, Round 1'
+  echo $(curl \
+    --data "{\"name\":\"${DISPLAY_NAME}\"}" \
+    --fail \
+    --header 'Content-type: application/json' \
+    --silent \
+    -X GET \
+      "http://${IP_ADDRESS}:${PORT}/manifest")
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - -
 readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 export $(docker run --rm cyberdojo/versioner:latest sh -c 'cat /app/.env')
-"${SH_DIR}/build_docker_images.sh"
-"${SH_DIR}/docker_containers_up.sh"
+
+build_and_bring_up()
+{
+  "${SH_DIR}/build_docker_images.sh"
+  "${SH_DIR}/docker_containers_up.sh"
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - -
+bring_down()
+{
+  "${SH_DIR}/docker_containers_down.sh"
+}
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 curl_json()
 {
-  local -r TYPE=${1}
-  local -r ROUTE=${2}
-  # TODO: get real manifest from custom-start-points
+  local -r PORT=4523
+  local -r TYPE="${1}"
+  local -r ROUTE="${2}"
+  local -r DATA="${3}"
   curl  \
-    --data '{"manifest":{}}' \
+    --data "${DATA}" \
     --fail \
     --header 'Accept: application/json' \
     --silent \
     -X ${TYPE} \
-    "http://${IP_ADDRESS}:${PORT}/${ROUTE}"
+      "http://${IP_ADDRESS}:${PORT}/${ROUTE}"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo_api()
 {
-  printf "\n"
+  local -r MANIFEST=$(manifest_slow)
   printf "API\n"
-  printf "\t200 GET  /alive? => $(curl_json GET alive?)\n"
-  printf "\t200 GET  /ready? => $(curl_json GET ready?)\n"
-  printf "\t200 GET  /sha    => $(curl_json GET sha)\n"
-  printf "\t200 POST /create_group => $(curl_json POST create_group)\n"
-  printf "\t200 POST /create_kata  => $(curl_json POST create_kata)\n"
+  printf "\t200 GET  /alive?       => $(curl_json GET alive?)\n"
+  printf "\t200 GET  /ready?       => $(curl_json GET ready?)\n"
+  printf "\t200 GET  /sha          => $(curl_json GET sha)\n"
+  printf "\t200 POST /create_group => $(curl_json POST create_group "${MANIFEST}")\n"
+  printf "\t200 POST /create_kata  => $(curl_json POST create_kata  "${MANIFEST}")\n"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-open_alive_in_browser()
-{
-  printf "\n"
-  open "http://${IP_ADDRESS}:${PORT}/alive?"
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
+build_and_bring_up
+printf "\n"
 demo_api
-open_alive_in_browser
+printf "\n"
+bring_down
