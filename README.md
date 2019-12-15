@@ -17,16 +17,15 @@
 
 - - - -
 # JSON in, JSON out
-  * All methods are named in the http request path, and pass any
-    arguments as a json hash in the http request's body.
+  * All methods are named in the http request path
+  * All methods pass any arguments as a json hash in the http request's body.
+    * If there are no arguments you can use ```''``` (which is the default
+      for ```curl --data```) instead of ```'{}'```.
   * All methods return a json hash in the http response's body.
     * If the method completes, a string key equals the method's name, with
       a value as documented below. eg
       ```bash
       curl \
-        --data '{}' `# no args to alive?`                      \
-        --header 'Content-type: application/json' `# json in ` \
-        --header 'Accept: application/json'       `# json out` \
         --silent \
         -X GET \
         http://${IP_ADDRESS}:${PORT}/alive? \
@@ -39,9 +38,7 @@
       a json-hash as its value. eg
       ```bash
       curl \
-        --data '{}' \
-        --header 'Content-type: application/json' \        
-        --header 'Accept: application/json' \
+        --data '{nope}' \
         --silent \
         -X POST \
         http://${IP_ADDRESS}:${PORT}/create_group \
@@ -49,14 +46,13 @@
       {
         "exception": {
           "path": "/create_group",
-          "body": "{}",
+          "body": "{nope}",
           "class": "CreatorService",
-          "message": "manifest is missing",
+          "message": "body is not JSON",
           "backtrace": [
-            "/app/http_json_args.rb:51:in `exists_arg'",
-            "/app/http_json_args.rb:44:in `manifest'",
-            "/app/http_json_args.rb:24:in `get'",
-            "/app/rack_dispatcher.rb:18:in `call'",
+            "/app/http_json_args.rb:14:in `rescue in initialize'",
+            "/app/http_json_args.rb:8:in `initialize'",
+            "/app/rack_dispatcher.rb:18:in `new'",          
             ...
             "/usr/bin/rackup:23:in `<main>'"
           ]
@@ -77,10 +73,8 @@ Used as a [Kubernetes](https://kubernetes.io/) readiness probe.
   ```bash     
   curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
   ```
-- parameters
-  * none
+- parameters: none
 - returns
-  * a json hash with a "ready?" key.
   * **true** if the service is ready
   ```json
   { "ready?": true }
@@ -97,10 +91,8 @@ Used as a [Kubernetes](https://kubernetes.io/) liveness probe.
   ```bash     
   curl --silent -X GET http://${IP_ADDRESS}:${PORT}/alive?
   ```
-- parameters
-  * none
-- returns
-  * a json hash with an "alive?" key.
+- parameters: none
+- returns: true
   ```json
   { "alive?": true }
   ```
@@ -112,10 +104,8 @@ The git commit sha used to create the Docker image.
   ```bash     
   curl --silent -X GET http://${IP_ADDRESS}:${PORT}/sha
   ```
-- parameters
-  * none
-- returns
-  * a json hash with a "sha" key.
+- parameters: none.
+- returns: the 40 character commit sha.
   ```json
   { "sha": "41d7e6068ab75716e4c7b9262a3a44323b4d1448" }
   ```
