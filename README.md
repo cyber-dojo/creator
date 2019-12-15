@@ -11,33 +11,16 @@
 # API
   * [POST create_group(manifest)](#post-creategroupmanifest)
   * [POST create_kata(manifest)](#post-createkatamanifest)
-  * [GET ready?](#get-ready)
-  * [GET alive?](#get-alive)  
-  * [GET sha](#get-sha)
+  * [GET HTTP ready?](#get-http-ready)
+  * [GET HTTP alive?](#get-http-alive)  
+  * [GET HTTP sha](#get-http-sha)
 
 - - - -
 # JSON in, JSON out
-  * All methods are named in the http request path, and pass any
-    arguments as a json hash in the http request's body.
-  * All methods return a json hash in the http response's body.
-    * If the method completes, a string key equals the method's name, with
-      a value as documented below. eg
-      ```bash
-      curl \
-        --header 'Content-type: application/json' \        
-        --silent \
-        -X GET \
-        http://${IP_ADDRESS}:${PORT}/alive? \
-          | jq      
-      {
-        "alive?": true
-      }
-      ```
     * If the method raises an exception, a string key equals ```exception```, with
       a json-hash as its value. eg
       ```bash
       curl \
-        --header 'Content-type: application/json' \
         --silent \
         -X POST \
         http://${IP_ADDRESS}:${PORT}/create_group \
@@ -67,9 +50,16 @@
 # POST create_kata(manifest)
 
 - - - -
-# GET ready?
-Useful as a readiness probe.
+# GET HTTP ready?
+Used as a [Kubernetes](https://kubernetes.io/) readiness probe.
+- example
+  ```bash     
+  curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
+  ```
+- parameters
+  * none
 - returns
+  * a json hash with a "ready?" key.
   * **true** if the service is ready
   ```json
   { "ready?": true }
@@ -78,38 +68,35 @@ Useful as a readiness probe.
   ```json
   { "ready?": false }
   ```
-- parameters
-  * none
-  ```json
-  {}
-  ```
 
 - - - -
-# GET alive?
-Useful as a liveness probe.
+# GET HTTP alive?
+Used as a [Kubernetes](https://kubernetes.io/) liveness probe.
+- example
+  ```bash     
+  curl --silent -X GET http://${IP_ADDRESS}:${PORT}/alive?
+  ```
+- parameters
+  * none
 - returns
-  * **true**
+  * a json hash with an "alive?" key.
   ```json
-  { "ready?": true }
-  ```
-- parameters
-  * none
-  ```json
-  {}
+  { "alive?": true }
   ```
 
 - - - -
-# GET sha
+# GET HTTP sha
 The git commit sha used to create the Docker image.
+- example
+  ```bash     
+  curl --silent -X GET http://${IP_ADDRESS}:${PORT}/sha
+  ```
+- parameters
+  * none
 - returns
-  * The 40 character sha string. eg
+  * a json hash with a "sha" key.
   ```json
   { "sha": "41d7e6068ab75716e4c7b9262a3a44323b4d1448" }
-  ```
-- parameters
-  * none
-  ```json
-  {}
   ```
 
 - - - -
