@@ -18,4 +18,6 @@ module JsonAdapter
     end
   end
 
+  ParseError = JSON::ParserError
+
 end

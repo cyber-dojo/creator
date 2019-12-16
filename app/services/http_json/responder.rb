@@ -49,7 +49,7 @@ module HttpJson
 
     def json_parse(body)
       JsonAdapter::parse(body)
-    rescue JSON::ParserError
+    rescue JsonAdapter::ParseError
       fail error_msg(body, 'is not JSON')
     end
 
