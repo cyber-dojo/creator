@@ -52,7 +52,7 @@ curl_json()
   curl  \
     --data "${DATA}" \
     --fail \
-    --header 'Accept: application/json' \
+    --header 'Content-type: application/json' \
     --silent \
     -X ${TYPE} \
       "http://${IP_ADDRESS}:${PORT}/${ROUTE}"
