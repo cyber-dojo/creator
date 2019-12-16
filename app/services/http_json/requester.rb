@@ -9,7 +9,7 @@ module HttpJson
   class Requester
 
     def initialize(http, hostname, port)
-      @http = http)
+      @http = http
       @hostname = hostname
       @port = port
     end
