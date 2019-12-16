@@ -30,9 +30,9 @@ class RackDispatcher
 
   def json_response(status, json)
     if status === 200
-      body = json_fast(json)
+      body = fast_json(json)
     else
-      body = json_pretty(json)
+      body = pretty_json(json)
       $stderr.puts(body)
     end
     [ status,
