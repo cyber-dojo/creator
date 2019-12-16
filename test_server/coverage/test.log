@@ -1,0 +1,19 @@
+Run options: --seed 6392
+
+# Running:
+
+...............................................
+
+Finished in 0.383695s, 122.4932 runs/s, 487.3664 assertions/s.
+
+47 runs, 187 assertions, 0 failures, 0 errors, 0 skips
+Coverage report generated for MiniTest to /tmp/coverage. 715 / 715 LOC (100.0%) covered.
+
+Slowest 5 tests are...
+0.1398 - A6D063:id_generator_test.rb:20:entire alphabet is used in group ids     
+0.1165 - A6D064:id_generator_test.rb:33:entire alphabet is used in kata ids      
+0.0151 - 26F703:creator_test.rb:36:/create_kata returns the id of a newly created kata
+0.0116 - 4AF134:rack_dispatcher_test.rb:42:/create_group 200                     
+0.0110 - 26F702:creator_test.rb:30:/create_group returns the id of a newly created group
+0.0108 - 4AF135:rack_dispatcher_test.rb:51:/create_kata 200                      
+
