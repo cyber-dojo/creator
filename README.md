@@ -9,9 +9,9 @@
 
 - - - -
 # API
-  * [POST create_group(manifest)](docs/api.md#post-creategroupmanifest)
+  * [POST create_group(manifest)](docs/api.md#post-create_groupmanifest)
   * [POST create_kata(manifest)](#post-createkatamanifest)
-  * [GET ready?](#get-http-ready)
+  * [GET ready?](#get-ready)
   * [GET alive?](#get-alive)  
   * [GET sha](#get-sha)
 
