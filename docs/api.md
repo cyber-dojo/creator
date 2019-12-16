@@ -1,12 +1,10 @@
-
 # API
-
 - - - -
 ## POST create_group(manifest)
  Creates a new group from a start-point manifest and returns its id.
-- [JSON-in](#json-in) parameters
+- parameters [(JSON-in)](#json-in)
   * **manifest:Hash** of a start-point.
-- [JSON-out](#json-out) returns
+- returns [(JSON-out)](#json-out)
   * the new group's id.
 - example
   ```bash
@@ -20,11 +18,11 @@
   ```
 
 - - - -
-# POST create_kata(manifest)
+## POST create_kata(manifest)
 Creates a new kata from a start-point manifest and returns its id.
-- parameters
+- parameters [(JSON-in)](#json-in)
   * **manifest:Hash** of a start-point.
-- returns
+- returns [(JSON-out)](#json-out)
   * the new kata's id.
 - example
   ```bash
@@ -38,11 +36,11 @@ Creates a new kata from a start-point manifest and returns its id.
   ```
 
 - - - -
-# GET ready?
+## GET ready?
 Tests if the service is ready to handle requests.
 - parameters
   * none
-- returns
+- returns [(JSON-out)](#json-out)
   * **true** if the service is ready
   * **false** if the service is not ready
 - notes
@@ -54,11 +52,11 @@ Tests if the service is ready to handle requests.
   ```
 
 - - - -
-# GET alive?
+## GET alive?
 Tests if the service is alive.  
 - parameters
   * none
-- returns
+- returns [(JSON-out)](#json-out)
   * **true**
 - notes
   * Used as a [Kubernetes](https://kubernetes.io/) liveness probe.  
@@ -69,11 +67,11 @@ Tests if the service is alive.
   ```
 
 - - - -
-# GET sha
+## GET sha
 The git commit sha used to create the Docker image.
 - parameters
   * none
-- returns
+- returns [(JSON-out)](#json-out)
   * the 40 character commit sha string.
 - example
   ```bash     
@@ -82,33 +80,34 @@ The git commit sha used to create the Docker image.
   ```
 
 - - - -
-# JSON in
-  * All methods are named in the url path.
-  * All methods pass any arguments as a json hash in the http request body.
-    * If there are no arguments you can use ```''``` (which is the default
-      for ```curl --data```) instead of ```'{}'```.
-# JSON out      
-  * All methods return a json hash in the http response body.
-    * If the method completes, a string key equals the method's name, with
-      a value as documented below. eg
-      ```bash
-      $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
-      {"ready?":true}
-      ```
-    * If the method raises an exception, a string key equals ```exception```, with
-      a json-hash as its value. eg
-      ```bash
-      $ curl --silent -X POST http://${IP_ADDRESS}:${PORT}/create_group | jq      
-      {
-        "exception": {
-          "path": "/create_group",
-          "body": "",
-          "class": "CreatorService",
-          "message": "manifest is missing",
-          "backtrace": [
-            ...
-            "/usr/bin/rackup:23:in `<main>'"
-          ]
-        }
+## JSON in
+- All methods pass any arguments as a json hash in the http request body.
+  * If there are no arguments you can use ```''``` (which is the default
+    for ```curl --data```) instead of ```'{}'```.
+
+- - - -
+## JSON out      
+- All methods return a json hash in the http response body.
+  * If the method completes, a string key equals the method's name, with
+    a value as documented below. eg
+    ```bash
+    $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
+    {"ready?":true}
+    ```
+  * If the method raises an exception, a string key equals ```exception```, with
+    a json-hash as its value. eg
+    ```bash
+    $ curl --silent -X POST http://${IP_ADDRESS}:${PORT}/create_group | jq      
+    {
+      "exception": {
+        "path": "/create_group",
+        "body": "",
+        "class": "CreatorService",
+        "message": "manifest is missing",
+        "backtrace": [
+          ...
+          "/usr/bin/rackup:23:in `<main>'"
+        ]
       }
-      ```
+    }
+    ```
