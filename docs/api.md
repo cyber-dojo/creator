@@ -88,13 +88,12 @@ The git commit sha used to create the Docker image.
 - - - -
 ## JSON out      
 - All methods return a json hash in the http response body.
-  * If the method completes, a string key equals the method's name, with
-    a value as documented below. eg
+  * If the method completes, a string key equals the method's name. eg
     ```bash
     $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
     {"ready?":true}
     ```
-  * If the method raises an exception, a string key equals ```exception```, with
+  * If the method raises an exception, a string key equals ```"exception"```, with
     a json-hash as its value. eg
     ```bash
     $ curl --silent -X POST http://${IP_ADDRESS}:${PORT}/create_group | jq      
