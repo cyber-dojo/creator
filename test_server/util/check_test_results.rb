@@ -128,5 +128,4 @@ table.each do |name,value,op,limit|
   ]
   done << result
 end
-
 exit done.all?
