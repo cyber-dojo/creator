@@ -38,7 +38,7 @@ class SaverAsserterTest < CreatorTestBase
         ['read','qw/jk/56/manifest.json']
       )
     }
-    actual = JSON.parse(error.message)
+    actual = JSON.parse!(error.message)
     expected = [
       { 'name' => 'create',  'arg[0]' => 'qw/jk/56', 'result' => true },
       { 'name' => 'exists?', 'arg[0]' => 'qw/jk/56', 'result' => true },

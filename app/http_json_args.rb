@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 require_relative 'services/http_json/error'
-require 'json'
+require_relative 'json_adapter'
 
 class HttpJsonArgs
 
   def initialize(body)
-    @args = json_parse(body)
+    @args = JsonAdapter::parse(body)
     unless @args.is_a?(Hash)
       raise request_error('body is not JSON Hash')
     end
@@ -29,16 +29,6 @@ class HttpJsonArgs
   end
 
   private
-
-  def json_parse(body)
-    if body === ''
-      {}
-    else
-      JSON.parse(body)
-    end
-  end
-
-  # - - - - - - - - - - - - - - - -
 
   def manifest
     exists_arg('manifest')

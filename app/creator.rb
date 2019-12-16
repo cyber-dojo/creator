@@ -61,7 +61,10 @@ class Creator
   private
 
   include IdPather # group_id_path, kata_id_path
-  include JsonAdapter # pretty_json
+
+  def pretty_json(obj)
+    JsonAdapter::pretty(obj)
+  end
 
   #- - - - - - - - - - - - - - - - - -
 

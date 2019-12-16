@@ -26,13 +26,11 @@ class RackDispatcher
 
   private
 
-  include JsonAdapter
-
   def json_response(status, json)
     if status === 200
-      body = fast_json(json)
+      body = JsonAdapter::fast(json)
     else
-      body = pretty_json(json)
+      body = JsonAdapter::pretty(json)
       $stderr.puts(body)
     end
     [ status,

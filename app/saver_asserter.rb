@@ -15,14 +15,12 @@ class SaverAsserter
       message = results.zip(commands).map do |result,(name,arg0)|
         saver_assert_info(name, arg0, result)
       end
-      raise Saver::Error, pretty_json(message)
+      raise Saver::Error, JsonAdapter::pretty(message)
     end
     results
   end
 
   private
-
-  include JsonAdapter
 
   def saver_assert_info(name, arg0, result)
     { 'name' => name, 'arg[0]' => arg0, 'result' => result }

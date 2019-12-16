@@ -18,7 +18,7 @@ class RackDispatcherTest < CreatorTestBase
     response = rack_call('ready', '')
     assert_equal 200, response[0]
     assert_equal({ 'Content-Type' => 'application/json' }, response[1])
-    assert_equal({"ready?" => true}, JSON.parse(response[2][0]))
+    assert_equal({"ready?" => true}, JSON.parse!(response[2][0]))
   end
 
   test '131', '/sha 200' do
@@ -113,7 +113,7 @@ class RackDispatcherTest < CreatorTestBase
     response = rack_call(name, args.to_json)
     assert_equal 200, response[0]
     assert_equal({ 'Content-Type' => 'application/json' }, response[1])
-    yield JSON.parse(response[2][0])
+    yield JSON.parse!(response[2][0])
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
