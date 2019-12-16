@@ -9,21 +9,6 @@ class DependentServiceTest < CreatorTestBase
     '078'
   end
 
-  class HttpResponseBodyStub
-    def initialize(body)
-      @body = body
-    end
-    def get(uri)
-      Net::HTTP::Get.new(uri)
-    end
-    def post(uri)
-      Net::HTTP::Post.new(uri)
-    end
-    def start(_hostname, _port, _req)
-      OpenStruct.new(body:@body)
-    end
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E30', %w(
@@ -35,7 +20,7 @@ class DependentServiceTest < CreatorTestBase
     }
     error = assert_raises(Saver::Error) {
       creator.create_group(manifest)
-    } 
+    }
     assert_equal 'http response.body is not JSON:x', error.message
   end
 
@@ -45,12 +30,12 @@ class DependentServiceTest < CreatorTestBase
   when dependent service GET response body is not JSON
   then dependent::Error is raised ) do
     externals.instance_exec {
-      @http = HttpResponseBodyStub.new('x')
+      @http = HttpResponseBodyStub.new('y')
     }
     error = assert_raises(Saver::Error) {
       creator.ready?
     }
-    assert_equal 'http response.body is not JSON:x', error.message
+    assert_equal 'http response.body is not JSON:y', error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -85,7 +70,7 @@ class DependentServiceTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E34', %w(
-  when dependent service response body has key matching the path
+  when dependent service response body does not have key matching the path
   then dependent::Error is raised with no path as error.message ) do
     body = '{"unready?":true}'
     externals.instance_exec {
@@ -95,6 +80,23 @@ class DependentServiceTest < CreatorTestBase
       creator.ready?
     }
     assert_equal "http response.body has no key for 'ready?':#{body}", error.message
+  end
+
+  private
+
+  class HttpResponseBodyStub
+    def initialize(body)
+      @body = body
+    end
+    def get(uri)
+      Net::HTTP::Get.new(uri)
+    end
+    def post(uri)
+      Net::HTTP::Post.new(uri)
+    end
+    def start(_hostname, _port, _req)
+      OpenStruct.new(body:@body)
+    end
   end
 
 end
