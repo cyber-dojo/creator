@@ -17,7 +17,7 @@
 
 - - - -
 # JSON in, JSON out
-  * All methods are named in the http request path
+  * All methods are named in the url path.
   * All methods pass any arguments as a json hash in the http request's body.
     * If there are no arguments you can use ```''``` (which is the default
       for ```curl --data```) instead of ```'{}'```.
@@ -25,24 +25,14 @@
     * If the method completes, a string key equals the method's name, with
       a value as documented below. eg
       ```bash
-      curl \
-        --silent \
-        -X GET \
-        http://${IP_ADDRESS}:${PORT}/alive? \
-          | jq      
-      {
-        "alive?": true
-      }
+      curl --silent -X GET http://${IP_ADDRESS}:${PORT}/alive?
+      {"alive?":true}
       ```
     * If the method raises an exception, a string key equals ```exception```, with
       a json-hash as its value. eg
       ```bash
-      curl \
-        --data '{nope}' \
-        --silent \
-        -X POST \
-        http://${IP_ADDRESS}:${PORT}/create_group \
-          | jq      
+      curl --data '{nope}' --silent -X POST \
+        http://${IP_ADDRESS}:${PORT}/create_group | jq      
       {
         "exception": {
           "path": "/create_group",
@@ -50,9 +40,6 @@
           "class": "CreatorService",
           "message": "body is not JSON",
           "backtrace": [
-            "/app/http_json_args.rb:14:in `rescue in initialize'",
-            "/app/http_json_args.rb:8:in `initialize'",
-            "/app/rack_dispatcher.rb:18:in `new'",          
             ...
             "/usr/bin/rackup:23:in `<main>'"
           ]
@@ -62,9 +49,43 @@
 
 - - - -
 # POST create_group(manifest)
+Creates a new group from a start-point manifest and returns its id.
+- example
+  ```bash
+  curl \
+    --data '{"manifest":{"image_name":"..."}}' \
+    --header 'Content-type: application/json' \
+    --silent \
+    -X POST \
+      http://${IP_ADDRESS}:${PORT}/create_group
+  ```
+- parameters
+  * **manifest:Hash** of a start-point.
+- returns
+  * the new group's id.
+  ```json
+  {"create_group":"P0R0cU"}
+  ```
 
 - - - -
 # POST create_kata(manifest)
+Creates a new kata from a start-point manifest and returns its id.
+- example
+  ```bash
+  curl \
+    --data '{"manifest":{"image_name":"..."}}' \
+    --header 'Content-type: application/json' \
+    --silent \
+    -X POST \
+      http://${IP_ADDRESS}:${PORT}/create_kata
+  ```
+- parameters
+  * **manifest:Hash** of a start-point.
+- returns
+  * the new kata's id.
+  ```json
+  {"create_kata":"8Ey4xK"}
+  ```
 
 - - - -
 # GET ready?
@@ -73,15 +94,16 @@ Used as a [Kubernetes](https://kubernetes.io/) readiness probe.
   ```bash     
   curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
   ```
-- parameters: none
+- parameters
+  * none
 - returns
   * **true** if the service is ready
   ```json
-  { "ready?": true }
+  {"ready?":true}
   ```
   * **false** if the service is not ready
   ```json
-  { "ready?": false }
+  {"ready?":false}
   ```
 
 - - - -
@@ -91,10 +113,12 @@ Used as a [Kubernetes](https://kubernetes.io/) liveness probe.
   ```bash     
   curl --silent -X GET http://${IP_ADDRESS}:${PORT}/alive?
   ```
-- parameters: none
-- returns: true
+- parameters
+  * none
+- returns
+  * true
   ```json
-  { "alive?": true }
+  {"alive?":true}
   ```
 
 - - - -
@@ -104,10 +128,12 @@ The git commit sha used to create the Docker image.
   ```bash     
   curl --silent -X GET http://${IP_ADDRESS}:${PORT}/sha
   ```
-- parameters: none.
-- returns: the 40 character commit sha.
+- parameters
+  * none
+- returns
+  * the 40 character commit sha.
   ```json
-  { "sha": "41d7e6068ab75716e4c7b9262a3a44323b4d1448" }
+  {"sha":"41d7e6068ab75716e4c7b9262a3a44323b4d1448"}
   ```
 
 - - - -
