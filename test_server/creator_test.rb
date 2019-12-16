@@ -71,7 +71,7 @@ class CreatorTest < CreatorTestBase
 
   test 'E32', %w(
   when dependent service response body is not JSON Hash
-  then depdendent::Error is raised ) do
+  then dependent::Error is raised ) do
     externals.instance_exec { @http = HttpResponseBodyStub.new('[]') }
     error = assert_raises(Saver::Error) { creator.ready? }
     assert_equal 'http response.body is not JSON Hash:[]', error.message
