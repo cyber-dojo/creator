@@ -1,4 +1,6 @@
 require_relative 'creator_test_base'
+require 'net/http'
+require 'ostruct'
 
 class CreatorTest < CreatorTestBase
 
@@ -43,41 +45,35 @@ class CreatorTest < CreatorTestBase
   # 500
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-=begin
-  class HttpServiceResponseBodyNotJson
-    def initialize(_hostname, _port)
+  class HttpResponseBodyStub
+    def initialize(body)
+      @body = body
     end
-    def request(_req)
-      OpenStruct.new(body:'x')
+    def get(uri)
+      Net::HTTP::Get.new(uri)
+    end
+    def start(_hostname, _port, _req)
+      OpenStruct.new(body:@body)
     end
   end
 
   test 'E31', %w(
   when dependent service response body is not JSON
   then HttpJson::Error is raised ) do
-    externals.instance_exec { @http = HttpServiceResponseBodyNotJson }
+    externals.instance_exec { @http = HttpResponseBodyStub.new('x') }
     error = assert_raises(HttpJson::Error) { creator.ready? }
     assert_equal 'http response.body is not JSON:x', error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  class HttpServiceResponseBodyNotJsonHash
-    def initialize(_hostname, _port)
-    end
-    def request(_req)
-      OpenStruct.new(body:'[]')
-    end
-  end
-
   test 'E32', %w(
   when dependent service response body is not JSON Hash
   then HttpJson::Error is raised ) do
-    externals.instance_exec { @http = HttpServiceResponseBodyNotJsonHash }
+    externals.instance_exec { @http = HttpResponseBodyStub.new('[]') }
     error = assert_raises(HttpJson::Error) { creator.ready? }
     assert_equal 'http response.body is not JSON Hash:[]', error.message
   end
-=end
 
   private
 
