@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'json'
+require_relative '../../json_adapter'
 require 'net/http'
 require 'uri'
 
@@ -32,7 +32,7 @@ module HttpJson
       uri = URI.parse("http://#{@hostname}:#{@port}/#{path}")
       req = yield uri
       req.content_type = 'application/json'
-      req.body = JSON.generate(args)
+      req.body = JsonAdapter::fast(args)
       @http.start(@hostname, @port, req)
     end
 
