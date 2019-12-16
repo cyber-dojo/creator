@@ -1,8 +1,5 @@
 test_server/coverage/*
-test_client/coverage/*
-
-!test_server/coverage/done.txt
 !test_server/coverage/test.log
 
-!test_client/coverage/done.txt
+test_client/coverage/*
 !test_client/coverage/test.log
