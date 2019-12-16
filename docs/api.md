@@ -1,19 +1,3 @@
-[![CircleCI](https://circleci.com/gh/cyber-dojo/creator.svg?style=svg)](https://circleci.com/gh/cyber-dojo/creator)
-
-# cyberdojo/creator docker image
-
-- The source for the [cyberdojo/creator](https://hub.docker.com/r/cyberdojo/creator/tags) Docker image.
-- A docker-containerized stateless micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
-- An http service for creating a new group or a new kata from a start-point manifest.
-- Work in progress. Not live yet.
-
-- - - -
-# API
-  * [POST create_group(manifest)](docs/api.md#post-creategroupmanifest)
-  * [POST create_kata(manifest)](#post-createkatamanifest)
-  * [GET ready?](#get-http-ready)
-  * [GET alive?](#get-alive)  
-  * [GET sha](#get-sha)
 
 - - - -
 # JSON in, JSON out
@@ -125,6 +109,3 @@ The git commit sha used to create the Docker image.
   $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/sha
   {"sha":"41d7e6068ab75716e4c7b9262a3a44323b4d1448"}
   ```
-
-- - - -
-![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
