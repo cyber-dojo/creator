@@ -56,7 +56,7 @@ jobs:
               --install \
               --namespace=beta \
               --set-string containers[0].tag=${TAG} \
-              -f .circleci/creator-values.yaml \
+              --values .circleci/creator-values.yaml \
               beta-creator \
               praqma/cyber-dojo-service \
               --version 0.2.4
@@ -85,7 +85,7 @@ jobs:
               --install \
               --namespace=prod \
               --set-string containers[0].tag=${TAG} \
-              -f .circleci/creator-values.yaml \
+              --values .circleci/creator-values.yaml \
               prod-creator \
               praqma/cyber-dojo-service \
               --version 0.2.4
