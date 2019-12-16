@@ -5,7 +5,7 @@ require_relative 'http_json/error'
 
 class Saver
 
-  class Error < HttpJson::Error
+  class Error < StandardError
     def initialize(message)
       super
     end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative 'json_generate'
+require_relative 'services/saver'
 
 class SaverAsserter
 
