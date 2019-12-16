@@ -2,7 +2,7 @@
 
 require_relative 'id_generator'
 require_relative 'id_pather'
-require_relative 'json_generate'
+require_relative 'json_adapter'
 require_relative 'saver_asserter'
 
 class Creator
@@ -61,7 +61,7 @@ class Creator
   private
 
   include IdPather # group_id_path, kata_id_path
-  include JsonGenerate # json_pretty
+  include JsonAdapter # json_pretty
 
   #- - - - - - - - - - - - - - - - - -
 

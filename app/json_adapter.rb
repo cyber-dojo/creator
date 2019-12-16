@@ -1,6 +1,6 @@
 require 'json'
 
-module JsonGenerate
+module JsonAdapter
 
   def json_fast(obj)
     JSON.fast_generate(obj)

@@ -2,7 +2,7 @@
 
 require_relative 'services/http_json/error'
 require_relative 'http_json_args'
-require_relative 'json_generate'
+require_relative 'json_adapter'
 
 class RackDispatcher
 
@@ -26,7 +26,7 @@ class RackDispatcher
 
   private
 
-  include JsonGenerate
+  include JsonAdapter
 
   def json_response(status, json)
     if status === 200

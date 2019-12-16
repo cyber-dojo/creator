@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative 'json_generate'
+require_relative 'json_adapter'
 require_relative 'services/saver'
 
 class SaverAsserter
@@ -22,7 +22,7 @@ class SaverAsserter
 
   private
 
-  include JsonGenerate
+  include JsonAdapter
 
   def saver_assert_info(name, arg0, result)
     { 'name' => name, 'arg[0]' => arg0, 'result' => result }
