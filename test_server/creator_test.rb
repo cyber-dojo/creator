@@ -1,6 +1,4 @@
 require_relative 'creator_test_base'
-require 'net/http'
-require 'ostruct'
 
 class CreatorTest < CreatorTestBase
 
@@ -39,42 +37,6 @@ class CreatorTest < CreatorTestBase
   %w( /create_kata returns the id of a newly created kata ) do
     id = creator.create_kata(any_manifest)
     assert kata_exists?(id), id
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-  # 500
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  class HttpResponseBodyStub
-    def initialize(body)
-      @body = body
-    end
-    def get(uri)
-      Net::HTTP::Get.new(uri)
-    end
-    def start(_hostname, _port, _req)
-      OpenStruct.new(body:@body)
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'E31', %w(
-  when dependent service response body is not JSON
-  then dependent::Error is raised ) do
-    externals.instance_exec { @http = HttpResponseBodyStub.new('x') }
-    error = assert_raises(Saver::Error) { creator.ready? }
-    assert_equal 'http response.body is not JSON:x', error.message
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  test 'E32', %w(
-  when dependent service response body is not JSON Hash
-  then dependent::Error is raised ) do
-    externals.instance_exec { @http = HttpResponseBodyStub.new('[]') }
-    error = assert_raises(Saver::Error) { creator.ready? }
-    assert_equal 'http response.body is not JSON Hash:[]', error.message
   end
 
   private
