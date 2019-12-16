@@ -1,41 +1,12 @@
 
-- - - -
-# JSON in, JSON out
-  * All methods are named in the url path.
-  * All methods pass any arguments as a json hash in the http request body.
-    * If there are no arguments you can use ```''``` (which is the default
-      for ```curl --data```) instead of ```'{}'```.
-  * All methods return a json hash in the http response body.
-    * If the method completes, a string key equals the method's name, with
-      a value as documented below. eg
-      ```bash
-      $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
-      {"ready?":true}
-      ```
-    * If the method raises an exception, a string key equals ```exception```, with
-      a json-hash as its value. eg
-      ```bash
-      $ curl --silent -X POST http://${IP_ADDRESS}:${PORT}/create_group | jq      
-      {
-        "exception": {
-          "path": "/create_group",
-          "body": "",
-          "class": "CreatorService",
-          "message": "manifest is missing",
-          "backtrace": [
-            ...
-            "/usr/bin/rackup:23:in `<main>'"
-          ]
-        }
-      }
-      ```
+# API
 
 - - - -
-# POST create_group(manifest)
-Creates a new group from a start-point manifest and returns its id.
-- parameters
+## POST create_group(manifest)
+ Creates a new group from a start-point manifest and returns its id.
+- [JSON-in](#json-in) parameters
   * **manifest:Hash** of a start-point.
-- returns
+- [JSON-out](#json-out) returns
   * the new group's id.
 - example
   ```bash
@@ -109,3 +80,35 @@ The git commit sha used to create the Docker image.
   $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/sha
   {"sha":"41d7e6068ab75716e4c7b9262a3a44323b4d1448"}
   ```
+
+- - - -
+# JSON in
+  * All methods are named in the url path.
+  * All methods pass any arguments as a json hash in the http request body.
+    * If there are no arguments you can use ```''``` (which is the default
+      for ```curl --data```) instead of ```'{}'```.
+# JSON out      
+  * All methods return a json hash in the http response body.
+    * If the method completes, a string key equals the method's name, with
+      a value as documented below. eg
+      ```bash
+      $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
+      {"ready?":true}
+      ```
+    * If the method raises an exception, a string key equals ```exception```, with
+      a json-hash as its value. eg
+      ```bash
+      $ curl --silent -X POST http://${IP_ADDRESS}:${PORT}/create_group | jq      
+      {
+        "exception": {
+          "path": "/create_group",
+          "body": "",
+          "class": "CreatorService",
+          "message": "manifest is missing",
+          "backtrace": [
+            ...
+            "/usr/bin/rackup:23:in `<main>'"
+          ]
+        }
+      }
+      ```
