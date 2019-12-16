@@ -1,3 +1,4 @@
+require_relative 'custom_start_points'
 require_relative 'hex_mini_test'
 require_relative '../externals'
 require_relative '../creator'

@@ -7,7 +7,9 @@ class CustomStartPoints
 
   class Error < HttpJson::Error
     def initialize(message)
+      # :nocov:
       super
+      # :nocov:
     end
   end
 

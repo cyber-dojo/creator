@@ -1,5 +1,4 @@
 require_relative 'creator_test_base'
-require_relative 'custom_start_points'
 
 class CreatorTest < CreatorTestBase
 
@@ -39,6 +38,46 @@ class CreatorTest < CreatorTestBase
     id = creator.create_kata(any_manifest)
     assert kata_exists?(id), id
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+  # 500
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+=begin
+  class HttpServiceResponseBodyNotJson
+    def initialize(_hostname, _port)
+    end
+    def request(_req)
+      OpenStruct.new(body:'x')
+    end
+  end
+
+  test 'E31', %w(
+  when dependent service response body is not JSON
+  then HttpJson::Error is raised ) do
+    externals.instance_exec { @http = HttpServiceResponseBodyNotJson }
+    error = assert_raises(HttpJson::Error) { creator.ready? }
+    assert_equal 'http response.body is not JSON:x', error.message
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+  class HttpServiceResponseBodyNotJsonHash
+    def initialize(_hostname, _port)
+    end
+    def request(_req)
+      OpenStruct.new(body:'[]')
+    end
+  end
+
+  test 'E32', %w(
+  when dependent service response body is not JSON Hash
+  then HttpJson::Error is raised ) do
+    externals.instance_exec { @http = HttpServiceResponseBodyNotJsonHash }
+    error = assert_raises(HttpJson::Error) { creator.ready? }
+    assert_equal 'http response.body is not JSON Hash:[]', error.message
+  end
+=end
 
   private
 

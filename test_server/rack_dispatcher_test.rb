@@ -62,17 +62,17 @@ class RackDispatcherTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   test 'E2C',
-  'dispatch returns 400 status when body is not JSON' do
+  'dispatch returns 400 status when request body is not JSON' do
     assert_dispatch_error('xyz', '123', 400, 'body is not JSON Hash')
   end
 
   test 'E2B',
-  'dispatch returns 400 status when body is not JSON Hash' do
+  'dispatch returns 400 status when request body is not JSON Hash' do
     assert_dispatch_error('xyz', [].to_json, 400, 'body is not JSON Hash')
   end
 
   test 'E2A',
-  'dispatch returns 400 when path is unknown' do
+  'dispatch returns 400 when request path is unknown' do
     assert_dispatch_error('xyz', {}.to_json, 400, 'unknown path')
   end
 

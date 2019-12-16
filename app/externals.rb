@@ -2,6 +2,7 @@
 
 require_relative 'services/saver'
 require_relative 'services/time'
+require 'net/http'
 
 class Externals
 
