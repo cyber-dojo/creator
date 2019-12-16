@@ -16,13 +16,13 @@ module HttpJson
 
     def get(path, args)
       request(path, args) do |uri|
-        @http::Get.new(uri)
+        @http.get(uri)
       end
     end
 
     def post(path, args)
       request(path, args) do |uri|
-        @http::Post.new(uri)
+        @http.post(uri)
       end
     end
 
@@ -33,7 +33,7 @@ module HttpJson
       req = yield uri
       req.content_type = 'application/json'
       req.body = JSON.generate(args)
-      @http.start(@hostname, @port) { |http| http.request(req) }
+      @http.start(@hostname, @port, req)
     end
 
   end

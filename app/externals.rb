@@ -2,7 +2,7 @@
 
 require_relative 'services/saver'
 require_relative 'services/time'
-require 'net/http'
+require_relative 'http_adapter'
 
 class Externals
 
@@ -11,7 +11,7 @@ class Externals
   end
 
   def http
-    @http ||= Net::HTTP
+    @http ||= HttpAdapter.new
   end
 
   def time
