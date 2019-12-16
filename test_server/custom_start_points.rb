@@ -5,16 +5,8 @@ require_relative '../services/http_json/error'
 
 class CustomStartPoints
 
-  class Error < HttpJson::Error
-    def initialize(message)
-      # :nocov:
-      super
-      # :nocov:
-    end
-  end
-
   def initialize(http)
-    @http = HttpJson::service(http, 'custom-start-points', 4526, Error)
+    @http = HttpJson::service(http, 'custom-start-points', 4526, HttpJson::Error)
   end
 
   def display_names
