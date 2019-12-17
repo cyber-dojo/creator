@@ -21,16 +21,16 @@ services:
   creator-server:
     build:
       context: .
-      args: [ SHA, PORT ]
+      args: [ SHA, CYBER_DOJO_CREATOR_PORT ]
     depends_on:
       - saver
     user: nobody
-    image: cyberdojo/creator
+    image: ${CYBER_DOJO_CREATOR_IMAGE}
     init: true
     container_name: test-creator-server
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "4523:4523" ]
+    ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     restart: "no"
     volumes: [ "./test_server:/app/test:ro" ]
     tmpfs: [ "/tmp:exec,mode=1777" ] # Sticky bit must be set on /tmp otherwise

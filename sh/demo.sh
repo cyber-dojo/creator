@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )"
+
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 ip_address_slow()
 {
@@ -27,25 +29,14 @@ manifest_slow()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )"
-export $(docker run --rm cyberdojo/versioner:latest sh -c 'cat /app/.env')
-
-build_and_bring_up()
-{
-  "${SH_DIR}/build_docker_images.sh"
-  "${SH_DIR}/docker_containers_up.sh"
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-bring_down()
-{
-  "${SH_DIR}/docker_containers_down.sh"
-}
+build_images() { "${SH_DIR}/build_docker_images.sh"; }
+containers_up() { "${SH_DIR}/containers_up.sh"; }
+containers_down() { "${SH_DIR}/containers_down.sh"; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 curl_json()
 {
-  local -r PORT=4523
+  local -r PORT=${CYBER_DOJO_CREATOR_PORT}
   local -r TYPE="${1}"
   local -r ROUTE="${2}"
   local -r DATA="${3}"
@@ -71,8 +62,10 @@ demo_api()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-build_and_bring_up
+export $(docker run --rm cyberdojo/versioner:latest sh -c 'cat /app/.env')
+build_images
+containers_up
 printf "\n"
 demo_api
 printf "\n"
-bring_down
+containers_down

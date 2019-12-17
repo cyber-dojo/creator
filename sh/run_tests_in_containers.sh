@@ -7,10 +7,10 @@ readonly my_name=creator
 
 run_tests()
 {
-  local coverage_root=/tmp/coverage
-  local user="${1}"
-  local test_dir="test_${2}"
-  local cid=$(docker ps --all --quiet --filter "name=test-${my_name}-${2}")
+  local -r coverage_root=/tmp/coverage
+  local -r user="${1}"
+  local -r test_dir="test_${2}"
+  local -r cid=$(docker ps --all --quiet --filter "name=test-${my_name}-${2}")
 
   docker exec \
     --user "${user}" \
@@ -18,7 +18,7 @@ run_tests()
     "${cid}" \
       sh -c "/app/test/util/run.sh ${@:3}"
 
-  local status=$?
+  local -r status=$?
 
   # You can't [docker cp] from a tmpfs, so tar-piping coverage out.
   docker exec "${cid}" \
@@ -76,5 +76,5 @@ else
   echo "test-${my_name}-server: status = ${server_status}"
   echo "test-${my_name}-client: status = ${client_status}"
   echo
-  exit 3
+  exit 42
 fi

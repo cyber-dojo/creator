@@ -2,11 +2,10 @@
 set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-export PORT=4536
 export NO_PROMETHEUS=true
 
 # - - - - - - - - - - - - - - - - - - - - - -
-ip_address()
+ip_address_slow()
 {
   if [ -n "${DOCKER_MACHINE_NAME}" ]; then
     docker-machine ip ${DOCKER_MACHINE_NAME}
@@ -14,6 +13,7 @@ ip_address()
     echo localhost
   fi
 }
+readonly IP_ADDRESS=$(ip_address_slow)
 
 # - - - - - - - - - - - - - - - - - - - - - -
 wait_briefly_until_ready()
@@ -38,7 +38,7 @@ wait_briefly_until_ready()
     echo "$(ready_response)"
   fi
   docker logs ${name}
-  exit 3
+  exit 42
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -51,7 +51,7 @@ ready()
       --output $(ready_response_filename) \
       --silent \
       --fail \
-      -X GET http://$(ip_address):${port}/${path}"
+      -X GET http://${IP_ADDRESS}:${port}/${path}"
   rm -f "$(ready_response_filename)"
   if ${ready_cmd} && [ "$(ready_response)" = '{"ready?":true}' ]; then
     true
@@ -88,7 +88,7 @@ exit_unless_clean()
   else
     echo 'FAIL'
     echo_docker_log "${name}" "${docker_log}"
-    exit 3
+    exit 42
   fi
 }
 
@@ -131,5 +131,5 @@ container_up()
 
 # - - - - - - - - - - - - - - - - - - -
 container_up_ready_and_clean 4537 saver
-container_up_ready_and_clean 4523 creator-server
+container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT} creator-server
 container_up_ready_and_clean 4526 custom-start-points
