@@ -26,7 +26,7 @@ run_tests()
       - "$(basename "${coverage_root}")" \
         | tar Cxf "${root_dir}/${test_dir}/" -
 
-  echo "Coverage report copied to ${test_dir}/coverage/"
+  printf "Coverage report copied to ${test_dir}/coverage/ \n"
   cat "${root_dir}/${test_dir}/coverage/done.txt"
   return ${status}
 }
@@ -48,7 +48,7 @@ run_client_tests()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-echo
+printf "\n"
 if [ "${1}" = 'server' ]; then
   shift
   run_server_tests "$@"
@@ -62,13 +62,13 @@ fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 if [ "${server_status}" = "0" ] && [ "${client_status}" = "0" ];  then
-  echo '------------------------------------------------------'
-  echo 'All passed'
+  printf "------------------------------------------------------\n"
+  printf "All passed\n"
   exit 0
 else
-  echo
-  echo "test-${my_name}-server: status = ${server_status}"
-  echo "test-${my_name}-client: status = ${client_status}"
-  echo
+  printf "\n"
+  printf "test-${my_name}-server: status = ${server_status}\n"
+  printf "test-${my_name}-client: status = ${client_status}\n"
+  printf "\n"
   exit 42
 fi

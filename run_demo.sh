@@ -9,7 +9,7 @@ ip_address_slow()
   if [ -n "${DOCKER_MACHINE_NAME}" ]; then
     docker-machine ip ${DOCKER_MACHINE_NAME}
   else
-    echo localhost
+    printf "localhost"
   fi
 }
 readonly IP_ADDRESS=$(ip_address_slow)
