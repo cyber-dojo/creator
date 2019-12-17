@@ -10,7 +10,7 @@ ip_address_slow()
   if [ -n "${DOCKER_MACHINE_NAME}" ]; then
     docker-machine ip ${DOCKER_MACHINE_NAME}
   else
-    printf "localhost"
+    printf localhost
   fi
 }
 readonly IP_ADDRESS=$(ip_address_slow)
@@ -22,9 +22,8 @@ wait_briefly_until_ready()
   local -r name="${2}"
   local -r max_tries=10
   printf "Waiting until ${name} is ready"
-  for _ in $(seq ${max_tries})
-  do
-    printf "."
+  for _ in $(seq ${max_tries}); do
+    printf .
     if ready ${port}; then
       printf "OK\n"
       return
