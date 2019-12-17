@@ -120,7 +120,6 @@ table =
 # - - - - - - - - - - - - - - - - - - - - - - -
 
 done = []
-print "\n"
 table.each do |name,value,op,limit|
   result = eval("#{value} #{op} #{limit}")
   puts "%s | %s %s %s | %s" % [
@@ -128,4 +127,5 @@ table.each do |name,value,op,limit|
   ]
   done << result
 end
+printf "\n"
 exit done.all?

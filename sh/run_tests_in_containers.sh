@@ -28,20 +28,18 @@ run_tests()
         | tar Cxf "${root_dir}/${test_dir}/" -
 
   printf "Coverage report copied to ${test_dir}/coverage/ \n"
-  cat "${root_dir}/${test_dir}/coverage/done.txt"
   return ${status}
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 declare server_status=0
-declare client_status=0
-
 run_server_tests()
 {
   run_tests nobody server "${*}"
   server_status=$?
 }
 
+declare client_status=0
 run_client_tests()
 {
   run_tests nobody client "${*}"
@@ -63,7 +61,6 @@ fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 if [ "${server_status}" = "0" ] && [ "${client_status}" = "0" ];  then
-  printf "------------------------------------------------------\n"
   printf "All passed\n"
   exit 0
 else
