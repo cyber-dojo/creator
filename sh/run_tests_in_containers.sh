@@ -9,18 +9,19 @@ run_tests()
   local -r coverage_root=/tmp/coverage
   local -r user="${1}"
   local -r test_dir="test_${2}"
-  local -r cid=$(docker ps --all --quiet --filter "name=test-${my_name}-${2}")
+  local -r container_name="test-${my_name}-${2}"
 
   docker exec \
     --user "${user}" \
     --env COVERAGE_ROOT=${coverage_root} \
-    "${cid}" \
+    "${container_name}" \
       sh -c "/app/test/util/run.sh ${@:3}"
 
   local -r status=$?
 
   # You can't [docker cp] from a tmpfs, so tar-piping coverage out.
-  docker exec "${cid}" \
+  docker exec \
+    "${container_name}" \
     tar Ccf \
       "$(dirname "${coverage_root}")" \
       - "$(basename "${coverage_root}")" \
