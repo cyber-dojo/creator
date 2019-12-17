@@ -4,7 +4,6 @@ readonly root_dir="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 readonly my_name=creator
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 run_tests()
 {
   local -r coverage_root=/tmp/coverage
@@ -33,7 +32,6 @@ run_tests()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 declare server_status=0
 declare client_status=0
 
@@ -43,8 +41,6 @@ run_server_tests()
   server_status=$?
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 run_client_tests()
 {
   run_tests nobody client "${*}"
@@ -52,7 +48,6 @@ run_client_tests()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 echo
 if [ "${1}" = 'server' ]; then
   shift
@@ -66,7 +61,6 @@ else
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
 if [ "${server_status}" = "0" ] && [ "${client_status}" = "0" ];  then
   echo '------------------------------------------------------'
   echo 'All passed'

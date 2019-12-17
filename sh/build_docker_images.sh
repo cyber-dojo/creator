@@ -10,8 +10,8 @@ build_image()
   echo
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
-      build \
-        "${1}"
+    build \
+    "${1}"
 }
 
 build_image creator-server
