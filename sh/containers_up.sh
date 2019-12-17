@@ -68,7 +68,7 @@ ready_response()
 # - - - - - - - - - - - - - - - - - - -
 ready_response_filename()
 {
-  printf "/tmp/curl-custom-ready-output"
+  printf /tmp/curl-custom-ready-output
 }
 
 # - - - - - - - - - - - - - - - - - - -
