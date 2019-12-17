@@ -1,30 +1,30 @@
-Run options: --seed 31714
+Run options: --seed 14422
 
 # Running:
 
 ...............................................
 
-Finished in 0.460310s, 102.1051 runs/s, 406.2481 assertions/s.
+Finished in 0.451318s, 104.1395 runs/s, 414.3423 assertions/s.
 
 47 runs, 187 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to /tmp/coverage. 716 / 716 LOC (100.0%) covered.
 
 Slowest 5 tests are...
-0.1738 - A6D063:id_generator_test.rb:20:entire alphabet is used in group ids     
-0.1586 - A6D064:id_generator_test.rb:33:entire alphabet is used in kata ids      
-0.0191 - 4AF134:rack_dispatcher_test.rb:42:/create_group 200                     
-0.0125 - 4AF135:rack_dispatcher_test.rb:51:/create_kata 200                      
-0.0115 - 26F703:creator_test.rb:36:/create_kata returns the id of a newly created kata
-0.0112 - 26F702:creator_test.rb:30:/create_group returns the id of a newly created group
+0.2042 - A6D064:id_generator_test.rb:33:entire alphabet is used in kata ids      
+0.1278 - A6D063:id_generator_test.rb:20:entire alphabet is used in group ids     
+0.0141 - 4AF135:rack_dispatcher_test.rb:51:/create_kata 200                      
+0.0133 - 26F703:creator_test.rb:36:/create_kata returns the id of a newly created kata
+0.0126 - 4AF134:rack_dispatcher_test.rb:42:/create_group 200                     
+0.0116 - 26F702:creator_test.rb:30:/create_group returns the id of a newly created group
 
                     tests |      47 !=     0 | true
                  failures |       0 ==     0 | true
                    errors |       0 ==     0 | true
                  warnings |       0 ==     0 | true
                     skips |       0 ==     0 | true
-        duration(test)[s] |    0.46 <=     2 | true
+        duration(test)[s] |    0.45 <=     2 | true
          coverage(src)[%] |   100.0 ==   100 | true
         coverage(test)[%] |   100.0 ==   100 | true
    lines(test)/lines(src) |    1.53 >=   1.5 | true
-     hits(src)/hits(test) |    2.61 >=   2.2 | true
+     hits(src)/hits(test) |    2.58 >=   2.2 | true
 
