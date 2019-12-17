@@ -7,7 +7,7 @@ export SHA=$(cd "${ROOT_DIR}" && git rev-parse HEAD)
 
 build_image()
 {
-  printf "\n"
+  printf '\n'
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
     build \
