@@ -19,7 +19,8 @@ run_tests()
 
   local -r status=$?
 
-  # You can't [docker cp] from a tmpfs, so tar-piping coverage out.
+  # You can't [docker cp] from a tmpfs,
+  # so tar-piping coverage out.
   docker exec \
     "${container_name}" \
     tar Ccf \
