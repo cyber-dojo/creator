@@ -13,7 +13,7 @@ jobs:
           name: Build image, test it, tag it, publish it
           command: |
             set -e
-            ./build_test_tag_publish.sh server
+            ./build_test_tag_publish.sh
 
   deploy-to-beta:
     docker:
