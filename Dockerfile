@@ -4,8 +4,8 @@ LABEL maintainer=jon@jaggersoft.com
 COPY --chown=nobody:nogroup . /
 WORKDIR /app
 
-ARG SHA
-ENV SHA=${SHA}
+ARG COMMIT_SHA
+ENV SHA=${COMMIT_SHA}
 
 ARG CYBER_DOJO_CREATOR_PORT
 ENV PORT=${CYBER_DOJO_CREATOR_PORT}

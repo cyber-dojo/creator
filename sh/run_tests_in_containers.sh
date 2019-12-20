@@ -48,11 +48,11 @@ run_client_tests()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-printf '\n'
-if [ "${1}" = 'server' ]; then
+echo
+if [ "${1}" == 'server' ]; then
   shift
   run_server_tests "$@"
-elif [ "${1}" = 'client' ]; then
+elif [ "${1}" == 'client' ]; then
   shift
   run_client_tests "$@"
 else
@@ -61,13 +61,13 @@ else
 fi
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-if [ "${server_status}" = "0" ] && [ "${client_status}" = "0" ];  then
-  printf 'All passed\n'
+if [ "${server_status}" == '0' ] && [ "${client_status}" == '0' ];  then
+  echo All passed
   exit 0
 else
-  printf '\n'
-  printf "test-${my_name}-server: status = ${server_status}\n"
-  printf "test-${my_name}-client: status = ${client_status}\n"
-  printf '\n'
+  echo
+  echo "test-${my_name}-server: status = ${server_status}"
+  echo "test-${my_name}-client: status = ${client_status}"
+  echo
   exit 42
 fi

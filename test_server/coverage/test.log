@@ -1,29 +1,37 @@
-Run options: --seed 23992
+Run options: --seed 33247
 
 # Running:
 
-...............................................
+..................Expected false to be truthy.
+F............................SimpleCov failed with exit 1
 
-Finished in 0.469133s, 100.1848 runs/s, 398.6077 assertions/s.
+Finished in 0.451090s, 104.1921 runs/s, 416.7682 assertions/s.
 
-47 runs, 187 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/coverage. 716 / 716 LOC (100.0%) covered.
+  1) Failure:
+CreatorTest#test_
+hex '26F191',
+'/sha is 40-char git commit sha' [/app/test/creator_test.rb:14]:
+Expected false to be truthy.
+
+47 runs, 188 assertions, 1 failures, 0 errors, 0 skips
+Coverage report generated for MiniTest to /tmp/coverage. 717 / 717 LOC (100.0%) covered.
 
 Slowest 5 tests are...
-0.1883 - A6D064:id_generator_test.rb:33:entire alphabet is used in kata ids
-0.1520 - A6D063:id_generator_test.rb:20:entire alphabet is used in group ids
-0.0140 - 4AF135:rack_dispatcher_test.rb:51:/create_kata 200
-0.0122 - 26F702:creator_test.rb:30:/create_group returns the id of a newly created group
-0.0122 - 4AF134:rack_dispatcher_test.rb:42:/create_group 200
-0.0113 - 26F703:creator_test.rb:36:/create_kata returns the id of a newly created kata
+0.1780 - A6D063:id_generator_test.rb:20:entire alphabet is used in group ids     
+0.1424 - A6D064:id_generator_test.rb:33:entire alphabet is used in kata ids      
+0.0185 - 26F703:creator_test.rb:37:/create_kata returns the id of a newly created kata
+0.0139 - 4AF134:rack_dispatcher_test.rb:42:/create_group 200                     
+0.0128 - 26F702:creator_test.rb:31:/create_group returns the id of a newly created group
+0.0117 - 4AF135:rack_dispatcher_test.rb:51:/create_kata 200                      
 
                     tests |      47 !=     0 | true
-                 failures |       0 ==     0 | true
+                 failures |       1 ==     0 | [31mfalse[0m
                    errors |       0 ==     0 | true
                  warnings |       0 ==     0 | true
                     skips |       0 ==     0 | true
-        duration(test)[s] |    0.47 <=     2 | true
+        duration(test)[s] |    0.45 <=     2 | true
       coverage(source)[%] |   100.0 ==   100 | true
         coverage(test)[%] |   100.0 ==   100 | true
        lines(test/source) |    1.53 >=   1.5 | true
-   line-hits(source/test) |    2.60 >=   2.2 | true
+   line-hits(source/test) |    2.57 >=   2.2 | true
+

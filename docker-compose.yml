@@ -37,12 +37,12 @@ services:
                                      # Dir.mktmpdir(id,'/tmp') complains
   saver:
     user: saver
-    image: cyberdojo/saver:${CYBER_DOJO_SAVER_TAG}
+    image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
     init: true
     container_name: test-saver
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "4537:4537" ]
+    ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
     restart: 'no'
     tmpfs:
       - /cyber-dojo:uid=19663,gid=65533
