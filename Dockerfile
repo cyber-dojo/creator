@@ -2,7 +2,6 @@ FROM cyberdojo/rack-base
 LABEL maintainer=jon@jaggersoft.com
 
 COPY --chown=nobody:nogroup . /
-WORKDIR /app
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
