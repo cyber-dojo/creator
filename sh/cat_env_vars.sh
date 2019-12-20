@@ -11,5 +11,3 @@ cat_env_vars()
   echo CYBER_DOJO_CREATOR_PORT=4523
   echo CYBER_DOJO_CUSTOM_PORT=4536
 }
-
-export -f cat_env_vars
