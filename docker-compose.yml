@@ -16,8 +16,10 @@ services:
     ports: [ "4522:4522" ]
     read_only: true
     restart: "no"
-    volumes: [ ./app/test_client:/app/test:ro ]
+    volumes: [ ./app/test_client:/app/test_client:ro ]
     tmpfs: /tmp
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   creator-server:
     build:
@@ -37,15 +39,19 @@ services:
     volumes: [ ./app/test_server:/app/test_server:ro ]
     tmpfs: /tmp
 
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   custom-start-points:
     user: nobody
-    image: ${CYBER_DOJO_CUSTOM}
+    image: ${CYBER_DOJO_CUSTOM_START_POINTS}
     init: true
     environment: [ NO_PROMETHEUS ]
     read_only: true
     ports: [ "4526:4526" ]
     restart: "no"
     tmpfs: /tmp
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   saver:
     user: saver
@@ -58,4 +64,3 @@ services:
     tmpfs:
       - /cyber-dojo:uid=19663,gid=65533
       - /tmp:uid=19663,gid=65533
-    
