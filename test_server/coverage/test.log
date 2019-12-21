@@ -1,30 +1,30 @@
-Run options: --seed 32728
+Run options: --seed 34679
 
 # Running:
 
 ...............................................
 
-Finished in 0.605074s, 77.6765 runs/s, 309.0531 assertions/s.
+Finished in 0.466000s, 100.8583 runs/s, 401.2873 assertions/s.
 
 47 runs, 187 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to /tmp/coverage. 716 / 716 LOC (100.0%) covered.
 
 Slowest 5 tests are...
-0.2891 - A6D063:id_generator_test.rb:20:entire alphabet is used in group ids     
-0.1904 - A6D064:id_generator_test.rb:33:entire alphabet is used in kata ids      
-0.0129 - 26F703:creator_test.rb:36:/create_kata returns the id of a newly created kata
-0.0125 - 4AF134:rack_dispatcher_test.rb:42:/create_group 200                     
-0.0116 - 4AF135:rack_dispatcher_test.rb:51:/create_kata 200                      
-0.0107 - 26F702:creator_test.rb:30:/create_group returns the id of a newly created group
+0.1889 - A6D064:id_generator_test.rb:33:entire alphabet is used in kata ids      
+0.1549 - A6D063:id_generator_test.rb:20:entire alphabet is used in group ids     
+0.0143 - 4AF135:rack_dispatcher_test.rb:51:/create_kata 200                      
+0.0135 - 26F703:creator_test.rb:36:/create_kata returns the id of a newly created kata
+0.0130 - 4AF134:rack_dispatcher_test.rb:42:/create_group 200                     
+0.0108 - 26F702:creator_test.rb:30:/create_group returns the id of a newly created group
 
                     tests |      47 !=     0 | true
                  failures |       0 ==     0 | true
                    errors |       0 ==     0 | true
                  warnings |       0 ==     0 | true
                     skips |       0 ==     0 | true
-        duration(test)[s] |    0.61 <=     2 | true
+        duration(test)[s] |    0.47 <=     2 | true
       coverage(source)[%] |   100.0 ==   100 | true
         coverage(test)[%] |   100.0 ==   100 | true
        lines(test/source) |    1.53 >=   1.5 | true
-   line-hits(source/test) |    3.10 >=   2.2 | true
+   line-hits(source/test) |    2.63 >=   2.2 | true
 

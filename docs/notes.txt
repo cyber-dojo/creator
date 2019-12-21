@@ -1,0 +1,29 @@
+The main src code is in the /app dir.
+This is added to the docker image using the Dockerfile command:
+COPY --chown=nobody:nogroup . /app
+
+There are some tests in /test_server
+These are volume-mounted into, and run from inside a docker container
+using the line in docker-compose.yml
+
+  creator-server:
+    volumes: [ "./test_server:/app/test:ro" ]
+
+I would like to volume-mount like this:
+
+  creator-server:
+    volumes: [ "./test_server:/test:ro" ]
+
+So the relative dir structure inside the container is the same as the
+relative dir structure outside the container. This would mean a test file
+could write
+
+  require_relative '../app/services/http_json/error'
+
+However, there is a problem with a dir structure like this:
+/app
+/test
+
+The problem is that I want coverage of both the source and the tests
+and SimpleCov is unable to work across two dirs like this.
+If you try SimpleCov.root('/') it just does not work.
