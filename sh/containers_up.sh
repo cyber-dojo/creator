@@ -2,18 +2,8 @@
 set -e
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-export NO_PROMETHEUS=true
-
-# - - - - - - - - - - - - - - - - - - - - - -
-ip_address_slow()
-{
-  if [ -n "${DOCKER_MACHINE_NAME}" ]; then
-    docker-machine ip ${DOCKER_MACHINE_NAME}
-  else
-    printf localhost
-  fi
-}
-readonly IP_ADDRESS=$(ip_address_slow)
+source ${ROOT_DIR}/sh/ip_address.sh
+readonly IP_ADDRESS=$(ip_address)
 
 # - - - - - - - - - - - - - - - - - - - - - -
 wait_briefly_until_ready()
@@ -129,6 +119,7 @@ container_up()
 }
 
 # - - - - - - - - - - - - - - - - - - -
+export NO_PROMETHEUS=true
 container_up_ready_and_clean 4537 saver
 container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT} creator-server
 container_up_ready_and_clean 4526 custom-start-points
