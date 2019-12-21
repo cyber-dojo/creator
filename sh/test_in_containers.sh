@@ -7,17 +7,17 @@ readonly my_name=creator
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()
 {
-  local -r coverage_root=/tmp/coverage
   local -r user="${1}"                           # eg nobody
   local -r test_dir="app/test_${2}"              # eg app/test_server
   local -r container_name="test-${my_name}-${2}" # eg test-creator-server
+  local -r coverage_root=/tmp/coverage
 
   set +e
   docker exec \
     --user "${user}" \
     --env COVERAGE_ROOT=${coverage_root} \
     "${container_name}" \
-      sh -c "/${test_dir}/util/run.sh ${@:3}"
+      sh -c "/app/test/util/run.sh ${@:3}"
   local -r status=$?
   set -e
 

@@ -103,16 +103,13 @@ container_up_ready_and_clean()
 # - - - - - - - - - - - - - - - - - - -
 container_up()
 {
-  local -r port="${1}"
-  local -r service_name="${2}"
-  local -r container_name="test-${service_name}"
-  printf '\n'
+  echo
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
     up \
     --detach \
     --force-recreate \
-      "${service_name}"
+    creator
 }
 
 # - - - - - - - - - - - - - - - - - - -

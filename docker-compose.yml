@@ -8,7 +8,7 @@ services:
     #  context: app/test_client
     depends_on:
       - custom-start-points
-      - creator-server
+      - creator
     user: nobody
     image: cyberdojo/creator-client
     init: true
@@ -16,12 +16,11 @@ services:
     ports: [ "4522:4522" ]
     read_only: true
     restart: "no"
-    volumes: [ ./app/test_client:/app/test_client:ro ]
     tmpfs: /tmp
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  creator-server:
+  creator:
     build:
       context: app
       args: [ SHA, CYBER_DOJO_CREATOR_PORT ]
@@ -36,7 +35,7 @@ services:
     read_only: true
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     restart: "no"
-    volumes: [ ./app/test_server:/app/test_server:ro ]
+    volumes: [ ./test_server:/app/test:ro ]
     tmpfs: /tmp
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
