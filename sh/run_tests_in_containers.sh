@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 readonly root_dir="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 readonly my_name=creator
@@ -7,16 +8,17 @@ readonly my_name=creator
 run_tests()
 {
   local -r coverage_root=/tmp/coverage
-  local -r user="${1}"
-  local -r test_dir="test_${2}"
-  local -r container_name="test-${my_name}-${2}"
+  local -r user="${1}"                           # eg nobody
+  local -r test_dir="test_${2}"                  # eg test_server
+  local -r container_name="test-${my_name}-${2}" # eg test-creator-server
 
+  set +e
   docker exec \
     --user "${user}" \
     --env COVERAGE_ROOT=${coverage_root} \
     "${container_name}" \
       sh -c "/app/test/util/run.sh ${@:3}"
-
+  set -e
   local -r status=$?
 
   # You can't [docker cp] from a tmpfs,
@@ -26,9 +28,9 @@ run_tests()
     tar Ccf \
       "$(dirname "${coverage_root}")" \
       - "$(basename "${coverage_root}")" \
-        | tar Cxf "${root_dir}/${test_dir}/" -
+        | tar Cxf "${root_dir}/app/${test_dir}/" -
 
-  printf "Coverage report copied to ${test_dir}/coverage/\n"
+  printf "Coverage report copied to app/${test_dir}/coverage/\n"
   return ${status}
 }
 
