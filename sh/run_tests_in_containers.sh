@@ -30,24 +30,14 @@ run_tests()
       - "$(basename "${coverage_root}")" \
         | tar Cxf "${root_dir}/${test_dir}/" -
 
-  printf "Coverage report copied to ${test_dir}/coverage/\n"
+  echo "Coverage report copied to ${test_dir}/coverage/"
+  echo "${2} test status == ${status}"
   return ${status}
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-declare server_status=0
-run_server_tests()
-{
-  run_tests nobody server "${*}"
-  server_status=$?
-}
-
-declare client_status=0
-run_client_tests()
-{
-  run_tests nobody client "${*}"
-  client_status=$?
-}
+run_server_tests() { run_tests nobody server "${*}"; }
+run_client_tests() { run_tests nobody client "${*}"; }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 echo
@@ -61,15 +51,4 @@ else
   run_server_tests "$@"
   run_client_tests "$@"
 fi
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - -
-if [ "${server_status}" == '0' ] && [ "${client_status}" == '0' ];  then
-  echo All passed
-  exit 0
-else
-  echo
-  echo "test-${my_name}-server: status = ${server_status}"
-  echo "test-${my_name}-client: status = ${client_status}"
-  echo
-  exit 42
-fi
+echo All passed
