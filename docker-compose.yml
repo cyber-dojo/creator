@@ -20,7 +20,7 @@ services:
 
   creator-server:
     build:
-      context: .
+      context: app
       args: [ SHA, CYBER_DOJO_CREATOR_PORT ]
     depends_on:
       - saver
