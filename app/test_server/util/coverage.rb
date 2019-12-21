@@ -5,7 +5,7 @@ def app_root
 end
 
 def is_test?(filename)
-  filename.start_with?("#{app_root}/test/")
+  filename.start_with?("#{app_root}/test_server/")
 end
 
 def is_app?(filename)

@@ -1,5 +1,5 @@
-test_server/coverage/*
-!test_server/coverage/test.log
+app/test_server/coverage/*
+!app/test_server/coverage/test.log
 
-test_client/coverage/*
-!test_client/coverage/test.log
+app/test_client/coverage/*
+!app/test_client/coverage/test.log

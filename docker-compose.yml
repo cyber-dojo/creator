@@ -34,7 +34,7 @@ services:
     read_only: true
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     restart: "no"
-    volumes: [ "./app/test_server:/app/test:ro" ]
+    volumes: [ "./app/test_server:/app/test_server:ro" ]
     tmpfs: [ "/tmp:exec,mode=1777" ] # Sticky bit must be set on /tmp otherwise
                                      # Dir.mktmpdir(id,'/tmp') complains
   saver:

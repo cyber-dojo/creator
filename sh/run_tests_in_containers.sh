@@ -9,7 +9,7 @@ run_tests()
 {
   local -r coverage_root=/tmp/coverage
   local -r user="${1}"                           # eg nobody
-  local -r test_dir="test_${2}"                  # eg test_server
+  local -r test_dir="app/test_${2}"              # eg app/test_server
   local -r container_name="test-${my_name}-${2}" # eg test-creator-server
 
   set +e
@@ -17,9 +17,9 @@ run_tests()
     --user "${user}" \
     --env COVERAGE_ROOT=${coverage_root} \
     "${container_name}" \
-      sh -c "/app/test/util/run.sh ${@:3}"
-  set -e
+      sh -c "/${test_dir}/util/run.sh ${@:3}"
   local -r status=$?
+  set -e
 
   # You can't [docker cp] from a tmpfs,
   # so tar-piping coverage out.
@@ -28,9 +28,9 @@ run_tests()
     tar Ccf \
       "$(dirname "${coverage_root}")" \
       - "$(basename "${coverage_root}")" \
-        | tar Cxf "${root_dir}/app/${test_dir}/" -
+        | tar Cxf "${root_dir}/${test_dir}/" -
 
-  printf "Coverage report copied to app/${test_dir}/coverage/\n"
+  printf "Coverage report copied to ${test_dir}/coverage/\n"
   return ${status}
 }
 
