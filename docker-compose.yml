@@ -24,6 +24,7 @@ services:
       args: [ SHA, CYBER_DOJO_CREATOR_PORT ]
     depends_on:
       - saver
+      - custom-start-points
     user: nobody
     image: ${CYBER_DOJO_CREATOR_IMAGE}
     init: true
