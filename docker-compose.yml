@@ -42,11 +42,11 @@ services:
 
   custom-start-points:
     user: nobody
-    image: ${CYBER_DOJO_CUSTOM_START_POINTS}
+    image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
     init: true
     environment: [ NO_PROMETHEUS ]
     read_only: true
-    ports: [ "4526:4526" ]
+    ports: [ "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" ]
     restart: "no"
     tmpfs: /tmp
 

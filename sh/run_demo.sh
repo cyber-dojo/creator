@@ -8,7 +8,7 @@ readonly IP_ADDRESS=$(ip_address)
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 manifest_slow()
 {
-  local -r port=4526 # custom-start-points
+  local -r port="${CYBER_DOJO_CUSTOM_START_POINTS_PORT}"
   local -r display_name='Java Countdown, Round 1'
   echo $(curl \
     --data "{\"name\":\"${display_name}\"}" \
@@ -22,7 +22,7 @@ manifest_slow()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 curl_json()
 {
-  local -r port=${CYBER_DOJO_CREATOR_PORT}
+  local -r port="${CYBER_DOJO_CREATOR_PORT}"
   local -r type="${1}"  # eg GET
   local -r route="${2}" # eg ready?
   local -r data="${3}"
@@ -48,8 +48,8 @@ demo_api()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-source ${SH_DIR}/cat_env_vars.sh
-export $(cat_env_vars)
+source ${SH_DIR}/versioner_env_vars.sh
+export $(versioner_env_vars)
 ${SH_DIR}/build_images.sh
 ${SH_DIR}/containers_up.sh
 printf '\n'
