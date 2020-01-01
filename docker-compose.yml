@@ -35,7 +35,7 @@ services:
     read_only: true
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     restart: "no"
-    volumes: [ ./test_server:/app/test:ro ]
+    volumes: [ "./test_server:/app/test:ro" ]
     tmpfs: /tmp
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
