@@ -5,10 +5,11 @@ readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 #- - - - - - - - - - - - - - - - - - - - - - - -
 build_images()
 {
+  export COMMIT_SHA="$(git_commit_sha)"
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
-    build \
-    --build-arg COMMIT_SHA="$(git_commit_sha)"
+    build
+  unset COMMIT_SHA
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -24,10 +25,10 @@ assert_equal()
   local -r name="${1}"
   local -r expected="${2}"
   local -r actual="${3}"
-  echo "expected: ${name}='${expected}'"
-  echo "  actual: ${name}='${actual}'"
   if [ "${expected}" != "${actual}" ]; then
-    echo "ERROR: unexpected ${name} inside image ${IMAGE}:latest"
+    echo "ERROR: unexpected ${name} inside image"
+    echo "expected: ${name}='${expected}'"
+    echo "  actual: ${name}='${actual}'"
     exit 42
   fi
 }

@@ -23,7 +23,7 @@ services:
   creator:
     build:
       context: app
-      args: [ SHA, CYBER_DOJO_CREATOR_PORT ]
+      args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_PORT ]
     depends_on:
       - custom-start-points
       - saver
