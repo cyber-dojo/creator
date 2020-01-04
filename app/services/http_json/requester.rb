@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative '../../json_adapter'
-require 'net/http'
 require 'uri'
 
 module HttpJson
