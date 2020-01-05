@@ -28,7 +28,7 @@ run_tests()
     tar Ccf \
       "$(dirname "${coverage_root}")" \
       - "$(basename "${coverage_root}")" \
-        | tar Cxf "${root_dir}/${test_dir}/" -
+        | tar Cxf "${root_dir}/test_${2}/" -
 
   echo "Coverage report copied to ${test_dir}/coverage/"
   echo "${2} test status == ${status}"
