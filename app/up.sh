@@ -6,4 +6,4 @@ rackup \
   --env production \
   --port ${PORT}   \
   --warn           \
-    config.ru
+    /app/config.ru

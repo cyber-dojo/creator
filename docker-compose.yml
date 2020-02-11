@@ -4,8 +4,9 @@ version: '3.7'
 services:
 
   creator-client:
-    #build:
-    #  context: client
+    build:
+      context: client
+      args: [ CYBER_DOJO_CREATOR_DEMO_PORT ]      
     depends_on:
       - custom-start-points
       - creator-server
@@ -13,7 +14,7 @@ services:
     image: cyberdojo/creator-client
     init: true
     container_name: test-creator-client
-    ports: [ "4522:4522" ]
+    ports: [ "${CYBER_DOJO_CREATOR_DEMO_PORT}:${CYBER_DOJO_CREATOR_DEMO_PORT}" ]
     read_only: true
     restart: "no"
     tmpfs: /tmp
