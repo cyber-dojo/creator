@@ -1,4 +1,4 @@
-#!/bin/bash -Ee
+#!/bin/bash -Eeu
 
 readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )"
 source ${SH_DIR}/ip_address.sh
@@ -24,7 +24,7 @@ curl_json()
   local -r port="${CYBER_DOJO_CREATOR_PORT}"
   local -r type="${1}"  # eg GET
   local -r route="${2}" # eg ready?
-  local -r data="${3}"
+  local -r data="${3:-}"
   curl  \
     --data "${data}" \
     --fail \
