@@ -1,11 +1,10 @@
 #!/bin/bash -Eeu
 
-# Note that the --host is needed for IPv4 and IPv6 addresses
+export RUBYOPT='-W2'
 
 rackup \
-  --warn \
-  --host 0.0.0.0 \
-  --port ${PORT} \
-  --server thin \
   --env production \
-    config.ru
+  --host 0.0.0.0   \
+  --port ${PORT}   \
+  --warn           \
+    /app/config.ru
