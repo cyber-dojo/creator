@@ -53,7 +53,7 @@ run_tests()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-run_server_tests() { run_tests root   server "${@}"; }
+run_server_tests() { run_tests nobody server "${@}"; }
 run_client_tests() { run_tests nobody client "${@}"; }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -

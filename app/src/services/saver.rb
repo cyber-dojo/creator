@@ -1,11 +1,9 @@
 # frozen_string_literal: true
-
 require_relative 'http_json/service'
-require_relative 'http_json/error'
 
 class Saver
 
-  class Error < StandardError
+  class Error < RuntimeError
     def initialize(message)
       super
     end

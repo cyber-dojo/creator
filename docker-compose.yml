@@ -6,7 +6,7 @@ services:
   creator-client:
     build:
       context: client
-      args: [ CYBER_DOJO_CREATOR_DEMO_PORT ]      
+      args: [ CYBER_DOJO_CREATOR_DEMO_PORT ]
     depends_on:
       - custom-start-points
       - creator-server

@@ -1,0 +1,7 @@
+SimpleCov failed to recognize the test framework and/or suite used. Please specify manually using SimpleCov.command_name 'Unit Tests'.
+SimpleCov failed with exit 1/usr/lib/ruby/2.5.0/rubygems/core_ext/kernel_require.rb:59:in `require': cannot load such file -- /test/client/*_test.rb (LoadError)
+	from /usr/lib/ruby/2.5.0/rubygems/core_ext/kernel_require.rb:59:in `require'
+	from -e:4:in `block in <main>'
+	from -e:3:in `each'
+	from -e:3:in `<main>'
+Coverage report generated for Unknown Test Framework to /tmp/reports. 0.0 / 0.0 LOC (100.0%) covered.

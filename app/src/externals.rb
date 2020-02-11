@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative 'http_adapter'
 require_relative 'services/saver'
 require_relative 'services/time'

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative 'json_adapter'
 require_relative 'services/saver'
 
