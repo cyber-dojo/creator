@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require_relative 'creator_test_base'
 
 class CreatorTest < CreatorTestBase
 
-  def self.hex_prefix
+  def self.id58_prefix
     '26F'
   end
 

@@ -1,11 +1,12 @@
+# frozen_string_literal: true
 require_relative 'creator_test_base'
-require_relative '../json_adapter'
+require_src 'json_adapter'
 require 'net/http'
 require 'ostruct'
 
 class DependentServiceTest < CreatorTestBase
 
-  def self.hex_prefix
+  def self.id58_prefix
     '078'
   end
 

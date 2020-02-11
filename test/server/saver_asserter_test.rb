@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require_relative 'creator_test_base'
-require_relative '../saver_asserter'
+require_src 'saver_asserter'
 require 'json'
 
 class SaverAsserterTest < CreatorTestBase
 
-  def self.hex_prefix
+  def self.id58_prefix
     'A27'
   end
 

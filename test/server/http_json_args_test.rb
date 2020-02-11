@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require_relative 'creator_test_base'
-require_relative '../http_json_args'
-require_relative '../services/http_json/error'
+require_src 'http_json_args'
+require_src 'services/http_json/error'
 
 class HttpJsonArgsTest < CreatorTestBase
 
-  def self.hex_prefix
+  def self.id58_prefix
     'EE7'
   end
 

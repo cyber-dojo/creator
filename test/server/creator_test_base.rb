@@ -1,10 +1,11 @@
+# frozen_string_literal: true
+require_relative '../id58_test_base'
 require_relative 'custom_start_points'
-require_relative 'hex_mini_test'
-require_relative '../externals'
-require_relative '../creator'
-require_relative '../id_pather'
+require_src 'externals'
+require_src 'creator'
+require_src 'id_pather'
 
-class CreatorTestBase < HexMiniTest
+class CreatorTestBase < Id58TestBase
 
   def initialize(arg)
     super(arg)

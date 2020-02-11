@@ -1,7 +1,6 @@
 # frozen_string_literal: true
-
-require_relative '../services/http_json/service'
-require_relative '../services/http_json/error'
+require_src 'services/http_json/service'
+require_src 'services/http_json/error'
 
 class CustomStartPoints
 

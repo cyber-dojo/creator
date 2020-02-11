@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -Eeu
 
 readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
 source ${ROOT_DIR}/sh/ip_address.sh
@@ -59,20 +58,25 @@ ready_filename()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-exit_unless_clean()
+warn_if_unclean()
 {
   local -r name="${1}"
   local -r docker_log=$(docker logs "${name}" 2>&1)
-  local -r line_count=$(echo -n "${docker_log}" | grep --count '^')
+  local -r shadow_warning="server.rb:(.*): warning: shadowing outer local variable - filename"
+  local -r stripped=$(echo -n "${docker_log}" | grep --invert-match -E "${shadow_warning}")
+  if [ "${docker_log}" != "${stripped}" ]; then
+    echo "SERVICE START-UP WARNING: ${shadow_warning}"
+  fi
+  local -r line_count=$(echo -n "${stripped}" | grep --count '^')
   printf "Checking ${name} started cleanly..."
   # 3 lines on Thin (Unicorn=6, Puma=6)
   #Thin web server (v1.7.2 codename Bachmanity)
   #Maximum connections set to 1024
   #Listening on 0.0.0.0:4536, CTRL+C to stop
   if [ "${line_count}" == '3' ]; then
-    printf 'OK\n'
+    echo OK
   else
-    printf 'FAIL\n'
+    echo FAIL
     echo_docker_log "${name}" "${docker_log}"
     exit 42
   fi
@@ -95,21 +99,22 @@ container_up_ready_and_clean()
   local -r port="${1}"
   local -r service_name="${2}"
   local -r container_name="test-${service_name}"
-  container_up "${port}" "${service_name}"
+  container_up "${service_name}"
   wait_briefly_until_ready "${port}" "${container_name}"
-  exit_unless_clean "${container_name}"
+  warn_if_unclean "${container_name}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 container_up()
 {
+  local -r service_name="${1}"
   echo
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
     up \
     --detach \
     --force-recreate \
-    creator
+    "${service_name}"
 }
 
 # - - - - - - - - - - - - - - - - - - -

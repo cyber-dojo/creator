@@ -1,10 +1,10 @@
 require_relative 'creator_test_base'
 require_relative 'rack_request_stub'
-require_relative '../rack_dispatcher'
+require_src 'rack_dispatcher'
 
 class RackDispatcherTest < CreatorTestBase
 
-  def self.hex_prefix
+  def self.id58_prefix
     '4AF'
   end
 

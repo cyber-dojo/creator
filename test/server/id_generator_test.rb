@@ -1,11 +1,12 @@
+# frozen_string_literal: true
 require_relative 'creator_test_base'
-require_relative '../id_generator'
+require_src 'id_generator'
 require 'fileutils'
 require 'tmpdir'
 
 class IdGeneratorTest < CreatorTestBase
 
-  def self.hex_prefix
+  def self.id58_prefix
     'A6D'
   end
 
