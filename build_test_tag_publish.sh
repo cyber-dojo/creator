@@ -39,7 +39,16 @@ source ${SH_DIR}/versioner_env_vars.sh
 export $(versioner_env_vars)
 
 
-echo "${DOCKER_USER[0]}"
+if [ "${DOCKER_USER[0]}" == 't' ]; then
+  echo begins with t
+fi
+if [ "${DOCKER_USER[0]}" == 'c' ]; then
+  echo begins with c
+fi
+if [ "${DOCKER_USER[0]}" == 'm' ]; then
+  echo begins with m
+fi
+
 exit 42
 
 ${SH_DIR}/build_images.sh
