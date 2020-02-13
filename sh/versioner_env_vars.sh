@@ -3,5 +3,5 @@
 versioner_env_vars()
 {
   docker run --rm cyberdojo/versioner:latest
-  echo CYBER_DOJO_CREATOR_DEMO_PORT=4522
+  echo CYBER_DOJO_CREATOR_CLIENT_PORT=4522
 }

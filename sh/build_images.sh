@@ -15,8 +15,7 @@ build_images()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_sha()
 {
-  echo $(cd "${ROOT_DIR}" \
-    && git rev-parse HEAD)
+  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
