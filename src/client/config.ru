@@ -1,12 +1,8 @@
 $stdout.sync = true
 $stderr.sync = true
 
-def require_src(name)
-  require_relative "src/#{name}"
-end
-
-require_src 'externals'
-require_src 'rack_dispatcher'
+require_relative 'code/externals'
+require_relative 'code/rack_dispatcher'
 require 'rack'
 
 externals = Externals.new

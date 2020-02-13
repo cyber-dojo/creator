@@ -5,19 +5,19 @@ services:
 
   creator-client:
     build:
-      context: client
       args: [ CYBER_DOJO_CREATOR_DEMO_PORT ]
+      context: src/client
+    container_name: test-creator-client
     depends_on:
       - custom-start-points
       - creator-server
-    user: nobody
     image: cyberdojo/creator-client
     init: true
-    container_name: test-creator-client
     ports: [ "${CYBER_DOJO_CREATOR_DEMO_PORT}:${CYBER_DOJO_CREATOR_DEMO_PORT}" ]
     read_only: true
     restart: "no"
     tmpfs: /tmp
+    user: nobody
     volumes: [ "./test:/test/:ro" ]
 
 
@@ -25,44 +25,44 @@ services:
 
   creator-server:
     build:
-      context: app
       args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_PORT ]
+      context: src/server
+    container_name: test-creator-server
     depends_on:
       - custom-start-points
       - saver
-    user: nobody
+    environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_CREATOR_IMAGE}
     init: true
-    container_name: test-creator-server
-    environment: [ NO_PROMETHEUS ]
-    read_only: true
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
+    read_only: true
     restart: "no"
     tmpfs: /tmp
+    user: nobody
     volumes: [ "./test:/test/:ro" ]
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   custom-start-points:
-    user: nobody
+    environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
     init: true
-    environment: [ NO_PROMETHEUS ]
-    read_only: true
     ports: [ "${CYBER_DOJO_CUSTOM_START_POINTS_PORT}:${CYBER_DOJO_CUSTOM_START_POINTS_PORT}" ]
+    read_only: true
     restart: "no"
     tmpfs: /tmp
+    user: nobody
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   saver:
-    user: saver
+    environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
     init: true
-    environment: [ NO_PROMETHEUS ]
-    read_only: true
     ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
+    read_only: true
     restart: "no"
     tmpfs:
       - /cyber-dojo:uid=19663,gid=65533
       - /tmp:uid=19663,gid=65533
+    user: saver

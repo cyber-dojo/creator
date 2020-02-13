@@ -1,5 +1,0 @@
-test_server/
-test_client/
-.dockerignore
-Dockerfile
-notes.txt

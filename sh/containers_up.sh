@@ -58,16 +58,29 @@ ready_filename()
 }
 
 # - - - - - - - - - - - - - - - - - - -
+strip_known_warning()
+{
+  local -r docker_log="${1}"
+  local -r known_warning="${2}"
+  local stripped=$(echo -n "${docker_log}" | grep --invert-match -E "${known_warning}")
+  if [ "${docker_log}" != "${stripped}" ]; then
+    >&2 echo "WEB SERVER START-UP WARNING: ${known_warning}"
+  fi
+  echo "${stripped}"
+}
+
+# - - - - - - - - - - - - - - - - - - -
 warn_if_unclean()
 {
   local -r name="${1}"
-  local -r docker_log=$(docker logs "${name}" 2>&1)
+  local server_log=$(docker logs "${name}" 2>&1)
+
   local -r shadow_warning="server.rb:(.*): warning: shadowing outer local variable - filename"
-  local -r stripped=$(echo -n "${docker_log}" | grep --invert-match -E "${shadow_warning}")
-  if [ "${docker_log}" != "${stripped}" ]; then
-    echo "SERVICE START-UP WARNING: ${shadow_warning}"
-  fi
-  local -r line_count=$(echo -n "${stripped}" | grep --count '^')
+  server_log=$(strip_known_warning "${server_log}" "${shadow_warning}")
+  local -r mismatched_indent_warning="application(.*): warning: mismatched indentations at 'rescue' with 'begin'"
+  server_log=$(strip_known_warning "${server_log}" "${mismatched_indent_warning}")
+
+  local -r line_count=$(echo -n "${server_log}" | grep --count '^')
   printf "Checking ${name} started cleanly..."
   # 3 lines on Thin (Unicorn=6, Puma=6)
   #Thin web server (v1.7.2 codename Bachmanity)
@@ -77,7 +90,7 @@ warn_if_unclean()
     echo OK
   else
     echo FAIL
-    echo_docker_log "${name}" "${docker_log}"
+    echo_docker_log "${name}" "${server_log}"
     exit 42
   fi
 }
@@ -108,7 +121,7 @@ container_up_ready_and_clean()
 container_up()
 {
   local -r service_name="${1}"
-  echo
+  printf '\n'
   docker-compose \
     --file "${ROOT_DIR}/docker-compose.yml" \
     up \
@@ -119,5 +132,7 @@ container_up()
 
 # - - - - - - - - - - - - - - - - - - -
 export NO_PROMETHEUS=true
-container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT}      creator-server
-container_up_ready_and_clean ${CYBER_DOJO_CREATOR_DEMO_PORT} creator-client
+container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT} creator-server
+if [ "${1:-}" != 'server' ]; then
+  container_up_ready_and_clean ${CYBER_DOJO_CREATOR_DEMO_PORT} creator-client
+fi
