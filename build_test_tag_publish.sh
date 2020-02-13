@@ -38,8 +38,12 @@ readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )/sh"
 source ${SH_DIR}/versioner_env_vars.sh
 export $(versioner_env_vars)
 
+
+echo "${DOCKER_USER[0]}"
+exit 42
+
 ${SH_DIR}/build_images.sh
-${SH_DIR}/containers_up.sh
+${SH_DIR}/containers_up.sh "$@"
 ${SH_DIR}/test_in_containers.sh "$@"
 ${SH_DIR}/containers_down.sh
 

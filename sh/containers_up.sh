@@ -64,7 +64,7 @@ strip_known_warning()
   local -r known_warning="${2}"
   local stripped=$(echo -n "${docker_log}" | grep --invert-match -E "${known_warning}")
   if [ "${docker_log}" != "${stripped}" ]; then
-    >&2 echo "WEB SERVER START-UP WARNING: ${known_warning}"
+    >&2 echo "SERVICE START-UP WARNING: ${known_warning}"
   fi
   echo "${stripped}"
 }
