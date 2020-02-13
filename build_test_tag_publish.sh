@@ -38,14 +38,13 @@ readonly SH_DIR="$( cd "$( dirname "${0}" )" && pwd )/sh"
 source ${SH_DIR}/versioner_env_vars.sh
 export $(versioner_env_vars)
 
-
-if [ "${DOCKER_USER[0]}" == 't' ]; then
+if [ "${DOCKER_USER:0:1}" == 't' ]; then
   echo begins with t
 fi
-if [ "${DOCKER_USER[0]}" == 'c' ]; then
+if [ "${DOCKER_USER:0:1}" == 'c' ]; then
   echo begins with c
 fi
-if [ "${DOCKER_USER[0]}" == 'm' ]; then
+if [ "${DOCKER_USER:0:1}" == 'm' ]; then
   echo begins with m
 fi
 
