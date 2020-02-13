@@ -1,7 +1,7 @@
 #!/bin/bash -Ee
 
 readonly root_dir="$( cd "$( dirname "${0}" )/.." && pwd )"
-readonly my_name=creator
+readonly my_name=${root_dir##*/}
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()
