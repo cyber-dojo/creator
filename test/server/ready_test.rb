@@ -25,6 +25,4 @@ class ReadyTest < CreatorTestBase
     assert false?(creator.ready?)
   end
 
-  # - - - - - - - - - - - - - - - - -
-
 end

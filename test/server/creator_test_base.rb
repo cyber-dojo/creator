@@ -11,17 +11,11 @@ class CreatorTestBase < Id58TestBase
     super(arg)
   end
 
-  def externals
-    @externals ||= Externals.new
-  end
-
   def creator
     Creator.new(externals)
   end
 
-  def saver
-    externals.saver
-  end
+  # - - - - - - - - - - - - - - - -
 
   def group_exists?(id)
     saver.exists?(group_id_path(id))
@@ -30,6 +24,14 @@ class CreatorTestBase < Id58TestBase
   def kata_exists?(id)
     saver.exists?(kata_id_path(id))
   end
+
+  def saver
+    externals.saver
+  end
+
+  include IdPather
+
+  # - - - - - - - - - - - - - - - -
 
   def any_manifest
     custom.manifest(any_display_name)
@@ -43,6 +45,8 @@ class CreatorTestBase < Id58TestBase
     CustomStartPoints.new(externals.http)
   end
 
+  # - - - - - - - - - - - - - - - -
+
   def true?(b)
     b.is_a?(TrueClass)
   end
@@ -51,8 +55,10 @@ class CreatorTestBase < Id58TestBase
     b.is_a?(FalseClass)
   end
 
-  private
+  # - - - - - - - - - - - - - - - -
 
-  include IdPather # group_id_path, kata_id_path
+  def externals
+    @externals ||= Externals.new
+  end
 
 end

@@ -25,4 +25,12 @@ class Creator
     @http.get(__method__, {})
   end
 
+  def create_group(manifest)
+    @http.post(__method__, {manifest:manifest})
+  end
+
+  def create_kata(manifest)
+    @http.post(__method__, {manifest:manifest})
+  end
+
 end

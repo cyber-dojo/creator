@@ -1,28 +1,30 @@
-Run options: --seed 14554
+Run options: --seed 33655
 
 # Running:
 
-...
+.....
 
-Finished in 0.011253s, 266.6047 runs/s, 266.6047 assertions/s.
+Finished in 0.034770s, 143.8005 runs/s, 143.8005 assertions/s.
 
-3 runs, 3 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 2772 / 5400 LOC (51.33%) covered.
+5 runs, 5 assertions, 0 failures, 0 errors, 0 skips
+Coverage report generated for MiniTest to /tmp/reports. 2831 / 5451 LOC (51.94%) covered.
 
-Slowest 3 tests are...
-0.0039 - A8615D:ready_test.rb:12:its ready                                       
-0.0019 - de3p23:sha_test.rb:12:sha is 40-char git commit sha                     
-0.0018 - a8715d:alive_test.rb:12:its alive                                       
+Slowest 5 tests are...
+0.0122 - 26F703:creator_test.rb:20:/create_kata returns the id of a newly created kata
+0.0115 - 26F702:creator_test.rb:12:/create_group returns the id of a newly created group
+0.0034 - A8615D:ready_test.rb:12:its ready                                       
+0.0019 - a8715d:alive_test.rb:12:its alive                                       
+0.0016 - de3p23:sha_test.rb:12:sha is 40-char git commit sha                     
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.01   <=     2 | [32m true [0m
-                    tests |       3   >=     1 | [32m true [0m
-         coverage(app)[%] |   82.73   >=   100 | [31m false [0m
+        duration(test)[s] |    0.03   <=     2 | [32m true [0m
+                    tests |       5   >=     1 | [32m true [0m
+         coverage(app)[%] |   90.63   >=   100 | [31m false [0m
         coverage(test)[%] |   100.0   >=   100 | [32m true [0m
-   lines(test)/lines(app) |    0.22   >=   1.5 | [31m false [0m
-     hits(app)/hits(test) |    0.31   >=   2.2 | [31m false [0m
+   lines(test)/lines(app) |    0.27   >=   1.5 | [31m false [0m
+     hits(app)/hits(test) |    0.83   >=   2.2 | [31m false [0m
 
