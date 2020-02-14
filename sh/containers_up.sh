@@ -37,6 +37,7 @@ curl_ready()
   local -r url="http://${IP_ADDRESS}:${port}/${path}"
   rm -f "$(ready_filename)"
   curl \
+    --data "{}" \
     --fail \
     --output $(ready_filename) \
     --silent \

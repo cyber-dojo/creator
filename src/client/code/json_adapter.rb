@@ -12,11 +12,7 @@ module JsonAdapter
   end
 
   def self.parse(s)
-    if s === ''
-      {}
-    else
-      JSON.parse!(s)
-    end
+    JSON.parse!(s)
   end
 
   ParseError = JSON::ParserError
