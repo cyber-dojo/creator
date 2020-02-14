@@ -1,21 +1,21 @@
-Run options: --seed 23946
+Run options: --seed 29616
 
 # Running:
 
-........
+...........
 
-Finished in 0.054644s, 146.4030 runs/s, 146.4030 assertions/s.
+Finished in 0.052489s, 209.5664 runs/s, 266.7209 assertions/s.
 
-8 runs, 8 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 2876 / 5459 LOC (52.68%) covered.
+11 runs, 14 assertions, 0 failures, 0 errors, 0 skips
+Coverage report generated for MiniTest to /tmp/reports. 2915 / 5489 LOC (53.11%) covered.
 
 Slowest 5 tests are...
-0.0147 - 26F702:creator_test.rb:12:create_group returns the id of a newly created group
-0.0138 - 26F703:creator_test.rb:20:create_kata returns the id of a newly created kata
-0.0056 - a8715d:alive_test.rb:12:its alive                                       
-0.0035 - A8615D:ready_test.rb:12:its ready                                       
-0.0027 - 26F45e:creator_test.rb:28:create_group with a null manifest raises      
-0.0026 - 26F45b:creator_test.rb:46:saver.exists?(nil) raises                     
+0.0164 - 26F703:creator_test.rb:21:create_kata returns the id of a newly created kata
+0.0128 - 26F702:creator_test.rb:13:create_group returns the id of a newly created group
+0.0040 - A8615D:ready_test.rb:12:its ready                                       
+0.0029 - 26F45b:creator_test.rb:48:saver.exists?(nil) raises                     
+0.0026 - 26F45e:creator_test.rb:30:create_group with a null manifest raises      
+0.0022 - 26F45a:creator_test.rb:39:custom.manifest(unknown_name) raises          
 
 
                  failures |       0   <=     0 | [32m true [0m
@@ -23,9 +23,9 @@ Slowest 5 tests are...
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
         duration(test)[s] |    0.05   <=     2 | [32m true [0m
-                    tests |       8   >=     1 | [32m true [0m
-         coverage(app)[%] |   96.83   >=   100 | [31m false [0m
+                    tests |      11   >=     1 | [32m true [0m
+         coverage(app)[%] |   100.0   >=   100 | [32m true [0m
         coverage(test)[%] |   100.0   >=   100 | [32m true [0m
-   lines(test)/lines(app) |    0.35   >=   1.5 | [31m false [0m
-     hits(app)/hits(test) |    1.14   >=   2.2 | [31m false [0m
+   lines(test)/lines(app) |    0.59   >=   0.5 | [32m true [0m
+     hits(app)/hits(test) |    1.70   >=   1.6 | [32m true [0m
 
