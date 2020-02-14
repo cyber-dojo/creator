@@ -9,7 +9,7 @@ class ShaTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'p23', %w( /sha is 40-char git commit sha ) do
+  test 'p23', %w( sha is 40-char git commit sha ) do
     sha = creator.sha
     assert git_sha?(sha), sha
   end
@@ -17,10 +17,12 @@ class ShaTest < CreatorTestBase
   private
 
   def git_sha?(s)
-    s.size === 40 && s.each_char.all?{ |ch| is_hex?(ch) }
+    s.is_a?(String) &&
+      s.size === 40 &&
+        s.each_char.all?{ |ch| is_lo_hex?(ch) }
   end
 
-  def is_hex?(ch)
+  def is_lo_hex?(ch)
     '0123456789abcdef'.include?(ch)
   end
 
