@@ -16,4 +16,12 @@ class CreatorTestBase < Id58TestBase
     @externals ||= Externals.new
   end
 
+  def true?(b)
+    b.is_a?(TrueClass)
+  end
+
+  def false?(b)
+    b.is_a?(FalseClass)
+  end
+
 end

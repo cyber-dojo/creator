@@ -11,9 +11,7 @@ class AliveTest < CreatorTestBase
 
   test '15d',
   %w( its alive ) do
-    alive = creator.alive?
-    assert alive.is_a?(TrueClass) || alive.is_a?(FalseClass)
-    assert alive
+    assert true?(creator.alive?)
   end
 
 end

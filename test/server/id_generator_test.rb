@@ -97,7 +97,8 @@ class IdGeneratorTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '13e', %w(
-  kata-id generation tries 42 times and then gives up and returns nil
+  kata-id generation tries 42 times
+  and then gives up and returns nil
   and you either have the worst random-number generator ever
   or you are the unluckiest person ever
   ) do
@@ -108,7 +109,8 @@ class IdGeneratorTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '13f', %w(
-  group-id generation tries 42 times and then gives up and returns nil
+  group-id generation tries 42 times
+  and then gives up and returns nil
   and you either have the worst random-number generator ever
   or you are the unluckiest person ever
   ) do
@@ -138,10 +140,10 @@ class IdGeneratorTest < CreatorTestBase
     refute id?({})
     refute id?([])
     refute id?(25)
-    refute id?('I'), :India
-    refute id?('i'), :india
-    refute id?('O'), :Oscar
-    refute id?('o'), :oscar
+    refute id?('I'), :India_uppercase_is_excluded
+    refute id?('i'), :india_lowercase_is_excluded
+    refute id?('O'), :Oscar_uppercase_is_excluded
+    refute id?('o'), :oscar_lowercase_is_excluded
     refute id?('12345'), :not_length_6
     refute id?('1234567'), :not_length_6
   end

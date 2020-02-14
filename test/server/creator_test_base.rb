@@ -43,6 +43,14 @@ class CreatorTestBase < Id58TestBase
     CustomStartPoints.new(externals.http)
   end
 
+  def true?(b)
+    b.is_a?(TrueClass)
+  end
+
+  def false?(b)
+    b.is_a?(FalseClass)
+  end
+
   private
 
   include IdPather # group_id_path, kata_id_path

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
+require 'ostruct'
 
 class ReadyTest < CreatorTestBase
 
@@ -10,12 +11,20 @@ class ReadyTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '15D',
-  %w( its ready ) do
-    ready = creator.ready?
-    assert ready.is_a?(TrueClass) || ready.is_a?(FalseClass)
-    assert ready
+  %w( its ready when saver is ready ) do
+    assert true?(creator.ready?)
   end
 
-  #TODO: not ready when saver service is not ready
-  
+  # - - - - - - - - - - - - - - - - -
+
+  test '15E',
+  %w( its not ready when saver is not ready ) do
+    externals.instance_exec {
+      @saver = OpenStruct.new(:ready? => false)
+    }
+    assert false?(creator.ready?)
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
 end

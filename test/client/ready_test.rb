@@ -10,9 +10,7 @@ class ReadyTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '15D', 'its ready' do
-    ready = creator.ready?
-    assert ready.is_a?(TrueClass) || ready.is_a?(FalseClass)
-    assert ready
+    assert true?(creator.ready?)
   end
 
 end
