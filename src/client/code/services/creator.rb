@@ -13,7 +13,15 @@ class Creator
     @http = HttpJson::service(http, 'creator-server', 4523, Error)
   end
 
+  def alive?
+    @http.get(__method__, {})
+  end
+
   def ready?
+    @http.get(__method__, {})
+  end
+
+  def sha
     @http.get(__method__, {})
   end
 

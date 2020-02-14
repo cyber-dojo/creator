@@ -35,7 +35,7 @@ curl_json()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-demo_api()
+api_demo()
 {
   local -r manifest=$(manifest_slow)
   printf 'API\n'
@@ -52,6 +52,6 @@ export $(versioner_env_vars)
 ${SH_DIR}/build_images.sh
 ${SH_DIR}/containers_up.sh
 printf '\n'
-demo_api
+api_demo
 printf '\n'
 ${SH_DIR}/containers_down.sh
