@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
-require_src 'json_adapter'
+require_src 'json_hash'
 require 'net/http'
 require 'ostruct'
 
@@ -65,7 +65,7 @@ class DependentServiceTest < CreatorTestBase
       creator.ready?
     }
     expected = { "oops" => 42 }
-    assert_equal(expected, JsonAdapter::parse(error.message), error.message)
+    assert_equal(expected, JsonHash::parse(error.message), error.message)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

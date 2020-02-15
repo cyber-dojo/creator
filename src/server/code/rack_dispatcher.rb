@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative 'services/http_json/error'
 require_relative 'http_json_args'
-require_relative 'json_adapter'
+require_relative 'json_hash'
 
 class RackDispatcher
 
@@ -27,9 +27,9 @@ class RackDispatcher
 
   def json_response(status, json)
     if status === 200
-      body = JsonAdapter::fast(json)
+      body = JsonHash::fast(json)
     else
-      body = JsonAdapter::pretty(json)
+      body = JsonHash::pretty(json)
       $stderr.puts(body)
     end
     [ status,

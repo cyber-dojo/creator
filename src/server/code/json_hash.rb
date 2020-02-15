@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'json'
 
-module JsonAdapter
+module JsonHash
 
   def self.fast(obj)
     JSON.fast_generate(obj)

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative 'id_generator'
 require_relative 'id_pather'
-require_relative 'json_adapter'
+require_relative 'json_hash'
 require_relative 'saver_asserter'
 
 class Creator
@@ -62,7 +62,7 @@ class Creator
   include IdPather # group_id_path, kata_id_path
 
   def pretty_json(obj)
-    JsonAdapter::pretty(obj)
+    JsonHash::pretty(obj)
   end
 
   #- - - - - - - - - - - - - - - - - -

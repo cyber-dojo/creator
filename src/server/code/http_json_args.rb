@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 require_relative 'services/http_json/error'
-require_relative 'json_adapter'
+require_relative 'json_hash'
 
 class HttpJsonArgs
 
   def initialize(body)
-    @args = JsonAdapter::parse(body)
+    @args = JsonHash::parse(body)
     unless @args.is_a?(Hash)
       raise request_error('body is not JSON Hash')
     end
-  rescue JsonAdapter::ParseError
+  rescue JsonHash::ParseError
     raise request_error('body is not JSON')
   end
 

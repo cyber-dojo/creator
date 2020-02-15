@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative '../../json_adapter'
+require_relative '../../json_hash'
 
 module HttpJson
 
@@ -36,7 +36,7 @@ module HttpJson
         fail error_msg(body, 'is not JSON Hash')
       end
       if json.has_key?('exception')
-        fail JsonAdapter::pretty(json['exception'])
+        fail JsonHash::pretty(json['exception'])
       end
       unless json.has_key?(path)
         fail error_msg(body, "has no key for '#{path}'")
@@ -47,8 +47,8 @@ module HttpJson
     # - - - - - - - - - - - - - - - - - - - - -
 
     def json_parse(body)
-      JsonAdapter::parse(body)
-    rescue JsonAdapter::ParseError
+      JsonHash::parse(body)
+    rescue JsonHash::ParseError
       fail error_msg(body, 'is not JSON')
     end
 
