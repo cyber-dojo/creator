@@ -12,29 +12,30 @@ class HttpJsonArgsTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'A04', %w(
-  ctor raises HttpJsonXXXXXX::Error when its string-arg is invalid JSON ) do
+  when its string-arg is invalid JSON
+  ctor raises JsonHash::Http::Requester::Error
+  ) do
     expected = 'body is not JSON'
-    # abc is not a valid top-level json element
     error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new('abc')
     }
-    assert_equal expected, error.message
-    # nil is null in json
+    assert_equal expected, error.message, :not_top_level_JSON
     error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new('{"x":nil}')
     }
-    assert_equal expected, error.message
-    # keys have to be strings in json
+    assert_equal expected, error.message, :nil_is_null_in_JSON
     error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new('{42:"answer"}')
     }
-    assert_equal expected, error.message
+    assert_equal expected, error.message, :JSON_keys_must_be_strings
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test 'A05', %w(
-  ctor raises HttpJsonXXXXX::Error when its string-arg is not a JSON Hash ) do
+  when its string-arg is not a JSON Hash
+  ctor raises JsonHash::Http::Requester::Error
+  ) do
     expected = 'body is not JSON Hash'
     error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new('[]')
@@ -96,7 +97,10 @@ class HttpJsonArgsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'C14', %w( unknown path raises HttpJsonXXXXXXX::Error ) do
+  test 'C14', %w(
+  unknown path
+  raises JsonHash::Http::Requester::Error
+  ) do
     error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new('').get('/unknown_path')
     }
@@ -107,13 +111,17 @@ class HttpJsonArgsTest < CreatorTestBase
   # missing arguments
   # - - - - - - - - - - - - - - - - -
 
-  test '7B1',
-  %w( /create_group with missing manifest arg raises HttpJsonXXXXX::Error ) do
+  test '7B1', %w(
+  /create_group with missing manifest arg
+  raises JsonHash::Http::Requester::Error
+  ) do
     assert_missing_manifest('/create_group')
   end
 
-  test '7B2',
-  %w( /create_kata with missing manifest arg raises HttpJsonXXXXX::Error ) do
+  test '7B2', %w(
+  /create_kata with missing manifest arg
+  raises JsonHash::Http::Requester::Error
+  ) do
     assert_missing_manifest('/create_kata')
   end
 
