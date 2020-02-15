@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'json_hash_http/service'
+require_relative 'json_hash/http/service'
 
 class Saver
 
@@ -10,7 +10,7 @@ class Saver
   end
 
   def initialize(http)
-    @http = JsonHashHttp::service(http, 'saver', 4537, Error)
+    @http = JsonHash::Http::service(http, 'saver', 4537, Error)
   end
 
   def ready?

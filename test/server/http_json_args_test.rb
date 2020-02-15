@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
 require_src 'http_json_args'
-require_src 'services/json_hash_http/requester'
+require_src 'services/json_hash/http/requester'
 
 class HttpJsonArgsTest < CreatorTestBase
 
@@ -15,17 +15,17 @@ class HttpJsonArgsTest < CreatorTestBase
   ctor raises HttpJsonXXXXXX::Error when its string-arg is invalid JSON ) do
     expected = 'body is not JSON'
     # abc is not a valid top-level json element
-    error = assert_raises(JsonHashHttp::Requester::Error) {
+    error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new('abc')
     }
     assert_equal expected, error.message
     # nil is null in json
-    error = assert_raises(JsonHashHttp::Requester::Error) {
+    error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new('{"x":nil}')
     }
     assert_equal expected, error.message
     # keys have to be strings in json
-    error = assert_raises(JsonHashHttp::Requester::Error) {
+    error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new('{42:"answer"}')
     }
     assert_equal expected, error.message
@@ -36,7 +36,7 @@ class HttpJsonArgsTest < CreatorTestBase
   test 'A05', %w(
   ctor raises HttpJsonXXXXX::Error when its string-arg is not a JSON Hash ) do
     expected = 'body is not JSON Hash'
-    error = assert_raises(JsonHashHttp::Requester::Error) {
+    error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new('[]')
     }
     assert_equal expected, error.message
@@ -97,7 +97,7 @@ class HttpJsonArgsTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'C14', %w( unknown path raises HttpJsonXXXXXXX::Error ) do
-    error = assert_raises(JsonHashHttp::Requester::Error) {
+    error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new('').get('/unknown_path')
     }
     assert_equal 'unknown path', error.message
@@ -120,7 +120,7 @@ class HttpJsonArgsTest < CreatorTestBase
   private
 
   def assert_missing_manifest(path)
-    error = assert_raises(JsonHashHttp::Requester::Error) {
+    error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new({}.to_json).get(path)
     }
     assert_equal 'manifest is missing', error.message
