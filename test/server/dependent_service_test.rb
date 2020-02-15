@@ -15,10 +15,8 @@ class DependentServiceTest < CreatorTestBase
   test 'E30', %w(
   when dependent service POST response body is not JSON Hash
   then dependent::Error is raised ) do
-    manifest = any_manifest
-    body = 'x'
-    externals.instance_exec { @http = ExternalHttpStub.new(body) }
-    error = assert_raises(ExternalSaver::Error) { creator.create_group(manifest) }
+    manifest = any_manifest # makes http request, so before stub is set
+    error = stub_http_response('x') { creator.create_group(manifest) }
     assert_equal 'not JSON:x', error.message
   end
 
@@ -27,9 +25,7 @@ class DependentServiceTest < CreatorTestBase
   test 'E31', %w(
   when dependent service GET response body is not JSON
   then dependent::Error is raised ) do
-    body = 'y'
-    externals.instance_exec { @http = ExternalHttpStub.new(body) }
-    error = assert_raises(ExternalSaver::Error) { creator.ready? }
+    error = stub_http_response('y') { creator.ready? }
     assert_equal 'not JSON:y', error.message
   end
 
@@ -38,9 +34,7 @@ class DependentServiceTest < CreatorTestBase
   test 'E32', %w(
   when dependent service response body is not JSON Hash
   then dependent::Error is raised ) do
-    body = '[]'
-    externals.instance_exec { @http = ExternalHttpStub.new(body) }
-    error = assert_raises(ExternalSaver::Error) { creator.ready? }
+    error = stub_http_response('[]') { creator.ready? }
     assert_equal 'not JSON Hash:[]', error.message
   end
 
@@ -50,8 +44,7 @@ class DependentServiceTest < CreatorTestBase
   when dependent service response body has exception key
   then dependent::Error is raised with the exception value as error.message ) do
     body = '{"exception":{"oops":42}}'
-    externals.instance_exec { @http = ExternalHttpStub.new(body) }
-    error = assert_raises(ExternalSaver::Error) { creator.ready? }
+    error = stub_http_response(body) { creator.ready? }
     expected = { "oops" => 42 }
     assert_equal(expected, JSON::parse(error.message), error.message)
   end
@@ -62,12 +55,16 @@ class DependentServiceTest < CreatorTestBase
   when dependent service response body does not have key matching the path
   then dependent::Error is raised with no path as error.message ) do
     body = '{"unready?":true}'
-    externals.instance_exec { @http = ExternalHttpStub.new(body) }
-    error = assert_raises(ExternalSaver::Error) { creator.ready? }
+    error = stub_http_response(body) { creator.ready? }
     assert_equal "no key for 'ready?':#{body}", error.message
   end
 
   private
+
+  def stub_http_response(body)
+    externals.instance_exec { @http = ExternalHttpStub.new(body) }
+    assert_raises(ExternalSaver::Error) { yield }
+  end
 
   class ExternalHttpStub
     def initialize(body)
