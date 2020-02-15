@@ -2,7 +2,7 @@
 require_relative 'requester'
 require_relative 'responder'
 
-module HttpJson
+module HttpJsonHash
 
   def self.service(http, hostname, port, exception_class)
     requester = Requester.new(http, hostname, port)

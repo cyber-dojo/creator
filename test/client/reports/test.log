@@ -1,21 +1,21 @@
-Run options: --seed 51644
+Run options: --seed 28762
 
 # Running:
 
 ...........
 
-Finished in 0.062018s, 177.3673 runs/s, 225.7402 assertions/s.
+Finished in 0.055799s, 197.1366 runs/s, 250.9011 assertions/s.
 
 11 runs, 14 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to /tmp/reports. 2924 / 5498 LOC (53.18%) covered.
 
 Slowest 5 tests are...
-0.0220 - 26F703:create_test.rb:20:create_kata returns the id of a newly created kata
-0.0136 - 26F702:create_test.rb:12:create_group returns the id of a newly created group
-0.0040 - A8615D:ready_test.rb:12:its ready                                       
-0.0032 - 16F45e:bad_request_raises_test.rb:12:create_group(manifest=nil) raises  
-0.0028 - 16F45a:bad_request_raises_test.rb:21:custom.manifest(name='unknown') raises
-0.0027 - 16F45b:bad_request_raises_test.rb:30:saver.exists?(key=nil) raises      
+0.0163 - 26F703:create_test.rb:20:create_kata returns the id of a newly created kata
+0.0155 - 26F702:create_test.rb:12:create_group returns the id of a newly created group
+0.0035 - 16F45e:bad_request_raises_test.rb:12:create_group(manifest=nil) raises  
+0.0034 - A8615D:ready_test.rb:12:its ready                                       
+0.0023 - 16F45b:bad_request_raises_test.rb:30:saver.exists?(key=nil) raises      
+0.0020 - 16F45a:bad_request_raises_test.rb:21:custom.manifest(name='unknown') raises
 
 
                  failures |       0   <=     0 | [32m true [0m

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'services/http_json/error'
+require_relative 'services/http_json_hash/error'
 require_relative 'json_hash'
 
 class HttpJsonArgs
@@ -54,7 +54,7 @@ class HttpJsonArgs
   def request_error(text)
     # Exception messages use the words 'body' and 'path'
     # to match RackDispatcher's exception keys.
-    HttpJson::Error.new(text)
+    HttpJsonHash::Error.new(text)
   end
 
 end
