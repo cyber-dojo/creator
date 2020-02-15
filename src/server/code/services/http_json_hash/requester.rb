@@ -6,6 +6,12 @@ module HttpJsonHash
 
   class Requester
 
+    class Error < RuntimeError
+      def initialize(message)
+        super
+      end
+    end
+
     def initialize(http, hostname, port)
       @http = http
       @hostname = hostname

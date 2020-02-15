@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
 require_src 'http_json_args'
-require_src 'services/http_json_hash/error'
+require_src 'services/http_json_hash/requester'
 
 class HttpJsonArgsTest < CreatorTestBase
 
@@ -12,20 +12,20 @@ class HttpJsonArgsTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'A04', %w(
-  ctor raises HttpJson::Error when its string-arg is invalid JSON ) do
+  ctor raises HttpJsonXXXXXX::Error when its string-arg is invalid JSON ) do
     expected = 'body is not JSON'
     # abc is not a valid top-level json element
-    error = assert_raises(HttpJsonHash::Error) {
+    error = assert_raises(HttpJsonHash::Requester::Error) {
       HttpJsonArgs.new('abc')
     }
     assert_equal expected, error.message
     # nil is null in json
-    error = assert_raises(HttpJsonHash::Error) {
+    error = assert_raises(HttpJsonHash::Requester::Error) {
       HttpJsonArgs.new('{"x":nil}')
     }
     assert_equal expected, error.message
     # keys have to be strings in json
-    error = assert_raises(HttpJsonHash::Error) {
+    error = assert_raises(HttpJsonHash::Requester::Error) {
       HttpJsonArgs.new('{42:"answer"}')
     }
     assert_equal expected, error.message
@@ -34,9 +34,9 @@ class HttpJsonArgsTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'A05', %w(
-  ctor raises HttpJson::Error when its string-arg is not a JSON Hash ) do
+  ctor raises HttpJsonXXXXX::Error when its string-arg is not a JSON Hash ) do
     expected = 'body is not JSON Hash'
-    error = assert_raises(HttpJsonHash::Error) {
+    error = assert_raises(HttpJsonHash::Requester::Error) {
       HttpJsonArgs.new('[]')
     }
     assert_equal expected, error.message
@@ -96,8 +96,8 @@ class HttpJsonArgsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'C14', %w( unknown path raises HttpJson::Error ) do
-    error = assert_raises(HttpJsonHash::Error) {
+  test 'C14', %w( unknown path raises HttpJsonXXXXXXX::Error ) do
+    error = assert_raises(HttpJsonHash::Requester::Error) {
       HttpJsonArgs.new('').get('/unknown_path')
     }
     assert_equal 'unknown path', error.message
@@ -108,19 +108,19 @@ class HttpJsonArgsTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '7B1',
-  %w( /create_group with missing manifest arg raises HttpJson::Error ) do
+  %w( /create_group with missing manifest arg raises HttpJsonXXXXX::Error ) do
     assert_missing_manifest('/create_group')
   end
 
   test '7B2',
-  %w( /create_kata with missing manifest arg raises HttpJson::Error ) do
+  %w( /create_kata with missing manifest arg raises HttpJsonXXXXX::Error ) do
     assert_missing_manifest('/create_kata')
   end
 
   private
 
   def assert_missing_manifest(path)
-    error = assert_raises(HttpJsonHash::Error) {
+    error = assert_raises(HttpJsonHash::Requester::Error) {
       HttpJsonArgs.new({}.to_json).get(path)
     }
     assert_equal 'manifest is missing', error.message
