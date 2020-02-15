@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'services/http_json_hash/requester'
+require_relative 'services/json_hash_http/requester'
 require_relative 'http_json_args'
 require_relative 'json_hash'
 
@@ -17,7 +17,7 @@ class RackDispatcher
     name,args = HttpJsonArgs.new(body).get(path)
     result = @creator.public_send(name, *args)
     json_response(200, { name => result })
-  rescue HttpJsonHash::Requester::Error => error
+  rescue JsonHashHttp::Requester::Error => error
     json_response(400, diagnostic(path, body, error))
   rescue Exception => error
     json_response(500, diagnostic(path, body, error))

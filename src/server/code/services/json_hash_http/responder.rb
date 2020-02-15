@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative '../../json_hash'
 
-module HttpJsonHash
+module JsonHashHttp
 
   class Responder
 

@@ -2,7 +2,7 @@
 require_relative '../../json_hash'
 require 'uri'
 
-module HttpJsonHash
+module JsonHashHttp
 
   class Requester
 

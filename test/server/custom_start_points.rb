@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_src 'services/http_json_hash/service'
+require_src 'services/json_hash_http/service'
 
 class CustomStartPoints
 
@@ -10,7 +10,7 @@ class CustomStartPoints
   end
 
   def initialize(http)
-    @http = HttpJsonHash::service(http, 'custom-start-points', 4526, Error)
+    @http = JsonHashHttp::service(http, 'custom-start-points', 4526, Error)
   end
 
   def display_names
