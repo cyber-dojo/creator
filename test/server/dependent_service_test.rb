@@ -2,7 +2,6 @@
 require_relative 'creator_test_base'
 require_src 'external_saver'
 require 'json'
-require 'net/http'
 require 'ostruct'
 
 class DependentServiceTest < CreatorTestBase
@@ -18,7 +17,7 @@ class DependentServiceTest < CreatorTestBase
   then dependent::Error is raised ) do
     manifest = any_manifest
     externals.instance_exec {
-      @http = HttpResponseBodyStub.new('x')
+      @http = ExternalHttpStub.new('x')
     }
     error = assert_raises(ExternalSaver::Error) {
       creator.create_group(manifest)
@@ -32,7 +31,7 @@ class DependentServiceTest < CreatorTestBase
   when dependent service GET response body is not JSON
   then dependent::Error is raised ) do
     externals.instance_exec {
-      @http = HttpResponseBodyStub.new('y')
+      @http = ExternalHttpStub.new('y')
     }
     error = assert_raises(ExternalSaver::Error) {
       creator.ready?
@@ -46,7 +45,7 @@ class DependentServiceTest < CreatorTestBase
   when dependent service response body is not JSON Hash
   then dependent::Error is raised ) do
     externals.instance_exec {
-      @http = HttpResponseBodyStub.new('[]')
+      @http = ExternalHttpStub.new('[]')
     }
     error = assert_raises(ExternalSaver::Error) {
       creator.ready?
@@ -60,7 +59,7 @@ class DependentServiceTest < CreatorTestBase
   when dependent service response body has exception key
   then dependent::Error is raised with the exception value as error.message ) do
     externals.instance_exec {
-      @http = HttpResponseBodyStub.new('{"exception":{"oops":42}}')
+      @http = ExternalHttpStub.new('{"exception":{"oops":42}}')
     }
     error = assert_raises(ExternalSaver::Error) {
       creator.ready?
@@ -76,7 +75,7 @@ class DependentServiceTest < CreatorTestBase
   then dependent::Error is raised with no path as error.message ) do
     body = '{"unready?":true}'
     externals.instance_exec {
-      @http = HttpResponseBodyStub.new(body)
+      @http = ExternalHttpStub.new(body)
     }
     error = assert_raises(ExternalSaver::Error) {
       creator.ready?
@@ -86,15 +85,15 @@ class DependentServiceTest < CreatorTestBase
 
   private
 
-  class HttpResponseBodyStub
+  class ExternalHttpStub
     def initialize(body)
       @body = body
     end
-    def get(uri)
-      Net::HTTP::Get.new(uri)
+    def get(_uri)
+      OpenStruct.new
     end
-    def post(uri)
-      Net::HTTP::Post.new(uri)
+    def post(_uri)
+      OpenStruct.new
     end
     def start(_hostname, _port, _req)
       OpenStruct.new(body:@body)
