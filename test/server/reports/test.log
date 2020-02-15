@@ -1,31 +1,31 @@
-Run options: --seed 48122
+Run options: --seed 40620
 
 # Running:
 
 ......................................................
 
-Finished in 0.494446s, 109.2132 runs/s, 394.3810 assertions/s.
+Finished in 0.567283s, 95.1905 runs/s, 343.7436 assertions/s.
 
 54 runs, 195 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to /tmp/reports. 3406 / 5966 LOC (57.09%) covered.
 
 Slowest 5 tests are...
-0.2167 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
-0.1380 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
-0.0164 - 4AF134:rack_dispatcher_test.rb:42:/create_group 200                     
-0.0150 - 26F703:creator_test.rb:20:/create_kata returns the id of a newly created kata
-0.0150 - 26F702:creator_test.rb:12:/create_group returns the id of a newly created group
-0.0101 - 4AF135:rack_dispatcher_test.rb:51:/create_kata 200                      
+0.2733 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
+0.1579 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
+0.0192 - 4AF135:rack_dispatcher_test.rb:51:/create_kata 200                      
+0.0110 - 26F703:creator_test.rb:20:/create_kata returns the id of a newly created kata
+0.0109 - 4AF134:rack_dispatcher_test.rb:42:/create_group 200                     
+0.0103 - 26F702:creator_test.rb:12:/create_group returns the id of a newly created group
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.49   <=     2 | [32m true [0m
+        duration(test)[s] |    0.57   <=     2 | [32m true [0m
                     tests |      54   >=     1 | [32m true [0m
          coverage(app)[%] |   100.0   >=   100 | [32m true [0m
         coverage(test)[%] |   100.0   >=   100 | [32m true [0m
    lines(test)/lines(app) |    1.31   >=   1.2 | [32m true [0m
-     hits(app)/hits(test) |    3.30   >=   2.7 | [32m true [0m
+     hits(app)/hits(test) |    3.63   >=   2.7 | [32m true [0m
 

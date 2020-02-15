@@ -34,13 +34,13 @@ module JsonHash
       def unpacked(body, path)
         json = json_parse(body)
         unless json.is_a?(Hash)
-          fail error_msg(body, 'is not JSON Hash')
+          fail error_msg(body, 'not JSON Hash')
         end
         if json.has_key?('exception')
           fail JsonHash::Generator::pretty(json['exception'])
         end
         unless json.has_key?(path)
-          fail error_msg(body, "has no key for '#{path}'")
+          fail error_msg(body, "no key for '#{path}'")
         end
         json[path]
       end
@@ -50,13 +50,14 @@ module JsonHash
       def json_parse(body)
         JsonHash::Parser::parse(body)
       rescue JsonHash::Parser::Error
-        fail error_msg(body, 'is not JSON')
+        fail error_msg(body, 'not JSON')
       end
 
       # - - - - - - - - - - - - - - - - - - - - -
 
       def error_msg(body, text)
-        "http response.body #{text}:#{body}"
+        #"http response.body #{text}:#{body}"
+        "#{text}:#{body}"
       end
 
     end

@@ -23,7 +23,7 @@ class DependentServiceTest < CreatorTestBase
     error = assert_raises(ExternalSaver::Error) {
       creator.create_group(manifest)
     }
-    assert_equal 'http response.body is not JSON:x', error.message
+    assert_equal 'not JSON:x', error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -37,7 +37,7 @@ class DependentServiceTest < CreatorTestBase
     error = assert_raises(ExternalSaver::Error) {
       creator.ready?
     }
-    assert_equal 'http response.body is not JSON:y', error.message
+    assert_equal 'not JSON:y', error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -51,7 +51,7 @@ class DependentServiceTest < CreatorTestBase
     error = assert_raises(ExternalSaver::Error) {
       creator.ready?
     }
-    assert_equal 'http response.body is not JSON Hash:[]', error.message
+    assert_equal 'not JSON Hash:[]', error.message
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -81,7 +81,7 @@ class DependentServiceTest < CreatorTestBase
     error = assert_raises(ExternalSaver::Error) {
       creator.ready?
     }
-    assert_equal "http response.body has no key for 'ready?':#{body}", error.message
+    assert_equal "no key for 'ready?':#{body}", error.message
   end
 
   private
