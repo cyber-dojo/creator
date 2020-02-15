@@ -9,6 +9,6 @@ module JsonHash
       requester = Requester.new(http, hostname, port)
       Responder.new(requester, exception_class)
     end
-    
+
   end
 end

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'json_hash'
+require_relative 'services/json_hash/generator'
 require_relative 'services/saver'
 
 class SaverAsserter
@@ -14,7 +14,7 @@ class SaverAsserter
       message = results.zip(commands).map do |result,(name,arg0)|
         saver_assert_info(name, arg0, result)
       end
-      raise Saver::Error, JsonHash::pretty(message)
+      raise Saver::Error, JsonHash::Generator::pretty(message)
     end
     results
   end

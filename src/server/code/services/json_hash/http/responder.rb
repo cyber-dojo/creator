@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require_relative '../../../json_hash'
+require_relative '../generator'
+require_relative '../parser'
 
 module JsonHash
   module Http
@@ -36,7 +37,7 @@ module JsonHash
           fail error_msg(body, 'is not JSON Hash')
         end
         if json.has_key?('exception')
-          fail JsonHash::pretty(json['exception'])
+          fail JsonHash::Generator::pretty(json['exception'])
         end
         unless json.has_key?(path)
           fail error_msg(body, "has no key for '#{path}'")
@@ -47,8 +48,8 @@ module JsonHash
       # - - - - - - - - - - - - - - - - - - - - -
 
       def json_parse(body)
-        JsonHash::parse(body)
-      rescue JsonHash::ParseError
+        JsonHash::Parser::parse(body)
+      rescue JsonHash::Parser::Error
         fail error_msg(body, 'is not JSON')
       end
 
