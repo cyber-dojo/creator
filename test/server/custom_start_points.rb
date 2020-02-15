@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_src 'services/json_hash/http/service'
+require_src 'json_hash/http/service'
 
 class CustomStartPoints
 

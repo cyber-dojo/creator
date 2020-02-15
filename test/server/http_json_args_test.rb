@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
 require_src 'http_json_args'
-require_src 'services/json_hash/http/requester'
+require_src 'json_hash/http/requester'
 
 class HttpJsonArgsTest < CreatorTestBase
 

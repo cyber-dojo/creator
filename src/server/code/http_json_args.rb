@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-require_relative 'services/json_hash/http/requester'
-require_relative 'services/json_hash/parser'
+require_relative 'json_hash/http/requester'
+require_relative 'json_hash/parser'
 
 class HttpJsonArgs
 

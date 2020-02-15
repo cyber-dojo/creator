@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-require_relative 'services/json_hash/generator'
-require_relative 'services/saver'
+require_relative 'json_hash/generator'
+require_relative 'saver'
 
 class SaverAsserter
 
