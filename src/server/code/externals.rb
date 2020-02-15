@@ -1,20 +1,20 @@
 # frozen_string_literal: true
-require_relative 'http_adapter'
-require_relative 'saver'
-require_relative 'time'
+require_relative 'external_http'
+require_relative 'external_saver'
+require_relative 'external_time'
 
 class Externals
 
   def http
-    @http ||= HttpAdapter.new
+    @http ||= ExternalHttp.new
   end
 
   def saver
-    @saver ||= Saver.new(http)
+    @saver ||= ExternalSaver.new(http)
   end
 
   def time
-    @time ||= Time.new
+    @time ||= ExternalTime.new
   end
 
   def random

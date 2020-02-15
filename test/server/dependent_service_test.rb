@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
+require_src 'external_saver'
 require 'json'
 require 'net/http'
 require 'ostruct'
@@ -19,7 +20,7 @@ class DependentServiceTest < CreatorTestBase
     externals.instance_exec {
       @http = HttpResponseBodyStub.new('x')
     }
-    error = assert_raises(Saver::Error) {
+    error = assert_raises(ExternalSaver::Error) {
       creator.create_group(manifest)
     }
     assert_equal 'http response.body is not JSON:x', error.message
@@ -33,7 +34,7 @@ class DependentServiceTest < CreatorTestBase
     externals.instance_exec {
       @http = HttpResponseBodyStub.new('y')
     }
-    error = assert_raises(Saver::Error) {
+    error = assert_raises(ExternalSaver::Error) {
       creator.ready?
     }
     assert_equal 'http response.body is not JSON:y', error.message
@@ -47,7 +48,7 @@ class DependentServiceTest < CreatorTestBase
     externals.instance_exec {
       @http = HttpResponseBodyStub.new('[]')
     }
-    error = assert_raises(Saver::Error) {
+    error = assert_raises(ExternalSaver::Error) {
       creator.ready?
     }
     assert_equal 'http response.body is not JSON Hash:[]', error.message
@@ -61,7 +62,7 @@ class DependentServiceTest < CreatorTestBase
     externals.instance_exec {
       @http = HttpResponseBodyStub.new('{"exception":{"oops":42}}')
     }
-    error = assert_raises(Saver::Error) {
+    error = assert_raises(ExternalSaver::Error) {
       creator.ready?
     }
     expected = { "oops" => 42 }
@@ -77,7 +78,7 @@ class DependentServiceTest < CreatorTestBase
     externals.instance_exec {
       @http = HttpResponseBodyStub.new(body)
     }
-    error = assert_raises(Saver::Error) {
+    error = assert_raises(ExternalSaver::Error) {
       creator.ready?
     }
     assert_equal "http response.body has no key for 'ready?':#{body}", error.message

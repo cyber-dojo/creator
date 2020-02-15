@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative 'json_hash/http/service'
 
-class Saver
+class ExternalSaver
 
   class Error < RuntimeError
     def initialize(message)

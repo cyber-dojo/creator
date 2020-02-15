@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Time
+class ExternalTime
 
   def now
     t = Time.now

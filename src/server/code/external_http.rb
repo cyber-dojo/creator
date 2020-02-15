@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'net/http'
 
-class HttpAdapter
+class ExternalHttp
 
   def get(uri)
     KLASS::Get.new(uri)
