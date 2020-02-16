@@ -6,7 +6,7 @@ require_src 'json_hash/http/requester'
 class HttpJsonArgsTest < CreatorTestBase
 
   def self.id58_prefix
-    'EE7'
+    'wE7'
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -79,20 +79,20 @@ class HttpJsonArgsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '1BC', %w( /create_group has one arg called manifest ) do
-    manifest = any_manifest
-    body = { manifest:manifest }.to_json
-    name,args = HttpJsonArgs.new(body).get('/create_group')
-    assert_equal 'create_group', name
-    assert_equal manifest, args[0]
+  test '1BC', %w( /create_custom_group has one arg called display_name ) do
+    display_name = any(custom.display_names)
+    body = { display_name:display_name }.to_json
+    name,args = HttpJsonArgs.new(body).get('/create_custom_group')
+    assert_equal 'create_custom_group', name
+    assert_equal display_name, args[0]
   end
 
-  test '1BD', %w( /create_group has one arg called manifest ) do
-    manifest = any_manifest
-    body = { manifest:manifest }.to_json
-    name,args = HttpJsonArgs.new(body).get('/create_kata')
-    assert_equal 'create_kata', name
-    assert_equal manifest, args[0]
+  test '1BD', %w( /create_custom_kata has one arg called display_name ) do
+    display_name = any(custom.display_names)
+    body = { display_name:display_name }.to_json
+    name,args = HttpJsonArgs.new(body).get('/create_custom_kata')
+    assert_equal 'create_custom_kata', name
+    assert_equal display_name, args[0]
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -112,26 +112,26 @@ class HttpJsonArgsTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '7B1', %w(
-  /create_group with missing manifest arg
+  /create_custom_group with missing manifest arg
   raises JsonHash::Http::Requester::Error
   ) do
-    assert_missing_manifest('/create_group')
+    assert_missing_display_name('/create_custom_group')
   end
 
   test '7B2', %w(
-  /create_kata with missing manifest arg
+  /create_custom_kata with missing manifest arg
   raises JsonHash::Http::Requester::Error
   ) do
-    assert_missing_manifest('/create_kata')
+    assert_missing_display_name('/create_custom_kata')
   end
 
   private
 
-  def assert_missing_manifest(path)
+  def assert_missing_display_name(path)
     error = assert_raises(JsonHash::Http::Requester::Error) {
       HttpJsonArgs.new({}.to_json).get(path)
     }
-    assert_equal 'manifest is missing', error.message
+    assert_equal 'display_name is missing', error.message
   end
 
 end

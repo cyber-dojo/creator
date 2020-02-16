@@ -55,16 +55,16 @@ ready_response()
 # - - - - - - - - - - - - - - - - - - -
 ready_filename()
 {
-  printf /tmp/curl-custom-ready-output
+  printf /tmp/curl-creator-ready-output
 }
 
 # - - - - - - - - - - - - - - - - - - -
 strip_known_warning()
 {
-  local -r docker_log="${1}"
+  local -r log="${1}"
   local -r known_warning="${2}"
-  local stripped=$(echo -n "${docker_log}" | grep --invert-match -E "${known_warning}")
-  if [ "${docker_log}" != "${stripped}" ]; then
+  local stripped=$(printf "${log}" | grep --invert-match -E "${known_warning}")
+  if [ "${log}" != "${stripped}" ]; then
     >&2 echo "SERVICE START-UP WARNING: ${known_warning}"
   fi
   echo "${stripped}"
@@ -74,14 +74,14 @@ strip_known_warning()
 warn_if_unclean()
 {
   local -r name="${1}"
-  local server_log=$(docker logs "${name}" 2>&1)
+  local log=$(docker logs "${name}" 2>&1)
 
   local -r shadow_warning="server.rb:(.*): warning: shadowing outer local variable - filename"
-  server_log=$(strip_known_warning "${server_log}" "${shadow_warning}")
+  log=$(strip_known_warning "${log}" "${shadow_warning}")
   local -r mismatched_indent_warning="application(.*): warning: mismatched indentations at 'rescue' with 'begin'"
-  server_log=$(strip_known_warning "${server_log}" "${mismatched_indent_warning}")
+  log=$(strip_known_warning "${log}" "${mismatched_indent_warning}")
 
-  local -r line_count=$(echo -n "${server_log}" | grep --count '^')
+  local -r line_count=$(echo -n "${log}" | grep --count '^')
   printf "Checking ${name} started cleanly..."
   # 3 lines on Thin (Unicorn=6, Puma=6)
   #Thin web server (v1.7.2 codename Bachmanity)
@@ -91,7 +91,7 @@ warn_if_unclean()
     echo OK
   else
     echo FAIL
-    echo_docker_log "${name}" "${server_log}"
+    echo_docker_log "${name}" "${log}"
     exit 42
   fi
 }
@@ -100,10 +100,10 @@ warn_if_unclean()
 echo_docker_log()
 {
   local -r name="${1}"
-  local -r docker_log="${2}"
+  local -r log="${2}"
   echo "[docker logs ${name}]"
   echo '<docker_log>'
-  echo "${docker_log}"
+  echo "${log}"
   echo '</docker_log>'
 }
 

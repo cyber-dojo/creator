@@ -17,11 +17,11 @@ class HttpJsonArgs
 
   def get(path)
     case path
-    when '/sha'          then ['sha',[]]
-    when '/alive'        then ['alive?',[]]
-    when '/ready'        then ['ready?',[]]
-    when '/create_group' then ['create_group',[manifest]]
-    when '/create_kata'  then ['create_kata',[manifest]]
+    when '/sha'                 then ['sha',[]]
+    when '/alive'               then ['alive?',[]]
+    when '/ready'               then ['ready?',[]]
+    when '/create_custom_group' then ['create_custom_group',[display_name]]
+    when '/create_custom_kata'  then ['create_custom_kata' ,[display_name]]
     else
       raise request_error('unknown path')
     end
@@ -29,8 +29,8 @@ class HttpJsonArgs
 
   private
 
-  def manifest
-    exists_arg('manifest')
+  def display_name
+    exists_arg('display_name')
   end
 
   # - - - - - - - - - - - - - - - -

@@ -10,16 +10,18 @@ class CreateTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '702',
-  %w( create_group returns the id of a newly created group ) do
-    id = creator.create_group(any_manifest)
+  %w( create_custom_group returns the id of a newly created group ) do
+    display_name = any_display_name
+    id = creator.create_custom_group(display_name)
     assert group_exists?(id), id
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test '703',
-  %w( create_kata returns the id of a newly created kata ) do
-    id = creator.create_kata(any_manifest)
+  %w( create_custom_kata returns the id of a newly created kata ) do
+    display_name = any_display_name
+    id = creator.create_custom_kata(display_name)
     assert kata_exists?(id), id
   end
 

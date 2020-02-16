@@ -25,6 +25,10 @@ class ExternalSaver
     @http.get(__method__, { key:key })
   end
 
+  def read(key)
+    @http.get(__method__, { key:key })
+  end
+
   def batch(commands)
     @http.post(__method__, { commands:commands })
   end

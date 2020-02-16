@@ -15,8 +15,11 @@ class DependentServiceTest < CreatorTestBase
   test 'E30', %w(
   when dependent service POST response body is not JSON Hash
   then dependent::Error is raised ) do
-    manifest = any_manifest # makes http request, so before stub is set
-    error = stub_http_response('x') { creator.create_group(manifest) }
+    # [1] makes http request, so before stub is set
+    display_name = any(custom.display_names) # [1]
+    error = stub_http_response('x', ExternalSaver) {
+      creator.create_custom_group(display_name)
+    }
     assert_equal 'not JSON:x', error.message
   end
 
@@ -53,7 +56,7 @@ class DependentServiceTest < CreatorTestBase
 
   test 'E34', %w(
   when dependent service response body does not have key matching the path
-  then dependent::Error is raised with no path as error.message ) do
+  then dependent::Error is raised with no key as error.message ) do
     body = '{"unready?":true}'
     error = stub_http_response(body) { creator.ready? }
     assert_equal "no key for 'ready?':#{body}", error.message
@@ -61,9 +64,9 @@ class DependentServiceTest < CreatorTestBase
 
   private
 
-  def stub_http_response(body)
+  def stub_http_response(body, klass=ExternalCustomStartPoints)
     externals.instance_exec { @http = ExternalHttpStub.new(body) }
-    assert_raises(ExternalSaver::Error) { yield }
+    assert_raises(klass::Error) { yield }
   end
 
   class ExternalHttpStub

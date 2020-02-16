@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-require_src 'json_hash/http/service'
+require_relative 'json_hash/http/service'
 
-class CustomStartPoints
+class ExternalCustomStartPoints
 
   class Error < RuntimeError
     def initialize(message)
@@ -11,6 +11,10 @@ class CustomStartPoints
 
   def initialize(http)
     @http = JsonHash::Http::service(http, 'custom-start-points', 4526, Error)
+  end
+
+  def ready?
+    @http.get(__method__, {})
   end
 
   def display_names

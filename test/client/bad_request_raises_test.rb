@@ -10,9 +10,9 @@ class BadRequestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '45e',
-  %w( create_group(manifest=nil) raises ) do
+  %w( create_custom_group(manifest=nil) raises ) do
     assert_raises(Creator::Error) {
-      creator.create_group(nil)
+      creator.create_custom_group(nil)
     }
   end
 

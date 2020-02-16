@@ -39,20 +39,20 @@ class RackDispatcherTest < CreatorTestBase
     end
   end
 
-  test '134', '/create_group 200' do
-    manifest = any_manifest
-    args = { manifest:manifest }
-    assert_200('create_group', args) do |response|
-      id = response['create_group']
+  test '134', '/create_custom_group 200' do
+    display_name = any(custom.display_names)
+    args = { display_name:display_name }
+    assert_200('create_custom_group', args) do |response|
+      id = response['create_custom_group']
       assert group_exists?(id), id
     end
   end
 
-  test '135', '/create_kata 200' do
-    manifest = any_manifest
-    args = { manifest:manifest }
-    assert_200('create_kata', args) do |response|
-      id = response['create_kata']
+  test '135', '/create_custom_kata 200' do
+    display_name = any(custom.display_names)
+    args = { display_name:display_name }
+    assert_200('create_custom_kata', args) do |response|
+      id = response['create_custom_kata']
       assert kata_exists?(id), id
     end
   end
@@ -77,8 +77,8 @@ class RackDispatcherTest < CreatorTestBase
   end
 
   test '228',
-  '/create_group returns 400 when manifest is missing' do
-    assert_dispatch_error('create_group', {}.to_json, 400, 'manifest is missing')
+  '/create_custom_group returns 400 when display_name is missing' do
+    assert_dispatch_error('create_custom_group', {}.to_json, 400, 'display_name is missing')
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

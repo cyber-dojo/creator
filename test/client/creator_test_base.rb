@@ -31,10 +31,6 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def any_manifest
-    custom.manifest(any_display_name)
-  end
-
   def any_display_name
     custom.display_names.shuffle[0]
   end

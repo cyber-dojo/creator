@@ -19,10 +19,30 @@ class Creator
   end
 
   def ready?
-    saver.ready?
+    custom_start_points.ready? && saver.ready?
   end
 
   # - - - - - - - - - - - - - -
+
+  #def create_group(exercise_name, language_name)
+  #end
+  #def create_kata(exercise_name, language_name)
+  #end
+
+  def create_custom_group(display_name)
+    # [1] Need to make this raise if it fails so don't get to saver.create(...)
+    manifest = custom_start_points.manifest(display_name) # [1]
+    create_group(manifest)
+  end
+
+  def create_custom_kata(display_name)
+    manifest = custom_start_points.manifest(display_name)
+    create_kata(manifest)
+  end
+
+  private
+
+  include IdPather # group_id_path, kata_id_path
 
   def create_group(manifest)
     set_version(manifest)
@@ -57,9 +77,7 @@ class Creator
     id
   end
 
-  private
-
-  include IdPather # group_id_path, kata_id_path
+  #- - - - - - - - - - - - - - - - - -
 
   def pretty_json(obj)
     JsonHash::Generator::pretty(obj)
@@ -125,6 +143,10 @@ class Creator
 
   def saver_asserter
     SaverAsserter.new(saver)
+  end
+
+  def custom_start_points
+    @externals.custom_start_points
   end
 
   def saver

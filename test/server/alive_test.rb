@@ -10,7 +10,7 @@ class AliveTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '15d',
-  %w( its alive ) do
+  %w( /alive? is true ) do
     assert true?(creator.alive?)
   end
 
