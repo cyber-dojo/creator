@@ -14,6 +14,8 @@ class CreateTest < CreatorTestBase
     display_name = any_display_name
     id = creator.create_custom_group(display_name)
     assert group_exists?(id), id
+    manifest = group_manifest(id)
+    assert_equal display_name, manifest['display_name']
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -23,6 +25,8 @@ class CreateTest < CreatorTestBase
     display_name = any_display_name
     id = creator.create_custom_kata(display_name)
     assert kata_exists?(id), id
+    manifest = kata_manifest(id)
+    assert_equal display_name, manifest['display_name']
   end
 
 end

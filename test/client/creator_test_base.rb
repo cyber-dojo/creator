@@ -2,6 +2,7 @@
 require_relative '../id58_test_base'
 require_relative 'id_pather'
 require_src 'externals'
+require 'json'
 
 class CreatorTestBase < Id58TestBase
 
@@ -19,8 +20,16 @@ class CreatorTestBase < Id58TestBase
     saver.exists?(group_id_path(id))
   end
 
+  def group_manifest(id)
+    JSON::parse!(saver.read("#{group_id_path(id)}/manifest.json"))
+  end
+
   def kata_exists?(id)
     saver.exists?(kata_id_path(id))
+  end
+
+  def kata_manifest(id)
+    JSON::parse!(saver.read("#{kata_id_path(id)}/manifest.json"))
   end
 
   def saver

@@ -17,4 +17,8 @@ class Saver
     @http.get(__method__, { key:key })
   end
 
+  def read(key)
+    @http.get(__method__, { key:key })
+  end
+
 end
