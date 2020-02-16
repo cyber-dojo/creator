@@ -3,6 +3,19 @@ version: '3.7'
 
 services:
 
+  nginx:
+    build:
+      context: src/nginx_stub
+    container_name: test-creator-nginx
+    depends_on:
+      - creator-server
+    image: cyberdojo/nginx_custom_stub
+    init: true
+    ports: [ "80:80" ]
+    user: root
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   creator-client:
     build:
       args: [ CYBER_DOJO_CREATOR_CLIENT_PORT ]
@@ -19,7 +32,6 @@ services:
     tmpfs: /tmp
     user: nobody
     volumes: [ "./test:/test/:ro" ]
-
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -44,6 +56,7 @@ services:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   custom-start-points:
+    container_name: test-creator-custom-start-points
     environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
     init: true
@@ -56,6 +69,7 @@ services:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   saver:
+    container_name: test-creator-saver
     environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
     init: true

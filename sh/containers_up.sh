@@ -133,6 +133,13 @@ container_up()
 
 # - - - - - - - - - - - - - - - - - - -
 export NO_PROMETHEUS=true
+
+if [ "${1:-}" == 'demo' ]; then
+  container_up nginx
+  wait_briefly_until_ready ${CYBER_DOJO_CREATOR_PORT} creator-server
+  exit 0
+fi
+
 if [ "${1:-}" == 'server' ]; then
   container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT}        creator-server
 else
