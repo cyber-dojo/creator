@@ -8,67 +8,62 @@ readonly IP_ADDRESS=$(ip_address)
 display_name() { printf 'Java Countdown, Round 1'; }
 tab() { printf '\t'; }
 port() { printf 80; }
+new_controller() { printf custom; }
+old_controller() { printf setup_custom_start_point; }
+params_display_name() { echo -n 'display_name=Java%20Countdown%2C%20Round%201'; }
+json_display_name() { echo -n '{"display_name":"Java Countdown, Round 1"}'; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo_new_route_identity_returns_JSON_sha()
 {
-  local -r controller=custom
   printf 'API(new) identity returns JSON sha \n'
-  printf "$(tab)200 GET  ${controller}/sha    => $(curly_json GET ${controller}/sha)\n"
+  printf "$(tab)200 GET  $(new_controller)/sha => $(curly_json GET $(new_controller)/sha)\n"
   printf '\n'
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo_new_route_probing_returns_JSON_true_or_false()
 {
-  local -r controller=custom
   printf 'API(new) probing returns JSON true|false \n'
-  printf "$(tab)200 GET ${controller}/alive? => $(curly_json GET ${controller}/alive?)\n"
-  printf "$(tab)200 GET ${controller}/ready? => $(curly_json GET ${controller}/ready?)\n"
+  printf "$(tab)200 GET $(new_controller)/alive? => $(curly_json GET $(new_controller)/alive?)\n"
+  printf "$(tab)200 GET $(new_controller)/ready? => $(curly_json GET $(new_controller)/ready?)\n"
   printf '\n'
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo_new_route_create_HtmlParams_causes_redirect_302()
 {
-  local -r controller=custom
   local -r data=display_name=Java%20Countdown%2C%20Round%201
   printf "API(new) create(html.params) causes redirect (302)\n"
-  printf "$(tab)302 POST HTTP ${controller}/create_custom_group => $(curly_params_302 POST ${controller}/create_custom_group "${data}")\n"
-  printf "$(tab)302 POST HTTP ${controller}/create_custom_kata  => $(curly_params_302 POST ${controller}/create_custom_kata  "${data}")\n"
+  printf "$(tab)302 POST HTTP $(new_controller)/create_custom_group => $(curly_params_302 POST $(new_controller)/create_custom_group "$(params_display_name)")\n"
+  printf "$(tab)302 POST HTTP $(new_controller)/create_custom_kata  => $(curly_params_302 POST $(new_controller)/create_custom_kata  "$(params_display_name)")\n"
   printf '\n'
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo_new_route_create_JsonBody_returns_JSON_id()
 {
-  local -r controller=custom
-  local -r data='{"display_name":"Java Countdown, Round 1"}'
   printf "API(new) create(json.body) returns id\n"
-  printf "$(tab)200 POST JSON ${controller}/create_custom_group => $(curly_json POST ${controller}/create_custom_group "${data}")\n"
-  printf "$(tab)200 POST JSON ${controller}/create_custom_kata  => $(curly_json POST ${controller}/create_custom_kata  "${data}")\n"
+  printf "$(tab)200 POST JSON $(new_controller)/create_custom_group => $(curly_json POST $(new_controller)/create_custom_group "$(json_display_name)")\n"
+  printf "$(tab)200 POST JSON $(new_controller)/create_custom_kata  => $(curly_json POST $(new_controller)/create_custom_kata  "$(json_display_name)")\n"
   printf '\n'
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo_deprecated_route_params_causes_redirect_302()
 {
-  local -r controller=setup_custom_start_point
-  local -r data=display_name=Java%20Countdown%2C%20Round%201
   printf 'API(deprecated) save(html.params) causes redirect (302)\n'
-  printf "$(tab)302 POST ${controller}/save_group      => $(curly_params_302 POST ${controller}/save_group      "${data}")\n"
-  printf "$(tab)302 POST ${controller}/save_individual => $(curly_params_302 POST ${controller}/save_individual "${data}")\n"
+  printf "$(tab)302 POST $(old_controller)/save_group      => $(curly_params_302 POST $(old_controller)/save_group      "$(params_display_name)")\n"
+  printf "$(tab)302 POST $(old_controller)/save_individual => $(curly_params_302 POST $(old_controller)/save_individual "$(params_display_name)")\n"
   printf '\n'
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo_deprecated_route_json_returns_id()
 {
-  local -r controller=setup_custom_start_point
-  local -r data='{"display_name":"Java Countdown, Round 1"}'
   printf 'API(deprecated) save(json.body) returns id\n'
-  printf "$(tab)200 POST ${controller}/save_group_json      => $(curly_json POST ${controller}/save_group_json      "${data}")\n"
-  printf "$(tab)200 POST ${controller}/save_individual_json => $(curly_json POST ${controller}/save_individual_json "${data}")\n"
+  printf "$(tab)200 POST $(old_controller)/save_group_json      => $(curly_json POST $(old_controller)/save_group_json      "$(json_display_name)")\n"
+  printf "$(tab)200 POST $(old_controller)/save_individual_json => $(curly_json POST $(old_controller)/save_individual_json "$(json_display_name)")\n"
   printf '\n'
 }
 
@@ -123,4 +118,4 @@ demo_new_route_create_JsonBody_returns_JSON_id
 demo_deprecated_route_params_causes_redirect_302
 demo_deprecated_route_json_returns_id
 
-#${SH_DIR}/containers_down.sh
+${SH_DIR}/containers_down.sh
