@@ -12,9 +12,16 @@ class RackDispatcher
 
   def call(env)
     request = @request_class.new(env)
-    path = request.path_info
     body = request.body.read
-    name,args = HttpJsonArgs.new(body).get(path)
+    path = request.path_info
+    params = request.params
+
+    puts "RackDispatcher:body:#{body}:"
+    puts "RackDispatcher:path:#{path}:"
+    puts "RackDispatcher:params:#{params}:"
+
+    #name,args = HttpJsonArgs.new(body).get(path, params)
+    name,args = HttpJsonArgs::get(body, path, params)
     result = @creator.public_send(name, *args)
     json_response(200, { name => result })
   rescue JsonHash::Http::Requester::Error => error
