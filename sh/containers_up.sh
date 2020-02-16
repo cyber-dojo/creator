@@ -133,7 +133,8 @@ container_up()
 
 # - - - - - - - - - - - - - - - - - - -
 export NO_PROMETHEUS=true
-container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT} creator-server
-if [ "${1:-}" != 'server' ]; then
+if [ "${1:-}" == 'server' ]; then
+  container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT}        creator-server
+else
   container_up_ready_and_clean ${CYBER_DOJO_CREATOR_CLIENT_PORT} creator-client
 fi
