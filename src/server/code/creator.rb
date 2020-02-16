@@ -1,52 +1,88 @@
 # frozen_string_literal: true
+require_relative 'externals'
+require_relative 'silent_warnings'
 require_relative 'id_generator'
 require_relative 'id_pather'
 require_relative 'json_hash/generator'
 require_relative 'saver_asserter'
+require_silent 'sinatra/contrib' # N x "warning: method redefined"
+require 'json'
+require 'sinatra/base'
 
-class Creator
+class Creator < Sinatra::Base
+  silent_warnings { register Sinatra::Contrib }
 
-  def initialize(externals)
+  set :port, ENV['PORT']
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+  # ctor
+
+  def initialize(app=nil, externals=Externals.new)
+    super(app)
     @externals = externals
   end
 
-  def sha
-    ENV['SHA']
+  # - - - - - - - - - - - - - - - - - - - - - -
+  # identity
+
+  get '/sha', :provides => [:json] do
+    json sha:ENV['SHA']
   end
 
-  def alive?
-    true
+  # - - - - - - - - - - - - - - - - - - - - - -
+  # k8s/curl probing
+
+  get '/alive', :provides => [:json] do
+    json alive?:true
   end
 
-  def ready?
-    custom_start_points.ready? && saver.ready?
+  get '/ready', :provides => [:json] do
+    json ready?:ready?
   end
 
-  # - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - - -
 
-  #def create_group(exercise_name, language_name)
-  #end
-  #def create_kata(exercise_name, language_name)
-  #end
-
-  def create_custom_group(display_name)
-    # [1] Need to make this raise if it fails so don't get to saver.create(...)
-    manifest = custom_start_points.manifest(display_name) # [1]
-    create_group(manifest)
-  end
-
-  def create_custom_kata(display_name)
+  post '/create_custom_group', :provides => [:html, :json] do
     manifest = custom_start_points.manifest(display_name)
-    create_kata(manifest)
+    id = create_group(manifest)
+    respond_to do |format|
+      format.html { redirect "/kata/group/#{id}" }
+      format.json { json id:id }
+    end
   end
+
+  post '/create_custom_kata', :provides => [:html, :json] do
+    manifest = custom_start_points.manifest(display_name)
+    id = create_kata(manifest)
+    respond_to do |format|
+      format.html { redirect "/kata/edit/#{id}" }
+      format.json { json id:id }
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+  # ...
 
   private
 
   include IdPather # group_id_path, kata_id_path
 
+  def ready?
+    services = []
+    services << custom_start_points
+    services << saver
+    services.all?{ |service| service.ready? }
+  end
+
+  def display_name
+    payload = params
+    payload = JSON.parse(request.body.read) unless params['display_name']
+    payload['display_name']
+  end
+
   def create_group(manifest)
     set_version(manifest)
-    time_stamp(manifest)
+    set_time_stamp(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     saver_asserter.batch(
       group_manifest_write_cmd(id, pretty_json(manifest)),
@@ -59,7 +95,7 @@ class Creator
 
   def create_kata(manifest)
     set_version(manifest)
-    time_stamp(manifest)
+    set_time_stamp(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).kata_id
     event_summary = {
       'index' => 0,
@@ -91,7 +127,7 @@ class Creator
 
   #- - - - - - - - - - - - - - - - - -
 
-  def time_stamp(manifest)
+  def set_time_stamp(manifest)
     manifest['created'] = time.now
   end
 

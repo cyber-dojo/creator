@@ -1,4 +1,4 @@
-FROM cyberdojo/rack-base
+FROM cyberdojo/sinatra-base
 LABEL maintainer=jon@jaggersoft.com
 
 COPY --chown=nobody:nogroup . /app
