@@ -58,7 +58,7 @@ class App < Sinatra::Base
   private
 
   def creator
-    # In production, @creator is nil
+    # In production, @creator is nil, each request => Creator.new
     # In testing, @creator is non-nil to allow stubbing
     @creator || Creator.new
   end
