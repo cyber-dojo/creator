@@ -11,7 +11,7 @@ class ShaTest < CreatorTestBase
 
   test 'p23', %w( GET /sha returns JSON'd 40-char git commit sha ) do
     get '/sha'
-    assert_status(SUCCESS)    
+    assert_status(SUCCESS)
     sha = json_response['sha']
     assert git_sha?(sha), sha
   end
@@ -19,7 +19,7 @@ class ShaTest < CreatorTestBase
   private
 
   def git_sha?(s)
-    s.is_a?(String) &&
+    s.instance_of?(String) &&
       s.size === 40 &&
         s.each_char.all?{ |ch| is_lo_hex?(ch) }
   end
