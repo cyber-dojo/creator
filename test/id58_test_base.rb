@@ -72,7 +72,7 @@ class Id58TestBase < MiniTest::Test
   }.join.freeze
 
   def self.id58?(s)
-    s.is_a?(String) &&
+    s.instance_of?(String) &&
       s.chars.all?{ |ch| ID58_ALPHABET.include?(ch) }
   end
 
