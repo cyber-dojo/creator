@@ -1,31 +1,31 @@
-Run options: --seed 23877
+Run options: --seed 33203
 
 # Running:
 
 .............................
 
-Finished in 0.442264s, 65.5717 runs/s, 165.0598 assertions/s.
+Finished in 0.547979s, 52.9217 runs/s, 129.5670 assertions/s.
 
-29 runs, 73 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 7997 / 14908 LOC (53.64%) covered.
+29 runs, 71 assertions, 0 failures, 0 errors, 0 skips
+Coverage report generated for MiniTest to /tmp/reports. 8001 / 14912 LOC (53.65%) covered.
 
 Slowest 5 tests are...
-0.1554 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
-0.1013 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
-0.0525 - 26Fq32:creator_test.rb:72:POST /create_custom_kata, with a valid display_name in the Request body(in json), creates a kata with an id, and whose manifest matches the display_name, and puts the id in the Response body (as json)
-0.0292 - 26F703:creator_test.rb:32:POST /create_custom_kata?display_name=VALID causes redirect to kata/edit/:id and a kata with :id exists and its manifest matches the display_name
-0.0224 - 26F702:creator_test.rb:12:POST /create_custom_group?display_name=VALID causes redirect to /kata/group/:id and a group with :id exists and its manifest matches the display_name
-0.0166 - 26Fq31:creator_test.rb:52:POST /create_custom_group, with a valid display_name in the Request body(in json), creates a group with an id, and whose manifest matches the display_name, and puts the id in the Response body (as json)
+0.2211 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
+0.1533 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
+0.0263 - de3p23:sha_test.rb:12:GET /sha returns JSON'd 40-char git commit sha    
+0.0246 - 26F702:creator_test.rb:12:POST /create_custom_group?display_name=VALID causes 302 redirect to /kata/group/:id and a group with :id exists and its manifest matches the display_name
+0.0222 - 26F703:creator_test.rb:26:POST /create_custom_kata?display_name=VALID causes 302 redirect to kata/edit/:id and a kata with :id exists and its manifest matches the display_name
+0.0193 - 26Fq32:creator_test.rb:55:POST /create_custom_kata, with a valid display_name in the JSON-Request body, creates a kata, whose manifest matches the display_name, whose id is in the JSON-Response body
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.44   <=     2 | [32m true [0m
+        duration(test)[s] |    0.55   <=     2 | [32m true [0m
                     tests |      29   >=     1 | [32m true [0m
          coverage(app)[%] |   96.76   >=   100 | [31m false [0m
         coverage(test)[%] |   100.0   >=   100 | [32m true [0m
-   lines(test)/lines(app) |    0.73   >=   1.2 | [31m false [0m
-     hits(app)/hits(test) |    1.78   >=   2.8 | [31m false [0m
+   lines(test)/lines(app) |    0.69   >=   1.2 | [31m false [0m
+     hits(app)/hits(test) |    1.86   >=   2.8 | [31m false [0m
 

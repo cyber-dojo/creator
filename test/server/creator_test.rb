@@ -11,87 +11,81 @@ class CreatorTest < CreatorTestBase
 
   test '702', %w(
   POST /create_custom_group?display_name=VALID
-  causes redirect to /kata/group/:id
+  causes 302 redirect to /kata/group/:id
   and a group with :id exists
   and its manifest matches the display_name
   ) do
-    display_name = custom.display_names.sample
-    post '/create_custom_group', display_name:display_name
-    assert_equal 302, last_response.status, :last_response_status
+    post '/create_custom_group', data={ display_name:any_custom_display_name }
+    assert_302_response
     follow_redirect!
-    match = last_request.url.match(%r{http://example.org/kata/group/(.*)})
-    assert match, "did not match #{last_request.url}"
-    id = match[1]
-    assert group_exists?(id), "group_exists?(#{id})"
-    manifest = group_manifest(id)
-    assert_equal display_name, manifest['display_name'], manifest.keys.sort
+    assert_group_exists(id_from_group_url, data[:display_name])
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test '703', %w(
   POST /create_custom_kata?display_name=VALID
-  causes redirect to kata/edit/:id
+  causes 302 redirect to kata/edit/:id
   and a kata with :id exists
   and its manifest matches the display_name
   ) do
-    display_name = custom.display_names.sample
-    post '/create_custom_kata', display_name:display_name
-    assert_equal 302, last_response.status, :last_response_status
+    post '/create_custom_kata', data={ display_name:any_custom_display_name }
+    assert_302_response
     follow_redirect!
-    match = last_request.url.match(%r{http://example.org/kata/edit/(.*)})
-    assert match, "did not match #{last_request.url}"
-    id = match[1]
-    assert kata_exists?(id), "kata_exists?(#{id})"
-    manifest = kata_manifest(id)
-    assert_equal display_name, manifest['display_name'], manifest.keys.sort
+    assert_kata_exists(id_from_kata_url, data[:display_name])
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test 'q31', %w(
   POST /create_custom_group,
-  with a valid display_name in the Request body(in json),
-  creates a group with an id,
-  and whose manifest matches the display_name,
-  and puts the id in the Response body (as json)
+  with a valid display_name in the JSON-Request body,
+  creates a group,
+  whose manifest matches the display_name,
+  whose id is in the JSON-Response body
   ) do
-    display_name = custom.display_names.sample
-    data = { display_name:display_name }
+    data = { display_name:any_custom_display_name }
     post '/create_custom_group', data.to_json, JSON_REQUEST_HEADERS
-    assert_equal 200, last_response.status, :last_response_status
-    id = json_response['id']
-    refute_nil id, :id
-    assert group_exists?(id), "group_exists?(#{id})"
-    manifest = group_manifest(id)
-    assert_equal display_name, manifest['display_name'], manifest.keys.sort
+    assert_200_response
+    assert_group_exists(id_from_json_response, data[:display_name])
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test 'q32', %w(
   POST /create_custom_kata,
-  with a valid display_name in the Request body(in json),
-  creates a kata with an id,
-  and whose manifest matches the display_name,
-  and puts the id in the Response body (as json)
+  with a valid display_name in the JSON-Request body,
+  creates a kata,
+  whose manifest matches the display_name,
+  whose id is in the JSON-Response body
   ) do
-    display_name = custom.display_names.sample
-    data = { display_name:display_name }
+    data = { display_name:any_custom_display_name }
     post '/create_custom_kata', data.to_json, JSON_REQUEST_HEADERS
-    assert_equal 200, last_response.status, :last_response_status
-    id = json_response['id']
-    refute_nil id, :id
-    assert kata_exists?(id), "group_exists?(#{id})"
-    manifest = kata_manifest(id)
-    assert_equal display_name, manifest['display_name'], manifest.keys.sort
+    assert_200_response
+    assert_kata_exists(id_from_json_response, data[:display_name])
   end
 
   private
 
+  def id_from_group_url
+    match = last_request.url.match(%r{http://example.org/kata/group/(.*)})
+    assert match, "did not match #{last_request.url}"
+    match[1]
+  end
+
+  def id_from_kata_url
+    match = last_request.url.match(%r{http://example.org/kata/edit/(.*)})
+    assert match, "did not match #{last_request.url}"
+    match[1]
+  end
+
+  def id_from_json_response
+    json_response['id']
+  end
+
   JSON_REQUEST_HEADERS = {
-    'HTTP_ACCEPT' => 'application/json',
-    'CONTENT_TYPE' => 'application/json'
+    'CONTENT_TYPE' => 'application/json',  # sent in request
+    'HTTP_ACCEPT' => 'application/json'    # received in response
   }
 
 end

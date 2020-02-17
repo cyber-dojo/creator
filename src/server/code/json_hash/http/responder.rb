@@ -56,7 +56,6 @@ module JsonHash
       # - - - - - - - - - - - - - - - - - - - - -
 
       def error_msg(body, text)
-        #"http response.body #{text}:#{body}"
         "#{text}:#{body}"
       end
 

@@ -72,7 +72,7 @@ strip_known_warning()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-warn_if_unclean()
+exit_if_unclean()
 {
   local -r name="${1}"
   local log=$(docker logs "${name}" 2>&1)
@@ -117,7 +117,7 @@ container_up_ready_and_clean()
   local -r container_name="test-${service_name}"
   container_up "${service_name}"
   wait_briefly_until_ready "${port}" "${container_name}"
-  warn_if_unclean "${container_name}"
+  exit_if_unclean "${container_name}"
 }
 
 # - - - - - - - - - - - - - - - - - - -

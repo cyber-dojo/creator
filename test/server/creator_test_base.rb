@@ -25,16 +25,40 @@ class CreatorTestBase < Id58TestBase
     @app ||= App.new(nil, creator)
   end
 
-  def json_response
-    JSON.parse(last_response.body)
+  # - - - - - - - - - - - - - - - -
+
+  def assert_group_exists(id, display_name)
+    refute_nil id, :id
+    assert group_exists?(id), "!group_exists?(#{id})"
+    manifest = group_manifest(id)
+    assert_equal display_name, manifest['display_name'], manifest.keys.sort
+  end
+
+  def assert_kata_exists(id, display_name)
+    refute_nil id, :id
+    assert kata_exists?(id), "!kata_exists?(#{id})"
+    manifest = kata_manifest(id)
+    assert_equal display_name, manifest['display_name'], manifest.keys.sort
   end
 
   def true?(b)
-    assert b.is_a?(TrueClass)
+    b.is_a?(TrueClass)
   end
 
   def false?(b)
-    assert b.is_a?(FalseClass)
+    b.is_a?(FalseClass)
+  end
+
+  def assert_302_response
+    assert_equal 302, last_response.status, :last_response_status
+  end
+
+  def assert_200_response
+    assert_equal 200, last_response.status, :last_response_status
+  end
+
+  def json_response
+    JSON.parse(last_response.body)
   end
 
   # - - - - - - - - - - - - - - - -
@@ -59,6 +83,10 @@ class CreatorTestBase < Id58TestBase
 
   def custom
     externals.custom_start_points
+  end
+
+  def any_custom_display_name
+    custom.display_names.sample
   end
 
   private
