@@ -1,31 +1,42 @@
-Run options: --seed 64167
+Run options: --seed 42109
 
 # Running:
 
-...............................
+..last_response_status.
+Expected: 400
+  Actual: 200
+F................................SimpleCov failed with exit 1
 
-Finished in 0.738220s, 41.9929 runs/s, 96.1773 assertions/s.
+Finished in 0.527508s, 66.3497 runs/s, 145.9694 assertions/s.
 
-31 runs, 71 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 8069 / 14918 LOC (54.09%) covered.
+  1) Failure:
+CreatorTest#test_
+id58 'Kp2',
+'GET /sha, with non-JSON in Request.body, ...' [/test/server/creator_test.rb:95]:
+last_response_status.
+Expected: 400
+  Actual: 200
+
+35 runs, 77 assertions, 1 failures, 0 errors, 0 skips
+Coverage report generated for MiniTest to /tmp/reports. 8091 / 14957 LOC (54.1%) covered.
 
 Slowest 5 tests are...
-0.2265 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
-0.2262 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
-0.0604 - 26Fq33:creator_test.rb:81:POST /create_custom_group, with an invalid display_name in the JSON-Request body, ...
-0.0572 - 26F603:creator_test.rb:70:POST /create_custom_group?display_name=INVALID, ...
-0.0268 - de3p23:sha_test.rb:12:GET /sha returns JSON'd 40-char git commit sha    
-0.0201 - 26F702:creator_test.rb:12:POST /create_custom_group?display_name=VALID causes 302 redirect to /kata/group/:id and a group with :id exists and its manifest matches the display_name
+0.1861 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
+0.1276 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
+0.0283 - 26F702:creator_test.rb:46:POST /create_custom_group?display_name=VALID causes 302 redirect to /kata/group/:id and a group with :id exists and its manifest matches the display_name
+0.0252 - 26Fq32:creator_test.rb:29:POST /create_custom_kata, with a valid display_name in the JSON-Request body, creates a kata, whose manifest matches the display_name, whose id is in the JSON-Response body
+0.0211 - 26FaX4:creator_test.rb:142:POST /create_custom_group, with an invalid display_name in the JSON-Request body, ...
+0.0208 - 26Fq31:creator_test.rb:14:POST /create_custom_group, with a valid display_name in the JSON-Request body, creates a group, whose manifest matches the display_name, whose id is in the JSON-Response body
 
 
-                 failures |       0   <=     0 | [32m true [0m
+                 failures |       1   <=     0 | [31m false [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.74   <=     2 | [32m true [0m
-                    tests |      31   >=     1 | [32m true [0m
-         coverage(app)[%] |   97.77   >=   100 | [31m false [0m
+        duration(test)[s] |    0.53   <=     2 | [32m true [0m
+                    tests |      35   >=     1 | [32m true [0m
+         coverage(app)[%] |   96.72   >=   100 | [31m false [0m
         coverage(test)[%] |   100.0   >=   100 | [32m true [0m
    lines(test)/lines(app) |    0.75   >=   1.2 | [31m false [0m
-     hits(app)/hits(test) |    2.31   >=   2.8 | [31m false [0m
+     hits(app)/hits(test) |    1.99   >=   2.8 | [31m false [0m
 

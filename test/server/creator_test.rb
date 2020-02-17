@@ -8,33 +8,7 @@ class CreatorTest < CreatorTestBase
   end
 
   # - - - - - - - - - - - - - - - - -
-
-  test '702', %w(
-  POST /create_custom_group?display_name=VALID
-  causes 302 redirect to /kata/group/:id
-  and a group with :id exists
-  and its manifest matches the display_name
-  ) do
-    post '/create_custom_group', data={ display_name:any_custom_display_name }
-    assert_status(TEMPORARY_REDIRECT)
-    follow_redirect!
-    assert_group_exists(id_from_group_url, data[:display_name])
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  test '703', %w(
-  POST /create_custom_kata?display_name=VALID
-  causes 302 redirect to kata/edit/:id
-  and a kata with :id exists
-  and its manifest matches the display_name
-  ) do
-    post '/create_custom_kata', data={ display_name:any_custom_display_name }
-    assert_status(TEMPORARY_REDIRECT)
-    follow_redirect!
-    assert_kata_exists(id_from_kata_url, data[:display_name])
-  end
-
+  # 200 OK
   # - - - - - - - - - - - - - - - - -
 
   test 'q31', %w(
@@ -66,27 +40,114 @@ class CreatorTest < CreatorTestBase
   end
 
   # - - - - - - - - - - - - - - - - -
+  # 302 Redirect
+  # - - - - - - - - - - - - - - - - -
 
-  test '603', %w(
-    POST /create_custom_group?display_name=INVALID,
-    ...
+  test '702', %w(
+  POST /create_custom_group?display_name=VALID
+  causes 302 redirect to /kata/group/:id
+  and a group with :id exists
+  and its manifest matches the display_name
   ) do
-    post '/create_custom_group', data={ display_name:'invalid' }
-    #puts "status:#{last_response.status}:" # 500
-    # but response.body needs to get json { "exception":"...." }
+    post '/create_custom_group', data={ display_name:any_custom_display_name }
+    assert_status(TEMPORARY_REDIRECT)
+    follow_redirect!
+    assert_group_exists(id_from_group_url, data[:display_name])
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'q33', %w(
+  test '703', %w(
+  POST /create_custom_kata?display_name=VALID
+  causes 302 redirect to kata/edit/:id
+  and a kata with :id exists
+  and its manifest matches the display_name
+  ) do
+    post '/create_custom_kata', data={ display_name:any_custom_display_name }
+    assert_status(TEMPORARY_REDIRECT)
+    follow_redirect!
+    assert_kata_exists(id_from_kata_url, data[:display_name])
+  end
+
+  # - - - - - - - - - - - - - - - - -
+  # 400 Request Errors
+  # - - - - - - - - - - - - - - - - -
+
+  test 'Kp1', %w(
+    POST /create_custom_group,
+    with JSON-Hash Request.body containing unknown arg,
+    ...
+  ) do
+    unknown_arg = '{"unknown":42}'
+    post '/create_custom_group', unknown_arg, JSON_REQUEST_HEADERS
+    assert_status(400)
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test 'Kp2', %w(
+    GET /sha,
+    with non-JSON in Request.body,
+    ...
+  ) do
+    unknown_arg = 'xyz'
+    get '/sha', unknown_arg, JSON_REQUEST_HEADERS
+    assert_status(400) # FAILS, ==200
+    # params:{"xyz"=>nil}:
+    # body:[]:
+    # it seems for a GET, the body is xferred to params!?
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test 'Kp3', %w(
+    POST /create_custom_group,
+    with non-JSON Request.body,
+    ...
+  ) do
+    non_json = 'xyz'
+    post '/create_custom_group', non_json, JSON_REQUEST_HEADERS
+    assert_status(400)
+    #...
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test 'Kp4', %w(
+    POST /create_custom_group,
+    with non-JSON-Hash Request.body,
+    ...
+  ) do
+    non_json_hash = '42'
+    post '/create_custom_group', non_json_hash, JSON_REQUEST_HEADERS
+    assert_status(400)
+    #...
+  end
+
+  # - - - - - - - - - - - - - - - - -
+  # 500 Response Errors
+  # - - - - - - - - - - - - - - - - -
+
+  test 'aX3', %w(
+    POST /create_custom_group?display_name=INVALID,
+    ...
+  ) do
+    post '/create_custom_group', data={ display_name:'invalid' }
+    assert_status(500)
+    # TODO response.body needs to get json { "exception":"...." }
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test 'aX4', %w(
   POST /create_custom_group,
   with an invalid display_name in the JSON-Request body,
   ...
   ) do
     data = { display_name:'invalid' }
     post '/create_custom_group', data.to_json, JSON_REQUEST_HEADERS
-    #puts "status:#{last_response.status}:" # 500
-    # but response.body needs to get json { "exception":"...." }
+    assert_status(500)
+    # TODO response.body needs to get json { "exception":"...." }
   end
 
   private

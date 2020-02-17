@@ -73,8 +73,22 @@ class App < Sinatra::Base
 
   def rescued_respond_to
     respond_to { |format| yield format }
-  #rescue Exception #=> error
-    #puts "rescue.json(#{error.class.name})"
+  rescue Exception => error
+    if error.is_a?(RequestError)
+      #puts "400:#{error.message}:"
+      response.status = 400
+      return
+    end
+    if error.is_a?(ArgumentError)
+      if r = error.message.match('(missing|unknown) keyword(s?): (.*)')
+        #puts "400:#{r[1]} argument#{r[2]}: #{r[3]}"
+        response.status = 400
+        return
+      end
+    end
+
+    #puts "500:#{error.message}:"
+    response.status = 500
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -86,8 +100,11 @@ class App < Sinatra::Base
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def payload
+    if request.path === '/sha'
+      #puts "request.content_type:#{request.content_type}:"
+    end
     if request.content_type === 'application/json'
-      json_parse(request.body.read)
+      json_hash_parse(request.body.read)
     else
       params
     end
@@ -95,8 +112,30 @@ class App < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def json_parse(body)
-    body === '' ? {} : JSON.parse(body)
+  def dump_payload
+    puts '~~~~~~~~'
+    puts "params:#{params}:"
+    puts "body:#{body}:"
+    puts '~~~~~~~~'
+  end
+
+  def json_hash_parse(body)
+    #dump_payload
+    json = (body === '') ? {} : JSON.parse!(body)
+    unless json.instance_of?(Hash)
+      fail RequestError, 'body is not JSON Hash'
+    end
+    json
+  rescue JSON::ParserError
+    fail RequestError, 'body is not JSON'
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  class RequestError < RuntimeError
+    def initialize(message)
+      super
+    end
   end
 
 end
