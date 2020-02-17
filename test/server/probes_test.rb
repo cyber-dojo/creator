@@ -2,10 +2,18 @@
 require_relative 'creator_test_base'
 require 'ostruct'
 
-class ReadyTest < CreatorTestBase
+class ProbesTest < CreatorTestBase
 
   def self.id58_prefix
     'a86'
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test '15C', %w( GET /alive returns JSON'd true ) do
+    get '/alive'
+    assert_status(SUCCESS)
+    assert true?(json_response['alive?']), last_response.body
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -40,5 +48,13 @@ class ReadyTest < CreatorTestBase
   private
 
   STUB_READY_FALSE = OpenStruct.new(:ready? => false)
+
+  def true?(b)
+    b.is_a?(TrueClass)
+  end
+
+  def false?(b)
+    b.is_a?(FalseClass)
+  end
 
 end

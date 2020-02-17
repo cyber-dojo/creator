@@ -34,14 +34,6 @@ class CreatorTestBase < Id58TestBase
     assert_equal expected, last_response.status, :last_response_status
   end
 
-  def true?(b)
-    b.is_a?(TrueClass)
-  end
-
-  def false?(b)
-    b.is_a?(FalseClass)
-  end
-
   def json_response
     JSON.parse(last_response.body)
   end

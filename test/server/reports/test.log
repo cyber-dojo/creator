@@ -1,21 +1,21 @@
-Run options: --seed 18819
+Run options: --seed 23989
 
 # Running:
 
 .............................
 
-Finished in 0.427685s, 67.8069 runs/s, 166.0099 assertions/s.
+Finished in 0.433903s, 66.8352 runs/s, 163.6309 assertions/s.
 
 29 runs, 71 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 8001 / 14912 LOC (53.65%) covered.
+Coverage report generated for MiniTest to /tmp/reports. 7997 / 14908 LOC (53.64%) covered.
 
 Slowest 5 tests are...
-0.1462 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
-0.1177 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
-0.0255 - de3p23:sha_test.rb:12:GET /sha returns JSON'd 40-char git commit sha    
-0.0239 - 26F702:creator_test.rb:12:POST /create_custom_group?display_name=VALID causes 302 redirect to /kata/group/:id and a group with :id exists and its manifest matches the display_name
-0.0189 - 26Fq32:creator_test.rb:55:POST /create_custom_kata, with a valid display_name in the JSON-Request body, creates a kata, whose manifest matches the display_name, whose id is in the JSON-Response body
-0.0182 - 26F703:creator_test.rb:26:POST /create_custom_kata?display_name=VALID causes 302 redirect to kata/edit/:id and a kata with :id exists and its manifest matches the display_name
+0.1292 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
+0.1286 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
+0.0275 - a8615E:probes_test.rb:30:GET /ready returns JSON'd false when custom_start_points is not ready
+0.0268 - 26F702:creator_test.rb:12:POST /create_custom_group?display_name=VALID causes 302 redirect to /kata/group/:id and a group with :id exists and its manifest matches the display_name
+0.0241 - 26F703:creator_test.rb:26:POST /create_custom_kata?display_name=VALID causes 302 redirect to kata/edit/:id and a kata with :id exists and its manifest matches the display_name
+0.0183 - 26Fq32:creator_test.rb:55:POST /create_custom_kata, with a valid display_name in the JSON-Request body, creates a kata, whose manifest matches the display_name, whose id is in the JSON-Response body
 
 
                  failures |       0   <=     0 | [32m true [0m
@@ -27,5 +27,5 @@ Slowest 5 tests are...
          coverage(app)[%] |   96.76   >=   100 | [31m false [0m
         coverage(test)[%] |   100.0   >=   100 | [32m true [0m
    lines(test)/lines(app) |    0.74   >=   1.2 | [31m false [0m
-     hits(app)/hits(test) |    1.84   >=   2.8 | [31m false [0m
+     hits(app)/hits(test) |    1.80   >=   2.8 | [31m false [0m
 
