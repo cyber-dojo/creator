@@ -79,17 +79,28 @@ class App < Sinatra::Base
       response.status = 400
       return
     end
-    if error.is_a?(ArgumentError)
-      if r = error.message.match('(missing|unknown) keyword(s?): (.*)')
-        #puts "400:#{r[1]} argument#{r[2]}: #{r[3]}"
-        response.status = 400
-        return
-      end
+    if bad_keyword?(error)
+      #puts "400:#{bad_keyword_message(error)}:"
+      response.status = 400
+      return
     end
-
     #puts "500:#{error.message}:"
     response.status = 500
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def bad_keyword?(error)
+    error.is_a?(ArgumentError) &&
+      error.message.match(BAD_KEYWORD_REGEXP)
+  end
+
+  def bad_keyword_message(error)
+    r = error.message.match(BAD_KEYWORD_REGEXP)
+    "#{r[1]} argument#{r[2]}: #{r[3]}"
+  end
+
+  BAD_KEYWORD_REGEXP = '(missing|unknown) keyword(s?): (.*)'
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
