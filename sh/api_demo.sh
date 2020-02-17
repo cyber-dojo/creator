@@ -90,6 +90,7 @@ curl_json_body_200()
   curl  \
     --data "${json}" \
     --fail \
+    --header "Content-type: application/json" \
     --header "Accept: application/json" \
     --request ${type} \
     --silent \
