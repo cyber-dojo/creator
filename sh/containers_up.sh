@@ -1,8 +1,6 @@
 #!/bin/bash -Eeu
 
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
-source ${ROOT_DIR}/sh/ip_address.sh
-readonly IP_ADDRESS=$(ip_address)
+readonly ROOT_DIR="$( cd "$(dirname "${0}")/.." && pwd )"
 
 # - - - - - - - - - - - - - - - - - - - - - -
 wait_briefly_until_ready()
@@ -30,6 +28,9 @@ wait_briefly_until_ready()
 }
 
 # - - - - - - - - - - - - - - - - - - -
+source ${ROOT_DIR}/sh/ip_address.sh
+readonly IP_ADDRESS=$(ip_address) # slow
+
 curl_ready()
 {
   local -r port="${1}"
@@ -37,7 +38,6 @@ curl_ready()
   local -r url="http://${IP_ADDRESS}:${port}/${path}"
   rm -f "$(ready_filename)"
   curl \
-    --data "{}" \
     --fail \
     --output $(ready_filename) \
     --silent \
