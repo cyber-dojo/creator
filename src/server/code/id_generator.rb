@@ -12,7 +12,7 @@ class IdGenerator
   }.join.freeze
 
   def self.id?(s)
-    s.is_a?(String) &&
+    s.instance_of?(String) &&
       s.length === SIZE &&
         s.chars.all?{ |ch| ALPHABET.include?(ch) }
   end
