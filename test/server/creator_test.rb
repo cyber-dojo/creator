@@ -65,6 +65,29 @@ class CreatorTest < CreatorTestBase
     assert_kata_exists(id_from_json_response, data[:display_name])
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  test '603', %w(
+    POST /create_custom_group?display_name=INVALID,
+    ...
+  ) do
+    post '/create_custom_group', data={ display_name:'invalid' }
+    #puts "status:#{last_response.status}:" # 500
+    # but response.body needs to get json { "exception":"...." }
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test 'q33', %w(
+  POST /create_custom_group,
+  with an invalid display_name in the JSON-Request body,
+  ...
+  ) do
+    data = { display_name:'invalid' }
+    post '/create_custom_group', data.to_json, JSON_REQUEST_HEADERS
+    #puts "status:#{last_response.status}:" # 500 
+  end
+
   private
 
   def any_custom_display_name
