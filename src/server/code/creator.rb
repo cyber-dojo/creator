@@ -35,12 +35,15 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_custom_group(display_name)
+  def create_custom_group(display_name:)
+    #puts '~~~~~~~'
+    #puts "display_name:#{display_name}:"
+    #puts '~~~~~~~'
     manifest = custom_start_points.manifest(display_name)
     create_group(manifest)
   end
 
-  def create_custom_kata(display_name)
+  def create_custom_kata(display_name:)
     manifest = custom_start_points.manifest(display_name)
     create_kata(manifest)
   end

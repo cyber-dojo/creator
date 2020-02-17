@@ -23,7 +23,7 @@ class App < Sinatra::Base
 
   get '/sha', :provides => [:json] do
     rescued_respond_to do |format|
-      format.json { json sha: creator.sha }
+      format.json { json sha: creator.sha(**args) }
     end
   end
 
@@ -32,13 +32,13 @@ class App < Sinatra::Base
 
   get '/alive', :provides => [:json] do
     rescued_respond_to do |format|
-      format.json { json alive?: creator.alive? }
+      format.json { json alive?: creator.alive?(**args) }
     end
   end
 
   get '/ready', :provides => [:json] do
     rescued_respond_to do |format|
-      format.json { json ready?: creator.ready? }
+      format.json { json ready?: creator.ready?(**args) }
     end
   end
 
@@ -47,7 +47,7 @@ class App < Sinatra::Base
 
   post '/create_custom_group', :provides => [:html, :json] do
     rescued_respond_to do |format|
-      id = creator.create_custom_group(display_name)
+      id = creator.create_custom_group(**args)
       format.html { redirect "/kata/group/#{id}" }
       format.json { json id:id }
     end
@@ -55,7 +55,7 @@ class App < Sinatra::Base
 
   post '/create_custom_kata', :provides => [:html, :json] do
     rescued_respond_to do |format|
-      id = creator.create_custom_kata(display_name)
+      id = creator.create_custom_kata(**args)
       format.html { redirect "/kata/edit/#{id}" }
       format.json { json id:id }
     end
@@ -64,12 +64,9 @@ class App < Sinatra::Base
   private
 
   def rescued_respond_to
-    respond_to do |format|
-      yield format
-    #rescue Exception => error
-      #format.html { puts "rescue.html(#{error.class.name})" }
-      #format.json { puts "rescue.json(#{error.class.name})" }
-    end
+    respond_to { |format| yield format }
+  #rescue Exception #=> error
+    #puts "rescue.json(#{error.class.name})"
   end
 
   def creator
@@ -78,20 +75,16 @@ class App < Sinatra::Base
     @creator || Creator.new
   end
 
-  def display_name
-    payload('display_name')
-  end
-
-  def payload(key)
-    if params.has_key?(key)
-      params[key]
+  def args
+    payload = {}
+    if request.content_type === 'application/json'
+      body = request.body.read
+      json = JSON.parse(body === '' ? '{}' : body)
+      json.each{ |key,value| payload[key.to_sym] = value }
     else
-      json_body[key]
+      params.each{ |key,value| payload[key.to_sym] = value }
     end
-  end
-
-  def json_body
-    JSON.parse(request.body.read)
+    payload
   end
 
 end

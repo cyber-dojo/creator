@@ -85,7 +85,8 @@ class CreatorTest < CreatorTestBase
   ) do
     data = { display_name:'invalid' }
     post '/create_custom_group', data.to_json, JSON_REQUEST_HEADERS
-    #puts "status:#{last_response.status}:" # 500 
+    #puts "status:#{last_response.status}:" # 500
+    # but response.body needs to get json { "exception":"...." }
   end
 
   private
