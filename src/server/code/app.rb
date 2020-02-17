@@ -63,21 +63,27 @@ class App < Sinatra::Base
 
   private
 
-  def rescued_respond_to
-    respond_to { |format| yield format }
-  #rescue Exception #=> error
-    #puts "rescue.json(#{error.class.name})"
-  end
-
   def creator
     # In production, @creator is nil, each request => Creator.new
     # In testing, @creator is non-nil to allow stubbing
     @creator || Creator.new
   end
 
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def rescued_respond_to
+    respond_to { |format| yield format }
+  #rescue Exception #=> error
+    #puts "rescue.json(#{error.class.name})"
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def args
     Hash[payload.map{ |key,value| [key.to_sym, value] }]
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def payload
     if request.content_type === 'application/json'
