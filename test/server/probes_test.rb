@@ -50,11 +50,11 @@ class ProbesTest < CreatorTestBase
   STUB_READY_FALSE = OpenStruct.new(:ready? => false)
 
   def true?(b)
-    b.is_a?(TrueClass)
+    b.instance_of?(TrueClass)
   end
 
   def false?(b)
-    b.is_a?(FalseClass)
+    b.instance_of?(FalseClass)
   end
 
 end
