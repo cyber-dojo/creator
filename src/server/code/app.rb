@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 require_relative 'creator'
 require_relative 'silently'
-silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require 'json'
 require 'sinatra/base'
+silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 
 class App < Sinatra::Base
 
@@ -76,15 +76,16 @@ class App < Sinatra::Base
   end
 
   def args
-    payload = {}
+    Hash[payload.map{ |key,value| [key.to_sym, value] }]
+  end
+
+  def payload
     if request.content_type === 'application/json'
       body = request.body.read
-      json = JSON.parse(body === '' ? '{}' : body)
-      json.each{ |key,value| payload[key.to_sym] = value }
+      body === '' ? {} : JSON.parse(body)
     else
-      params.each{ |key,value| payload[key.to_sym] = value }
+      params
     end
-    payload
   end
 
 end
