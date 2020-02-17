@@ -2,7 +2,7 @@
 require_relative 'externals'
 require_relative 'id_generator'
 require_relative 'id_pather'
-require_relative 'json_hash/generator'
+require_relative 'json_hash/unparse'
 require_relative 'saver_asserter'
 require 'json'
 
@@ -88,7 +88,7 @@ class Creator
   #- - - - - - - - - - - - - - - - - -
 
   def pretty_json(obj)
-    JsonHash::Generator::pretty(obj)
+    JsonHash::Unparse::pretty(obj)
   end
 
   #- - - - - - - - - - - - - - - - - -

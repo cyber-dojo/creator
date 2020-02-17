@@ -62,10 +62,11 @@ ready_filename()
 strip_known_warning()
 {
   local -r log="${1}"
-  local -r known_warning="${2}"
-  local stripped=$(printf "${log}" | grep --invert-match -E "${known_warning}")
+  local -r pattern="${2}"
+  local -r warning=$(printf "${log}" | grep --extended-regexp "${pattern}")
+  local -r stripped=$(printf "${log}" | grep --invert-match --extended-regexp "${pattern}")
   if [ "${log}" != "${stripped}" ]; then
-    >&2 echo "SERVICE START-UP WARNING: ${known_warning}"
+    >&2 echo "SERVICE START-UP WARNING: ${warning}"
   fi
   echo "${stripped}"
 }

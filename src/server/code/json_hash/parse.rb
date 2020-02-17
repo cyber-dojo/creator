@@ -2,14 +2,14 @@
 require 'json'
 
 module JsonHash
-  module Parser
+  module Parse
 
-    def self.parse(s)
-      if s === ''
-        {}
-      else
-        JSON.parse!(s)
-      end
+    def self.fast(s)
+      JSON.parse!(s)
+    end
+
+    def self.safe(s)
+      JSON.parse(s)
     end
 
     Error = JSON::ParserError

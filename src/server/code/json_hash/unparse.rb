@@ -2,7 +2,7 @@
 require 'json'
 
 module JsonHash
-  module Generator
+  module Unparse
 
     def self.fast(obj)
       JSON.fast_generate(obj)
