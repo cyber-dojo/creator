@@ -11,7 +11,7 @@ class AliveTest < CreatorTestBase
 
   test '15d', %w( GET /alive returns JSON'd true ) do
     get '/alive'
-    assert last_response.ok?
+    assert_status(SUCCESS)
     assert true?(json_response['alive?']), last_response.body
   end
 

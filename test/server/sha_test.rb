@@ -11,7 +11,7 @@ class ShaTest < CreatorTestBase
 
   test 'p23', %w( GET /sha returns JSON'd 40-char git commit sha ) do
     get '/sha'
-    assert last_response.ok?
+    assert_status(SUCCESS)    
     sha = json_response['sha']
     assert git_sha?(sha), sha
   end

@@ -27,18 +27,11 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_group_exists(id, display_name)
-    refute_nil id, :id
-    assert group_exists?(id), "!group_exists?(#{id})"
-    manifest = group_manifest(id)
-    assert_equal display_name, manifest['display_name'], manifest.keys.sort
-  end
+  SUCCESS = 200
+  TEMPORARY_REDIRECT = 302
 
-  def assert_kata_exists(id, display_name)
-    refute_nil id, :id
-    assert kata_exists?(id), "!kata_exists?(#{id})"
-    manifest = kata_manifest(id)
-    assert_equal display_name, manifest['display_name'], manifest.keys.sort
+  def assert_status(expected)
+    assert_equal expected, last_response.status, :last_response_status
   end
 
   def true?(b)
@@ -47,14 +40,6 @@ class CreatorTestBase < Id58TestBase
 
   def false?(b)
     b.is_a?(FalseClass)
-  end
-
-  def assert_302_response
-    assert_equal 302, last_response.status, :last_response_status
-  end
-
-  def assert_200_response
-    assert_equal 200, last_response.status, :last_response_status
   end
 
   def json_response
@@ -67,31 +52,17 @@ class CreatorTestBase < Id58TestBase
     saver.exists?(group_id_path(id))
   end
 
-  def group_manifest(id)
-    JSON::parse!(saver.read("#{group_id_path(id)}/manifest.json"))
-  end
-
   def kata_exists?(id)
     saver.exists?(kata_id_path(id))
-  end
-
-  def kata_manifest(id)
-    JSON::parse!(saver.read("#{kata_id_path(id)}/manifest.json"))
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def custom
-    externals.custom_start_points
-  end
-
-  def any_custom_display_name
-    custom.display_names.sample
   end
 
   private
 
   include IdPather
+
+  def custom
+    externals.custom_start_points
+  end
 
   def saver
     externals.saver

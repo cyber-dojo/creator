@@ -16,7 +16,7 @@ class CreatorTest < CreatorTestBase
   and its manifest matches the display_name
   ) do
     post '/create_custom_group', data={ display_name:any_custom_display_name }
-    assert_302_response
+    assert_status(TEMPORARY_REDIRECT)
     follow_redirect!
     assert_group_exists(id_from_group_url, data[:display_name])
   end
@@ -30,7 +30,7 @@ class CreatorTest < CreatorTestBase
   and its manifest matches the display_name
   ) do
     post '/create_custom_kata', data={ display_name:any_custom_display_name }
-    assert_302_response
+    assert_status(TEMPORARY_REDIRECT)
     follow_redirect!
     assert_kata_exists(id_from_kata_url, data[:display_name])
   end
@@ -46,7 +46,7 @@ class CreatorTest < CreatorTestBase
   ) do
     data = { display_name:any_custom_display_name }
     post '/create_custom_group', data.to_json, JSON_REQUEST_HEADERS
-    assert_200_response
+    assert_status(SUCCESS)
     assert_group_exists(id_from_json_response, data[:display_name])
   end
 
@@ -61,11 +61,37 @@ class CreatorTest < CreatorTestBase
   ) do
     data = { display_name:any_custom_display_name }
     post '/create_custom_kata', data.to_json, JSON_REQUEST_HEADERS
-    assert_200_response
+    assert_status(SUCCESS)
     assert_kata_exists(id_from_json_response, data[:display_name])
   end
 
   private
+
+  def any_custom_display_name
+    custom.display_names.sample
+  end
+
+  def assert_group_exists(id, display_name)
+    refute_nil id, :id
+    assert group_exists?(id), "!group_exists?(#{id})"
+    manifest = group_manifest(id)
+    assert_equal display_name, manifest['display_name'], manifest.keys.sort
+  end
+
+  def assert_kata_exists(id, display_name)
+    refute_nil id, :id
+    assert kata_exists?(id), "!kata_exists?(#{id})"
+    manifest = kata_manifest(id)
+    assert_equal display_name, manifest['display_name'], manifest.keys.sort
+  end
+
+  def group_manifest(id)
+    JSON::parse!(saver.read("#{group_id_path(id)}/manifest.json"))
+  end
+
+  def kata_manifest(id)
+    JSON::parse!(saver.read("#{kata_id_path(id)}/manifest.json"))
+  end
 
   def id_from_group_url
     match = last_request.url.match(%r{http://example.org/kata/group/(.*)})

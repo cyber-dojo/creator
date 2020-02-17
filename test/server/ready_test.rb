@@ -13,7 +13,7 @@ class ReadyTest < CreatorTestBase
   test '15D',
   %w( GET /ready returns JSON'd true when all http-services are ready ) do
     get '/ready'
-    assert last_response.ok?
+    assert_status(SUCCESS)
     assert true?(json_response['ready?']), last_response.body
   end
 
@@ -23,7 +23,7 @@ class ReadyTest < CreatorTestBase
   %w( GET /ready returns JSON'd false when custom_start_points is not ready ) do
     externals.instance_exec { @custom_start_points = STUB_READY_FALSE }
     get '/ready'
-    assert last_response.ok?
+    assert_status(SUCCESS)
     assert false?(json_response['ready?']), last_response.body
   end
 
