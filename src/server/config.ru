@@ -8,5 +8,5 @@ unless ENV['NO_PROMETHEUS']
   use Prometheus::Middleware::Exporter
 end
 
-require_relative 'code/creator'
-run Creator
+require_relative 'code/app'
+run App

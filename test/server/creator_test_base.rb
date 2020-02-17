@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative '../id58_test_base'
+require_src 'app'
 require_src 'externals'
 require_src 'creator'
 require_src 'id_pather'
@@ -16,8 +17,12 @@ class CreatorTestBase < Id58TestBase
     @externals ||= Externals.new
   end
 
+  def creator
+    @creator ||= Creator.new(externals)
+  end
+
   def app
-    @app ||= Creator.new(nil, externals)
+    @app ||= App.new(nil, creator)
   end
 
   def json_response

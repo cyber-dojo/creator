@@ -4,68 +4,27 @@ require_relative 'id_generator'
 require_relative 'id_pather'
 require_relative 'json_hash/generator'
 require_relative 'saver_asserter'
-require_relative 'silently'
-silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require 'json'
-require 'sinatra/base'
 
-class Creator < Sinatra::Base
+class Creator
 
-  silently { register Sinatra::Contrib }
-  set :port, ENV['PORT']
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-  # ctor
-
-  def initialize(app=nil, externals=Externals.new)
-    super(app)
+  def initialize(externals=Externals.new)
     @externals = externals
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # identity
 
-  get '/sha', :provides => [:json] do
-    json sha:ENV['SHA']
+  def sha
+    ENV['SHA']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # k8s/curl probing
 
-  get '/alive', :provides => [:json] do
-    json alive?:true
+  def alive?
+    true
   end
-
-  get '/ready', :provides => [:json] do
-    json ready?:ready?
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  post '/create_custom_group', :provides => [:html, :json] do
-    manifest = custom_start_points.manifest(display_name)
-    id = create_group(manifest)
-    respond_to do |format|
-      format.html { redirect "/kata/group/#{id}" }
-      format.json { json id:id }
-    end
-  end
-
-  post '/create_custom_kata', :provides => [:html, :json] do
-    manifest = custom_start_points.manifest(display_name)
-    id = create_kata(manifest)
-    respond_to do |format|
-      format.html { redirect "/kata/edit/#{id}" }
-      format.json { json id:id }
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-  # ...
-
-  private
-
-  include IdPather # group_id_path, kata_id_path
 
   def ready?
     services = []
@@ -74,13 +33,24 @@ class Creator < Sinatra::Base
     services.all?{ |service| service.ready? }
   end
 
-  def display_name
-    payload = params
-    payload = JSON.parse(request.body.read) unless params['display_name']
-    payload['display_name']
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def create_custom_group(display_name)
+    manifest = custom_start_points.manifest(display_name)
+    create_group(manifest)
   end
 
-  # - - - - - - - - - - - - - -
+  def create_custom_kata(display_name)
+    manifest = custom_start_points.manifest(display_name)
+    create_kata(manifest)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+  # ...
+
+  private
+
+  include IdPather # group_id_path, kata_id_path
 
   def create_group(manifest)
     set_version(manifest)
