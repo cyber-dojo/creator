@@ -6,13 +6,30 @@ require_src 'id_pather'
 require 'json'
 
 class CreatorTestBase < Id58TestBase
+  include Rack::Test::Methods
 
   def initialize(arg)
     super(arg)
   end
 
-  def creator
-    Creator.new(externals)
+  def externals
+    @externals ||= Externals.new
+  end
+
+  def app
+    @app ||= Creator.new(nil, externals)
+  end
+
+  def json_response
+    JSON.parse(last_response.body)
+  end
+
+  def true?(b)
+    assert b.is_a?(TrueClass)
+  end
+
+  def false?(b)
+    assert b.is_a?(FalseClass)
   end
 
   # - - - - - - - - - - - - - - - -
@@ -33,36 +50,18 @@ class CreatorTestBase < Id58TestBase
     JSON::parse!(saver.read("#{kata_id_path(id)}/manifest.json"))
   end
 
-  def saver
-    externals.saver
-  end
-
-  include IdPather
-
   # - - - - - - - - - - - - - - - -
-
-  def any(names)
-    names.shuffle[0]
-  end
 
   def custom
     externals.custom_start_points
   end
 
-  # - - - - - - - - - - - - - - - -
+  private
 
-  def true?(b)
-    b.is_a?(TrueClass)
-  end
+  include IdPather
 
-  def false?(b)
-    b.is_a?(FalseClass)
-  end
-
-  # - - - - - - - - - - - - - - - -
-
-  def externals
-    @externals ||= Externals.new
+  def saver
+    externals.saver
   end
 
 end

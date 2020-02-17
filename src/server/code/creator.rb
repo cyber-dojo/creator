@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 require_relative 'externals'
-require_relative 'silent_warnings'
 require_relative 'id_generator'
 require_relative 'id_pather'
 require_relative 'json_hash/generator'
 require_relative 'saver_asserter'
-require_silent 'sinatra/contrib' # N x "warning: method redefined"
+require_relative 'silently'
+silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require 'json'
 require 'sinatra/base'
 
 class Creator < Sinatra::Base
-  silent_warnings { register Sinatra::Contrib }
 
+  silently { register Sinatra::Contrib }
   set :port, ENV['PORT']
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -79,6 +79,8 @@ class Creator < Sinatra::Base
     payload = JSON.parse(request.body.read) unless params['display_name']
     payload['display_name']
   end
+
+  # - - - - - - - - - - - - - -
 
   def create_group(manifest)
     set_version(manifest)

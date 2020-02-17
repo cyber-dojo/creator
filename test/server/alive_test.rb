@@ -9,9 +9,10 @@ class AliveTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '15d',
-  %w( /alive? is true ) do
-    assert true?(creator.alive?)
+  test '15d', %w( GET /alive returns JSON'd true ) do
+    get '/alive'
+    assert last_response.ok?
+    assert true?(json_response['alive?']), last_response.body
   end
 
 end

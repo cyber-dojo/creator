@@ -11,24 +11,30 @@ class ReadyTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '15D',
-  %w( /ready? is true when custom_start_points and saver are ready ) do
-    assert true?(creator.ready?)
+  %w( GET /ready returns JSON'd true when all http-services are ready ) do
+    get '/ready'
+    assert last_response.ok?
+    assert true?(json_response['ready?']), last_response.body
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test '15E',
-  %w( /ready? is false when custom_start_points is not ready ) do
+  %w( GET /ready returns JSON'd false when custom_start_points is not ready ) do
     externals.instance_exec { @custom_start_points = STUB_READY_FALSE }
-    assert false?(creator.ready?)
+    get '/ready'
+    assert last_response.ok?
+    assert false?(json_response['ready?']), last_response.body
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test '15F',
-  %w( /ready? is false when saver is not ready ) do
+  %w( GET /ready returns JSON'd false when saver is not ready ) do
     externals.instance_exec { @saver = STUB_READY_FALSE }
-    assert false?(creator.ready?)
+    get '/ready'
+    assert last_response.ok?
+    assert false?(json_response['ready?']), last_response.body
   end
 
   private
