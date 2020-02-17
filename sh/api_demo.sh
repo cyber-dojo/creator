@@ -33,7 +33,7 @@ demo_new_route_probing_returns_JSON_boolean()
 demo_new_route_create_URL_Params_causes_redirect_302()
 {
   local -r data=display_name=Java%20Countdown%2C%20Round%201
-  printf "API(new) create(url.params) causes redirect (302)\n"
+  printf "API(new) create...(url.params) causes redirect (302)\n"
   curl_url_params_302 POST "$(new_controller)/create_custom_group" "$(url_display_name)"
   curl_url_params_302 POST "$(new_controller)/create_custom_kata"  "$(url_display_name)"
   printf '\n'
@@ -42,7 +42,7 @@ demo_new_route_create_URL_Params_causes_redirect_302()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo_new_route_create_JSON_Body_returns_JSON_id()
 {
-  printf "API(new) create(json.body) returns id\n"
+  printf "API(new) create...(json.body) returns JSON id\n"
   curl_json_body POST "$(new_controller)/create_custom_group" "$(json_display_name)"
   curl_json_body POST "$(new_controller)/create_custom_kata"  "$(json_display_name)"
   printf '\n'
@@ -51,7 +51,7 @@ demo_new_route_create_JSON_Body_returns_JSON_id()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo_old_route_create_URL_params_causes_redirect_302()
 {
-  printf 'API(deprecated) save(url.params) causes redirect (302)\n'
+  printf 'API(old) save...(url.params) causes redirect (302)\n'
   curl_url_params_302 POST "$(old_controller)/save_group"      "$(url_display_name)"
   curl_url_params_302 POST "$(old_controller)/save_individual" "$(url_display_name)"
   printf '\n'
@@ -60,7 +60,7 @@ demo_old_route_create_URL_params_causes_redirect_302()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo_old_route_create_JSON_Body_returns_id()
 {
-  printf 'API(deprecated) save(json.body) returns id\n'
+  printf 'API(old) save...(json.body) returns JSON id\n'
   curl_json_body POST "$(old_controller)/save_group_json"      "$(json_display_name)"
   curl_json_body POST "$(old_controller)/save_individual_json" "$(json_display_name)"
   printf '\n'
@@ -73,7 +73,7 @@ curl_json_body()
   local -r type="${1}"   # eg GET|POST
   local -r route="${2}"  # eg creator/ready?
   local -r json="${3:-}" # eg '{"display_name":"Java Countdown, Round 1"}'
-  printf "$(tab)${type} ${route} 200 => "
+  printf "$(tab)${type} ${route} => 200 "
   curl  \
     --data "${json}" \
     --fail \
@@ -91,7 +91,7 @@ curl_url_params_302()
   local -r type=${1}     # eg GET|POST
   local -r route=${2}    # eg setup_custom_start_point/save_individual
   local -r params=${3:-} # eg display_name=Java%20Countdown%2C%20Round%201
-  printf "$(tab)${type} ${route} 302 => "
+  printf "$(tab)${type} ${route} => "
   curl \
     --fail \
     --header 'Accept: text/html' \
@@ -103,7 +103,7 @@ curl_url_params_302()
 
   grep --quiet 302 ${log}                   # eg HTTP/1.1 302 Moved Temporarily
   local -r location=$(grep Location ${log}) # eg Location: http://192.168.99.100/kata/group/mzCS1h
-  printf "${location}\n"
+  printf "302 ${location}\n"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
