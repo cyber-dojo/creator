@@ -33,7 +33,7 @@ module JsonHash
 
       def unpacked(body, path)
         json = json_parse(body)
-        unless json.is_a?(Hash)
+        unless json.instance_of?(Hash)
           fail error_msg(body, 'not JSON Hash')
         end
         if json.has_key?('exception')
