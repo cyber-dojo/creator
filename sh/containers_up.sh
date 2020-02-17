@@ -76,10 +76,11 @@ warn_if_unclean()
   local -r name="${1}"
   local log=$(docker logs "${name}" 2>&1)
 
-  local -r shadow_warning="server.rb:(.*): warning: shadowing outer local variable - filename"
-  log=$(strip_known_warning "${log}" "${shadow_warning}")
-  local -r mismatched_indent_warning="application(.*): warning: mismatched indentations at 'rescue' with 'begin'"
-  log=$(strip_known_warning "${log}" "${mismatched_indent_warning}")
+  #Thin warnings...
+  #local -r shadow_warning="server.rb:(.*): warning: shadowing outer local variable - filename"
+  #log=$(strip_known_warning "${log}" "${shadow_warning}")
+  #local -r mismatched_indent_warning="application(.*): warning: mismatched indentations at 'rescue' with 'begin'"
+  #log=$(strip_known_warning "${log}" "${mismatched_indent_warning}")
 
   local -r line_count=$(echo -n "${log}" | grep --count '^')
   printf "Checking ${name} started cleanly..."
@@ -87,7 +88,7 @@ warn_if_unclean()
   #Thin web server (v1.7.2 codename Bachmanity)
   #Maximum connections set to 1024
   #Listening on 0.0.0.0:4536, CTRL+C to stop
-  if [ "${line_count}" == '3' ]; then
+  if [ "${line_count}" == '6' ]; then
     echo OK
   else
     echo FAIL
