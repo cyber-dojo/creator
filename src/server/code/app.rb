@@ -87,11 +87,16 @@ class App < Sinatra::Base
 
   def payload
     if request.content_type === 'application/json'
-      body = request.body.read
-      body === '' ? {} : JSON.parse(body)
+      json_parse(request.body.read)
     else
       params
     end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def json_parse(body)
+    body === '' ? {} : JSON.parse(body)
   end
 
 end
