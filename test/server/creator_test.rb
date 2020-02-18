@@ -12,16 +12,21 @@ class CreatorTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest q31: %w(
-  POST /create_custom_group,
-  with a valid display_name in the JSON-Request body,
-  creates a group,
-  whose manifest matches the display_name,
-  whose id is in the JSON-Response body
+  |POST /create_custom_group
+  |with a valid display_name in the JSON-Request body
+  |creates a group
+  |whose manifest matches the display_name
+  |whose id is in the JSON-Response body
   ) do
-    data = { display_name:any_custom_display_name }
-    post '/create_custom_group', data.to_json, JSON_REQUEST_HEADERS
+    json_post '/create_custom_group', args={
+      display_name:any_custom_display_name
+    }
     assert_status(SUCCESS)
-    assert_group_exists(id_from_json_response, data[:display_name])
+    assert_group_exists(id_from_json_response, args[:display_name])
+  end
+
+  def json_post(path, data)
+    post path, data.to_json, JSON_REQUEST_HEADERS
   end
 
   # - - - - - - - - - - - - - - - - -

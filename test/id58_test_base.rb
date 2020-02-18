@@ -24,9 +24,9 @@ class Id58TestBase < MiniTest::Test
     lines =
       hash[id58_suffix]
         .join(' ')
-        .split(',')
+        .split('|')
         .map{|s| s.strip }
-        .join(",\n")
+        .join("\n|")
     test(id58_suffix, lines+"\n\n", &test_block)
   end
 
@@ -52,8 +52,8 @@ class Id58TestBase < MiniTest::Test
           id58_teardown
         end
       }
-      name = "#{id58_suffix}:\n#{name58}"
-      define_method("test_\n#{name}".to_sym, &execute_around)
+      name = "#{id58_suffix}:#{name58}"
+      define_method("test_\n\n#{name}".to_sym, &execute_around)
     end
   end
 
