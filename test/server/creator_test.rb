@@ -4,14 +4,14 @@ require_relative 'creator_test_base'
 class CreatorTest < CreatorTestBase
 
   def self.id58_prefix
-    '26F'
+    :f26
   end
 
   # - - - - - - - - - - - - - - - - -
   # 200 OK
   # - - - - - - - - - - - - - - - - -
 
-  test 'q31', %w(
+  qtest q31: %w(
   POST /create_custom_group,
   with a valid display_name in the JSON-Request body,
   creates a group,
@@ -96,6 +96,7 @@ class CreatorTest < CreatorTestBase
     # params:{"xyz"=>nil}:
     # body:[]:
     # it seems for a GET, the body is xferred to params!?
+    # But why is it 200? Surely the **splat should fail?
   end
 
   # - - - - - - - - - - - - - - - - -

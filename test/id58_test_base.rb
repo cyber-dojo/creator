@@ -19,11 +19,22 @@ class Id58TestBase < MiniTest::Test
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  def self.qtest(hash, &test_block)
+    id58_suffix = hash.keys[0]
+    lines =
+      hash[id58_suffix]
+        .join(' ')
+        .split(',')
+        .map{|s| s.strip }
+        .join(",\n")
+    test(id58_suffix, lines+"\n\n", &test_block)
+  end
+
   def self.test(id58_suffix, *lines, &test_block)
     src = test_block.source_location
     src_file = File.basename(src[0])
     src_line = src[1].to_s
-    id58 = checked_id58(id58_suffix, lines)
+    id58 = checked_id58(id58_suffix.to_s, lines)
     if @@args === [] || @@args.any?{ |arg| id58.include?(arg) }
       name58 = lines.join(space = ' ')
       execute_around = lambda {
@@ -41,7 +52,7 @@ class Id58TestBase < MiniTest::Test
           id58_teardown
         end
       }
-      name = "id58 '#{id58_suffix}',\n'#{name58}'"
+      name = "#{id58_suffix}:\n#{name58}"
       define_method("test_\n#{name}".to_sym, &execute_around)
     end
   end
@@ -82,19 +93,20 @@ class Id58TestBase < MiniTest::Test
     pointee = (['',pointer,method,'','']).join("\n")
     pointer.prepend("\n\n")
     raise "#{pointer}missing#{pointee}" unless respond_to?(:id58_prefix)
-    raise "#{pointer}empty#{pointee}" if id58_prefix === ''
-    raise "#{pointer}not id58#{pointee}" unless id58?(id58_prefix)
+    prefix = id58_prefix.to_s
+    raise "#{pointer}empty#{pointee}" if prefix === ''
+    raise "#{pointer}not id58#{pointee}" unless id58?(prefix)
 
     method = "test '#{id58_suffix}',"
     pointer = ' ' * method.index("'") + '!'
     proposition = lines.join(space = ' ')
     pointee = ['',pointer,method,"'#{proposition}'",'',''].join("\n")
-    id58 = id58_prefix + id58_suffix
+    id58 = prefix + id58_suffix
     pointer.prepend("\n\n")
     raise "#{pointer}empty#{pointee}" if id58_suffix === ''
     raise "#{pointer}not id58#{pointee}" unless id58?(id58_suffix)
     raise "#{pointer}duplicate#{pointee}" if @@seen_ids.include?(id58)
-    raise "#{pointer}overlap#{pointee}" if id58_prefix[-2..-1] === id58_suffix[0..1]
+    raise "#{pointer}overlap#{pointee}" if prefix[-2..-1] === id58_suffix[0..1]
     @@seen_ids << id58
     id58
   end
