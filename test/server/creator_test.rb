@@ -25,10 +25,6 @@ class CreatorTest < CreatorTestBase
     assert_group_exists(id_from_json_response, args[:display_name])
   end
 
-  def json_post(path, data)
-    post path, data.to_json, JSON_REQUEST_HEADERS
-  end
-
   # - - - - - - - - - - - - - - - - -
 
   test 'q32', %w(
@@ -38,44 +34,13 @@ class CreatorTest < CreatorTestBase
   whose manifest matches the display_name,
   whose id is in the JSON-Response body
   ) do
-    data = { display_name:any_custom_display_name }
-    post '/create_custom_kata', data.to_json, JSON_REQUEST_HEADERS
+    json_post '/create_custom_kata', data = { display_name:any_custom_display_name }
     assert_status(SUCCESS)
     assert_kata_exists(id_from_json_response, data[:display_name])
   end
 
   # - - - - - - - - - - - - - - - - -
-  # 302 Redirect
-  # - - - - - - - - - - - - - - - - -
-
-  test '702', %w(
-  POST /create_custom_group?display_name=VALID
-  causes 302 redirect to /kata/group/:id
-  and a group with :id exists
-  and its manifest matches the display_name
-  ) do
-    post '/create_custom_group', data={ display_name:any_custom_display_name }
-    assert_status(TEMPORARY_REDIRECT)
-    follow_redirect!
-    assert_group_exists(id_from_group_url, data[:display_name])
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  test '703', %w(
-  POST /create_custom_kata?display_name=VALID
-  causes 302 redirect to kata/edit/:id
-  and a kata with :id exists
-  and its manifest matches the display_name
-  ) do
-    post '/create_custom_kata', data={ display_name:any_custom_display_name }
-    assert_status(TEMPORARY_REDIRECT)
-    follow_redirect!
-    assert_kata_exists(id_from_kata_url, data[:display_name])
-  end
-
-  # - - - - - - - - - - - - - - - - -
-  # 400 Request Errors
+  # 500 Request Errors
   # - - - - - - - - - - - - - - - - -
 
   test 'Kp1', %w(
@@ -83,9 +48,8 @@ class CreatorTest < CreatorTestBase
     with JSON-Hash Request.body containing unknown arg,
     ...
   ) do
-    unknown_arg = '{"unknown":42}'
-    post '/create_custom_group', unknown_arg, JSON_REQUEST_HEADERS
-    assert_status(400)
+    json_post '/create_custom_group', unknown_arg = '{"unknown":42}'
+    assert_status(500)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -97,11 +61,10 @@ class CreatorTest < CreatorTestBase
   ) do
     unknown_arg = 'xyz'
     get '/sha', unknown_arg, JSON_REQUEST_HEADERS
-    assert_status(400) # FAILS, ==200
+    assert_status(500) # FAILS, ==200
     # params:{"xyz"=>nil}:
-    # body:[]:
-    # it seems for a GET, the body is xferred to params!?
-    # But why is it 200? Surely the **splat should fail?
+    # body::
+    # it seems for a GET, the body is moved to params!?
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -111,9 +74,8 @@ class CreatorTest < CreatorTestBase
     with non-JSON Request.body,
     ...
   ) do
-    non_json = 'xyz'
-    post '/create_custom_group', non_json, JSON_REQUEST_HEADERS
-    assert_status(400)
+    json_post '/create_custom_group', non_json = 'xyz'
+    assert_status(500)
     #...
   end
 
@@ -124,14 +86,11 @@ class CreatorTest < CreatorTestBase
     with non-JSON-Hash Request.body,
     ...
   ) do
-    non_json_hash = '42'
-    post '/create_custom_group', non_json_hash, JSON_REQUEST_HEADERS
-    assert_status(400)
+    json_post '/create_custom_group', non_json_hash = 42
+    assert_status(500)
     #...
   end
 
-  # - - - - - - - - - - - - - - - - -
-  # 500 Response Errors
   # - - - - - - - - - - - - - - - - -
 
   test 'aX3', %w(
@@ -150,8 +109,7 @@ class CreatorTest < CreatorTestBase
   with an invalid display_name in the JSON-Request body,
   ...
   ) do
-    data = { display_name:'invalid' }
-    post '/create_custom_group', data.to_json, JSON_REQUEST_HEADERS
+    json_post '/create_custom_group', data = { display_name:'invalid' }
     assert_status(500)
     # TODO response.body needs to get json { "exception":"...." }
   end
@@ -197,12 +155,17 @@ class CreatorTest < CreatorTestBase
   end
 
   def id_from_json_response
-    json_response['id']
+    json_response[@path[1..-1]]
   end
 
   JSON_REQUEST_HEADERS = {
     'CONTENT_TYPE' => 'application/json',  # sent in request
     'HTTP_ACCEPT' => 'application/json'    # received in response
   }
+
+  def json_post(path, data)
+    @path = path
+    post path, data.to_json, JSON_REQUEST_HEADERS
+  end
 
 end

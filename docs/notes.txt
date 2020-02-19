@@ -1,4 +1,10 @@
 
+Rework yml so
+s/creator-client/client/
+s/creator-server/creator/
+This way nginx.conf (eg) has settings it will actually need in real nginx.
+Will affect .sh files.
+
 Drop attempt to distinguish between 400/500 error codes.
 It's not useful.
 Just return 500 and make sure 'exception' key is in the json response body
@@ -12,6 +18,7 @@ creator_302_redirect_test.rb
 creator_500_exception_test.rb
 
 Do I need the 302 redirects?
+
 If James is using the json-body calls I think I can drop
 support for html and just use json in the protocol.
 It means custom-chooser will need to handle the [ok] button
@@ -20,8 +27,12 @@ a failure dialog (just like Rails does in web).
 Could I make a JS wrapper? One that assumes when there is a
 failure the json.body will contain an exception key which
 is displayed in a dialog popup.
+
 Can test this (manually) in custom-chooser by [docker rm]ing
 the saver service before clicking the [ok] button.
+Can also test by [docker rm]ing the creator service.
+This should give a different error (timeout?)
+
 Something like...
 
   const ok = $('#ok-button');
@@ -103,3 +114,6 @@ json_post '/create_custom_group', args={
 }
 it_succeeded # it_failed
 group_exists(id_from_json_response, args[:display_name])
+
+Is that too terse?
+Feels like I want a new trailing character like ! or ? both !?

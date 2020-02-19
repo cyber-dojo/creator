@@ -9,6 +9,43 @@ class App < Sinatra::Base
 
   silently { register Sinatra::Contrib }
   set :port, ENV['PORT']
+  set :show_exceptions, false
+
+  #TODO: {"exception":...}
+  #TODO: let exception from service (eg saver) propoagate? or wrap?
+  error do
+    error = $!
+    puts "(500):#{error.message}:"
+    status(500)
+    #content_type('application/json')
+    body(error.message)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def self.json_get(name)
+    get "/#{name}", provides:[:json] do
+      respond_to do |format|
+        format.json {
+          json name => instance_eval {
+            creator.public_send(name, **args)
+          }
+        }
+      end
+    end
+  end
+
+  def self.json_post(name)
+    post "/#{name}", provides:[:json] do
+      respond_to do |format|
+        format.json {
+          json name => instance_eval {
+            creator.public_send(name, **args)
+          }
+        }
+      end
+    end
+  end
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # ctor
@@ -20,46 +57,17 @@ class App < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # identity
-
-  get '/sha', :provides => [:json] do
-    rescued_respond_to do |format|
-      format.json { json sha: creator.sha(**args) }
-    end
-  end
+  json_get(:sha)
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # k8s/curl probing
-
-  get '/alive', :provides => [:json] do
-    rescued_respond_to do |format|
-      format.json { json alive?: creator.alive?(**args) }
-    end
-  end
-
-  get '/ready', :provides => [:json] do
-    rescued_respond_to do |format|
-      format.json { json ready?: creator.ready?(**args) }
-    end
-  end
+  json_get(:alive?)
+  json_get(:ready?)
 
   # - - - - - - - - - - - - - - - - - - - - - -
   # main routes
-
-  post '/create_custom_group', :provides => [:html, :json] do
-    rescued_respond_to do |format|
-      id = creator.create_custom_group(**args)
-      format.html { redirect "/kata/group/#{id}" }
-      format.json { json id:id }
-    end
-  end
-
-  post '/create_custom_kata', :provides => [:html, :json] do
-    rescued_respond_to do |format|
-      id = creator.create_custom_kata(**args)
-      format.html { redirect "/kata/edit/#{id}" }
-      format.json { json id:id }
-    end
-  end
+  json_post(:create_custom_group)
+  json_post(:create_custom_kata)
 
   private
 
@@ -71,82 +79,40 @@ class App < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def rescued_respond_to
-    respond_to { |format| yield format }
-  rescue Exception => error
-    if error.is_a?(RequestError)
-      #puts "400:#{error.message}:"
-      response.status = 400
-      return
+  def dump_args(args)
+    if request.path === '/sha'
+      puts "args (for **)==#{args}"
     end
-    if bad_keyword?(error)
-      #puts "400:#{bad_keyword_message(error)}:"
-      response.status = 400
-      return
-    end
-    #puts "500:#{error.message}:"
-    response.status = 500
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def bad_keyword?(error)
-    error.is_a?(ArgumentError) &&
-      error.message.match(BAD_KEYWORD_REGEXP)
-  end
-
-  def bad_keyword_message(error)
-    r = error.message.match(BAD_KEYWORD_REGEXP)
-    "#{r[1]} argument#{r[2]}: #{r[3]}"
-  end
-
-  BAD_KEYWORD_REGEXP = '(missing|unknown) keyword(s?): (.*)'
-
-  # - - - - - - - - - - - - - - - - - - - - - -
 
   def args
-    Hash[payload.map{ |key,value| [key.to_sym, value] }]
+    payload = json_hash_parse(request.body.read)
+    x = Hash[payload.map{ |key,value| [key.to_sym, value] }]
+    #dump_args(x)
+    x
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def payload
+  def dump_payload(body)
     if request.path === '/sha'
-      #puts "request.content_type:#{request.content_type}:"
+      puts "request.content_type:#{request.content_type}:"
+      puts "params:#{params}:"
+      puts "body:#{body}:"
     end
-    if request.content_type === 'application/json'
-      json_hash_parse(request.body.read)
-    else
-      params
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def dump_payload
-    puts '~~~~~~~~'
-    puts "params:#{params}:"
-    puts "body:#{body}:"
-    puts '~~~~~~~~'
   end
 
   def json_hash_parse(body)
-    #dump_payload
+    #dump_payload(body)
     json = (body === '') ? {} : JSON.parse!(body)
     unless json.instance_of?(Hash)
-      fail RequestError, 'body is not JSON Hash'
+      fail 'body is not JSON Hash'
     end
     json
   rescue JSON::ParserError
-    fail RequestError, 'body is not JSON'
+    fail 'body is not JSON'
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-
-  class RequestError < RuntimeError
-    def initialize(message)
-      super
-    end
-  end
 
 end
