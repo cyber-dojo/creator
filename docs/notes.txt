@@ -12,99 +12,10 @@ Just return 500 and make sure 'exception' key is in the json response body
 
 Add examples of 500 calls (and the exception) to sh/api_demo.sh
 
-Split creator tests into 3 files.
-creator_200_success_test.rb
-creator_302_redirect_test.rb
-creator_500_exception_test.rb
-
-Do I need the 302 redirects?
-
-If James is using the json-body calls I think I can drop
-support for html and just use json in the protocol.
-It means custom-chooser will need to handle the [ok] button
-itself; make an $ajax call, handle 500 errors by popping up
-a failure dialog (just like Rails does in web).
-Could I make a JS wrapper? One that assumes when there is a
-failure the json.body will contain an exception key which
-is displayed in a dialog popup.
-
-Can test this (manually) in custom-chooser by [docker rm]ing
+Can test (manually) in custom-chooser by [docker rm]ing
 the saver service before clicking the [ok] button.
 Can also test by [docker rm]ing the creator service.
 This should give a different error (timeout?)
-
-Something like...
-
-  const ok = $('#ok-button');
-  $.ajax({
-       timeout: 1000, // 1 second
-          type: 'POST',
-           url: '/creator/create_custom_group',
-          data: `{"display_name":"${...}"}`,
-    beforeSend: () => { ok.disable(); },
-    complete: (request) => {
-        ok.enable();
-        // args = parse json from request.responseText
-        callback(args);
-      },
-    error: error
-  });
-
-  const error = (request, status, thrown) => {
-    cd.dialogError([
-      request.responseText,
-      '----------------------------',
-      `Status=${status}`,
-      thrown
-    ].join("\n"));
-  };
-
-  const callback = (args) => {
-    window.open(`kata/group/${args['id']}`);
-    window.location.href = cd.homePageUrl();
-  };
-
-This helps me to realize that creator should lots
-a prettified version of the json exception to stdout
-but should also return the prettified version of the
-json exception in the response.body too. Then
-the JS handler (error() above) can just use it directly.
-
-
-Feels like my tests should be able to create an abstraction
-for json calls to get/post. Viz instead of
-post '/create_custom_group', data.to_json, JSON_REQUEST_HEADERS
-maybe...
-
-  test 'q31', %w( ... ) do
-    json_post '/create_custom_group', args={x:42}
-    # either returned or exception
-  end
-
-Why is 'q31' not :q31  ?
-Then
-  test :q31, %w(...) do
-Can we do
-  test q31:%w(...) do
-
-Were q31 is extracted as only hash-key?
-Yes. Works.
-Now split lines on comma and join those with \n
-Better, use | as leading char on each line.
-Now...
-
-qtest q31: %w(
-|POST /create_custom_group
-|with a valid display_name in the JSON-Request body
-|creates a group
-|whose manifest matches the display_name
-|whose id is in the JSON-Response body
-) do
-  data = { display_name:any_custom_display_name }
-  post '/create_custom_group', data.to_json, JSON_REQUEST_HEADERS
-  assert_status(SUCCESS)
-  assert_group_exists(id_from_json_response, data[:display_name])
-end
 
 assert_ is getting quite repetitive...
 How about just

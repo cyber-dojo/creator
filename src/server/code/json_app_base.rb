@@ -3,7 +3,7 @@ require 'json'
 require 'sinatra/base'
 silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 
-class AppBase < Sinatra::Base
+class JsonAppBase < Sinatra::Base
 
   def initialize(app)
     super(app)
@@ -17,6 +17,10 @@ class AppBase < Sinatra::Base
   set :show_exceptions, false
 
   error do
+    # TODO: {"exception":...}
+    # TODO: let exception from service (eg saver) propoagate? or wrap?
+    # TODO: return prettified json exception in response.body
+    # TODO: log prettified json exception to stdout too
     error = $!
     puts "(500):#{error.message}:"
     status(500)
@@ -26,7 +30,7 @@ class AppBase < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def self.json_get(name)
+  def self.get_json(name)
     get "/#{name}", provides:[:json] do
       respond_to do |format|
         format.json {
@@ -38,7 +42,7 @@ class AppBase < Sinatra::Base
     end
   end
 
-  def self.json_post(name)
+  def self.post_json(name)
     post "/#{name}", provides:[:json] do
       respond_to do |format|
         format.json {

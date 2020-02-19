@@ -1,28 +1,22 @@
 # frozen_string_literal: true
-require_relative 'app_base'
+require_relative 'json_app_base'
 require_relative 'creator'
 
-class App < AppBase
+class App < JsonAppBase
 
-  # TODO: {"exception":...}
-  # TODO: let exception from service (eg saver) propoagate? or wrap?
-
-  # ctor
   def initialize(app=nil, creator=nil)
     super(app)
     @creator = creator
   end
 
   # identity
-  json_get(:sha)
-
-  # k8s/curl probing
-  json_get(:alive?)
-  json_get(:ready?)
-
+  get_json(:sha)
+  # curl/k8s probing
+  get_json(:alive?)
+  get_json(:ready?)
   # main routes
-  json_post(:create_custom_group)
-  json_post(:create_custom_kata)
+  post_json(:create_custom_group)
+  post_json(:create_custom_kata)
 
   private
 
