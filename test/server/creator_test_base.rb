@@ -22,13 +22,12 @@ class CreatorTestBase < Id58TestBase
   end
 
   def app
-    @app ||= App.new(nil, creator)
+    @app ||= App.new(creator)
   end
 
   # - - - - - - - - - - - - - - - -
 
   SUCCESS = 200
-  TEMPORARY_REDIRECT = 302
 
   def assert_status(expected)
     assert_equal expected, last_response.status, :last_response_status

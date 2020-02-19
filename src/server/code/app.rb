@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 require_relative 'json_app_base'
-require_relative 'creator'
 
 class App < JsonAppBase
 
-  def initialize(app=nil, creator=nil)
-    super(app)
-    @creator = creator
+  def initialize(target)
+    super(target)
   end
 
   # identity
@@ -17,13 +15,5 @@ class App < JsonAppBase
   # main routes
   post_json(:create_custom_group)
   post_json(:create_custom_kata)
-
-  private
-
-  def target
-    # In production, @creator is nil, each request => Creator.new
-    # In testing, @creator is non-nil to allow stubbing
-    @creator || Creator.new
-  end
 
 end

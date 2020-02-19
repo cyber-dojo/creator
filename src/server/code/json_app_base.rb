@@ -5,8 +5,9 @@ silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 
 class JsonAppBase < Sinatra::Base
 
-  def initialize(app)
-    super(app)
+  def initialize(target)
+    super(nil)
+    @target = target
   end
 
   silently { register Sinatra::Contrib }
@@ -34,7 +35,7 @@ class JsonAppBase < Sinatra::Base
     get "/#{name}", provides:[:json] do
       respond_to do |format|
         format.json {
-          result = instance_eval { target.public_send(name, **args) }
+          result = instance_eval { @target.public_send(name, **args) }
           new_api = { name => result }
           json new_api
         }
@@ -46,7 +47,7 @@ class JsonAppBase < Sinatra::Base
     post "/#{name}", provides:[:json] do
       respond_to do |format|
         format.json {
-          result = instance_eval { target.public_send(name, **args) }
+          result = instance_eval { @target.public_send(name, **args) }
           new_api = { name => result }
           backwards_compatible = { id:result }
           json new_api.merge(backwards_compatible)

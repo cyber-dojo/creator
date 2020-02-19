@@ -1,4 +1,7 @@
 
+Refactor id58_test_base in creator so 5 slowest tests are printed one per line.
+Only use \n terminated sections when defining the test so that appears when test fails.
+
 Rework yml so
 s/creator-client/client/
 s/creator-server/creator/

@@ -9,4 +9,8 @@ unless ENV['NO_PROMETHEUS']
 end
 
 require_relative 'code/app'
-run App
+require_relative 'code/creator'
+require_relative 'code/externals'
+externals = Externals.new
+creator = Creator.new(externals)
+run App.new(creator)

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require_relative 'externals'
 require_relative 'id_generator'
 require_relative 'id_pather'
 require_relative 'json_hash/unparse'
@@ -8,7 +7,7 @@ require 'json'
 
 class Creator
 
-  def initialize(externals=Externals.new)
+  def initialize(externals)
     @externals = externals
   end
 
