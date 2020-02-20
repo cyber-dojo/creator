@@ -8,10 +8,6 @@ module JsonHash
       JSON.parse!(s)
     end
 
-    def self.safe(s)
-      JSON.parse(s)
-    end
-
     Error = JSON::ParserError
 
   end
