@@ -94,6 +94,7 @@ class JsonAppBase < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+=begin
   def dump_payload(body)
     if request.path === '/sha'
       puts "request.content_type:#{request.content_type}:"
@@ -107,5 +108,6 @@ class JsonAppBase < Sinatra::Base
       puts "args (for **)==#{args}"
     end
   end
+=end
 
 end

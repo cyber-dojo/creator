@@ -1,4 +1,12 @@
 
+When a runner.run call times out I should write a log message to stdout.
+Then every so often I could just look at the log with kubectl command.
+
+All creator server-side tests that create Stub exceptions from external
+http-services. Stub these with something simple like '{"exception":42}'
+and verify that the exception is simply propagated into the response.body
+with status 500.
+
 Add alive? ready? tests with non JSON-header
 
 Hmmm. You might often add a debug-printf for this (see if the printf appears)
