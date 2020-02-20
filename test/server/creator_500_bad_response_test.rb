@@ -9,9 +9,11 @@ class Creator500BadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'QN4', %w(
-  co-service GET returns non-JSON in response.body
-  is 500 error
+  qtest QN4: %w(
+  |when a co-service GET
+  |returns non-JSON in its response.body
+  |its a 500 error
+  |and...
   ) do
     http_stub('xxxx')
     _stdout = capture_stdout { get '/ready' }
@@ -20,9 +22,11 @@ class Creator500BadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'QN5', %w(
-  co-service GET returns JSON (but not Hash) response.body
-  is 500 error
+  qtest QN5: %w(
+  |when a co-service GET
+  |returns JSON (but not a Hash) in its response.body
+  |its a 500 error
+  |and...
   ) do
     http_stub('[]')
     _stdout = capture_stdout { get '/ready' }
@@ -31,10 +35,12 @@ class Creator500BadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'QN6', %w(
-  co-service GET returns JSON-Hash response.body
-  containing exception key
-  is 500 error
+  qtest QN6: %w(
+  |when a co-service GET
+  |returns JSON-Hash in its response.body
+  |which contains a key "exception"
+  |its a 500 error
+  |and...
   ) do
     http_stub('{"exception":42}')
     _stdout = capture_stdout { get '/ready' }
@@ -43,10 +49,12 @@ class Creator500BadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'QN7', %w(
-  co-service GET returns JSON-Hash response.body
-  not containing key for method
-  is 500 error
+  qtest QN7: %w(
+  |when a co-service GET
+  |returns JSON-Hash in its response.body
+  |which does not contain a key for the called method
+  |its a 500 error
+  |and...
   ) do
     http_stub('{"wibble":42}')
     _stdout = capture_stdout { get '/ready' }
@@ -55,9 +63,11 @@ class Creator500BadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'QN8', %w(
-  co-service POST returns JSON (but not Hash) in response.body
-  is 500 error
+  qtest QN8: %w(
+  |when a co-service POST
+  |returns JSON (but not Hash) in its response.body
+  |its a 500 error
+  |and...
   ) do
     display_name = any_custom_display_name
     http_stub('xxxx')

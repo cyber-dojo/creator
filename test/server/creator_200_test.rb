@@ -11,11 +11,13 @@ class CreatorTest200 < CreatorTestBase
 
   qtest q31: %w(
   |POST /create_custom_group
-  |with a valid display_name in the JSON-Request body
-  |has status 200 and
-  |creates a group
+  |with a display_name in its request.body
+  |that exists in custom-start-points
+  |has status 200
+  |puts an id: in the response.body
+  |which identifies a new group
+  |that exists in saver
   |whose manifest matches the display_name
-  |whose id is in the JSON-Response body
   ) do
     args = { display_name:any_custom_display_name }
     stdout = capture_stdout { json_post '/create_custom_group', args }
@@ -28,11 +30,13 @@ class CreatorTest200 < CreatorTestBase
 
   qtest q32: %w(
   |POST /create_custom_kata
-  |with a valid display_name in the JSON-Request body
-  |has status 200 and
-  |creates a kata
+  |with a display_name in its request.body
+  |that exists in custom-start-points
+  |has status 200
+  |puts an id: in the response.body
+  |which identifies a new kata
+  |that exists in saver
   |whose manifest matches the display_name
-  |whose id is in the JSON-Response body
   ) do
     args = { display_name:any_custom_display_name }
     stdout = capture_stdout { json_post '/create_custom_kata', args }

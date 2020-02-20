@@ -21,12 +21,7 @@ class Id58TestBase < MiniTest::Test
 
   def self.qtest(hash, &test_block)
     id58_suffix = hash.keys[0]
-    lines =
-      hash[id58_suffix]
-        .join(' ')
-        .split('|')
-        .map{|s| s.strip }
-        .join("\n|")
+    lines = hash[id58_suffix].join(' ').split('|').join("\n|")
     test(id58_suffix, lines+"\n\n", &test_block)
   end
 
@@ -46,7 +41,8 @@ class Id58TestBase < MiniTest::Test
           t1 = Time.now
           self.instance_eval(&test_block)
           t2 = Time.now
-          @@timings[id58+':'+src_file+':'+src_line+':'+name58] = (t2 - t1)
+          stripped = trimmed(name58.split("\n").join(','))
+          @@timings[id58+':'+src_file+':'+src_line+':'+stripped] = (t2 - t1)
         ensure
           puts $!.message unless $!.nil?
           id58_teardown
@@ -54,6 +50,14 @@ class Id58TestBase < MiniTest::Test
       }
       name = "#{id58_suffix}:#{name58}"
       define_method("test_\n\n#{name}".to_sym, &execute_around)
+    end
+  end
+
+  def trimmed(s)
+    if s.length > 80
+      s[0..80] + '...'
+    else
+      s
     end
   end
 

@@ -10,7 +10,9 @@ class ProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '15C', %w( GET /alive returns JSON'd true ) do
+  qtest C15: %w(
+  GET /alive returns JSON'd true
+  ) do
     get '/alive'
     assert_status(200)
     assert true?(json_response['alive?']), last_response.body
@@ -18,8 +20,9 @@ class ProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '15D',
-  %w( GET /ready returns JSON'd true when all http-services are ready ) do
+  qtest D15: %w(
+  GET /ready returns JSON'd true when all http-services are ready
+  ) do
     get '/ready'
     assert_status(200)
     assert true?(json_response['ready?']), last_response.body
@@ -27,8 +30,9 @@ class ProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '15E',
-  %w( GET /ready returns JSON'd false when custom_start_points is not ready ) do
+  qtest E15: %w(
+  GET /ready returns JSON'd false when custom_start_points is not ready
+  ) do
     externals.instance_exec { @custom_start_points = STUB_READY_FALSE }
     get '/ready'
     assert_status(200)
@@ -37,8 +41,9 @@ class ProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '15F',
-  %w( GET /ready returns JSON'd false when saver is not ready ) do
+  qtest F15: %w(
+  GET /ready returns JSON'd false when saver is not ready
+  ) do
     externals.instance_exec { @saver = STUB_READY_FALSE }
     get '/ready'
     assert_status(200)

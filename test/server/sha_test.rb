@@ -9,7 +9,9 @@ class ShaTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'p23', %w( GET /sha returns JSON'd 40-char git commit sha ) do
+  qtest p23: %w(
+  GET /sha returns JSON'd 40-char git commit sha
+  ) do
     get '/sha'
     assert_status(200)
     sha = json_response['sha']

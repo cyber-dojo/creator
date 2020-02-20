@@ -8,13 +8,13 @@ class Creator500BadRequestTest < CreatorTestBase
   end
 
   # - - - - - - - - - - - - - - - - -
-  # 500 bad data in request
-  # - - - - - - - - - - - - - - - - -
 
-  test 'Kp1', %w(
-    POST /create_custom_group,
-    with JSON-Hash Request.body containing unknown arg,
-    ...
+  qtest Kp1: %w(
+  |POST /create_custom_group
+  |with JSON-Hash in its request.body
+  |containing an unknown arg
+  |its a 500 error
+  |and...
   ) do
     stdout = capture_stdout { |_uncap|
       print("XXX")
@@ -27,12 +27,73 @@ class Creator500BadRequestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
+  qtest Kp3: %w(
+  |POST /create_custom_group
+  |with non-JSON in its request.body
+  |is a 500 error
+  |and...
+  ) do
+    _stdout = capture_stdout {
+      json_post '/create_custom_group', non_json = 'xyz'
+    }
+    assert_status(500)
+    #...
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  qtest Kp4: %w(
+  |POST /create_custom_group
+  |with non-JSON-Hash in its request.body
+  |is a 500 error
+  |and...
+  ) do
+    _stdout = capture_stdout {
+      json_post '/create_custom_group', non_json_hash = 42
+    }
+    assert_status(500)
+    #...
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  qtest aX3: %w(
+  |POST /create_custom_group?display_name=INVALID
+  |is a 500 error
+  |and...
+  ) do
+    _stdout = capture_stdout {
+      post '/create_custom_group', data={ display_name:'invalid' }
+    }
+    assert_status(500)
+    #...
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  qtest aX4: %w(
+  |POST /create_custom_group
+  |with a display_name in its request.body
+  |that does not exist in custom-chooser
+  |is a 500 error
+  |and...
+  ) do
+    _stdout = capture_stdout {
+      json_post '/create_custom_group', data = { display_name:'invalid' }
+    }
+    assert_status(500)
+    #...
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
 =begin # it seems for a GET, the body is moved to params!?
 
-  test 'Kp2', %w(
-    GET /sha,
-    with non-JSON in Request.body,
-    ...
+  qtest Kp2: %w(
+  |GET /sha
+  |with non-JSON in Request.body
+  |its a 500 error
+  |and...
   ) do
     unknown_arg = 'xyz'
     get '/sha', unknown_arg, JSON_REQUEST_HEADERS
@@ -42,60 +103,5 @@ class Creator500BadRequestTest < CreatorTestBase
   end
 
 =end
-
-  # - - - - - - - - - - - - - - - - -
-
-  test 'Kp3', %w(
-    POST /create_custom_group,
-    with non-JSON Request.body,
-    ...
-  ) do
-    capture_stdout {
-      json_post '/create_custom_group', non_json = 'xyz'
-    }
-    assert_status(500)
-    #...
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  test 'Kp4', %w(
-    POST /create_custom_group,
-    with non-JSON-Hash Request.body,
-    ...
-  ) do
-    capture_stdout {
-      json_post '/create_custom_group', non_json_hash = 42
-    }
-    assert_status(500)
-    #...
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  test 'aX3', %w(
-    POST /create_custom_group?display_name=INVALID,
-    ...
-  ) do
-    capture_stdout {
-      post '/create_custom_group', data={ display_name:'invalid' }
-    }
-    assert_status(500)
-    #...
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  test 'aX4', %w(
-  POST /create_custom_group,
-  with an invalid display_name in the JSON-Request body,
-  ...
-  ) do
-    _stdout = capture_stdout {
-      json_post '/create_custom_group', data = { display_name:'invalid' }
-    }
-    assert_status(500)
-    #...
-  end
 
 end
