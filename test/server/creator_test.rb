@@ -159,15 +159,21 @@ class CreatorTest < CreatorTestBase
   end
 
   def id_from_group_url
-    match = last_request.url.match(%r{http://example.org/kata/group/(.*)})
-    assert match, "did not match #{last_request.url}"
-    match[1]
+    url = last_request.url
+    matched = %r{#{stubbed_hostname}/kata/group/(?<id>.*)}.match(url)
+    assert matched, "did not match #{url}"
+    id
   end
 
   def id_from_kata_url
-    match = last_request.url.match(%r{http://example.org/kata/edit/(.*)})
-    assert match, "did not match #{last_request.url}"
-    match[1]
+    url = last_request.url
+    matched = %r{#{stubbed_hostname}/kata/edit/(?<id>.*)}.match(url)
+    assert matched, "did not match #{url}"
+    id
+  end
+
+  def stubbed_hostname
+    'http://example.org' # Rack::Test::Methods
   end
 
   def id_from_json_response
@@ -175,8 +181,8 @@ class CreatorTest < CreatorTestBase
   end
 
   JSON_REQUEST_HEADERS = {
-    'CONTENT_TYPE' => 'application/json',  # sent in request
-    'HTTP_ACCEPT' => 'application/json'    # received in response
+    'CONTENT_TYPE' => 'application/json',  # sent request
+    'HTTP_ACCEPT' => 'application/json'    # received response
   }
 
   def json_post(path, data)
