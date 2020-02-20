@@ -4,14 +4,14 @@ require_relative 'creator_test_base'
 class ShaTest < CreatorTestBase
 
   def self.id58_prefix
-    'de3'
+    :de3
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test 'p23', %w( GET /sha returns JSON'd 40-char git commit sha ) do
     get '/sha'
-    assert_status(SUCCESS)
+    assert_status(200)
     sha = json_response['sha']
     assert git_sha?(sha), sha
   end

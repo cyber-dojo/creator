@@ -4,7 +4,7 @@ require_relative 'creator_test_base'
 class Creator500BadResponseTest < CreatorTestBase
 
   def self.id58_prefix
-    :f26
+    :f28
   end
 
   # - - - - - - - - - - - - - - - - -

@@ -7,7 +7,7 @@ require 'tmpdir'
 class IdGeneratorTest < CreatorTestBase
 
   def self.id58_prefix
-    'A6D'
+    :A6D
   end
 
   # - - - - - - - - - - - - - - - - - - -

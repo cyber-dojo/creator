@@ -5,14 +5,14 @@ require 'ostruct'
 class ProbesTest < CreatorTestBase
 
   def self.id58_prefix
-    'a86'
+    :a86
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test '15C', %w( GET /alive returns JSON'd true ) do
     get '/alive'
-    assert_status(SUCCESS)
+    assert_status(200)
     assert true?(json_response['alive?']), last_response.body
   end
 
@@ -21,7 +21,7 @@ class ProbesTest < CreatorTestBase
   test '15D',
   %w( GET /ready returns JSON'd true when all http-services are ready ) do
     get '/ready'
-    assert_status(SUCCESS)
+    assert_status(200)
     assert true?(json_response['ready?']), last_response.body
   end
 
@@ -31,7 +31,7 @@ class ProbesTest < CreatorTestBase
   %w( GET /ready returns JSON'd false when custom_start_points is not ready ) do
     externals.instance_exec { @custom_start_points = STUB_READY_FALSE }
     get '/ready'
-    assert_status(SUCCESS)
+    assert_status(200)
     assert false?(json_response['ready?']), last_response.body
   end
 
@@ -41,7 +41,7 @@ class ProbesTest < CreatorTestBase
   %w( GET /ready returns JSON'd false when saver is not ready ) do
     externals.instance_exec { @saver = STUB_READY_FALSE }
     get '/ready'
-    assert last_response.ok?
+    assert_status(200)
     assert false?(json_response['ready?']), last_response.body
   end
 

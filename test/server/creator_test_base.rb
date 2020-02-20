@@ -50,8 +50,6 @@ class CreatorTestBase < Id58TestBase
     assert_equal expected, last_response.status, :last_response_status
   end
 
-  SUCCESS = 200
-
   # - - - - - - - - - - - - - - - -
 
   def group_exists?(id)

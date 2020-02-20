@@ -12,13 +12,14 @@ class CreatorTest200 < CreatorTestBase
   qtest q31: %w(
   |POST /create_custom_group
   |with a valid display_name in the JSON-Request body
+  |has status 200 and
   |creates a group
   |whose manifest matches the display_name
   |whose id is in the JSON-Response body
   ) do
     args = { display_name:any_custom_display_name }
     stdout = capture_stdout { json_post '/create_custom_group', args }
-    assert_status(SUCCESS)
+    assert_status(200)
     assert_group_exists(id_from_json_response, args[:display_name])
     assert_equal '', stdout
   end
@@ -28,13 +29,14 @@ class CreatorTest200 < CreatorTestBase
   qtest q32: %w(
   |POST /create_custom_kata
   |with a valid display_name in the JSON-Request body
+  |has status 200 and
   |creates a kata
   |whose manifest matches the display_name
   |whose id is in the JSON-Response body
   ) do
     args = { display_name:any_custom_display_name }
     stdout = capture_stdout { json_post '/create_custom_kata', args }
-    assert_status(SUCCESS)
+    assert_status(200)
     assert_kata_exists(id_from_json_response, args[:display_name])
     assert_equal '', stdout
   end

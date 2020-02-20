@@ -6,7 +6,7 @@ require 'json'
 class SaverAsserterTest < CreatorTestBase
 
   def self.id58_prefix
-    'A27'
+    :A27
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

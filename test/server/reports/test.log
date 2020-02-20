@@ -1,43 +1,45 @@
-Run options: --seed 62576
+Run options: --seed 8594
 
 # Running:
 
 .....................................
 
-Finished in 0.477210s, 77.5340 runs/s, 155.0680 assertions/s.
+Finished in 0.493456s, 74.9814 runs/s, 149.9628 assertions/s.
 
 37 runs, 74 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 8040 / 14987 LOC (53.65%) covered.
+Coverage report generated for MiniTest to /tmp/reports. 8039 / 14986 LOC (53.64%) covered.
 
 Slowest 5 tests are...
-0.1830 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
-0.1410 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
-0.0252 - a8615E:probes_test.rb:30:GET /ready returns JSON'd false when custom_start_points is not ready
-0.0172 - f26q32:creator_200_test.rb:28:
-|POST /create_custom_kata
-|with a valid display_name in the JSON-Request body
-|creates a kata
-|whose manifest matches the display_name
-|whose id is in the JSON-Response body
-
-0.0160 - f26q31:creator_200_test.rb:12:
+0.1948 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
+0.1423 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
+0.0258 - f27aX3:creator_500_bad_request_test.rb:76:POST /create_custom_group?display_name=INVALID, ...
+0.0190 - f26q31:creator_200_test.rb:12:
 |POST /create_custom_group
 |with a valid display_name in the JSON-Request body
+|has status 200 and
 |creates a group
 |whose manifest matches the display_name
 |whose id is in the JSON-Response body
 
-0.0078 - A6D13b:id_generator_test.rb:65:group-id does not exist in saver before generation, does after
+0.0170 - f26q32:creator_200_test.rb:29:
+|POST /create_custom_kata
+|with a valid display_name in the JSON-Request body
+|has status 200 and
+|creates a kata
+|whose manifest matches the display_name
+|whose id is in the JSON-Response body
+
+0.0085 - f28QN8:creator_500_bad_response_test.rb:58:co-service POST returns JSON (but not Hash) in response.body is 500 error
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.48   <=     2 | [32m true [0m
+        duration(test)[s] |    0.49   <=     2 | [32m true [0m
                     tests |      37   >=     1 | [32m true [0m
          coverage(app)[%] |   100.0   >=   100 | [32m true [0m
         coverage(test)[%] |   100.0   >=   100 | [32m true [0m
    lines(test)/lines(app) |    0.84   >=   1.2 | [31m false [0m
-     hits(app)/hits(test) |    2.39   >=   2.8 | [31m false [0m
+     hits(app)/hits(test) |    2.31   >=   2.8 | [31m false [0m
 
