@@ -1,14 +1,8 @@
-Run options: --seed 26946
+Run options: --seed 3603
 
 # Running:
 
-...........(500):body is not JSON Hash:
-.last_response_status.
-Expected: 500
-  Actual: 200
-F(500):body is not JSON Hash:
-.(500):body is not JSON:
-.(500):body is not JSON Hash:
+............(500):body is not JSON:
 .(500):{
   "path": "manifest",
   "body": "{\"name\":\"invalid\"}",
@@ -36,44 +30,39 @@ F(500):body is not JSON Hash:
     "/usr/bin/rackup:23:in `<main>'"
   ]
 }:
-.................SimpleCov failed with exit 1
+..(500):body is not JSON Hash:
+.(500):body is not JSON Hash:
+..(500):body is not JSON Hash:
+..............
 
-Finished in 0.512736s, 64.3606 runs/s, 130.6716 assertions/s.
+Finished in 0.517594s, 61.8245 runs/s, 127.5130 assertions/s.
 
-  1) Failure:
-CreatorTest#test_
-
-Kp2:GET /sha, with non-JSON in Request.body, ... [/test/server/creator_test.rb:64]:
-last_response_status.
-Expected: 500
-  Actual: 200
-
-33 runs, 67 assertions, 1 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 8009 / 14946 LOC (53.59%) covered.
+32 runs, 66 assertions, 0 failures, 0 errors, 0 skips
+Coverage report generated for MiniTest to /tmp/reports. 7962 / 14942 LOC (53.29%) covered.
 
 Slowest 5 tests are...
-0.1689 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
-0.1657 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
-0.0273 - f26q32:creator_test.rb:30:POST /create_custom_kata, with a valid display_name in the JSON-Request body, creates a kata, whose manifest matches the display_name, whose id is in the JSON-Response body
-0.0244 - f26Kp4:creator_test.rb:84:POST /create_custom_group, with non-JSON-Hash Request.body, ...
-0.0203 - f26q31:creator_test.rb:14:
+0.1924 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
+0.1451 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
+0.0310 - f26q32:creator_test.rb:30:POST /create_custom_kata, with a valid display_name in the JSON-Request body, creates a kata, whose manifest matches the display_name, whose id is in the JSON-Response body
+0.0271 - de3p23:sha_test.rb:12:GET /sha returns JSON'd 40-char git commit sha    
+0.0236 - f26q31:creator_test.rb:14:
 |POST /create_custom_group
 |with a valid display_name in the JSON-Request body
 |creates a group
 |whose manifest matches the display_name
 |whose id is in the JSON-Response body
 
-0.0107 - f26aX3:creator_test.rb:96:POST /create_custom_group?display_name=INVALID, ...
+0.0091 - a8615D:probes_test.rb:21:GET /ready returns JSON'd true when all http-services are ready
 
 
-                 failures |       1   <=     0 | [31m false [0m
+                 failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.51   <=     2 | [32m true [0m
-                    tests |      33   >=     1 | [32m true [0m
+        duration(test)[s] |    0.52   <=     2 | [32m true [0m
+                    tests |      32   >=     1 | [32m true [0m
          coverage(app)[%] |   96.08   >=   100 | [31m false [0m
-        coverage(test)[%] |   97.49   >=   100 | [31m false [0m
-   lines(test)/lines(app) |    0.72   >=   1.2 | [31m false [0m
+        coverage(test)[%] |   97.45   >=   100 | [31m false [0m
+   lines(test)/lines(app) |    0.71   >=   1.2 | [31m false [0m
      hits(app)/hits(test) |    2.01   >=   2.8 | [31m false [0m
 
