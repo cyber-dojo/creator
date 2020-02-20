@@ -29,15 +29,28 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  SUCCESS = 200
+  def any_custom_display_name
+    custom.display_names.sample
+  end
 
-  def assert_status(expected)
-    assert_equal expected, last_response.status, :last_response_status
+  def json_post(path, data)
+    post path, data.to_json, JSON_REQUEST_HEADERS
   end
 
   def json_response
     JSON.parse(last_response.body)
   end
+
+  JSON_REQUEST_HEADERS = {
+    'CONTENT_TYPE' => 'application/json',  # sent request
+    'HTTP_ACCEPT' => 'application/json'    # received response
+  }
+
+  def assert_status(expected)
+    assert_equal expected, last_response.status, :last_response_status
+  end
+
+  SUCCESS = 200
 
   # - - - - - - - - - - - - - - - -
 
