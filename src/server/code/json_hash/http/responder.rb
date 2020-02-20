@@ -37,6 +37,7 @@ module JsonHash
           fail error_msg(body, 'not JSON Hash')
         end
         if json.has_key?('exception')
+          #TODO: Can this simply return body?
           fail JsonHash::Unparse::pretty(json['exception'])
         end
         unless json.has_key?(path)
