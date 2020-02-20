@@ -18,8 +18,8 @@ class JsonAppBase < Sinatra::Base
   set :show_exceptions, false
 
   error do
-    # TODO: {"exception":...}
-    # TODO: let exception from service (eg saver) propoagate? or wrap?
+    # TODO: propagate exception from service (custom,saver) as is
+    # TODO: else wrap inside {"exception":...}
     # TODO: return prettified json exception in response.body
     # TODO: log prettified json exception to stdout too
     error = $!
@@ -28,6 +28,20 @@ class JsonAppBase < Sinatra::Base
     #content_type('application/json')
     body(error.message)
   end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def self.probe(name)
+    get "/#{name}" do
+      result = instance_eval { @target.public_send(name) }
+      new_api = { name => result }
+      json new_api
+    end
+  end
+
+  # curl/k8s
+  probe(:alive?)
+  probe(:ready?)
 
   # - - - - - - - - - - - - - - - - - - - - - -
 

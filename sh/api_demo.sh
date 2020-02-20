@@ -18,42 +18,51 @@ main()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 demo()
 {
-  demo_new_route__identity_returns_JSON_sha
-  demo_new_route__probing_returns_JSON_boolean
-  demo_new_route__create_JSON_Body_returns_JSON_id
-  demo_old_route__create_JSON_Body_returns_id
+  demo_new_route__probing
+  demo_new_route__probing_non_JSON
+  demo_new_route__identity
+  demo_new_route__create
+  demo_old_route__create
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-demo_new_route__identity_returns_JSON_sha()
+demo_new_route__probing()
 {
-  echo 'API(new) identity returns JSON sha'
-  curl_json_body_200 GET "$(new_controller)/sha"
-  echo
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-demo_new_route__probing_returns_JSON_boolean()
-{
-  echo 'API(new) probing returns JSON true|false'
+  echo 'API:new probing'
   curl_json_body_200 GET "$(new_controller)/alive?"
   curl_json_body_200 GET "$(new_controller)/ready?"
   echo
 }
 
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-demo_new_route__create_JSON_Body_returns_JSON_id()
+demo_new_route__probing_non_JSON()
 {
-  echo 'API(new) create... returns JSON id'
+  echo 'API:new probing (non JSON)'
+  curl_200 GET "$(new_controller)/alive?"
+  curl_200 GET "$(new_controller)/ready?"
+  echo
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - -
+demo_new_route__identity()
+{
+  echo 'API:new identity'
+  curl_json_body_200 GET "$(new_controller)/sha"
+  echo
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - -
+demo_new_route__create()
+{
+  echo 'API:new create...'
   curl_json_body_200 POST "$(new_controller)/create_custom_group" "$(json_display_name)"
   curl_json_body_200 POST "$(new_controller)/create_custom_kata"  "$(json_display_name)"
   echo
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-demo_old_route__create_JSON_Body_returns_id()
+demo_old_route__create()
 {
-  echo 'API(old) save... returns JSON id'
+  echo 'API:old save...'
   curl_json_body_200 POST "$(old_controller)/save_group_json"      "$(json_display_name)"
   curl_json_body_200 POST "$(old_controller)/save_individual_json" "$(json_display_name)"
   echo
@@ -71,6 +80,25 @@ curl_json_body_200()
     --fail \
     --header 'Content-type: application/json' \
     --header 'Accept: application/json' \
+    --request "${type}" \
+    --silent \
+    --verbose \
+      "http://${IP_ADDRESS}:$(port)/${route}" \
+      > "${log}" 2>&1
+
+  grep --quiet 200 "${log}"             # eg HTTP/1.1 200 OK
+  local -r result=$(tail -n 1 "${log}") # eg {"sha":"78c19640aa43ea214da17d0bcb16abbd420d7642"}
+  echo "$(tab)${type} ${route} => 200 ${result}"
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - -
+curl_200()
+{
+  local -r log=/tmp/creator.log
+  local -r type="${1}"   # eg GET|POST
+  local -r route="${2}"  # eg creator/ready
+  curl  \
+    --fail \
     --request "${type}" \
     --silent \
     --verbose \

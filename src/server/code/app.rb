@@ -9,9 +9,6 @@ class App < JsonAppBase
 
   # identity
   get_json(:sha)
-  # curl/k8s probing
-  get_json(:alive?)
-  get_json(:ready?)
   # main routes
   post_json(:create_custom_group)
   post_json(:create_custom_kata)

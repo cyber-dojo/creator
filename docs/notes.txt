@@ -1,4 +1,11 @@
 
+Creator needs an api_demo.sh test that checks alive? ready? work
+for non JSON posts. This is what k8s will use.
+Add test this with non JSON-header GET and see if format.json {} body is covered.
+Hmmm. You might often add a debug-printf for this (see if the printf appears)
+With sufficient state-setup control and ability to run single test you
+don't need debug-printf! Just see if the line was covered.
+
 Refactor id58_test_base in creator so 5 slowest tests are printed one per line.
 Only use \n terminated sections when defining the test so that appears when test fails.
 
