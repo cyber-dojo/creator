@@ -1,31 +1,31 @@
-Run options: --seed 61167
+Run options: --seed 31102
 
 # Running:
 
 .....................................
 
-Finished in 0.429088s, 86.2295 runs/s, 172.4590 assertions/s.
+Finished in 0.570639s, 64.8396 runs/s, 129.6791 assertions/s.
 
 37 runs, 74 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 8043 / 14990 LOC (53.66%) covered.
+Coverage report generated for MiniTest to /tmp/reports. 8045 / 14992 LOC (53.66%) covered.
 
 Slowest 5 tests are...
-0.1363 - A6Da64:id_generator_test.rb:38:the entire alphabet is used in kata ids  
-0.1312 - A6Da63:id_generator_test.rb:23:the entire alphabet is used in group ids 
-0.0239 - f27aX4:creator_500_bad_request_test.rb:74:,|POST /create_custom_group ,|with a display_name in its request.body ,|that does...
-0.0142 - f26q32:creator_200_test.rb:31:,|POST /create_custom_kata ,|with a display_name in its request.body ,|that exist...
-0.0141 - f26q31:creator_200_test.rb:12:,|POST /create_custom_group ,|with a display_name in its request.body ,|that exis...
-0.0124 - f28QN8:creator_500_bad_response_test.rb:66:,|when a co-service POST ,|returns JSON (but not Hash) in its response.body ,|its...
+0.2226 - A6Da63:id_generator_test.rb:23:the entire alphabet is used in group ids 
+0.1902 - A6Da64:id_generator_test.rb:38:the entire alphabet is used in kata ids  
+0.0230 - f28QN4:creator_500_bad_response_test.rb:12:|when a co-service GET |returns non-JSON in its response.body |its a 500 error |a...
+0.0193 - f26q32:creator_200_test.rb:31:|POST /create_custom_kata |with a display_name in its request.body |that exists i...
+0.0147 - f26q31:creator_200_test.rb:12:|POST /create_custom_group |with a display_name in its request.body |that exists ...
+0.0090 - A6Dc13:id_generator_test.rb:83:a created kata-id does not exist before creation, does after
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.43   <=     2 | [32m true [0m
+        duration(test)[s] |    0.57   <=     2 | [32m true [0m
                     tests |      37   >=     1 | [32m true [0m
          coverage(app)[%] |   100.0   >=   100 | [32m true [0m
         coverage(test)[%] |   100.0   >=   100 | [32m true [0m
-   lines(test)/lines(app) |    0.84   >=   1.2 | [31m false [0m
-     hits(app)/hits(test) |    2.23   >=   2.8 | [31m false [0m
+   lines(test)/lines(app) |    0.84   >=   0.8 | [32m true [0m
+     hits(app)/hits(test) |    2.63   >=   2.2 | [32m true [0m
 

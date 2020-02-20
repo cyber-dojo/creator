@@ -8,8 +8,8 @@ end
 class Id58TestBase < MiniTest::Test
 
   def initialize(arg)
-    @_id58 = nil
-    @_name58 = nil
+    @id58 = nil
+    @name58 = nil
     super
   end
 
@@ -34,14 +34,14 @@ class Id58TestBase < MiniTest::Test
       name58 = lines.join(space = ' ')
       execute_around = lambda {
         ENV['ID58'] = id58
-        @_id58 = id58
-        @_name58 = name58
+        @id58 = id58
+        @name58 = name58
         id58_setup
         begin
           t1 = Time.now
           self.instance_eval(&test_block)
           t2 = Time.now
-          stripped = trimmed(name58.split("\n").join(','))
+          stripped = trimmed(name58.split("\n").join)
           @@timings[id58+':'+src_file+':'+src_line+':'+stripped] = (t2 - t1)
         ensure
           puts $!.message unless $!.nil?
@@ -126,13 +126,11 @@ class Id58TestBase < MiniTest::Test
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def id58
-    @_id58
+    @id58
   end
 
-  # :nocov:
   def name58
-    @_name58
+    @name58
   end
-  # :nocov:
 
 end
