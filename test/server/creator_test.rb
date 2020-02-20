@@ -158,24 +158,6 @@ class CreatorTest < CreatorTestBase
     JSON::parse!(saver.read("#{kata_id_path(id)}/manifest.json"))
   end
 
-  def id_from_group_url
-    url = last_request.url
-    matched = %r{#{stubbed_hostname}/kata/group/(?<id>.*)}.match(url)
-    assert matched, "did not match #{url}"
-    id
-  end
-
-  def id_from_kata_url
-    url = last_request.url
-    matched = %r{#{stubbed_hostname}/kata/edit/(?<id>.*)}.match(url)
-    assert matched, "did not match #{url}"
-    id
-  end
-
-  def stubbed_hostname
-    'http://example.org' # Rack::Test::Methods
-  end
-
   def id_from_json_response
     json_response['id'] # backwards compatibility!
   end
