@@ -1,14 +1,14 @@
-Run options: --seed 21538
+Run options: --seed 26946
 
 # Running:
 
-.......(500):body is not JSON Hash:
-.(500):body is not JSON Hash:
+...........(500):body is not JSON Hash:
 .last_response_status.
 Expected: 500
   Actual: 200
 F(500):body is not JSON Hash:
 .(500):body is not JSON:
+.(500):body is not JSON Hash:
 .(500):{
   "path": "manifest",
   "body": "{\"name\":\"invalid\"}",
@@ -36,9 +36,9 @@ F(500):body is not JSON Hash:
     "/usr/bin/rackup:23:in `<main>'"
   ]
 }:
-.....................SimpleCov failed with exit 1
+.................SimpleCov failed with exit 1
 
-Finished in 0.538045s, 61.3332 runs/s, 124.5249 assertions/s.
+Finished in 0.512736s, 64.3606 runs/s, 130.6716 assertions/s.
 
   1) Failure:
 CreatorTest#test_
@@ -49,31 +49,31 @@ Expected: 500
   Actual: 200
 
 33 runs, 67 assertions, 1 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 8005 / 14942 LOC (53.57%) covered.
+Coverage report generated for MiniTest to /tmp/reports. 8009 / 14946 LOC (53.59%) covered.
 
 Slowest 5 tests are...
-0.2272 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
-0.1261 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
-0.0329 - f26q31:creator_test.rb:14:
+0.1689 - A6D064:id_generator_test.rb:34:entire alphabet is used in kata ids      
+0.1657 - A6D063:id_generator_test.rb:21:entire alphabet is used in group ids     
+0.0273 - f26q32:creator_test.rb:30:POST /create_custom_kata, with a valid display_name in the JSON-Request body, creates a kata, whose manifest matches the display_name, whose id is in the JSON-Response body
+0.0244 - f26Kp4:creator_test.rb:84:POST /create_custom_group, with non-JSON-Hash Request.body, ...
+0.0203 - f26q31:creator_test.rb:14:
 |POST /create_custom_group
 |with a valid display_name in the JSON-Request body
 |creates a group
 |whose manifest matches the display_name
 |whose id is in the JSON-Response body
 
-0.0240 - f26Kp1:creator_test.rb:46:POST /create_custom_group, with JSON-Hash Request.body containing unknown arg, ...
-0.0156 - f26q32:creator_test.rb:30:POST /create_custom_kata, with a valid display_name in the JSON-Request body, creates a kata, whose manifest matches the display_name, whose id is in the JSON-Response body
-0.0131 - f26aX4:creator_test.rb:107:POST /create_custom_group, with an invalid display_name in the JSON-Request body, ...
+0.0107 - f26aX3:creator_test.rb:96:POST /create_custom_group?display_name=INVALID, ...
 
 
                  failures |       1   <=     0 | [31m false [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.54   <=     2 | [32m true [0m
+        duration(test)[s] |    0.51   <=     2 | [32m true [0m
                     tests |      33   >=     1 | [32m true [0m
-         coverage(app)[%] |   96.04   >=   100 | [31m false [0m
+         coverage(app)[%] |   96.08   >=   100 | [31m false [0m
         coverage(test)[%] |   97.49   >=   100 | [31m false [0m
-   lines(test)/lines(app) |    0.73   >=   1.2 | [31m false [0m
-     hits(app)/hits(test) |    1.98   >=   2.8 | [31m false [0m
+   lines(test)/lines(app) |    0.72   >=   1.2 | [31m false [0m
+     hits(app)/hits(test) |    2.01   >=   2.8 | [31m false [0m
 

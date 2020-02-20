@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require_relative 'external_custom_start_points'
 require_relative 'external_http'
+require_relative 'external_random'
 require_relative 'external_saver'
 require_relative 'external_time'
 
@@ -15,7 +16,7 @@ class Externals
   end
 
   def random
-    @random ||= Random
+    @random ||= ExternalRandom.new
   end
 
   def saver

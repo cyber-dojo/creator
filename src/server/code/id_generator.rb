@@ -52,7 +52,7 @@ class IdGenerator
   end
 
   def random_index
-    random.rand(ALPHABET.size)
+    random.sample(ALPHABET.size)
   end
 
   def random

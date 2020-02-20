@@ -173,7 +173,7 @@ class IdGeneratorTest < CreatorTestBase
       @indexes = letters.each_char.map{ |ch| alphabet.index(ch) }
       @n = 0
     end
-    def rand(size)
+    def sample(size)
       index = @indexes[@n]
       @n += 1
       index
