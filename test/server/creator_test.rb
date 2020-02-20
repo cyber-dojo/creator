@@ -48,7 +48,12 @@ class CreatorTest < CreatorTestBase
     with JSON-Hash Request.body containing unknown arg,
     ...
   ) do
-    json_post '/create_custom_group', unknown_arg = '{"unknown":42}'
+    _stdout = capture_stdout { |_uncap|
+      print("XXX")
+      #_uncap.puts("This will appear immediately and not go into _stdout")
+      json_post '/create_custom_group', unknown_arg = '{"unknown":42}'
+    }
+    assert _stdout.start_with?("XXX(500)")
     assert_status(500)
   end
 
@@ -67,7 +72,7 @@ class CreatorTest < CreatorTestBase
     # params:{"xyz"=>nil}:
     # body::
   end
-  
+
 =end
 
   # - - - - - - - - - - - - - - - - -
@@ -77,7 +82,9 @@ class CreatorTest < CreatorTestBase
     with non-JSON Request.body,
     ...
   ) do
-    json_post '/create_custom_group', non_json = 'xyz'
+    capture_stdout {
+      json_post '/create_custom_group', non_json = 'xyz'
+    }
     assert_status(500)
     #...
   end
@@ -89,7 +96,9 @@ class CreatorTest < CreatorTestBase
     with non-JSON-Hash Request.body,
     ...
   ) do
-    json_post '/create_custom_group', non_json_hash = 42
+    capture_stdout {
+      json_post '/create_custom_group', non_json_hash = 42
+    }
     assert_status(500)
     #...
   end
@@ -100,9 +109,11 @@ class CreatorTest < CreatorTestBase
     POST /create_custom_group?display_name=INVALID,
     ...
   ) do
-    post '/create_custom_group', data={ display_name:'invalid' }
+    capture_stdout {
+      post '/create_custom_group', data={ display_name:'invalid' }
+    }
     assert_status(500)
-    # TODO response.body needs to get json { "exception":"...." }
+    #...
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -112,9 +123,11 @@ class CreatorTest < CreatorTestBase
   with an invalid display_name in the JSON-Request body,
   ...
   ) do
-    json_post '/create_custom_group', data = { display_name:'invalid' }
+    capture_stdout {
+      json_post '/create_custom_group', data = { display_name:'invalid' }
+    }
     assert_status(500)
-    # TODO response.body needs to get json { "exception":"...." }
+    #...
   end
 
   private

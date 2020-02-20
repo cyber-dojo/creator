@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require_relative 'capture_stdout'
 require_relative '../id58_test_base'
 require_src 'app'
 require_src 'externals'
@@ -8,6 +9,7 @@ require 'json'
 
 class CreatorTestBase < Id58TestBase
   include Rack::Test::Methods
+  include CaptureStdout
 
   def initialize(arg)
     super(arg)
@@ -46,6 +48,8 @@ class CreatorTestBase < Id58TestBase
   def kata_exists?(id)
     saver.exists?(kata_id_path(id))
   end
+
+  # - - - - - - - - - - - - - - - -
 
   private
 
