@@ -27,12 +27,12 @@ class CreatorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'q32', %w(
-  POST /create_custom_kata,
-  with a valid display_name in the JSON-Request body,
-  creates a kata,
-  whose manifest matches the display_name,
-  whose id is in the JSON-Response body
+  qtest q32: %w(
+  |POST /create_custom_kata
+  |with a valid display_name in the JSON-Request body
+  |creates a kata
+  |whose manifest matches the display_name
+  |whose id is in the JSON-Response body
   ) do
     json_post '/create_custom_kata', data = { display_name:any_custom_display_name }
     assert_status(SUCCESS)
@@ -171,7 +171,7 @@ class CreatorTest < CreatorTestBase
   end
 
   def id_from_json_response
-    json_response[@path[1..-1]]
+    json_response['id'] # backwards compatibility!
   end
 
   JSON_REQUEST_HEADERS = {
@@ -180,7 +180,6 @@ class CreatorTest < CreatorTestBase
   }
 
   def json_post(path, data)
-    @path = path
     post path, data.to_json, JSON_REQUEST_HEADERS
   end
 
