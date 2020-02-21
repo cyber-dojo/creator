@@ -70,7 +70,7 @@ class RouteProbesTest < CreatorTestBase
   |and...
   ) do
     http_stub('xxxx')
-    _stdout = capture_stdout { assert_get_500 '/ready' }
+    assert_get_500 '/ready'
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -82,7 +82,7 @@ class RouteProbesTest < CreatorTestBase
   |and...
   ) do
     http_stub('[]')
-    _stdout = capture_stdout { assert_get_500 '/ready' }
+    assert_get_500 '/ready'
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -94,8 +94,8 @@ class RouteProbesTest < CreatorTestBase
   |its a 500 error
   |and...
   ) do
-    http_stub('{"exception":42}')
-    _stdout = capture_stdout { assert_get_500 '/ready' }
+    http_stub(response='{"exception":42}')
+    assert_get_500('/ready')
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -107,8 +107,8 @@ class RouteProbesTest < CreatorTestBase
   |its a 500 error
   |and...
   ) do
-    http_stub('{"wibble":42}')
-    _stdout = capture_stdout { assert_get_500 '/ready' }
+    http_stub(response='{"wibble":42}')
+    assert_get_500('/ready')
   end
 
   # - - - - - - - - - - - - - - - - -

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'capture_stdout'
+require_relative 'capture_stdout_stderr'
 require_relative '../id58_test_base'
 require_src 'app'
 require_src 'externals'
@@ -9,7 +9,7 @@ require 'json'
 
 class CreatorTestBase < Id58TestBase
   include Rack::Test::Methods # [1]
-  include CaptureStdout
+  include CaptureStdoutStderr
 
   def initialize(arg)
     super(arg)
@@ -30,8 +30,9 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - - -
 
   def assert_get_200(path)
-    stdout = capture_stdout { get path }
+    stdout,stderr = capture_stdout_stderr { get path }
     assert_status 200
+    assert_equal '', stderr
     assert_equal '', stdout
     key = path[1..-1] # lose leading /
     assert json_response.has_key?(key)
@@ -39,8 +40,9 @@ class CreatorTestBase < Id58TestBase
   end
 
   def assert_json_post_200(path, args)
-    stdout = capture_stdout { json_post path, args }
+    stdout,stderr = capture_stdout_stderr { json_post path, args }
     assert_status 200
+    assert_equal '', stderr
     assert_equal '', stdout
     key = path[1..-1] # lose leading /
     assert json_response.has_key?(key)
@@ -49,18 +51,28 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_get_500(path) # &block)
-    get path # TODO: captured_stdout
+  def assert_get_500(path)
+    stdout,stderr = capture_stdout_stderr { get path }
     assert_status 500
+    assert_equal '', stderr
     key = path[1..-1] # lose leading /
     refute json_response.has_key?(key)
-    #TODO: get expected stdout/response.body from block.call
+    if block_given?
+      expected_diagnostic = yield
+      assert_equal expected_diagnostic, stdout, :stdout
+      assert_equal expected_diagnostic, last_response.body, :last_response_body
+    end
   end
 
   def assert_json_post_500(path, args) # &block)
-    json_post path, args # TODO: captured_stdout
+    stdout,stderr = capture_stdout_stderr { json_post path, args }
     assert_status 500
-    #TODO: get expected stdout/response.body from block.call
+    assert_equal '', stderr
+    if block_given?
+      expected_diagnostic = yield
+      assert_equal expected_diagnostic+"\n", stdout, :stdout
+      assert_equal expected_diagnostic, last_response.body, :last_response_body
+    end
   end
 
   def assert_status(expected)
@@ -79,6 +91,10 @@ class CreatorTestBase < Id58TestBase
 
   def json_response
     JSON.parse(last_response.body)
+  end
+
+  def json_pretty(o)
+    JSON.pretty_generate(o)
   end
 
   JSON_REQUEST_HEADERS = {
@@ -107,6 +123,9 @@ class CreatorTestBase < Id58TestBase
       @body = body
     end
     def get(_uri)
+      OpenStruct.new
+    end
+    def post(_uri)
       OpenStruct.new
     end
     def start(_hostname, _port, _req)

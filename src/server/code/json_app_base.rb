@@ -72,9 +72,11 @@ class JsonAppBase < Sinatra::Base
     error = $!
     status(500)
     content_type('application/json')
+
     diagnostic = JSON.pretty_generate({
       exception: error.message
     })
+
     puts diagnostic
     body diagnostic
   end

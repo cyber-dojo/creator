@@ -16,13 +16,10 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |and...
   ) do
     display_name = any_custom_display_name
-    http_stub('xxxx')
-    _stdout = capture_stdout {
-      assert_json_post_500 '/create_custom_group', data = {
-        display_name:display_name
-      }
-    }
-    #...
+    http_stub(not_json='xxxx')
+    assert_json_post_500 '/create_custom_group', data={ display_name:display_name } do
+      json_pretty({exception:"not JSON:#{not_json}"})
+    end
   end
 
 end
