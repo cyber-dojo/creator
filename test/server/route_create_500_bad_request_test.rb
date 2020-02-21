@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
 
-class Creator500BadRequestTest < CreatorTestBase
+class RouteCreate500BadRequestTest < CreatorTestBase
 
   def self.id58_prefix
     :f27
@@ -17,11 +17,11 @@ class Creator500BadRequestTest < CreatorTestBase
   |and...
   ) do
     stdout = capture_stdout { |_uncap|
-      print("XXX")
-      #_uncap.puts("This will appear immediately and not go into _stdout")
+      #_uncap.puts("This will appear immediately and not go into captured stdout")
       json_post '/create_custom_group', unknown_arg = '{"unknown":42}'
     }
-    assert stdout.start_with?("XXX(500)")
+    expected = JSON.pretty_generate({exception:'body is not JSON Hash'})
+    assert_equal expected+"\n", stdout
     assert_status(500)
   end
 

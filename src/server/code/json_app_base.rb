@@ -23,10 +23,13 @@ class JsonAppBase < Sinatra::Base
     # TODO: return prettified json exception in response.body
     # TODO: log prettified json exception to stdout too
     error = $!
-    puts "(500):#{error.message}:"
     status(500)
-    #content_type('application/json')
-    body(error.message)
+    content_type('application/json')
+    diagnostic = JSON.pretty_generate({
+      exception: error.message
+    })
+    puts diagnostic
+    body diagnostic
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

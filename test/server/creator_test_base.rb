@@ -29,6 +29,20 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
+  def get_200(path)
+    get path
+    assert_status(200)
+    json_response[path[1..-1]]
+  end
+
+  def get_500(path)
+    get path
+    assert_status(500)
+    assert_nil json_response[path[1..-1]]
+  end
+
+  # - - - - - - - - - - - - - - - -
+
   def any_custom_display_name
     custom.display_names.sample
   end
@@ -61,6 +75,23 @@ class CreatorTestBase < Id58TestBase
   end
 
   # - - - - - - - - - - - - - - - -
+
+  def http_stub(body)
+    externals.instance_exec { @http = HttpAdapterStub.new(body) }
+  end
+
+  class HttpAdapterStub
+    def initialize(body)
+      @body = body
+    end
+    def get(_uri)
+      OpenStruct.new
+    end
+    def start(_hostname, _port, _req)
+      self
+    end
+    attr_reader :body
+  end
 
   private
 

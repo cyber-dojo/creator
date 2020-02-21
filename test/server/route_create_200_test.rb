@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
 
-class CreatorTest200 < CreatorTestBase
+class RouteCreate200Test < CreatorTestBase
 
   def self.id58_prefix
     :f26
