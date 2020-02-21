@@ -18,11 +18,10 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   ) do
     stdout = capture_stdout { |_uncap|
       #_uncap.puts("This will appear immediately and not go into captured stdout")
-      json_post '/create_custom_group', unknown_arg = '{"unknown":42}'
+      assert_json_post_500 '/create_custom_group', unknown_arg = '{"unknown":42}'
     }
     expected = JSON.pretty_generate({exception:'body is not JSON Hash'})
     assert_equal expected+"\n", stdout
-    assert_status(500)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -34,9 +33,8 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   |and...
   ) do
     _stdout = capture_stdout {
-      json_post '/create_custom_group', non_json = 'xyz'
+      assert_json_post_500 '/create_custom_group', non_json = 'xyz'
     }
-    assert_status(500)
     #...
   end
 
@@ -49,9 +47,8 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   |and...
   ) do
     _stdout = capture_stdout {
-      json_post '/create_custom_group', non_json_hash = 42
+      assert_json_post_500 '/create_custom_group', non_json_hash = 42
     }
-    assert_status(500)
     #...
   end
 
@@ -79,9 +76,8 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   |and...
   ) do
     _stdout = capture_stdout {
-      json_post '/create_custom_group', data = { display_name:'invalid' }
+      assert_json_post_500 '/create_custom_group', data = { display_name:'invalid' }
     }
-    assert_status(500)
     #...
   end
 

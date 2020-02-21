@@ -12,7 +12,7 @@ class RouteShaTest < CreatorTestBase
   qtest p23: %w(
   GET /sha returns JSON'd 40-char git commit sha
   ) do
-    sha = get_200 '/sha'
+    sha = assert_get_200 '/sha'
     assert git_sha?(sha), sha
   end
 

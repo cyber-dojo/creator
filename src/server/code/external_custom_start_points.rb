@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative 'json_hash/http/service'
+require_relative 'http_json_hash/service'
 
 class ExternalCustomStartPoints
 
@@ -10,7 +10,7 @@ class ExternalCustomStartPoints
   end
 
   def initialize(http)
-    @http = JsonHash::Http::service(http, 'custom-start-points', 4526, Error)
+    @http = HttpJsonHash::service(http, 'custom-start-points', 4526, Error)
   end
 
   def ready?

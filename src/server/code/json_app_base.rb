@@ -5,13 +5,60 @@ silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 
 class JsonAppBase < Sinatra::Base
 
+  silently { register Sinatra::Contrib }
+  set :port, ENV['PORT']
+
   def initialize(target)
     super(nil)
     @target = target
   end
 
-  silently { register Sinatra::Contrib }
-  set :port, ENV['PORT']
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def self.probe(name)
+    get "/#{name}" do
+      result = instance_eval { @target.public_send(name) }
+      new_api = { name => result }
+      json new_api
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def self.get_json(name)
+    get "/#{name}", provides:[:json] do
+      respond_to do |format|
+        format.json {
+          result = instance_eval {
+            @target.public_send(name, **args)
+          }
+          new_api = { name => result }
+          json new_api
+        }
+      end
+    end
+  end
+
+  def self.post_json(name)
+    post "/#{name}", provides:[:json] do
+      respond_to do |format|
+        format.json {
+          result = instance_eval {
+            @target.public_send(name, **args)
+          }
+          new_api = { name => result }
+          backwards_compatible = { id:result }
+          json new_api.merge(backwards_compatible)
+        }
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  probe(:alive?) # curl/k8s
+  probe(:ready?) # curl/k8s
+  get_json(:sha) # identity
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
@@ -30,47 +77,6 @@ class JsonAppBase < Sinatra::Base
     })
     puts diagnostic
     body diagnostic
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def self.probe(name)
-    get "/#{name}" do
-      result = instance_eval { @target.public_send(name) }
-      new_api = { name => result }
-      json new_api
-    end
-  end
-
-  # curl/k8s
-  probe(:alive?)
-  probe(:ready?)
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def self.get_json(name)
-    get "/#{name}", provides:[:json] do
-      respond_to do |format|
-        format.json {
-          result = instance_eval { @target.public_send(name, **args) }
-          new_api = { name => result }
-          json new_api
-        }
-      end
-    end
-  end
-
-  def self.post_json(name)
-    post "/#{name}", provides:[:json] do
-      respond_to do |format|
-        format.json {
-          result = instance_eval { @target.public_send(name, **args) }
-          new_api = { name => result }
-          backwards_compatible = { id:result }
-          json new_api.merge(backwards_compatible)
-        }
-      end
-    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

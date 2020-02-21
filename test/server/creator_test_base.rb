@@ -8,7 +8,7 @@ require_src 'id_pather'
 require 'json'
 
 class CreatorTestBase < Id58TestBase
-  include Rack::Test::Methods
+  include Rack::Test::Methods # [1]
   include CaptureStdout
 
   def initialize(arg)
@@ -29,16 +29,31 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def get_200(path)
-    get path
+  def assert_get_200(path)
+    stdout = capture_stdout { get path }
     assert_status(200)
-    json_response[path[1..-1]]
+    assert_equal '', stdout
+    key = path[1..-1] # lose leading /
+    assert json_response.has_key?(key)
+    json_response[key]
   end
 
-  def get_500(path)
-    get path
+  def assert_get_500(path) # &block)
+    get path # TODO: captured_stdout
     assert_status(500)
-    assert_nil json_response[path[1..-1]]
+    key = path[1..-1] # lose leading /
+    refute json_response.has_key?(key)
+    #TODO: get expected stdout/response.body from block.call
+  end
+
+  def assert_json_post_500(path, args) # &block)
+    json_post path, args # TODO: captured_stdout
+    assert_status(500)
+    #TODO: get expected stdout/response.body from block.call
+  end
+
+  def assert_status(expected)
+    assert_equal expected, last_response.status, :last_response_status
   end
 
   # - - - - - - - - - - - - - - - -
@@ -56,13 +71,9 @@ class CreatorTestBase < Id58TestBase
   end
 
   JSON_REQUEST_HEADERS = {
-    'CONTENT_TYPE' => 'application/json',  # sent request
-    'HTTP_ACCEPT' => 'application/json'    # received response
+    'CONTENT_TYPE' => 'application/json', # sent request
+    'HTTP_ACCEPT' => 'application/json'   # received response
   }
-
-  def assert_status(expected)
-    assert_equal expected, last_response.status, :last_response_status
-  end
 
   # - - - - - - - - - - - - - - - -
 

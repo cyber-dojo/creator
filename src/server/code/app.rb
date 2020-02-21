@@ -7,9 +7,6 @@ class App < JsonAppBase
     super(target)
   end
 
-  # identity
-  get_json(:sha)
-  # main routes
   post_json(:create_custom_group)
   post_json(:create_custom_kata)
 

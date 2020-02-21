@@ -17,7 +17,7 @@ class RouteProbesTest < CreatorTestBase
   |has status 200
   |and returns JSON'd true in response.body
   ) do
-    alive = get_200 '/alive?'
+    alive = assert_get_200 '/alive?'
     assert true?(alive), last_response.body
   end
 
@@ -29,7 +29,7 @@ class RouteProbesTest < CreatorTestBase
   |and returns JSON'd true in response.body
   |when all http-services are ready
   ) do
-    ready = get_200 '/ready?'
+    ready = assert_get_200 '/ready?'
     assert true?(ready), last_response.body
   end
 
@@ -42,7 +42,7 @@ class RouteProbesTest < CreatorTestBase
   |when custom_start_points is not ready
   ) do
     externals.instance_exec { @custom_start_points = STUB_READY_FALSE }
-    ready = get_200 '/ready?'
+    ready = assert_get_200 '/ready?'
     assert false?(ready), last_response.body
   end
 
@@ -55,7 +55,7 @@ class RouteProbesTest < CreatorTestBase
   |when saver is not ready
   ) do
     externals.instance_exec { @saver = STUB_READY_FALSE }
-    ready = get_200 '/ready?'
+    ready = assert_get_200 '/ready?'
     assert false?(ready), last_response.body
   end
 
@@ -70,7 +70,7 @@ class RouteProbesTest < CreatorTestBase
   |and...
   ) do
     http_stub('xxxx')
-    _stdout = capture_stdout { get_500 '/ready' }
+    _stdout = capture_stdout { assert_get_500 '/ready' }
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -82,7 +82,7 @@ class RouteProbesTest < CreatorTestBase
   |and...
   ) do
     http_stub('[]')
-    _stdout = capture_stdout { get_500 '/ready' }
+    _stdout = capture_stdout { assert_get_500 '/ready' }
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -95,8 +95,7 @@ class RouteProbesTest < CreatorTestBase
   |and...
   ) do
     http_stub('{"exception":42}')
-    _stdout = capture_stdout { get '/ready' }
-    assert_status(500)
+    _stdout = capture_stdout { assert_get_500 '/ready' }
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -109,8 +108,7 @@ class RouteProbesTest < CreatorTestBase
   |and...
   ) do
     http_stub('{"wibble":42}')
-    _stdout = capture_stdout { get '/ready' }
-    assert_status(500)
+    _stdout = capture_stdout { assert_get_500 '/ready' }
   end
 
   # - - - - - - - - - - - - - - - - -
