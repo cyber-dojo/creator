@@ -20,10 +20,8 @@ class RouteCreate200Test < CreatorTestBase
   |whose manifest matches the display_name
   ) do
     args = { display_name:any_custom_display_name }
-    stdout = capture_stdout { json_post '/create_custom_group', args }
-    assert_status(200)
-    assert_group_exists(id_from_json_response, args[:display_name])
-    assert_equal '', stdout
+    id = assert_json_post_200 '/create_custom_group', args
+    assert_group_exists(id, args[:display_name])
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -39,10 +37,8 @@ class RouteCreate200Test < CreatorTestBase
   |whose manifest matches the display_name
   ) do
     args = { display_name:any_custom_display_name }
-    stdout = capture_stdout { json_post '/create_custom_kata', args }
-    assert_status(200)
-    assert_kata_exists(id_from_json_response, args[:display_name])
-    assert_equal '', stdout
+    id = assert_json_post_200 '/create_custom_kata', args
+    assert_kata_exists(id, args[:display_name])
   end
 
   private
@@ -67,10 +63,6 @@ class RouteCreate200Test < CreatorTestBase
 
   def kata_manifest(id)
     JSON::parse!(saver.read("#{kata_id_path(id)}/manifest.json"))
-  end
-
-  def id_from_json_response
-    json_response['id'] # backwards compatibility!
   end
 
 end

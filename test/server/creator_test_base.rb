@@ -23,7 +23,7 @@ class CreatorTestBase < Id58TestBase
     @creator ||= Creator.new(externals)
   end
 
-  def app
+  def app # [1]
     @app ||= App.new(creator)
   end
 
@@ -31,16 +31,27 @@ class CreatorTestBase < Id58TestBase
 
   def assert_get_200(path)
     stdout = capture_stdout { get path }
-    assert_status(200)
+    assert_status 200
     assert_equal '', stdout
     key = path[1..-1] # lose leading /
     assert json_response.has_key?(key)
     json_response[key]
   end
 
+  def assert_json_post_200(path, args)
+    stdout = capture_stdout { json_post path, args }
+    assert_status 200
+    assert_equal '', stdout
+    key = path[1..-1] # lose leading /
+    assert json_response.has_key?(key)
+    json_response[key]
+  end
+
+  # - - - - - - - - - - - - - - - -
+
   def assert_get_500(path) # &block)
     get path # TODO: captured_stdout
-    assert_status(500)
+    assert_status 500
     key = path[1..-1] # lose leading /
     refute json_response.has_key?(key)
     #TODO: get expected stdout/response.body from block.call
@@ -48,7 +59,7 @@ class CreatorTestBase < Id58TestBase
 
   def assert_json_post_500(path, args) # &block)
     json_post path, args # TODO: captured_stdout
-    assert_status(500)
+    assert_status 500
     #TODO: get expected stdout/response.body from block.call
   end
 
