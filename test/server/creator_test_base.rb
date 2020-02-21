@@ -29,39 +29,32 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_get_200(path)
-    stdout,stderr = capture_stdout_stderr { get path }
+  def assert_get_200(path, &block)
+    stdout,stderr = capture_stdout_stderr { get '/'+path }
     assert_status 200
-    assert_equal '', stderr
-    assert_equal '', stdout
-    key = path[1..-1] # lose leading /
-    assert json_response.has_key?(key)
-    json_response[key]
+    assert_equal '', stderr, :stderr
+    assert_equal '', stdout, :sdout
+    block.call(json_response)
   end
 
-  def assert_json_post_200(path, args)
-    stdout,stderr = capture_stdout_stderr { json_post path, args }
-    assert_status 200
-    assert_equal '', stderr
-    assert_equal '', stdout
-    key = path[1..-1] # lose leading /
-    assert json_response.has_key?(key)
-    json_response[key]
+  def assert_get_500(path, &block)
+    stdout,stderr = capture_stdout_stderr { get '/'+path }
+    assert_status 500
+    assert_equal '', stderr, :stderr
+    assert_equal stdout, last_response.body+"\n", :stdout
+    block.call(json_response)
   end
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_get_500(path) # &block)
-    stdout,stderr = capture_stdout_stderr { get path }
-    assert_status 500
-    assert_equal '', stderr
+  def assert_json_post_200(path, args)
+    stdout,stderr = capture_stdout_stderr { json_post path, args }
+    assert_status 200
+    assert_equal '', stderr, :stderr
+    assert_equal '', stdout, :stdout
     key = path[1..-1] # lose leading /
-    refute json_response.has_key?(key)
-    if block_given?
-      expected_diagnostic = yield
-      assert_equal expected_diagnostic, stdout, :stdout
-      assert_equal expected_diagnostic, last_response.body, :last_response_body
-    end
+    assert json_response.has_key?(key)
+    json_response[key]
   end
 
   def assert_json_post_500(path, args) # &block)
@@ -69,9 +62,11 @@ class CreatorTestBase < Id58TestBase
     assert_status 500
     assert_equal '', stderr
     if block_given?
-      expected_diagnostic = yield
-      assert_equal expected_diagnostic+"\n", stdout, :stdout
-      assert_equal expected_diagnostic, last_response.body, :last_response_body
+      expected_diagnostic = yield last_response
+      unless expected_diagnostic.nil?
+        assert_equal expected_diagnostic+"\n", stdout, :stdout
+        assert_equal expected_diagnostic, last_response.body, :last_response_body
+      end
     end
   end
 
@@ -90,7 +85,7 @@ class CreatorTestBase < Id58TestBase
   end
 
   def json_response
-    JSON.parse(last_response.body)
+    @json_response ||= JSON.parse(last_response.body)
   end
 
   def json_pretty(o)

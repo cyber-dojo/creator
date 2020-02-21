@@ -13,50 +13,59 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest C15: %w(
-  |GET /alive
+  |GET /alive?
   |has status 200
-  |and returns JSON'd true in response.body
+  |returns true
+  |and nothing else
   ) do
-    alive = assert_get_200 '/alive?'
-    assert true?(alive), last_response.body
+    assert_get_200(path='alive?') do |jr|
+      assert_equal [path], jr.keys, last_response.body
+      assert true?(jr[path]), last_response.body
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
 
   qtest D15: %w(
-  |GET /ready
+  |GET /ready?
   |has status 200
-  |and returns JSON'd true in response.body
-  |when all http-services are ready
+  |returns true when all http-services are ready
+  |and nothing else
   ) do
-    ready = assert_get_200 '/ready?'
-    assert true?(ready), last_response.body
+    assert_get_200(path='ready?') do |jr|
+      assert_equal [path], jr.keys, last_response.body
+      assert true?(jr[path]), last_response.body
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
 
   qtest E15: %w(
-  |GET /ready
+  |GET /ready?
   |has status 200
-  |and returns JSON'd false in response.body
-  |when custom_start_points is not ready
+  |returns false when custom_start_points is not ready
+  |and nothing else
   ) do
-    externals.instance_exec { @custom_start_points = STUB_READY_FALSE }
-    ready = assert_get_200 '/ready?'
-    assert false?(ready), last_response.body
+    externals.instance_exec { @custom_start_points=STUB_READY_FALSE }
+    assert_get_200(path='ready?') do |jr|
+      assert_equal [path], jr.keys, last_response.body
+      assert false?(jr[path]), last_response.body
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
 
   qtest F15: %w(
-  |GET /ready
+  |GET /ready?
   |has status 200
-  |and returns JSON'd false in response.body
-  |when saver is not ready
+  |returns false when saver is not ready
+  |and nothing else
   ) do
-    externals.instance_exec { @saver = STUB_READY_FALSE }
-    ready = assert_get_200 '/ready?'
-    assert false?(ready), last_response.body
+    externals.instance_exec { @saver=STUB_READY_FALSE }
+    assert_get_200(path='ready?') do |jr|
+      assert_equal [path], jr.keys, last_response.body
+      assert false?(jr[path]), last_response.body
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -70,7 +79,10 @@ class RouteProbesTest < CreatorTestBase
   |and...
   ) do
     http_stub('xxxx')
-    assert_get_500 '/ready'
+    assert_get_500('ready?') do |jr|
+      assert_equal ['exception','request','service'], jr.keys.sort, last_response.body
+      #...
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -82,7 +94,8 @@ class RouteProbesTest < CreatorTestBase
   |and...
   ) do
     http_stub('[]')
-    assert_get_500 '/ready'
+    assert_get_500('ready?') do |jr|
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -95,7 +108,8 @@ class RouteProbesTest < CreatorTestBase
   |and...
   ) do
     http_stub(response='{"exception":42}')
-    assert_get_500('/ready')
+    assert_get_500('ready?') do |jr|
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -108,10 +122,9 @@ class RouteProbesTest < CreatorTestBase
   |and...
   ) do
     http_stub(response='{"wibble":42}')
-    assert_get_500('/ready')
+    assert_get_500('ready?') do |jr|
+    end
   end
-
-  # - - - - - - - - - - - - - - - - -
 
   private
 

@@ -15,11 +15,16 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |its a 500 error
   |and...
   ) do
-    display_name = 'Java Countdown, Round 2' # any_custom_display_name
-    http_stub(not_json='xxxx')
+    http_stub(not_json='xxxx') # TODO: should be able to stub individual services...
     assert_json_post_500 path='/create_custom_group', args={
-      display_name:display_name
-    } do
+      display_name:'Java Countdown, Round 2'
+    } do |response|
+
+      #puts "status:#{response.status}"   # 500
+      #puts "body:#{response.body}"       # ...
+      #puts "headers:#{response.headers}" # { "Content-Type"=>"application/json" ... }
+
+      # TODO: Dont rely on key ordering in prettified json
       json_pretty({
         exception:'body is not JSON',
         request: {
@@ -28,7 +33,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
         },
         service: {
           path:'manifest',
-          args:{name:display_name}, # backwards-compatibility
+          args:{name:args[:display_name]}, # backwards-compatibility
           name:'ExternalCustomStartPoints',
           body:not_json
         }

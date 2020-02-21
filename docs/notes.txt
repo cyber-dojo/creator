@@ -1,4 +1,27 @@
 
+qtest now allows you to have a long well-formatted test name.
+What if you want several tests with this same test-name
+but different ids? That sounds reasonable.
+Consider too...
+|POST /create_custom_group
+|with a display_name in its request.body
+|that exists in custom-start-points
+|has status 200
+is similar too...
+10|POST /create_custom_group
+20|with a display_name in its request.body
+30|that exists in custom-start-points
+40|has status 200
+You could set up the test body like this...
+steps = {
+ 10 => { ... },
+ 20 => { ... },
+ 30 => { ... },
+ 40 => { ... } 
+}
+
+
+
 When a runner.run call times out I should write a log message to stdout.
 Then every so often I could just look at the log with kubectl command.
 

@@ -10,10 +10,16 @@ class RouteShaTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest p23: %w(
-  GET /sha returns JSON'd 40-char git commit sha
+  |GET /sha
+  |has status 200
+  |returns the 40-char git commit sha used to create the image
+  |and nothing else
   ) do
-    sha = assert_get_200 '/sha'
-    assert git_sha?(sha), sha
+    assert_get_200(key='sha') do |jr|
+      assert_equal [key], jr.keys, last_response.body
+      sha = jr[key]
+      assert git_sha?(sha), sha
+    end
   end
 
   private
