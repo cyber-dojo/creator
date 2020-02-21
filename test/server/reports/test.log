@@ -1,31 +1,31 @@
-Run options: --seed 28886
+Run options: --seed 46782
 
 # Running:
 
 .....................................
 
-Finished in 0.515895s, 71.7200 runs/s, 147.3168 assertions/s.
+Finished in 0.500154s, 73.9772 runs/s, 151.9531 assertions/s.
 
 37 runs, 76 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 8034 / 14993 LOC (53.59%) covered.
+Coverage report generated for MiniTest to /tmp/reports. 8019 / 14978 LOC (53.54%) covered.
 
 Slowest 5 tests are...
-0.1799 - A6Da64:id_generator_test.rb:38:the entire alphabet is used in kata ids  
-0.1505 - A6Da63:id_generator_test.rb:23:the entire alphabet is used in group ids 
-0.0326 - f28QN8:route_create_500_bad_response_test.rb:12:|when a co-service POST |returns JSON (but not Hash) in its response.body |its a ...
-0.0275 - f26q32:route_create_200_test.rb:31:|POST /create_custom_kata |with a display_name in its request.body |that exists i...
-0.0171 - f26q31:route_create_200_test.rb:12:|POST /create_custom_group |with a display_name in its request.body |that exists ...
-0.0090 - f27Kp4:route_create_500_bad_request_test.rb:45:|POST /create_custom_group |with non-JSON-Hash in its request.body |is a 500 erro...
+0.1740 - A6Da64:id_generator_test.rb:38:the entire alphabet is used in kata ids  
+0.1549 - A6Da63:id_generator_test.rb:23:the entire alphabet is used in group ids 
+0.0238 - f26q32:route_create_200_test.rb:31:|POST /create_custom_kata |with a display_name in its request.body |that exists i...
+0.0226 - a86QN7:route_probes_test.rb:104:|when a co-service GET |returns JSON-Hash in its response.body |which does not co...
+0.0174 - f26q31:route_create_200_test.rb:12:|POST /create_custom_group |with a display_name in its request.body |that exists ...
+0.0078 - A6Dc13:id_generator_test.rb:83:a created kata-id does not exist before creation, does after
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.52   <=     2 | [32m true [0m
+        duration(test)[s] |     0.5   <=     2 | [32m true [0m
                     tests |      37   >=     1 | [32m true [0m
          coverage(app)[%] |   100.0   >=   100 | [32m true [0m
         coverage(test)[%] |   100.0   >=   100 | [32m true [0m
-   lines(test)/lines(app) |    0.78   >=   0.8 | [31m false [0m
-     hits(app)/hits(test) |    2.26   >=   2.2 | [32m true [0m
+   lines(test)/lines(app) |    0.82   >=   0.8 | [32m true [0m
+     hits(app)/hits(test) |    2.27   >=   2.2 | [32m true [0m
 

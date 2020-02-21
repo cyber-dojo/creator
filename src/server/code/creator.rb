@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require_relative 'id_generator'
 require_relative 'id_pather'
-require_relative 'json_hash/unparse'
 require_relative 'saver_asserter'
 require 'json'
 
@@ -87,7 +86,7 @@ class Creator
   #- - - - - - - - - - - - - - - - - -
 
   def pretty_json(obj)
-    JsonHash::Unparse::pretty(obj)
+    JSON.pretty_generate(obj)
   end
 
   #- - - - - - - - - - - - - - - - - -

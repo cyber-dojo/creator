@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative '../unparse'
+require 'json'
 require 'uri'
 
 module JsonHash
@@ -30,7 +30,7 @@ module JsonHash
         uri = URI.parse("http://#{@hostname}:#{@port}/#{path}")
         req = yield uri
         req.content_type = 'application/json'
-        req.body = JsonHash::Unparse::fast(args)
+        req.body = JSON.fast_generate(args)
         @http.start(@hostname, @port, req)
       end
 

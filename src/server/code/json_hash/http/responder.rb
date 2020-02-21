@@ -1,6 +1,5 @@
 # frozen_string_literal: true
-require_relative '../parse'
-require_relative '../unparse'
+require 'json'
 
 module JsonHash
   module Http
@@ -38,7 +37,7 @@ module JsonHash
         end
         if json.has_key?('exception')
           #TODO: Can this simply return body?
-          fail JsonHash::Unparse::pretty(json['exception'])
+          fail JSON.pretty_generate(json['exception'])
         end
         unless json.has_key?(path)
           fail error_msg(body, "no key for '#{path}'")
@@ -49,8 +48,8 @@ module JsonHash
       # - - - - - - - - - - - - - - - - - - - - -
 
       def json_parse(body)
-        JsonHash::Parse::fast(body)
-      rescue JsonHash::Parse::Error
+        JSON.parse!(body)
+      rescue JSON::ParserError
         fail error_msg(body, 'not JSON')
       end
 
