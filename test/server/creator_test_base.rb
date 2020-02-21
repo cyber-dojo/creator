@@ -51,7 +51,7 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_get_500(path)
+  def assert_get_500(path) # &block)
     stdout,stderr = capture_stdout_stderr { get path }
     assert_status 500
     assert_equal '', stderr

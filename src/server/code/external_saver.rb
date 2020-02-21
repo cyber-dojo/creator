@@ -3,14 +3,8 @@ require_relative 'http_json_hash/service'
 
 class ExternalSaver
 
-  class Error < RuntimeError
-    def initialize(message)
-      super
-    end
-  end
-
   def initialize(http)
-    @http = HttpJsonHash::service(http, 'saver', 4537, Error)
+    @http = HttpJsonHash::service(self.class.name, http, 'saver', 4537)
   end
 
   def ready?

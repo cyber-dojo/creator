@@ -32,7 +32,7 @@ class SaverAsserterTest < CreatorTestBase
   saver_assert.batch(commands) raises a Saver::Error
   with a json error.message
   ) do
-    error = assert_raises(ExternalSaver::Error) {
+    error = assert_raises(RuntimeError) {
       saver_asserter.batch(
         ['create','qw/jk/56'],
         ['exists?','qw/jk/56'],

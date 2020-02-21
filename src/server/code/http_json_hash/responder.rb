@@ -1,60 +1,51 @@
 # frozen_string_literal: true
+require_relative 'service_error'
 require 'json'
 
 module HttpJsonHash
   class Responder
 
-    def initialize(requester, exception_class)
+    def initialize(name, requester)
+      @name = name
       @requester = requester
-      @exception_class = exception_class
     end
 
     # - - - - - - - - - - - - - - - - - - - - -
 
     def get(path, args)
       response = @requester.get(path, args)
-      unpacked(response.body, path.to_s)
-    rescue => error
-      fail @exception_class, error.message
+      unpacked(response.body, path.to_s, args)
     end
 
     # - - - - - - - - - - - - - - - - - - - - -
 
     def post(path, args)
       response = @requester.post(path, args)
-      unpacked(response.body, path.to_s)
-    rescue => error
-      fail @exception_class, error.message
+      unpacked(response.body, path.to_s, args)
     end
 
     private
 
-    def unpacked(body, path)
-      json = json_parse(body)
+    def unpacked(body, path, args)
+      json = JSON.parse!(body)
       unless json.instance_of?(Hash)
-        fail error_msg(body, 'not JSON Hash')
+        service_error(path, args, body, 'body is not JSON Hash')
       end
       if json.has_key?('exception')
-        fail json
+        service_error(path, args, body, 'body has embedded exception')
       end
       unless json.has_key?(path)
-        fail error_msg(body, "no key for '#{path}'")
+        service_error(path, args, body, 'body is missing :path key')
       end
       json[path]
-    end
-
-    # - - - - - - - - - - - - - - - - - - - - -
-
-    def json_parse(body)
-      JSON.parse!(body)
     rescue JSON::ParserError
-      fail error_msg(body, 'not JSON')
+      service_error(path, args, body, 'body is not JSON')
     end
 
     # - - - - - - - - - - - - - - - - - - - - -
 
-    def error_msg(body, text)
-      "#{text}:#{body}"
+    def service_error(path, args, body, message)
+      fail ::HttpJsonHash::ServiceError.new(path, args, @name, body, message)
     end
 
   end

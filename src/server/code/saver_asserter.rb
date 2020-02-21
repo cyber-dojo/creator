@@ -14,7 +14,8 @@ class SaverAsserter
       message = results.zip(commands).map do |result,(name,arg0)|
         saver_assert_info(name, arg0, result)
       end
-      raise ExternalSaver::Error, JSON.pretty_generate(message)
+      # TODO: need a @saver.batch_assert() 
+      raise JSON.pretty_generate(message)
     end
     results
   end

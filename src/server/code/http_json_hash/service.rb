@@ -4,9 +4,9 @@ require_relative 'responder'
 
 module HttpJsonHash
 
-  def self.service(http, hostname, port, exception_class)
+  def self.service(name, http, hostname, port)
     requester = Requester.new(http, hostname, port)
-    Responder.new(requester, exception_class)
+    Responder.new(name, requester)
   end
 
 end

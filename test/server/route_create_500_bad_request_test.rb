@@ -18,6 +18,7 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   ) do
     assert_json_post_500 '/create_custom_group', unknown_arg = '{"unknown":42}'
     #do
+    #  # TODO: fill out full exception info json object
     #  json_pretty({exception:'body is not JSON Hash'})
     #end
   end

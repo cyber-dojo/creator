@@ -3,14 +3,8 @@ require_relative 'http_json_hash/service'
 
 class ExternalCustomStartPoints
 
-  class Error < RuntimeError
-    def initialize(message)
-      super
-    end
-  end
-
   def initialize(http)
-    @http = HttpJsonHash::service(http, 'custom-start-points', 4526, Error)
+    @http = HttpJsonHash::service(self.class.name, http, 'custom-start-points', 4526)
   end
 
   def ready?

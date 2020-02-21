@@ -2,6 +2,7 @@ require_relative 'silently'
 require 'json'
 require 'sinatra/base'
 silently { require 'sinatra/contrib' } # N x "warning: method redefined"
+require_relative 'http_json_hash/service'
 
 class JsonAppBase < Sinatra::Base
 
@@ -65,18 +66,23 @@ class JsonAppBase < Sinatra::Base
   set :show_exceptions, false
 
   error do
-    # TODO: propagate exception from service (custom,saver) as is
-    # TODO: else wrap inside {"exception":...}
-    # TODO: return prettified json exception in response.body
-    # TODO: log prettified json exception to stdout too
     error = $!
     status(500)
     content_type('application/json')
-
-    diagnostic = JSON.pretty_generate({
-      exception: error.message
-    })
-
+    info = { exception: error.message }
+    if error.instance_of?(::HttpJsonHash::ServiceError)
+      info[:request] = {
+        path:request.path
+        #body:request.body.read,
+      }
+      info[:service] = {
+        path:error.path,
+        args:error.args,
+        name:error.name,
+        body:error.body
+      }
+    end
+    diagnostic = JSON.pretty_generate(info)
     puts diagnostic
     body diagnostic
   end
