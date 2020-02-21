@@ -32,6 +32,7 @@ class CreatorTestBase < Id58TestBase
   def assert_get_200(path, &block)
     stdout,stderr = capture_stdout_stderr { get '/'+path }
     assert_status 200
+    assert_equal 'application/json', last_response.headers['Content-Type']
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :sdout
     block.call(json_response)
@@ -40,6 +41,7 @@ class CreatorTestBase < Id58TestBase
   def assert_get_500(path, &block)
     stdout,stderr = capture_stdout_stderr { get '/'+path }
     assert_status 500
+    assert_equal 'application/json', last_response.headers['Content-Type']
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     block.call(json_response)
@@ -57,17 +59,12 @@ class CreatorTestBase < Id58TestBase
     json_response[key]
   end
 
-  def assert_json_post_500(path, args) # &block)
-    stdout,stderr = capture_stdout_stderr { json_post path, args }
+  def assert_json_post_500(path, args, &block)
+    stdout,stderr = capture_stdout_stderr { json_post '/'+path, args }
     assert_status 500
-    assert_equal '', stderr
-    if block_given?
-      expected_diagnostic = yield last_response
-      unless expected_diagnostic.nil?
-        assert_equal expected_diagnostic+"\n", stdout, :stdout
-        assert_equal expected_diagnostic, last_response.body, :last_response_body
-      end
-    end
+    assert_equal '', stderr, :stderr
+    assert_equal stdout, last_response.body+"\n", :stdout
+    block.call(json_response)
   end
 
   def assert_status(expected)

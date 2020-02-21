@@ -16,11 +16,12 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   |its a 500 error
   |and...
   ) do
-    assert_json_post_500 '/create_custom_group', unknown_arg = '{"unknown":42}'
-    #do
-    #  # TODO: fill out full exception info json object
-    #  json_pretty({exception:'body is not JSON Hash'})
-    #end
+    assert_json_post_500(
+      path = 'create_custom_group',
+      args = '{"unknown":42}' 
+    ) do |jr|
+      #...
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -31,8 +32,12 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   |is a 500 error
   |and...
   ) do
-    assert_json_post_500 '/create_custom_group', non_json = 'xyz'
-    #...
+    assert_json_post_500(
+      path = 'create_custom_group',
+      args = 'not-json'
+    ) do |jr|
+      #...
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -43,8 +48,12 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   |is a 500 error
   |and...
   ) do
-    assert_json_post_500 '/create_custom_group', non_json_hash = 42
-    #...
+    assert_json_post_500(
+      path = 'create_custom_group',
+      args = 42
+    ) do |jr|
+      #...
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -70,8 +79,12 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   |is a 500 error
   |and...
   ) do
-    assert_json_post_500 '/create_custom_group', data = { display_name:'invalid' }
-    #...
+    assert_json_post_500(
+      path = 'create_custom_group',
+      args = { display_name:'invalid' }
+    ) do |jr|
+      #...
+    end
   end
 
   # - - - - - - - - - - - - - - - - -

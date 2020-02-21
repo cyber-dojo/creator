@@ -15,16 +15,17 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |its a 500 error
   |and...
   ) do
-    http_stub(not_json='xxxx') # TODO: should be able to stub individual services...
-    assert_json_post_500 path='/create_custom_group', args={
-      display_name:'Java Countdown, Round 2'
-    } do |response|
+    # TODO: should be able to stub individual services...
+    http_stub(not_json='xxxx')
 
-      #puts "status:#{response.status}"   # 500
-      #puts "body:#{response.body}"       # ...
-      #puts "headers:#{response.headers}" # { "Content-Type"=>"application/json" ... }
-
-      # TODO: Dont rely on key ordering in prettified json
+    assert_json_post_500(
+      path='create_custom_group',
+      args={ display_name:'Java Countdown, Round 2'}
+    ) do |jr|
+      assert_equal 'body is not JSON', jr['exception']
+    end
+  end
+=begin
       json_pretty({
         exception:'body is not JSON',
         request: {
@@ -38,7 +39,6 @@ class RouteCreate500BadResponseTest < CreatorTestBase
           body:not_json
         }
       })
-    end
-  end
+=end
 
 end
