@@ -11,34 +11,44 @@ class RouteCreate200Test < CreatorTestBase
 
   qtest q31: %w(
   |POST /create_custom_group
-  |with a display_name in its request.body
-  |that exists in custom-start-points
+  |with a display_name that exists in custom-start-points
   |has status 200
-  |puts an id: in the response.body
-  |which identifies a new group
+  |returns the id: of a new group
   |that exists in saver
   |whose manifest matches the display_name
+  |and for backwards compatibility
+  |it also returns the id against the :id key
   ) do
-    args = { display_name:any_custom_display_name }
-    id = assert_json_post_200 '/create_custom_group', args
-    assert_group_exists(id, args[:display_name])
+    assert_json_post_200(
+      path = 'create_custom_group',
+      args = { display_name:any_custom_display_name }
+    ) do |jr|
+      assert_equal [path,'id'], jr.keys.sort, :keys
+      assert_group_exists(jr['id'], args[:display_name])
+      assert_equal jr[path], jr['id']
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
 
   qtest q32: %w(
   |POST /create_custom_kata
-  |with a display_name in its request.body
-  |that exists in custom-start-points
+  |with a display_name that exists in custom-start-points
   |has status 200
-  |puts an id: in the response.body
-  |which identifies a new kata
+  |returns the id: of a new kata
   |that exists in saver
   |whose manifest matches the display_name
+  |and for backwards compatibility
+  |it also returns the id against the :id key
   ) do
-    args = { display_name:any_custom_display_name }
-    id = assert_json_post_200 '/create_custom_kata', args
-    assert_kata_exists(id, args[:display_name])
+    assert_json_post_200(
+      path = 'create_custom_kata',
+      args = { display_name:any_custom_display_name }
+    ) do |jr|
+      assert_equal [path,'id'], jr.keys.sort, :keys
+      assert_kata_exists(jr['id'], args[:display_name])
+      assert_equal jr[path], jr['id']
+    end
   end
 
   private

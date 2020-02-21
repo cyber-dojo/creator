@@ -49,19 +49,19 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_json_post_200(path, args)
-    stdout,stderr = capture_stdout_stderr { json_post path, args }
+  def assert_json_post_200(path, args, &block)
+    stdout,stderr = capture_stdout_stderr { json_post '/'+path, args }
     assert_status 200
+    assert_equal 'application/json', last_response.headers['Content-Type']
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :stdout
-    key = path[1..-1] # lose leading /
-    assert json_response.has_key?(key)
-    json_response[key]
+    block.call(json_response)
   end
 
   def assert_json_post_500(path, args, &block)
     stdout,stderr = capture_stdout_stderr { json_post '/'+path, args }
     assert_status 500
+    assert_equal 'application/json', last_response.headers['Content-Type']    
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     block.call(json_response)
