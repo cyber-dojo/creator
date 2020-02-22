@@ -7,20 +7,26 @@ require_relative 'external_time'
 
 class Externals
 
+  # - - - - - - - - - - - - - - - - - - -
+  # inter-process
+  
   def custom_start_points
     @custom_start_points ||= ExternalCustomStartPoints.new(http)
+  end
+
+  def saver
+    @saver ||= ExternalSaver.new(http)
   end
 
   def http
     @http ||= ExternalHttp.new
   end
 
+  # - - - - - - - - - - - - - - - - - - -
+  # intra-process
+
   def random
     @random ||= ExternalRandom.new
-  end
-
-  def saver
-    @saver ||= ExternalSaver.new(http)
   end
 
   def time

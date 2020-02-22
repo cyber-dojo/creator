@@ -3,7 +3,7 @@ require_relative 'service_error'
 require 'json'
 
 module HttpJsonHash
-  class Responder
+  class Unpacker
 
     def initialize(name, requester)
       @name = name
