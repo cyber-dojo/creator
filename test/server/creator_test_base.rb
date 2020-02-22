@@ -97,8 +97,8 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def http_stub(body)
-    externals.instance_exec { @http = HttpAdapterStub.new(body) }
+  def saver_http_stub(body)
+    externals.instance_exec { @saver_http = HttpAdapterStub.new(body) }
   end
 
   class HttpAdapterStub

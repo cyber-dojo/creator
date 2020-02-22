@@ -9,17 +9,19 @@ class Externals
 
   # - - - - - - - - - - - - - - - - - - -
   # inter-process
-  
+
   def custom_start_points
-    @custom_start_points ||= ExternalCustomStartPoints.new(http)
+    @custom_start_points ||= ExternalCustomStartPoints.new(custom_start_points_http)
+  end
+  def custom_start_points_http
+    @custom_start_points_http ||= ExternalHttp.new
   end
 
   def saver
-    @saver ||= ExternalSaver.new(http)
+    @saver ||= ExternalSaver.new(saver_http)
   end
-
-  def http
-    @http ||= ExternalHttp.new
+  def saver_http
+    @saver_http ||= ExternalHttp.new
   end
 
   # - - - - - - - - - - - - - - - - - - -

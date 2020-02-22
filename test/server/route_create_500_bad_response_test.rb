@@ -15,8 +15,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |its a 500 error
   |and...
   ) do
-    # TODO: should be able to stub individual services...
-    http_stub(not_json='xxxx')
+    saver_http_stub(not_json='xxxx')
 
     assert_json_post_500(
       path='create_custom_group',

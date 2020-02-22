@@ -78,7 +78,7 @@ class RouteProbesTest < CreatorTestBase
   |its a 500 error
   |and...
   ) do
-    http_stub('xxxx')
+    saver_http_stub('xxxx')
     assert_get_500('ready?') do |jr|
       assert_equal ['exception','request','service'], jr.keys.sort, last_response.body
       #...
@@ -93,7 +93,7 @@ class RouteProbesTest < CreatorTestBase
   |its a 500 error
   |and...
   ) do
-    http_stub('[]')
+    saver_http_stub('[]')
     assert_get_500('ready?') do |jr|
     end
   end
@@ -107,7 +107,7 @@ class RouteProbesTest < CreatorTestBase
   |its a 500 error
   |and...
   ) do
-    http_stub(response='{"exception":42}')
+    saver_http_stub(response='{"exception":42}')
     assert_get_500('ready?') do |jr|
     end
   end
@@ -121,7 +121,7 @@ class RouteProbesTest < CreatorTestBase
   |its a 500 error
   |and...
   ) do
-    http_stub(response='{"wibble":42}')
+    saver_http_stub(response='{"wibble":42}')
     assert_get_500('ready?') do |jr|
     end
   end
