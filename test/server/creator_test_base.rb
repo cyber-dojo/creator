@@ -3,7 +3,6 @@ require_relative 'capture_stdout_stderr'
 require_relative '../id58_test_base'
 require_src 'app'
 require_src 'externals'
-require_src 'creator'
 require_src 'id_pather'
 require 'json'
 
@@ -11,20 +10,12 @@ class CreatorTestBase < Id58TestBase
   include Rack::Test::Methods # [1]
   include CaptureStdoutStderr
 
-  def initialize(arg)
-    super(arg)
-  end
-
   def externals
     @externals ||= Externals.new
   end
 
-  def creator
-    @creator ||= Creator.new(externals)
-  end
-
   def app # [1]
-    @app ||= App.new(creator)
+    App.new(externals)
   end
 
   # - - - - - - - - - - - - - - - -
@@ -61,7 +52,7 @@ class CreatorTestBase < Id58TestBase
   def assert_json_post_500(path, args, &block)
     stdout,stderr = capture_stdout_stderr { json_post '/'+path, args }
     assert_status 500
-    assert_equal 'application/json', last_response.headers['Content-Type']    
+    assert_equal 'application/json', last_response.headers['Content-Type']
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     block.call(json_response)

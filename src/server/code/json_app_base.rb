@@ -9,16 +9,15 @@ class JsonAppBase < Sinatra::Base
   silently { register Sinatra::Contrib }
   set :port, ENV['PORT']
 
-  def initialize(target)
+  def initialize
     super(nil)
-    @target = target
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def self.probe(name)
     get "/#{name}" do
-      result = instance_eval { @target.public_send(name) }
+      result = instance_eval { target.public_send(name) }
       new_api = { name => result }
       json new_api
     end
@@ -31,7 +30,7 @@ class JsonAppBase < Sinatra::Base
       respond_to do |format|
         format.json {
           result = instance_eval {
-            @target.public_send(name, **args)
+            target.public_send(name, **args)
           }
           new_api = { name => result }
           json new_api
@@ -45,7 +44,7 @@ class JsonAppBase < Sinatra::Base
       respond_to do |format|
         format.json {
           result = instance_eval {
-            @target.public_send(name, **args)
+            target.public_send(name, **args)
           }
           new_api = { name => result }
           backwards_compatible = { id:result }
