@@ -6,12 +6,12 @@ require_relative 'http_json_hash/service'
 
 class JsonAppBase < Sinatra::Base
 
-  silently { register Sinatra::Contrib }
-  set :port, ENV['PORT']
-
   def initialize
     super(nil)
   end
+
+  silently { register Sinatra::Contrib }
+  set :port, ENV['PORT']
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
@@ -94,7 +94,7 @@ class JsonAppBase < Sinatra::Base
     x
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
+  private
 
   def json_hash_parse(body)
     #dump_payload(body)
