@@ -15,16 +15,6 @@ class JsonAppBase < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def self.probe(name)
-    get "/#{name}" do
-      result = instance_eval { target.public_send(name) }
-      new_api = { name => result }
-      json new_api
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   def self.get_json(name)
     get "/#{name}", provides:[:json] do
       respond_to do |format|
@@ -32,12 +22,15 @@ class JsonAppBase < Sinatra::Base
           result = instance_eval {
             target.public_send(name, **args)
           }
-          new_api = { name => result }
-          json new_api
+          json({ name => result })
         }
       end
     end
   end
+
+  get_json(:sha) # identity
+
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def self.post_json(name)
     post "/#{name}", provides:[:json] do
@@ -56,9 +49,15 @@ class JsonAppBase < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  def self.probe(name)
+    get "/#{name}" do
+      result = instance_eval { target.public_send(name) }
+      json({ name => result })
+    end
+  end
+
   probe(:alive?) # curl/k8s
   probe(:ready?) # curl/k8s
-  get_json(:sha) # identity
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
