@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
+require_src 'id_generator'
 
 class RouteCreate200Test < CreatorTestBase
 
@@ -51,6 +52,40 @@ class RouteCreate200Test < CreatorTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  qtest q33: %w(
+  |POST /create_custom_kata
+  |can use RandomStub to control kata id
+  ) do
+    id = id58
+    externals.instance_exec { @random = RandomStub.new(id) }
+    assert_json_post_200(
+      'create_custom_kata',
+      args = { display_name:any_custom_display_name }
+    ) do |jr|
+      assert_equal id, jr['id'], jr
+      assert_kata_exists(id, args[:display_name])
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  qtest q34: %w(
+  |POST /create_custom_group
+  |can use RandomStub to control group id
+  ) do
+    id = id58
+    externals.instance_exec { @random = RandomStub.new(id) }
+    assert_json_post_200(
+      'create_custom_group',
+      args = { display_name:any_custom_display_name }
+    ) do |jr|
+      assert_equal id, jr['id'], jr
+      assert_group_exists(id, args[:display_name])      
+    end
+  end
+
   private
 
   def assert_group_exists(id, display_name)
@@ -73,6 +108,20 @@ class RouteCreate200Test < CreatorTestBase
 
   def kata_manifest(id)
     JSON::parse!(saver.read("#{kata_id_path(id)}/manifest.json"))
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  class RandomStub
+    def initialize(id)
+      @id = id
+      @index = 0
+    end
+    def sample(_size)
+      ch = IdGenerator::ALPHABET.index(@id[@index])
+      @index += 1
+      ch
+    end
   end
 
 end
