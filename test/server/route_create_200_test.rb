@@ -22,7 +22,7 @@ class RouteCreate200Test < CreatorTestBase
   ) do
     assert_json_post_200(
       path = 'create_custom_group',
-      args = { display_name:any_custom_display_name }
+      args = { display_name:any_custom_start_point_display_name }
     ) do |jr|
       assert_equal [path,'id'], jr.keys.sort, :keys
       assert_group_exists(jr['id'], args[:display_name])
@@ -44,7 +44,7 @@ class RouteCreate200Test < CreatorTestBase
   ) do
     assert_json_post_200(
       path = 'create_custom_kata',
-      args = { display_name:any_custom_display_name }
+      args = { display_name:any_custom_start_point_display_name }
     ) do |jr|
       assert_equal [path,'id'], jr.keys.sort, :keys
       assert_kata_exists(jr['id'], args[:display_name])
@@ -62,7 +62,7 @@ class RouteCreate200Test < CreatorTestBase
     externals.instance_exec { @random = RandomStub.new(id) }
     assert_json_post_200(
       'create_custom_kata',
-      args = { display_name:any_custom_display_name }
+      args = { display_name:any_custom_start_point_display_name }
     ) do |jr|
       assert_equal id, jr['id'], jr
       assert_kata_exists(id, args[:display_name])
@@ -79,10 +79,10 @@ class RouteCreate200Test < CreatorTestBase
     externals.instance_exec { @random = RandomStub.new(id) }
     assert_json_post_200(
       'create_custom_group',
-      args = { display_name:any_custom_display_name }
+      args = { display_name:any_custom_start_point_display_name }
     ) do |jr|
       assert_equal id, jr['id'], jr
-      assert_group_exists(id, args[:display_name])      
+      assert_group_exists(id, args[:display_name])
     end
   end
 

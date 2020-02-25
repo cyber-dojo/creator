@@ -64,8 +64,8 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def any_custom_display_name
-    custom.display_names.sample
+  def any_custom_start_point_display_name
+    custom_start_points.display_names.sample
   end
 
   def json_post(path, data)
@@ -121,7 +121,7 @@ class CreatorTestBase < Id58TestBase
 
   include IdPather
 
-  def custom
+  def custom_start_points
     externals.custom_start_points
   end
 
