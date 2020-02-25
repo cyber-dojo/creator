@@ -7,6 +7,10 @@ class ExternalSaver
     @http = HttpJsonHash::service(self.class.name, http, 'saver', 4537)
   end
 
+  def ready?
+    @http.get(__method__, {})
+  end
+
   def exists?(key)
     @http.get(__method__, { key:key })
   end

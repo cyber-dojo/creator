@@ -10,7 +10,7 @@ class AliveTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '15d', 'its alive' do
-    assert true?(creator.alive?)
+    assert true?(externals.creator.alive?)
   end
 
 end

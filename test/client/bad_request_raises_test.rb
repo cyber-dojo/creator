@@ -11,7 +11,7 @@ class BadRequestTest < CreatorTestBase
 
   test '45e',
   %w( create_custom_group(manifest=nil) raises ) do
-    assert_raises(Creator::Error) {
+    _error = assert_raises(HttpJsonHash::ServiceError) {
       creator.create_custom_group(nil)
     }
   end
@@ -20,8 +20,8 @@ class BadRequestTest < CreatorTestBase
 
   test '45a',
   %w( custom.manifest(name='unknown') raises ) do
-    assert_raises(CustomStartPoints::Error) {
-      custom.manifest('unknown-name')
+    _error = assert_raises(HttpJsonHash::ServiceError) {
+      custom_start_points.manifest('unknown-name')
     }
   end
 
@@ -29,7 +29,7 @@ class BadRequestTest < CreatorTestBase
 
   test '45b',
   %w( saver.exists?(key=nil) raises ) do
-    assert_raises(Saver::Error) {
+    _error = assert_raises(HttpJsonHash::ServiceError) {
       saver.exists?(nil)
     }
   end

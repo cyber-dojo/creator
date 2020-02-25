@@ -12,13 +12,9 @@ class BadResponseRaisesTest < CreatorTestBase
 
   test '34a',
   %w( http body not JSON raises ) do
-    externals.instance_exec {
-      @http = HttpAdapterStub.new('{"sd":}')
-    }
-    error = assert_raises(Creator::Error) {
-      creator.alive?
-    }
-    expected = 'http response.body is not JSON:{"sd":}'
+    creator_http_stub('{42:"sd"}')
+    error = assert_raises(HttpJsonHash::ServiceError) { creator.ready? }
+    expected = 'body is not JSON'
     assert_equal expected, error.message
   end
 
@@ -26,13 +22,9 @@ class BadResponseRaisesTest < CreatorTestBase
 
   test '34b',
   %w( http body not JSON Hash raises ) do
-    externals.instance_exec {
-      @http = HttpAdapterStub.new('42')
-    }
-    error = assert_raises(Creator::Error) {
-      creator.alive?
-    }
-    expected = 'http response.body is not JSON Hash:42'
+    creator_http_stub('42')
+    error = assert_raises(HttpJsonHash::ServiceError) { creator.ready? }
+    expected = 'body is not JSON Hash'
     assert_equal expected, error.message
   end
 
@@ -40,29 +32,10 @@ class BadResponseRaisesTest < CreatorTestBase
 
   test '34c',
   %w( http body JSON without key for method name raises ) do
-    externals.instance_exec {
-      @http = HttpAdapterStub.new('{}')
-    }
-    error = assert_raises(Creator::Error) {
-      creator.alive?
-    }
-    expected = "http response.body has no key for 'alive?':{}"
+    creator_http_stub('{}')
+    error = assert_raises(HttpJsonHash::ServiceError) { creator.ready? }
+    expected = 'body is missing :path key'
     assert_equal expected, error.message
-  end
-
-  private
-
-  class HttpAdapterStub
-    def initialize(body)
-      @body = body
-    end
-    def get(_uri)
-      OpenStruct.new
-    end
-    def start(_hostname, _port, _req)
-      self
-    end
-    attr_reader :body
   end
 
 end

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 require_relative '../id58_test_base'
 require_relative 'id_pather'
+require_src 'creator'
 require_src 'externals'
 require 'json'
 
@@ -10,8 +11,34 @@ class CreatorTestBase < Id58TestBase
     super(arg)
   end
 
+  def externals
+    @externals ||= Externals.new
+  end
+
   def creator
-    externals.creator
+    Creator.new(externals)
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  def creator_http_stub(body)
+    externals.instance_exec { @creator_http = HttpAdapterStub.new(body) }
+  end
+
+  class HttpAdapterStub
+    def initialize(body)
+      @body = body
+    end
+    def get(_uri)
+      OpenStruct.new
+    end
+    def post(_uri)
+      OpenStruct.new
+    end
+    def start(_hostname, _port, _req)
+      self
+    end
+    attr_reader :body
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -56,12 +83,6 @@ class CreatorTestBase < Id58TestBase
 
   def false?(b)
     b.is_a?(FalseClass)
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def externals
-    @externals ||= Externals.new
   end
 
 end

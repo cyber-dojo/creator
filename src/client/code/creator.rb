@@ -7,23 +7,23 @@ class Creator
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-  # identity
-
-  def sha
-    ENV['SHA']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-  # k8s/curl probing
-
-  def alive?
-    true
-  end
 
   def ready?
     services = []
     services << @externals.creator
+    services << @externals.custom_start_points
+    services << @externals.saver
     services.all?{ |service| service.ready? }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def create_custom_group(display_name)
+    @externals.creator.create_custom_group(display_name)
+  end
+
+  def create_custom_kata(display_name)
+    @externals.creator.create_custom_kata(display_name)
   end
 
 end
