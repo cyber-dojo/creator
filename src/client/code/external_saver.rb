@@ -1,16 +1,10 @@
 # frozen_string_literal: true
-require_relative 'http_json/service'
+require_relative 'http_json_hash/service'
 
-class Saver
-
-  class Error < RuntimeError
-    def initialize(message)
-      super
-    end
-  end
+class ExternalSaver
 
   def initialize(http)
-    @http = HttpJson::service(http, 'saver', 4537, Error)
+    @http = HttpJsonHash::service(self.class.name, http, 'saver', 4537)
   end
 
   def exists?(key)

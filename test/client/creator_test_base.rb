@@ -40,12 +40,12 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def any_display_name
-    custom.display_names.shuffle[0]
+  def any_custom_start_point_display_name
+    custom_start_points.display_names.sample
   end
 
-  def custom
-    externals.custom
+  def custom_start_points
+    externals.custom_start_points
   end
 
   # - - - - - - - - - - - - - - - - - - -

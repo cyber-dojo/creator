@@ -1,25 +1,33 @@
 # frozen_string_literal: true
-require_relative 'http_adapter'
-require_relative 'services/creator'
-require_relative 'services/custom_start_points'
-require_relative 'services/saver'
+require_relative 'external_creator'
+require_relative 'external_custom_start_points'
+require_relative 'external_http'
+require_relative 'external_saver'
 
 class Externals
 
-  def http
-    @http ||= HttpAdapter.new
-  end
+  # - - - - - - - - - - - - - - - - - - -
+  # inter-process
 
   def creator
-    @creator ||= Creator.new(http)
+    @creator ||= ExternalCreator.new(creator_http)
+  end
+  def creator_http
+    @creator_http ||= ExternalHttp.new
   end
 
-  def custom
-    @custom ||= CustomStartPoints.new(http)
+  def custom_start_points
+    @custom ||= ExternalCustomStartPoints.new(custom_start_points_http)
+  end
+  def custom_start_points_http
+    @custom_start_points_http ||= ExternalHttp.new
   end
 
   def saver
-    @saver ||= Saver.new(http)
+    @saver ||= ExternalSaver.new(saver_http)
+  end
+  def saver_http
+    @saver_http ||= ExternalHttp.new
   end
 
 end

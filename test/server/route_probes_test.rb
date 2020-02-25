@@ -123,7 +123,7 @@ class RouteProbesTest < CreatorTestBase
   ) do
     saver_http_stub('[]')
     assert_get_500('ready?') do |jr|
-      #...      
+      #...
     end
   end
 
