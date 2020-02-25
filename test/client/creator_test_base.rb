@@ -21,28 +21,6 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def creator_http_stub(body)
-    externals.instance_exec { @creator_http = HttpAdapterStub.new(body) }
-  end
-
-  class HttpAdapterStub
-    def initialize(body)
-      @body = body
-    end
-    def get(_uri)
-      OpenStruct.new
-    end
-    def post(_uri)
-      OpenStruct.new
-    end
-    def start(_hostname, _port, _req)
-      self
-    end
-    attr_reader :body
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def group_exists?(id)
     saver.exists?(group_id_path(id))
   end

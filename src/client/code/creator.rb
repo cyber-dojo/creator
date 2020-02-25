@@ -9,11 +9,7 @@ class Creator
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def ready?
-    services = []
-    services << @externals.creator
-    services << @externals.custom_start_points
-    services << @externals.saver
-    services.all?{ |service| service.ready? }
+    @externals.all_ready?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

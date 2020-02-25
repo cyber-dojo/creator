@@ -6,6 +6,14 @@ require_relative 'external_saver'
 
 class Externals
 
+  def all_ready?
+    services = []
+    services << creator
+    services << custom_start_points
+    services << saver
+    services.all?{ |service| service.ready? }
+  end
+
   # - - - - - - - - - - - - - - - - - - -
   # inter-process
 

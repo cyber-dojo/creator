@@ -38,4 +38,26 @@ class BadResponseRaisesTest < CreatorTestBase
     assert_equal expected, error.message
   end
 
+  private
+
+  def creator_http_stub(body)
+    externals.instance_exec { @creator_http = HttpAdapterStub.new(body) }
+  end
+
+  class HttpAdapterStub
+    def initialize(body)
+      @body = body
+    end
+    def get(_uri)
+      OpenStruct.new
+    end
+    #def post(_uri)
+    #  OpenStruct.new
+    #end
+    def start(_hostname, _port, _req)
+      self
+    end
+    attr_reader :body
+  end
+
 end
