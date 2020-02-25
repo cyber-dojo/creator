@@ -18,7 +18,7 @@ services:
 
   creator-client:
     build:
-      args: [ CYBER_DOJO_CREATOR_CLIENT_PORT ]
+      args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_CLIENT_PORT ]
       context: src/client
     container_name: test-creator-client
     depends_on:
