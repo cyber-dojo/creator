@@ -40,8 +40,8 @@ curl_ready()
   curl \
     --fail \
     --output $(ready_filename) \
+    --request GET \
     --silent \
-    -X GET \
     "${url}"
   [ "$?" == '0' ] && [ "$(ready_response)" == '{"ready?":true}' ]
 }
