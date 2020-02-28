@@ -21,11 +21,12 @@ class IdGeneratorTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   qtest a63: %w(
-  the entire alphabet is used in group ids
+  |random-number generator is good enough
+  |to use the entire alphabet in group ids
   ) do
     id_generator = IdGenerator.new(externals)
     counts = {}
-    until counts.size === 58 do
+    until counts.size === alphabet.size do
       id_generator.group_id.each_char do |ch|
         counts[ch] = true
       end
@@ -36,11 +37,12 @@ class IdGeneratorTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   qtest a64: %w(
-  the entire alphabet is used in kata ids
+  |random-number generator is good enough
+  |to use the entire alphabet kata ids
   ) do
     id_generator = IdGenerator.new(externals)
     counts = {}
-    until counts.size === 58 do
+    until counts.size === alphabet.size do
       id_generator.kata_id.each_char do |ch|
         counts[ch] = true
       end
