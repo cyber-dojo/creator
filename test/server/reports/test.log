@@ -1,30 +1,30 @@
-Run options: --seed 24105
+Run options: --seed 54690
 
 # Running:
 
 .........................................
 
-Finished in 0.673389s, 60.8860 runs/s, 234.6340 assertions/s.
+Finished in 0.578805s, 70.8357 runs/s, 272.9764 assertions/s.
 
 41 runs, 158 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to /tmp/reports. 8068 / 15027 LOC (53.69%) covered.
+Coverage report generated for MiniTest to /tmp/reports. 8066 / 15027 LOC (53.68%) covered.
 
 Slowest 5 tests are...
-0.2563 - A6Da63:id_generator_test.rb:23:|random-number generator is good enough |to use the entire alphabet in group ids
-0.1807 - A6Da64:id_generator_test.rb:39:|random-number generator is good enough |to use the entire alphabet kata ids
-0.0486 - f26q34:route_create_200_test.rb:74:|POST /create_custom_group |can use RandomStub to control group id
-0.0202 - f26q33:route_create_200_test.rb:57:|POST /create_custom_kata |can use RandomStub to control kata id
-0.0200 - f26q32:route_create_200_test.rb:35:|POST /create_custom_kata |with a display_name that exists in custom-start-points...
-0.0181 - f26q31:route_create_200_test.rb:13:|POST /create_custom_group |with a display_name that exists in custom-start-point...
+0.1884 - A6Da63:id_generator_test.rb:23:|random-number generator is good enough |to use the entire alphabet in group ids
+0.1396 - A6Da64:id_generator_test.rb:39:|random-number generator is good enough |to use the entire alphabet kata ids
+0.0303 - f27Kp1:route_create_500_bad_request_test.rb:12:|POST /create_custom_group |with JSON-Hash in its request.body |containing an unk...
+0.0264 - f26q34:route_create_200_test.rb:74:|POST /create_custom_group |can use RandomStub to control group id
+0.0228 - f26q33:route_create_200_test.rb:57:|POST /create_custom_kata |can use RandomStub to control kata id
+0.0186 - f26q32:route_create_200_test.rb:35:|POST /create_custom_kata |with a display_name that exists in custom-start-points...
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.67   <=     2 | [32m true [0m
+        duration(test)[s] |    0.58   <=     2 | [32m true [0m
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
      lines(tester/tested) |    0.85   >=   0.7 | [32m true [0m
-      hits(tested/tester) |    2.64   >=   1.9 | [32m true [0m
+      hits(tested/tester) |    2.38   >=   1.9 | [32m true [0m
 

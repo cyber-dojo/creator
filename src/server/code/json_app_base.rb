@@ -48,7 +48,7 @@ class JsonAppBase < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def self.probe(name)
+  def self.get_probe(name)
     get "/#{name}" do
       result = instance_eval { target.public_send(name) }
       json({ name => result })
