@@ -24,7 +24,6 @@ class IdGeneratorTest < CreatorTestBase
   |random-number generator is good enough
   |to use the entire alphabet in group ids
   ) do
-    id_generator = IdGenerator.new(externals)
     counts = {}
     until counts.size === alphabet.size do
       id_generator.group_id.each_char do |ch|
@@ -40,7 +39,6 @@ class IdGeneratorTest < CreatorTestBase
   |random-number generator is good enough
   |to use the entire alphabet kata ids
   ) do
-    id_generator = IdGenerator.new(externals)
     counts = {}
     until counts.size === alphabet.size do
       id_generator.kata_id.each_char do |ch|
@@ -73,8 +71,7 @@ class IdGeneratorTest < CreatorTestBase
   qtest b13: %w(
   a created group-id does not exist before creation, does after
   ) do
-    id =  'sD92wM'
-    id_generator = stubbed_id_generator(id)
+    stub_rng(id = 'sD92wM')
     refute group_exists?(id), id
     assert_equal id, id_generator.group_id
     assert group_exists?(id), id
@@ -85,8 +82,7 @@ class IdGeneratorTest < CreatorTestBase
   qtest c13: %w(
   a created kata-id does not exist before creation, does after
   ) do
-    id =  '7w3RPx'
-    id_generator = stubbed_id_generator(id)
+    stub_rng(id = '7w3RPx')
     refute kata_exists?(id), id
     assert_equal id, id_generator.kata_id
     assert kata_exists?(id), id
@@ -98,7 +94,7 @@ class IdGeneratorTest < CreatorTestBase
   the id 999999 is reserved for a kata id when the saver is offline
   ) do
     id = 'eF762A'
-    id_generator = stubbed_id_generator(saver_offline_id+id)
+    stub_rng(saver_offline_id+id)
     assert_equal id, id_generator.kata_id
   end
 
@@ -110,7 +106,7 @@ class IdGeneratorTest < CreatorTestBase
   |and you either have the worst random-number generator ever
   |or you are the unluckiest person ever
   ) do
-    id_generator = stubbed_id_generator(saver_offline_id*42)
+    stub_rng(saver_offline_id*42)
     assert_nil id_generator.kata_id
   end
 
@@ -122,7 +118,7 @@ class IdGeneratorTest < CreatorTestBase
   |and you either have the worst random-number generator ever
   |or you are the unluckiest person ever
   ) do
-    id_generator = stubbed_id_generator(saver_offline_id*42)
+    stub_rng(saver_offline_id*42)
     assert_nil id_generator.group_id
   end
 
@@ -170,22 +166,8 @@ class IdGeneratorTest < CreatorTestBase
     IdGenerator::id?(s)
   end
 
-  def stubbed_id_generator(stub)
-    externals.instance_eval { @random = RandomStub.new(stub) }
+  def id_generator
     IdGenerator.new(externals)
-  end
-
-  class RandomStub
-    def initialize(letters)
-      alphabet = IdGenerator::ALPHABET
-      @indexes = letters.each_char.map{ |ch| alphabet.index(ch) }
-      @n = 0
-    end
-    def sample(size)
-      index = @indexes[@n]
-      @n += 1
-      index
-    end
   end
 
 end

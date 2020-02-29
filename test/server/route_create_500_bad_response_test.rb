@@ -13,31 +13,24 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |when a co-service
   |returns JSON (but not Hash) in its response.body
   |its a 500 error
-  |and...
   ) do
-    saver_http_stub(not_json='xxxx')
-
+    stub_rng('de34Ty')
+    stub_saver_http(not_json='xxxx')
     assert_json_post_500(
       path='create_custom_group',
       args={ display_name:'Java Countdown, Round 2'}
     ) do |jr|
-      assert_equal 'body is not JSON', jr['exception']['http_service']['message'], jr
+      ex = jr['exception']
+      assert_equal '/create_custom_group', ex['request']['path'], jr
+      assert_equal '', ex['request']['body'], jr
+      refute_nil ex['backtrace'], jr
+      http_service = ex['http_service']
+      assert_equal 'body is not JSON', http_service['message'], jr
+      assert_equal not_json, http_service['body'], jr
+      assert_equal 'ExternalSaver', http_service['name'], jr
+      assert_equal 'create', http_service['path'], jr
+      assert_equal({'key' => '/groups/de/34/Ty' }, http_service['args'], jr)
     end
   end
-=begin
-      json_pretty({
-        exception:'body is not JSON',
-        request: {
-          path:path
-          #body:args
-        },
-        service: {
-          path:'manifest',
-          args:{name:args[:display_name]}, # backwards-compatibility
-          name:'ExternalCustomStartPoints',
-          body:not_json
-        }
-      })
-=end
 
 end

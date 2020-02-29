@@ -3,19 +3,21 @@ require_relative 'capture_stdout_stderr'
 require_relative '../id58_test_base'
 require_src 'app'
 require_src 'externals'
+require_src 'id_generator'
 require_src 'id_pather'
 require 'json'
+require 'ostruct'
 
 class CreatorTestBase < Id58TestBase
-  include Rack::Test::Methods # [1]
   include CaptureStdoutStderr
-
-  def externals
-    @externals ||= Externals.new
-  end
+  include Rack::Test::Methods # [1]
 
   def app # [1]
     App.new(externals)
+  end
+
+  def externals
+    @externals ||= Externals.new
   end
 
   # - - - - - - - - - - - - - - - -
@@ -23,7 +25,7 @@ class CreatorTestBase < Id58TestBase
   def assert_get_200(path, &block)
     stdout,stderr = capture_stdout_stderr { get '/'+path }
     assert_status 200
-    assert_equal 'application/json', last_response.headers['Content-Type']
+    assert_json_content
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :sdout
     block.call(json_response)
@@ -32,7 +34,7 @@ class CreatorTestBase < Id58TestBase
   def assert_get_500(path, &block)
     stdout,stderr = capture_stdout_stderr { get '/'+path }
     assert_status 500
-    assert_equal 'application/json', last_response.headers['Content-Type']
+    assert_json_content
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     block.call(json_response)
@@ -43,7 +45,7 @@ class CreatorTestBase < Id58TestBase
   def assert_json_post_200(path, args, &block)
     stdout,stderr = capture_stdout_stderr { json_post '/'+path, args }
     assert_status 200
-    assert_equal 'application/json', last_response.headers['Content-Type']
+    assert_json_content
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :stdout
     block.call(json_response)
@@ -52,7 +54,7 @@ class CreatorTestBase < Id58TestBase
   def assert_json_post_500(path, args, &block)
     stdout,stderr = capture_stdout_stderr { json_post '/'+path, args }
     assert_status 500
-    assert_equal 'application/json', last_response.headers['Content-Type']
+    assert_json_content
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     block.call(json_response)
@@ -60,6 +62,10 @@ class CreatorTestBase < Id58TestBase
 
   def assert_status(expected)
     assert_equal expected, last_response.status, :last_response_status
+  end
+
+  def assert_json_content
+    assert_equal 'application/json', last_response.headers['Content-Type']
   end
 
   # - - - - - - - - - - - - - - - -
@@ -97,9 +103,17 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def saver_http_stub(body)
+  def stub_saver_http(body)
     externals.instance_exec { @saver_http = HttpAdapterStub.new(body) }
   end
+
+  def stub_rng(stub)
+    externals.instance_eval { @random = RandomStub.new(stub) }
+  end
+
+  private
+
+  include IdPather
 
   class HttpAdapterStub
     def initialize(body)
@@ -117,9 +131,22 @@ class CreatorTestBase < Id58TestBase
     attr_reader :body
   end
 
-  private
+  # - - - - - - - - - - - - - - - -
 
-  include IdPather
+  class RandomStub
+    def initialize(letters)
+      alphabet = IdGenerator::ALPHABET
+      @indexes = letters.each_char.map{ |ch| alphabet.index(ch) }
+      @n = 0
+    end
+    def sample(size)
+      index = @indexes[@n]
+      @n += 1
+      index
+    end
+  end
+
+  # - - - - - - - - - - - - - - - -
 
   def custom_start_points
     externals.custom_start_points
