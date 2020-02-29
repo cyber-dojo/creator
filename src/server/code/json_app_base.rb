@@ -29,8 +29,6 @@ class JsonAppBase < Sinatra::Base
     end
   end
 
-  get_json(:sha) # identity
-
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def self.post_json(name)
@@ -56,9 +54,6 @@ class JsonAppBase < Sinatra::Base
       json({ name => result })
     end
   end
-
-  probe(:alive?) # curl/k8s
-  probe(:ready?) # curl/k8s
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
