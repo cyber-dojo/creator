@@ -114,7 +114,9 @@ curl_200()
 port() { printf 80; }
 new_controller() { echo -n creator; }
 old_controller() { echo -n setup_custom_start_point; }
-json_display_name() { echo -n '{"display_name":"Java Countdown, Round 1"}'; }
+json_display_name() { json display_name "$(display_name)"; }
+json() { echo -n "{\"${1}\":\"${2}\"}"; }
+display_name() { echo -n 'Java Countdown, Round 1'; }
 tab() { printf '\t'; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
