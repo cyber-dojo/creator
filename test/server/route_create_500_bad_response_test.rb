@@ -21,7 +21,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
       path='create_custom_group',
       args={ display_name:'Java Countdown, Round 2'}
     ) do |jr|
-      assert_equal 'body is not JSON', jr['exception']
+      assert_equal 'body is not JSON', jr['exception']['http_service']['message'], jr
     end
   end
 =begin

@@ -63,18 +63,26 @@ class JsonAppBase < Sinatra::Base
     error = $!
     status(500)
     content_type('application/json')
-    info = { exception: error.message }
-    if error.instance_of?(::HttpJsonHash::ServiceError)
-      info[:request] = {
-        path:request.path
-        #body:request.body.read,
+    info = {
+      exception: {
+        request: {
+          path:request.path,
+          body:request.body.read
+        },
+        backtrace: error.backtrace
       }
-      info[:service] = {
+    }
+    exception = info[:exception]
+    if error.instance_of?(::HttpJsonHash::ServiceError)
+      exception[:http_service] = {
         path:error.path,
         args:error.args,
         name:error.name,
-        body:error.body
+        body:error.body,
+        message:error.message
       }
+    else
+      exception[:message] = error.message
     end
     diagnostic = JSON.pretty_generate(info)
     puts diagnostic

@@ -108,7 +108,7 @@ class RouteProbesTest < CreatorTestBase
   ) do
     saver_http_stub('xxxx')
     assert_get_500('ready?') do |jr|
-      assert_equal ['exception','request','service'], jr.keys.sort, last_response.body
+      assert_equal [ 'exception' ], jr.keys.sort, last_response.body
       #...
     end
   end
