@@ -1,4 +1,22 @@
 #!/bin/bash -Eeu
+readonly SH_DIR="$(cd "$(dirname "${0}")/sh" && pwd)"
+source ${SH_DIR}/versioner_env_vars.sh
+export $(versioner_env_vars)
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+main()
+{
+  local -r server_user="${CYBER_DOJO_CREATOR_CLIENT_USER}"
+  local -r client_user="${CYBER_DOJO_CREATOR_SERVER_USER}"
+  ${SH_DIR}/build_images.sh
+  ${SH_DIR}/containers_up.sh "$@"
+  ${SH_DIR}/test_in_containers.sh "${server_user}" "${client_user}" "$@"
+  ${SH_DIR}/containers_down.sh
+  source ${SH_DIR}/image_name.sh
+  source ${SH_DIR}/image_sha.sh
+  tag_the_image
+  on_ci_publish_tagged_images
+}
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 tag_the_image()
@@ -34,18 +52,4 @@ on_ci_publish_tagged_images()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-readonly SH_DIR="$(cd "$(dirname "${0}")/sh" && pwd)"
-source ${SH_DIR}/versioner_env_vars.sh
-export $(versioner_env_vars)
-
-${SH_DIR}/build_images.sh
-${SH_DIR}/containers_up.sh "$@"
-${SH_DIR}/test_in_containers.sh \
-  "${CYBER_DOJO_CREATOR_CLIENT_USER}" \
-  "${CYBER_DOJO_CREATOR_SERVER_USER}" \
-  "$@"
-${SH_DIR}/containers_down.sh
-source ${SH_DIR}/image_name.sh
-source ${SH_DIR}/image_sha.sh
-tag_the_image
-on_ci_publish_tagged_images
+main "$@"
