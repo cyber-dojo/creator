@@ -1,28 +1,28 @@
-Run options: --seed 35023
+Run options: --seed 30943
 
 # Running:
 
 .........................................
 
-Finished in 0.658606s, 62.2527 runs/s, 250.5292 assertions/s.
+Finished in 0.684368s, 59.9093 runs/s, 241.0983 assertions/s.
 
 41 runs, 165 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to /tmp/reports. 8078 / 15039 LOC (53.71%) covered.
 
 Slowest 5 tests are...
-0.2514 - A6Da63:id_generator_test.rb:23:|random-number generator is good enough |to use the entire alphabet in group ids
-0.1842 - A6Da64:id_generator_test.rb:38:|random-number generator is good enough |to use the entire alphabet kata ids
-0.0257 - de3p23:route_sha_test.rb:12:|GET /sha |has status 200 |returns the 40-char git commit sha used to create the ...
-0.0224 - f26q33:route_create_200_test.rb:57:|POST /create_custom_kata |can use RandomStub to control kata id
-0.0210 - f26q32:route_create_200_test.rb:35:|POST /create_custom_kata |with a display_name that exists in custom-start-points...
-0.0168 - f26q34:route_create_200_test.rb:74:|POST /create_custom_group |can use RandomStub to control group id
+0.3075 - A6Da64:id_generator_test.rb:38:|random-number generator is good enough |to use the entire alphabet kata ids
+0.1577 - A6Da63:id_generator_test.rb:23:|random-number generator is good enough |to use the entire alphabet in group ids
+0.0254 - de3p23:route_sha_test.rb:12:|GET /sha |has status 200 |returns the 40-char git commit sha used to create the ...
+0.0249 - f26q32:route_create_200_test.rb:35:|POST /create_custom_kata |with a display_name that exists in custom-start-points...
+0.0228 - f26q33:route_create_200_test.rb:57:|POST /create_custom_kata |can use RandomStub to control kata id
+0.0202 - f26q31:route_create_200_test.rb:13:|POST /create_custom_group |with a display_name that exists in custom-start-point...
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.66   <=     2 | [32m true [0m
+        duration(test)[s] |    0.68   <=     2 | [32m true [0m
                     tests |      41   >=     1 | [32m true [0m
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m

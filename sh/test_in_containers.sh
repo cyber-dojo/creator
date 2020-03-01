@@ -2,6 +2,8 @@
 
 readonly root_dir="$(cd "$(dirname "${0}")/.." && pwd)"
 readonly my_name=creator
+readonly client_user="${1}"; shift
+readonly server_user="${1}"; shift
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()
@@ -11,7 +13,7 @@ run_tests()
   local -r reports_dir=reports
   local -r coverage_root=/tmp/${reports_dir}
   local -r test_log=test.log
-  local -r container_name="test-${my_name}-${type}" # eg test-ragger-server
+  local -r container_name="test-${my_name}-${type}" # eg test-creator-server
   local -r coverage_code_group_name=tested
   local -r coverage_test_group_name=tester
 
@@ -61,8 +63,8 @@ run_tests()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-run_server_tests() { run_tests nobody server "${@:-}"; }
-run_client_tests() { run_tests nobody client "${@:-}"; }
+run_server_tests() { run_tests "${server_user}" server "${@:-}"; }
+run_client_tests() { run_tests "${client_user}" client "${@:-}"; }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 echo
