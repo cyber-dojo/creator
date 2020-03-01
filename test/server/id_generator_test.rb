@@ -24,13 +24,13 @@ class IdGeneratorTest < CreatorTestBase
   |random-number generator is good enough
   |to use the entire alphabet in group ids
   ) do
-    counts = {}
-    until counts.size === alphabet.size do
-      id_generator.group_id.each_char do |ch|
-        counts[ch] = true
+    counted = {}
+    until counted.size === alphabet.size do
+      id_generator.group_id.chars.each do |letter|
+        counted[letter] = true
       end
     end
-    assert_equal alphabet.chars.sort, counts.keys.sort
+    assert_equal alphabet.chars.sort, counted.keys.sort
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -39,13 +39,13 @@ class IdGeneratorTest < CreatorTestBase
   |random-number generator is good enough
   |to use the entire alphabet kata ids
   ) do
-    counts = {}
-    until counts.size === alphabet.size do
-      id_generator.kata_id.each_char do |ch|
-        counts[ch] = true
+    counted = {}
+    until counted.size === alphabet.size do
+      id_generator.kata_id.chars.each do |letter|
+        counted[letter] = true
       end
     end
-    assert_equal alphabet.chars.sort, counts.keys.sort
+    assert_equal alphabet.chars.sort, counted.keys.sort
   end
 
   # - - - - - - - - - - - - - - - - - - -
@@ -59,7 +59,7 @@ class IdGeneratorTest < CreatorTestBase
     refute alphabet.include?('.'), diagnostic
     diagnostic = 'single quote to protect all other letters'
     refute alphabet.include?("'"), diagnostic
-    alphabet.each_char do |letter|
+    alphabet.chars.each do |letter|
       path = Dir.mktmpdir("/tmp/#{letter}")
       FileUtils.mkdir_p(path)
       at_exit { FileUtils.remove_entry(path) }
