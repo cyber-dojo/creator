@@ -21,8 +21,8 @@ class IdGeneratorTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   qtest a63: %w(
-  |random-number generator is good enough
-  |to use the entire alphabet in group ids
+  |group ids are spread across
+  |the entire id alphabet
   ) do
     counted = {}
     until counted.size === alphabet.size do
@@ -36,8 +36,8 @@ class IdGeneratorTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   qtest a64: %w(
-  |random-number generator is good enough
-  |to use the entire alphabet kata ids
+  |kata ids are spead across
+  |the entire id alphabet
   ) do
     counted = {}
     until counted.size === alphabet.size do
