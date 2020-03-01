@@ -1,28 +1,28 @@
-Run options: --seed 36212
+Run options: --seed 48068
 
 # Running:
 
 .........................................
 
-Finished in 0.575176s, 71.2825 runs/s, 286.8687 assertions/s.
+Finished in 0.519738s, 78.8858 runs/s, 317.4674 assertions/s.
 
 41 runs, 165 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to /tmp/reports. 8078 / 15039 LOC (53.71%) covered.
 
 Slowest 5 tests are...
-0.2278 - A6Da64:id_generator_test.rb:38:|random-number generator is good enough |to use the entire alphabet kata ids
-0.1417 - A6Da63:id_generator_test.rb:23:|random-number generator is good enough |to use the entire alphabet in group ids
-0.0389 - f26q34:route_create_200_test.rb:74:|POST /create_custom_group |can use RandomStub to control group id
-0.0242 - f26q33:route_create_200_test.rb:57:|POST /create_custom_kata |can use RandomStub to control kata id
-0.0160 - f26q31:route_create_200_test.rb:13:|POST /create_custom_group |with a display_name that exists in custom-start-point...
-0.0158 - f26q32:route_create_200_test.rb:35:|POST /create_custom_kata |with a display_name that exists in custom-start-points...
+0.1633 - A6Da64:id_generator_test.rb:38:|random-number generator is good enough |to use the entire alphabet kata ids
+0.1327 - A6Da63:id_generator_test.rb:23:|random-number generator is good enough |to use the entire alphabet in group ids
+0.0251 - a86QN4:route_probes_test.rb:103:|when an external http-service |returns non-JSON in its response.body |its a 500 ...
+0.0225 - f26q32:route_create_200_test.rb:35:|POST /create_custom_kata |with a display_name that exists in custom-start-points...
+0.0221 - f26q34:route_create_200_test.rb:74:|POST /create_custom_group |can use RandomStub to control group id
+0.0216 - f26q33:route_create_200_test.rb:57:|POST /create_custom_kata |can use RandomStub to control kata id
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.58   <=     2 | [32m true [0m
+        duration(test)[s] |    0.52   <=     2 | [32m true [0m
                     tests |      41   >=     1 | [32m true [0m
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
