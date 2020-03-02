@@ -1,21 +1,21 @@
-Run options: --seed 43577
+Run options: --seed 16475
 
 # Running:
 
 .........................................
 
-Finished in 0.540879s, 75.8025 runs/s, 305.0589 assertions/s.
+Finished in 0.544150s, 75.3469 runs/s, 303.2252 assertions/s.
 
 41 runs, 165 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to /tmp/reports. 8078 / 15039 LOC (53.71%) covered.
 
 Slowest 5 tests are...
-0.1959 - A6Da63:id_generator_test.rb:23:|group ids are spread across |the entire id alphabet
-0.1138 - A6Da64:id_generator_test.rb:38:|kata ids are spead across |the entire id alphabet
-0.0400 - f26q31:route_create_200_test.rb:13:|POST /create_custom_group |with a display_name that exists in custom-start-point...
-0.0221 - f26q34:route_create_200_test.rb:74:|POST /create_custom_group |can use RandomStub to control group id
-0.0187 - f26q32:route_create_200_test.rb:35:|POST /create_custom_kata |with a display_name that exists in custom-start-points...
-0.0170 - f26q33:route_create_200_test.rb:57:|POST /create_custom_kata |can use RandomStub to control kata id
+0.1521 - A6Da63:id_generator_test.rb:23:group ids are spread across the entire id alphabet
+0.1445 - A6Da64:id_generator_test.rb:37:kata ids are spead across the entire id alphabet
+0.0557 - f26q32:route_create_200_test.rb:35:|POST /create_custom_kata |with a display_name that exists in custom-start-points...
+0.0228 - f26q31:route_create_200_test.rb:13:|POST /create_custom_group |with a display_name that exists in custom-start-point...
+0.0192 - f26q33:route_create_200_test.rb:57:|POST /create_custom_kata |can use RandomStub to control kata id
+0.0184 - f26q34:route_create_200_test.rb:74:|POST /create_custom_group |can use RandomStub to control group id
 
 
                  failures |       0   <=     0 | [32m true [0m
@@ -27,5 +27,5 @@ Slowest 5 tests are...
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
      lines(tester/tested) |    0.84   >=   0.7 | [32m true [0m
-      hits(tested/tester) |    5.74   >=   1.9 | [32m true [0m
+      hits(tested/tester) |    5.76   >=   1.9 | [32m true [0m
 

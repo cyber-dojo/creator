@@ -12,17 +12,16 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  qtest a62: %w(
-  the alphabet has 58 characters
+  qtest a62:
+  %w( the alphabet has 58 characters
   ) do
     assert_equal 58, alphabet.size
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
-  qtest a63: %w(
-  |group ids are spread across
-  |the entire id alphabet
+  qtest a63:
+  %w( group ids are spread across the entire id alphabet
   ) do
     counted = {}
     until counted.size === alphabet.size do
@@ -35,9 +34,8 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  qtest a64: %w(
-  |kata ids are spead across
-  |the entire id alphabet
+  qtest a64:
+  %w( kata ids are spead across the entire id alphabet
   ) do
     counted = {}
     until counted.size === alphabet.size do
@@ -50,8 +48,8 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  qtest a65: %w(
-  every letter of the alphabet can be used as part of a dir-name
+  qtest a65:
+  %w( every letter of the alphabet can be used as part of a dir-name
   ) do
     diagnostic = 'forward slash is the dir separator'
     refute alphabet.include?('/'), diagnostic
@@ -68,8 +66,8 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  qtest b13: %w(
-  a created group-id does not exist before creation, does after
+  qtest b13:
+  %w( a created group-id does not exist before creation, does after
   ) do
     stub_rng(id = 'sD92wM')
     refute group_exists?(id), id
@@ -79,8 +77,8 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  qtest c13: %w(
-  a created kata-id does not exist before creation, does after
+  qtest c13:
+  %w( a created kata-id does not exist before creation, does after
   ) do
     stub_rng(id = '7w3RPx')
     refute kata_exists?(id), id
@@ -90,8 +88,8 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  qtest d13: %w(
-  the id 999999 is reserved for a kata id when the saver is offline
+  qtest d13:
+  %w( the id 999999 is reserved for a kata id when the saver is offline
   ) do
     id = 'eF762A'
     stub_rng(saver_offline_id+id)
@@ -124,8 +122,8 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  qtest f68: %w(
-  id?(s) true examples
+  qtest f68:
+  %w( id?(s) true examples
   ) do
     assert id?('012AaE')
     assert id?('345BbC')
@@ -136,8 +134,8 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  qtest f69: %w(
-  id?(s) false examples
+  qtest f69: 
+  %w( id?(s) false examples
   ) do
     refute id?(42)
     refute id?(nil)
