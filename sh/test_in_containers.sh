@@ -61,10 +61,12 @@ run_tests()
 
   set +e
   local -r data_dir=/tmp
-  docker run --rm \
+  docker run \
     --env COVERAGE_CODE_TAB_NAME=${coverage_code_tab_name} \
     --env COVERAGE_TEST_TAB_NAME=${coverage_test_tab_name} \
-    --volume ${test_dir}/${reports_dir}:${data_dir}:ro \
+    --rm \
+    --volume ${test_dir}/${reports_dir}/${test_log}:${data_dir}/${test_log}:ro \
+    --volume ${test_dir}/${reports_dir}/index.html:${data_dir}/index.html:ro \
     --volume ${test_dir}/metrics.rb:/app/metrics.rb:ro \
     cyberdojo/check-test-results:latest \
     sh -c "ruby /app/check_test_results.rb ${data_dir}/${test_log} ${data_dir}/index.html" \
