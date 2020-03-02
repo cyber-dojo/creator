@@ -5,7 +5,7 @@ require 'sinatra/base'
 silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require_relative 'http_json_hash/service'
 
-class JsonAppBase < Sinatra::Base
+class AppBase < Sinatra::Base
 
   def initialize
     super(nil)

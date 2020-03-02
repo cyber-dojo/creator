@@ -18,7 +18,7 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   ) do
     assert_json_post_500(
       path = 'create_custom_group',
-      args = '{"unknown":42}' 
+      args = '{"unknown":42}'
     ) do |jr|
       #...
     end
