@@ -1,14 +1,16 @@
 #!/bin/bash -Eeu
 
-readonly ROOT_DIR="$( cd "$(dirname "${0}")/.." && pwd )"
+readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
+source ${ROOT_DIR}/sh/ip_address.sh
+readonly IP_ADDRESS=$(ip_address) # slow
 
 # - - - - - - - - - - - - - - - - - - - - - -
 wait_briefly_until_ready()
 {
   local -r port="${1}"
-  local -r name="${2}"
+  local -r container_name="${2}"
   local -r max_tries=20
-  printf "Waiting until ${name} is ready"
+  printf "Waiting until ${container_name} is ready"
   for _ in $(seq ${max_tries}); do
     if curl_ready ${port}; then
       printf '.OK\n'
@@ -23,14 +25,11 @@ wait_briefly_until_ready()
   if [ -f "$(ready_filename)" ]; then
     ready_response
   fi
-  docker logs ${name}
+  docker logs ${container_name}
   exit 42
 }
 
 # - - - - - - - - - - - - - - - - - - -
-source ${ROOT_DIR}/sh/ip_address.sh
-readonly IP_ADDRESS=$(ip_address) # slow
-
 curl_ready()
 {
   local -r port="${1}"
@@ -74,8 +73,8 @@ strip_known_warning()
 # - - - - - - - - - - - - - - - - - - -
 exit_if_unclean()
 {
-  local -r name="${1}"
-  local log=$(docker logs "${name}" 2>&1)
+  local -r container_name="${1}"
+  local log=$(docker logs "${container_name}" 2>&1)
 
   #Thin warnings...
   #local -r shadow_warning="server.rb:(.*): warning: shadowing outer local variable - filename"
@@ -84,7 +83,7 @@ exit_if_unclean()
   #log=$(strip_known_warning "${log}" "${mismatched_indent_warning}")
 
   local -r line_count=$(echo -n "${log}" | grep --count '^')
-  printf "Checking ${name} started cleanly..."
+  printf "Checking ${container_name} started cleanly..."
   # 3 lines on Thin (Unicorn=6, Puma=6)
   #Thin web server (v1.7.2 codename Bachmanity)
   #Maximum connections set to 1024
@@ -93,7 +92,7 @@ exit_if_unclean()
     echo OK
   else
     echo FAIL
-    echo_docker_log "${name}" "${log}"
+    echo_docker_log "${container_name}" "${log}"
     exit 42
   fi
 }
@@ -101,9 +100,9 @@ exit_if_unclean()
 # - - - - - - - - - - - - - - - - - - -
 echo_docker_log()
 {
-  local -r name="${1}"
+  local -r container_name="${1}"
   local -r log="${2}"
-  echo "[docker logs ${name}]"
+  echo "[docker logs ${container_name}]"
   echo '<docker_log>'
   echo "${log}"
   echo '</docker_log>'
@@ -136,7 +135,7 @@ container_up()
 # - - - - - - - - - - - - - - - - - - -
 export NO_PROMETHEUS=true
 
-if [ "${1:-}" == 'demo' ]; then
+if [ "${1:-}" == 'api-demo' ]; then
   container_up nginx
   wait_briefly_until_ready ${CYBER_DOJO_CREATOR_PORT} creator-server
   exit 0
