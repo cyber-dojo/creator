@@ -13,7 +13,7 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest C15: %w(
-  |GET /alive?
+  |GET/alive?
   |has status 200
   |returns true
   |and nothing else
@@ -27,9 +27,10 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest D15: %w(
-  |GET /ready?
+  |when all http-services are ready
+  |GET/ready?
   |has status 200
-  |returns true when all http-services are ready
+  |returns true
   |and nothing else
   ) do
     assert_get_200(path='ready?') do |jr|
@@ -41,9 +42,10 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest E15: %w(
-  |GET /ready?
+  |when custom_start_points http-service is not ready
+  |GET/ready?
   |has status 200
-  |returns false when custom_start_points is not ready
+  |returns false
   |and nothing else
   ) do
     externals.instance_exec { @custom_start_points=STUB_READY_FALSE }
@@ -56,9 +58,10 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest F15: %w(
-  |GET /ready?
+  |when saver http-service is not ready
+  |GET/ready?
   |has status 200
-  |returns false when saver is not ready
+  |returns false
   |and nothing else
   ) do
     externals.instance_exec { @saver=STUB_READY_FALSE }
@@ -71,7 +74,7 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest F16: %w(
-  |GET /alive?
+  |GET/alive?
   |is used by external k8s probes
   |so obeys Postel's Law
   |and ignores any passed arguments
@@ -85,7 +88,7 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest F17: %w(
-  |GET /ready?
+  |GET/ready?
   |is used by external k8s probes
   |so obeys Postel's Law
   |and ignores any passed arguments
@@ -103,8 +106,7 @@ class RouteProbesTest < CreatorTestBase
   qtest QN4: %w(
   |when an external http-service
   |returns non-JSON in its response.body
-  |its a 500 error
-  |and...
+  |GET/ready? is a 500 error
   ) do
     stub_saver_http('xxxx')
     assert_get_500('ready?') do |jr|
@@ -118,11 +120,11 @@ class RouteProbesTest < CreatorTestBase
   qtest QN5: %w(
   |when an external http-service
   |returns JSON (but not a Hash) in its response.body
-  |its a 500 error
-  |and...
+  |GET/ready? is a 500 error
   ) do
     stub_saver_http('[]')
     assert_get_500('ready?') do |jr|
+      assert_equal [ 'exception' ], jr.keys.sort, last_response.body
       #...
     end
   end
@@ -132,9 +134,8 @@ class RouteProbesTest < CreatorTestBase
   qtest QN6: %w(
   |when an external http-service
   |returns JSON-Hash in its response.body
-  |which contains a key "exception"
-  |its a 500 error
-  |and...
+  |which contains the key "exception"
+  |GET/ready? is a 500 error
   ) do
     stub_saver_http(response='{"exception":42}')
     assert_get_500('ready?') do |jr|
@@ -147,9 +148,8 @@ class RouteProbesTest < CreatorTestBase
   qtest QN7: %w(
   |when an external http-service
   |returns JSON-Hash in its response.body
-  |which does not contain a key for the called method
-  |its a 500 error
-  |and...
+  |which does not contain the "ready?" key 
+  |GET/ready? is a 500 error
   ) do
     stub_saver_http(response='{"wibble":42}')
     assert_get_500('ready?') do |jr|
