@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require_relative 'creator'
-require_relative 'json_app_base'
+require_relative 'app_base'
 
-class App < JsonAppBase
+class App < AppBase
 
   def initialize(externals)
     super()
@@ -12,5 +12,9 @@ class App < JsonAppBase
   def target
     Creator.new(@externals)
   end
+
+  probe(:alive?) # curl/k8s
+  probe(:ready?) # curl/k8s
+  get_json(:sha) # identity
 
 end

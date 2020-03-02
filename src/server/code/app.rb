@@ -16,6 +16,7 @@ class App < AppBase
   get_probe(:alive?) # curl/k8s
   get_probe(:ready?) # curl/k8s
   get_json(:sha)     # identity
+  
   post_json(:create_custom_group)
   post_json(:create_custom_kata)
 
