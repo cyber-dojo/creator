@@ -62,7 +62,7 @@ class AppBase < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def self.post_json(name)
+  def self.deprecated_post_json(name)
     post "/#{name}", provides:[:json] do
       respond_to do |format|
         format.json {
@@ -72,6 +72,21 @@ class AppBase < Sinatra::Base
           new_api = { name => result }
           backwards_compatible = { id:result }
           json new_api.merge(backwards_compatible)
+        }
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def self.post_json(name)
+    post "/#{name}", provides:[:json] do
+      respond_to do |format|
+        format.json {
+          result = instance_eval {
+            target.public_send(name, **json_args)
+          }
+          json({ name => result })
         }
       end
     end

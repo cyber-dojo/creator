@@ -54,7 +54,7 @@ demo_new_route__identity()
 demo_new_route__create()
 {
   echo 'API:new create...'
-  curl_json_body_200 POST "$(new_controller)/create_custom_group" "$(json_display_name)"
+  curl_json_body_200 POST "$(new_controller)/create_custom_group" "$(json_display_names)"
   curl_json_body_200 POST "$(new_controller)/create_custom_kata"  "$(json_display_name)"
   echo
 }
@@ -115,6 +115,7 @@ port() { printf 80; }
 new_controller() { echo -n creator; }
 old_controller() { echo -n setup_custom_start_point; }
 json_display_name() { json display_name "$(display_name)"; }
+json_display_names() { echo -n "{\"display_names\":[\"$(display_name)\"]}"; }
 json() { echo -n "{\"${1}\":\"${2}\"}"; }
 display_name() { echo -n 'Java Countdown, Round 1'; }
 tab() { printf '\t'; }

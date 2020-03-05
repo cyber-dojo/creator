@@ -45,8 +45,8 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_custom_group(display_name:)
-    manifest = custom_start_points.manifest(display_name)
+  def create_custom_group(display_names:)
+    manifest = custom_start_points.manifest(display_names[0])
     create_group(manifest)
   end
 

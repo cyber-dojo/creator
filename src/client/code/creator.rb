@@ -14,8 +14,8 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_custom_group(display_name)
-    @externals.creator.create_custom_group(display_name)
+  def create_custom_group(display_names)
+    @externals.creator.create_custom_group(display_names)
   end
 
   def create_custom_kata(display_name)

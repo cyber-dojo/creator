@@ -8,6 +8,12 @@ class RouteCreate200Test < CreatorTestBase
     :f26
   end
 
+  def id58_setup
+    @display_name = any_custom_start_point_display_name
+  end
+
+  attr_reader :display_name
+
   # - - - - - - - - - - - - - - - - -
   # old API (deprecated)
   # - - - - - - - - - - - - - - - - -
@@ -25,11 +31,11 @@ class RouteCreate200Test < CreatorTestBase
   ) do
     assert_json_post_200(
       path = 'deprecated_create_custom_group',
-      args = { display_name:any_custom_start_point_display_name }
-    ) do |jr|
-      assert_equal [path,'id'], jr.keys.sort, :keys
-      assert_group_exists(jr['id'], args[:display_name])
-      assert_equal jr[path], jr['id']
+      args = { display_name:display_name }
+    ) do |jrb|
+      assert_equal [path,'id'], jrb.keys.sort, :keys
+      assert_group_exists(jrb['id'], display_name)
+      assert_equal jrb[path], jrb['id']
     end
   end
 
@@ -46,11 +52,11 @@ class RouteCreate200Test < CreatorTestBase
   ) do
     assert_json_post_200(
       path = 'deprecated_create_custom_kata',
-      args = { display_name:any_custom_start_point_display_name }
-    ) do |jr|
-      assert_equal [path,'id'], jr.keys.sort, :keys
-      assert_kata_exists(jr['id'], args[:display_name])
-      assert_equal jr[path], jr['id']
+      args = { display_name:display_name }
+    ) do |jrb|
+      assert_equal [path,'id'], jrb.keys.sort, :keys
+      assert_kata_exists(jrb['id'], display_name)
+      assert_equal jrb[path], jrb['id']
     end
   end
 
@@ -60,21 +66,19 @@ class RouteCreate200Test < CreatorTestBase
 
   qtest q31: %w(
   |POST /create_custom_group
-  |with a display_name that exists in custom-start-points
+  |with display_names[] holding a single display_name
+  |that exists in custom-start-points
   |has status 200
   |returns the id: of a new group
   |that exists in saver
   |whose manifest matches the display_name
-  |and for backwards compatibility
-  |it also returns the id against the :id key
   ) do
     assert_json_post_200(
       path = 'create_custom_group',
-      args = { display_name:any_custom_start_point_display_name }
-    ) do |jr|
-      assert_equal [path,'id'], jr.keys.sort, :keys
-      assert_group_exists(jr['id'], args[:display_name])
-      assert_equal jr[path], jr['id']
+      args = { display_names:[display_name] }
+    ) do |jrb|
+      assert_equal [path], jrb.keys.sort, :keys
+      assert_group_exists(jrb[path], display_name)
     end
   end
 
@@ -82,21 +86,19 @@ class RouteCreate200Test < CreatorTestBase
 
   qtest q32: %w(
   |POST /create_custom_kata
-  |with a display_name that exists in custom-start-points
+  |with display_names[] holding a single display_name
+  |that exists in custom-start-points
   |has status 200
   |returns the id: of a new kata
   |that exists in saver
   |whose manifest matches the display_name
-  |and for backwards compatibility
-  |it also returns the id against the :id key
   ) do
     assert_json_post_200(
       path = 'create_custom_kata',
-      args = { display_name:any_custom_start_point_display_name }
-    ) do |jr|
-      assert_equal [path,'id'], jr.keys.sort, :keys
-      assert_kata_exists(jr['id'], args[:display_name])
-      assert_equal jr[path], jr['id']
+      args = { display_name:display_name }
+    ) do |jrb|
+      assert_equal [path], jrb.keys.sort, :keys
+      assert_kata_exists(jrb[path], display_name)
     end
   end
 
@@ -109,11 +111,11 @@ class RouteCreate200Test < CreatorTestBase
     id = id58
     externals.instance_exec { @random = RandomStub.new(id) }
     assert_json_post_200(
-      'create_custom_kata',
-      args = { display_name:any_custom_start_point_display_name }
-    ) do |jr|
-      assert_equal id, jr['id'], jr
-      assert_kata_exists(id, args[:display_name])
+      path = 'create_custom_kata',
+      args = { display_name:display_name }
+    ) do |jrb|
+      assert_equal id, jrb[path], jrb
+      assert_kata_exists(id, display_name)
     end
   end
 
@@ -126,11 +128,11 @@ class RouteCreate200Test < CreatorTestBase
     id = id58
     externals.instance_exec { @random = RandomStub.new(id) }
     assert_json_post_200(
-      'create_custom_group',
-      args = { display_name:any_custom_start_point_display_name }
-    ) do |jr|
-      assert_equal id, jr['id'], jr
-      assert_group_exists(id, args[:display_name])
+      path = 'create_custom_group',
+      args = { display_names:[display_name] }
+    ) do |jrb|
+      assert_equal id, jrb[path], jrb
+      assert_group_exists(id, display_name)
     end
   end
 

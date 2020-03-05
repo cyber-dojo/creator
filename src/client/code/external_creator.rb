@@ -27,8 +27,8 @@ class ExternalCreator
     @http.post(__method__, {display_name:display_name})
   end
 
-  def create_custom_group(display_name)
-    @http.post(__method__, {display_name:display_name})
+  def create_custom_group(display_names)
+    @http.post(__method__, {display_names:display_names})
   end
 
   def create_custom_kata(display_name)
