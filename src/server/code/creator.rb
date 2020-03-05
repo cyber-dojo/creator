@@ -33,6 +33,18 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  def deprecated_create_custom_group(display_name:)
+    manifest = custom_start_points.manifest(display_name)
+    create_group(manifest)
+  end
+
+  def deprecated_create_custom_kata(display_name:)
+    manifest = custom_start_points.manifest(display_name)
+    create_kata(manifest)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
   def create_custom_group(display_name:)
     manifest = custom_start_points.manifest(display_name)
     create_group(manifest)

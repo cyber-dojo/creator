@@ -9,6 +9,54 @@ class RouteCreate200Test < CreatorTestBase
   end
 
   # - - - - - - - - - - - - - - - - -
+  # old API (deprecated)
+  # - - - - - - - - - - - - - - - - -
+
+  qtest De1: %w(
+  |POST /deprecated_create_custom_group
+  |with a single display_name
+  |that exists in custom-start-points
+  |has status 200
+  |returns the id: of a new group
+  |that exists in saver
+  |whose manifest matches the display_name
+  |and for backwards compatibility
+  |it also returns the id against the :id key
+  ) do
+    assert_json_post_200(
+      path = 'deprecated_create_custom_group',
+      args = { display_name:any_custom_start_point_display_name }
+    ) do |jr|
+      assert_equal [path,'id'], jr.keys.sort, :keys
+      assert_group_exists(jr['id'], args[:display_name])
+      assert_equal jr[path], jr['id']
+    end
+  end
+
+  qtest De2: %w(
+  |POST /deprecated_create_custom_kata
+  |with a single display_name
+  |that exists in custom-start-points
+  |has status 200
+  |returns the id: of a new kata
+  |that exists in saver
+  |whose manifest matches the display_name
+  |and for backwards compatibility
+  |it also returns the id against the :id key
+  ) do
+    assert_json_post_200(
+      path = 'deprecated_create_custom_kata',
+      args = { display_name:any_custom_start_point_display_name }
+    ) do |jr|
+      assert_equal [path,'id'], jr.keys.sort, :keys
+      assert_kata_exists(jr['id'], args[:display_name])
+      assert_equal jr[path], jr['id']
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - -
+  # new API
+  # - - - - - - - - - - - - - - - - -
 
   qtest q31: %w(
   |POST /create_custom_group

@@ -19,6 +19,14 @@ class ExternalCreator
     @http.get(__method__, {})
   end
 
+  def deprecated_create_custom_group(display_name)
+    @http.post(__method__, {display_name:display_name})
+  end
+
+  def deprecated_create_custom_kata(display_name)
+    @http.post(__method__, {display_name:display_name})
+  end
+
   def create_custom_group(display_name)
     @http.post(__method__, {display_name:display_name})
   end
