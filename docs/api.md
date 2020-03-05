@@ -1,21 +1,22 @@
 # API
 - - - -
-## POST create_custom_group(display_name)
+## POST create_custom_group(display_names)
 Creates a new group from the custom-start-points manifest whose key
-is `display_name` and returns the group's id.
+is the first display_name in `display_names` and returns the group's id.
+Note: display_names is an array for a planned future feature.
 - parameters [(JSON-in)](#json-in)
-  * **display_name:String**.
+  * **display_names:[String...]**.
 - returns [(JSON-out)](#json-out)
   * the new group's id.
 - example
   ```bash
   $ curl \
-    --data '{"display_name":"Java Countdown, Round 1"}' \
+    --data '{"display_names":["Java Countdown, Round 1"]}' \
     --header 'Content-type: application/json' \
     --silent \
     -X POST \
       http://${IP_ADDRESS}:${PORT}/create_group
-  {"create_custom_group":"P0R0cU","id":"P0R0cU"}
+  {"create_custom_group":"P0R0cU"}
   ```
 
 - - - -
@@ -34,7 +35,7 @@ is `display_name` and returns the kata's id.
     --silent \
     -X POST \
       http://${IP_ADDRESS}:${PORT}/create_kata
-  {"create_custom_kata":"8Ey4xK","id":"8Ey4xK"}
+  {"create_custom_kata":"8Ey4xK"}
   ```
 
 - - - -
