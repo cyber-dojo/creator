@@ -85,7 +85,7 @@ The git commit sha used to create the Docker image.
 ## JSON in
 - All methods pass any arguments as a json hash in the http request body.
   * If there are no arguments you can use ```''``` (which is the default
-    for ```curl --data```) instead of ```'{}'```.
+    for `curl --data`) instead of ```'{}'```.
 
 - - - -
 ## JSON out      
