@@ -25,10 +25,7 @@ class Creator
   end
 
   def ready?
-    services = []
-    services << custom_start_points
-    services << saver
-    services.all?{ |service| service.ready? }
+    [custom_start_points,saver].all?(&:ready?)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -56,7 +53,8 @@ class Creator
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-  # ...
+  # def create_group(exercise_name:, display_names:)
+  # def create_kata(exercise_name:, display_name:)
 
   private
 
