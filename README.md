@@ -8,8 +8,8 @@
 - Work in progress. Not live yet.
 
 - - - -
-* [POST create_custom_group(display_name)](docs/api.md#post-create_groupdisplay_name)
-* [POST create_custom_kata(display_name)](docs/api.md#post-create_katadisplay_name)
+* [POST create_custom_group(display_name)](docs/api.md#post-create_custom_groupdisplay_name)
+* [POST create_custom_kata(display_name)](docs/api.md#post-create_custom_katadisplay_name)
 * [GET ready?](docs/api.md#get-ready)
 * [GET alive?](docs/api.md#get-alive)  
 * [GET sha](docs/api.md#get-sha)
