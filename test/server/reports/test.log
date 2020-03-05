@@ -1,31 +1,31 @@
-Run options: --seed 1538
+Run options: --seed 1363
 
 # Running:
 
 .........................................
 
-Finished in 0.599954s, 68.3386 runs/s, 276.6880 assertions/s.
+Finished in 0.610664s, 67.1400 runs/s, 271.8351 assertions/s.
 
 41 runs, 166 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to //tmp/reports. 8079 / 15040 LOC (53.72%) covered.
 
 Slowest 5 tests are...
-0.1824 - A6Da63:id_generator_test.rb:23:group ids are spread across the entire id alphabet
-0.1392 - A6Da64:id_generator_test.rb:37:kata ids are spead across the entire id alphabet
-0.0315 - f28QN8:route_create_500_bad_response_test.rb:12:|when a co-service |returns JSON (but not Hash) in its response.body |its a 500 e...
-0.0294 - A6Dc13:id_generator_test.rb:80:a created kata-id does not exist before creation, does after
-0.0215 - f26q31:route_create_200_test.rb:13:|POST /create_custom_group |with a display_name that exists in custom-start-point...
-0.0203 - f26q32:route_create_200_test.rb:35:|POST /create_custom_kata |with a display_name that exists in custom-start-points...
+0.2416 - A6Da63:id_generator_test.rb:23:group ids are spread across the entire id alphabet
+0.1585 - A6Da64:id_generator_test.rb:37:kata ids are spead across the entire id alphabet
+0.0396 - f26q33:route_create_200_test.rb:57:|POST /create_custom_kata |can use RandomStub to control kata id
+0.0233 - f26q34:route_create_200_test.rb:74:|POST /create_custom_group |can use RandomStub to control group id
+0.0191 - f26q31:route_create_200_test.rb:13:|POST /create_custom_group |with a display_name that exists in custom-start-point...
+0.0168 - f26q32:route_create_200_test.rb:35:|POST /create_custom_kata |with a display_name that exists in custom-start-points...
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |     0.6   <=     1 | [32m true [0m
+        duration(test)[s] |    0.61   <=     1 | [32m true [0m
                     tests |      41   >=     1 | [32m true [0m
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
      lines(tester/tested) |    0.84   >=   0.8 | [32m true [0m
-      hits(tested/tester) |    5.75   >=   5.7 | [32m true [0m
+      hits(tested/tester) |    5.78   >=   5.7 | [32m true [0m
 

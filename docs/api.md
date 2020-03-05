@@ -1,38 +1,40 @@
 # API
 - - - -
-## POST create_group(manifest)
- Creates a new group from a start-point manifest and returns its id.
+## POST create_custom_group(display_name)
+Creates a new group from the custom-start-points manifest whose key
+is `display_name` and returns the group's id.
 - parameters [(JSON-in)](#json-in)
-  * **manifest:Hash** of a start-point.
+  * **display_name:String**.
 - returns [(JSON-out)](#json-out)
   * the new group's id.
 - example
   ```bash
   $ curl \
-    --data '{"manifest":{"image_name":"..."}}' \
+    --data '{"display_name":"Java Countdown, Round 1"}' \
     --header 'Content-type: application/json' \
     --silent \
     -X POST \
       http://${IP_ADDRESS}:${PORT}/create_group
-  {"create_group":"P0R0cU"}
+  {"create_custom_group":"P0R0cU","id":"P0R0cU"}
   ```
 
 - - - -
-## POST create_kata(manifest)
-Creates a new kata from a start-point manifest and returns its id.
+## POST create_custom_kata(display_name)
+Creates a new kata from the custom-start-point manifest whose key
+is `display_name` and returns the kata's id.
 - parameters [(JSON-in)](#json-in)
-  * **manifest:Hash** of a start-point.
+  * **display_name:String**.
 - returns [(JSON-out)](#json-out)
   * the new kata's id.
 - example
   ```bash
   $ curl \
-    --data '{"manifest":{"image_name":"..."}}' \
+    --data '{"display_name":"Java Countdown, Round 2"}' \
     --header 'Content-type: application/json' \
     --silent \
     -X POST \
       http://${IP_ADDRESS}:${PORT}/create_kata
-  {"create_kata":"8Ey4xK"}
+  {"create_custom_kata":"8Ey4xK","id":"8Ey4xK"}
   ```
 
 - - - -
