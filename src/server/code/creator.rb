@@ -11,14 +11,7 @@ class Creator
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-  # identity
-
-  def sha
-    ENV['SHA']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-  # k8s/curl probing
+  # k8s/curl probing + identity
 
   def alive?
     true
@@ -26,6 +19,10 @@ class Creator
 
   def ready?
     [custom_start_points,saver].all?(&:ready?)
+  end
+
+  def sha
+    ENV['SHA']
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

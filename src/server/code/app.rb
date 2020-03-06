@@ -15,7 +15,7 @@ class App < AppBase
 
   get_probe(:alive?) # curl/k8s
   get_probe(:ready?) # curl/k8s
-  get_json(:sha)     # identity
+  get_probe(:sha)    # identity
 
   deprecated_post_json(:deprecated_create_custom_group)
   deprecated_post_json(:deprecated_create_custom_kata)

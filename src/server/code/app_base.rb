@@ -47,33 +47,10 @@ class AppBase < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def self.get_json(name)
-    get "/#{name}", provides:[:json] do
-      respond_to do |format|
-        format.json {
-          result = instance_eval {
-            target.public_send(name, **json_args)
-          }
-          json({ name => result })
-        }
-      end
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def self.deprecated_post_json(name)
-    post "/#{name}", provides:[:json] do
-      respond_to do |format|
-        format.json {
-          result = instance_eval {
-            target.public_send(name, **json_args)
-          }
-          new_api = { name => result }
-          backwards_compatible = { id:result }
-          json new_api.merge(backwards_compatible)
-        }
-      end
+  def self.get_probe(name)
+    get "/#{name}" do
+      result = instance_eval { target.public_send(name) }
+      json({ name => result })
     end
   end
 
@@ -94,10 +71,17 @@ class AppBase < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def self.get_probe(name)
-    get "/#{name}" do
-      result = instance_eval { target.public_send(name) }
-      json({ name => result })
+  def self.deprecated_post_json(name)
+    post "/#{name}", provides:[:json] do
+      respond_to do |format|
+        format.json {
+          result = instance_eval {
+            target.public_send(name, **json_args)
+          }
+          backwards_compatible = { id:result }
+          json backwards_compatible.merge({name => result})
+        }
+      end
     end
   end
 
