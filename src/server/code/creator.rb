@@ -27,37 +27,36 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def deprecated_create_custom_group(display_name:)
-    manifest = custom_start_points.manifest(display_name)
-    create_group(manifest)
+  def deprecated_group_create_custom(display_name:)
+    group_create(custom_start_points.manifest(display_name))
   end
 
-  def deprecated_create_custom_kata(display_name:)
-    manifest = custom_start_points.manifest(display_name)
-    create_kata(manifest)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def create_custom_group(display_names:)
-    manifest = custom_start_points.manifest(display_names[0])
-    create_group(manifest)
-  end
-
-  def create_custom_kata(display_name:)
-    manifest = custom_start_points.manifest(display_name)
-    create_kata(manifest)
+  def deprecated_kata_create_custom(display_name:)
+    kata_create(custom_start_points.manifest(display_name))
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-  # def create_group(exercise_name:, display_names:)
-  # def create_kata(exercise_name:, display_name:)
+
+  def group_create_custom(display_names:)
+    group_create(custom_start_points.manifest(display_names[0]))
+  end
+
+  def kata_create_custom(display_name:)
+    kata_create(custom_start_points.manifest(display_name))
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+  # def group_create(exercise_name:, display_names:)
+  # def kata_create(exercise_name:, display_name:)
 
   private
 
   include IdPather # group_id_path, kata_id_path
 
-  def create_group(manifest)
+  #- - - - - - - - - - - - - - - - - -
+  # group
+
+  def group_create(manifest)
     set_version(manifest)
     set_time_stamp(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
@@ -67,48 +66,6 @@ class Creator
     )
     id
   end
-
-  # - - - - - - - - - - - - - -
-
-  def create_kata(manifest)
-    set_version(manifest)
-    set_time_stamp(manifest)
-    id = manifest['id'] = IdGenerator.new(@externals).kata_id
-    event_summary = {
-      'index' => 0,
-      'time' => manifest['created'],
-      'event' => 'created'
-    }
-    event0 = {
-      'files' => manifest['visible_files']
-    }
-    saver_asserter.batch(
-      kata_manifest_write_cmd(id, pretty_json(manifest)),
-      kata_events_write_cmd(id, pretty_json(event_summary)),
-      kata_event_write_cmd(id, 0, pretty_json(event0.merge(event_summary)))
-    )
-    id
-  end
-
-  #- - - - - - - - - - - - - - - - - -
-
-  def pretty_json(obj)
-    JSON.pretty_generate(obj)
-  end
-
-  #- - - - - - - - - - - - - - - - - -
-
-  def set_version(manifest)
-    manifest['version'] = 1
-  end
-
-  #- - - - - - - - - - - - - - - - - -
-
-  def set_time_stamp(manifest)
-    manifest['created'] = time.now
-  end
-
-  #- - - - - - - - - - - - - - - - - -
 
   def group_manifest_write_cmd(id, manifest_src)
     ['write', group_manifest_filename(id), manifest_src]
@@ -127,6 +84,27 @@ class Creator
   end
 
   #- - - - - - - - - - - - - - - - - -
+  # kata
+
+  def kata_create(manifest)
+    set_version(manifest)
+    set_time_stamp(manifest)
+    id = manifest['id'] = IdGenerator.new(@externals).kata_id
+    event_summary = {
+      'index' => 0,
+      'time' => manifest['created'],
+      'event' => 'created'
+    }
+    event0 = {
+      'files' => manifest['visible_files']
+    }
+    saver_asserter.batch(
+      kata_manifest_write_cmd(id, pretty_json(manifest)),
+      kata_events_write_cmd(id, pretty_json(event_summary)),
+      kata_event_write_cmd(id, 0, pretty_json(event0.merge(event_summary)))
+    )
+    id
+  end
 
   def kata_manifest_write_cmd(id, manifest_src)
     ['write', kata_manifest_filename(id), manifest_src]
@@ -150,6 +128,20 @@ class Creator
 
   def kata_event_filename(id, index)
     kata_id_path(id, "#{index}.event.json")
+  end
+
+  #- - - - - - - - - - - - - - - - - -
+
+  def set_version(manifest)
+    manifest['version'] = 1
+  end
+
+  def set_time_stamp(manifest)
+    manifest['created'] = time.now
+  end
+
+  def pretty_json(obj)
+    JSON.pretty_generate(obj)
   end
 
   #- - - - - - - - - - - - - - - - - -

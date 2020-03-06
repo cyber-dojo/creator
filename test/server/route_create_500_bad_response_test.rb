@@ -17,11 +17,11 @@ class RouteCreate500BadResponseTest < CreatorTestBase
     stub_rng('de34Ty')
     stub_saver_http(not_json='xxxx')
     assert_json_post_500(
-      path='create_custom_group',
+      path='group_create_custom',
       args={ display_names:['Java Countdown, Round 2']}
     ) do |jr|
       ex = jr['exception']
-      assert_equal '/create_custom_group', ex['request']['path'], jr
+      assert_equal '/group_create_custom', ex['request']['path'], jr
       assert_equal '', ex['request']['body'], jr
       refute_nil ex['backtrace'], jr
       http_service = ex['http_service']

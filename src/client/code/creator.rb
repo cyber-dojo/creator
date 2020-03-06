@@ -14,22 +14,22 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def create_custom_group(display_names)
-    @externals.creator.create_custom_group(display_names)
+  def group_create_custom(display_names)
+    @externals.creator.group_create_custom(display_names)
   end
 
-  def create_custom_kata(display_name)
-    @externals.creator.create_custom_kata(display_name)
+  def kata_create_custom(display_name)
+    @externals.creator.kata_create_custom(display_name)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def deprecated_create_custom_group(display_name)
-    @externals.creator.deprecated_create_custom_group(display_name)
+  def deprecated_group_create_custom(display_name)
+    @externals.creator.deprecated_group_create_custom(display_name)
   end
 
-  def deprecated_create_custom_kata(display_name)
-    @externals.creator.deprecated_create_custom_kata(display_name)
+  def deprecated_kata_create_custom(display_name)
+    @externals.creator.deprecated_kata_create_custom(display_name)
   end
 
 end

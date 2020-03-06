@@ -19,7 +19,7 @@ class RouteCreate200Test < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest De1: %w(
-  |POST /deprecated_create_custom_group
+  |POST /deprecated_group_create_custom
   |with a single display_name
   |that exists in custom-start-points
   |has status 200
@@ -30,7 +30,7 @@ class RouteCreate200Test < CreatorTestBase
   |it also returns the id against the :id key
   ) do
     assert_json_post_200(
-      path = 'deprecated_create_custom_group',
+      path = 'deprecated_group_create_custom',
       args = { display_name:display_name }
     ) do |jrb|
       assert_equal [path,'id'], jrb.keys.sort, :keys
@@ -40,7 +40,7 @@ class RouteCreate200Test < CreatorTestBase
   end
 
   qtest De2: %w(
-  |POST /deprecated_create_custom_kata
+  |POST /deprecated_kata_create_custom
   |with a single display_name
   |that exists in custom-start-points
   |has status 200
@@ -51,7 +51,7 @@ class RouteCreate200Test < CreatorTestBase
   |it also returns the id against the :id key
   ) do
     assert_json_post_200(
-      path = 'deprecated_create_custom_kata',
+      path = 'deprecated_kata_create_custom',
       args = { display_name:display_name }
     ) do |jrb|
       assert_equal [path,'id'], jrb.keys.sort, :keys
@@ -65,7 +65,7 @@ class RouteCreate200Test < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest q31: %w(
-  |POST /create_custom_group
+  |POST /group_create_custom
   |with display_names[] holding a single display_name
   |that exists in custom-start-points
   |has status 200
@@ -74,7 +74,7 @@ class RouteCreate200Test < CreatorTestBase
   |whose manifest matches the display_name
   ) do
     assert_json_post_200(
-      path = 'create_custom_group',
+      path = 'group_create_custom',
       args = { display_names:[display_name] }
     ) do |jrb|
       assert_equal [path], jrb.keys.sort, :keys
@@ -85,7 +85,7 @@ class RouteCreate200Test < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest q32: %w(
-  |POST /create_custom_kata
+  |POST /kata_create_custom
   |with display_names[] holding a single display_name
   |that exists in custom-start-points
   |has status 200
@@ -94,7 +94,7 @@ class RouteCreate200Test < CreatorTestBase
   |whose manifest matches the display_name
   ) do
     assert_json_post_200(
-      path = 'create_custom_kata',
+      path = 'kata_create_custom',
       args = { display_name:display_name }
     ) do |jrb|
       assert_equal [path], jrb.keys.sort, :keys
@@ -105,13 +105,13 @@ class RouteCreate200Test < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest q33: %w(
-  |POST /create_custom_kata
+  |POST /kata_create_custom
   |can use RandomStub to control kata id
   ) do
     id = id58
     externals.instance_exec { @random = RandomStub.new(id) }
     assert_json_post_200(
-      path = 'create_custom_kata',
+      path = 'kata_create_custom',
       args = { display_name:display_name }
     ) do |jrb|
       assert_equal id, jrb[path], jrb
@@ -122,13 +122,13 @@ class RouteCreate200Test < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest q34: %w(
-  |POST /create_custom_group
+  |POST /group_create_custom
   |can use RandomStub to control group id
   ) do
     id = id58
     externals.instance_exec { @random = RandomStub.new(id) }
     assert_json_post_200(
-      path = 'create_custom_group',
+      path = 'group_create_custom',
       args = { display_names:[display_name] }
     ) do |jrb|
       assert_equal id, jrb[path], jrb

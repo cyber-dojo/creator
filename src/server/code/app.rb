@@ -17,10 +17,10 @@ class App < AppBase
   get_probe(:ready?) # curl/k8s
   get_probe(:sha)    # identity
 
-  deprecated_post_json(:deprecated_create_custom_group)
-  deprecated_post_json(:deprecated_create_custom_kata)
+  deprecated_post_json(:deprecated_group_create_custom)
+  deprecated_post_json(:deprecated_kata_create_custom)
 
-  post_json(:create_custom_group)
-  post_json(:create_custom_kata)
+  post_json(:group_create_custom)
+  post_json(:kata_create_custom)
 
 end

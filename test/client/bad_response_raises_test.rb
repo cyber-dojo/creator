@@ -51,9 +51,6 @@ class BadResponseRaisesTest < CreatorTestBase
     def get(_uri)
       OpenStruct.new
     end
-    #def post(_uri)
-    #  OpenStruct.new
-    #end
     def start(_hostname, _port, _req)
       self
     end

@@ -10,14 +10,14 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest Kp1: %w(
-  |POST /create_custom_group
+  |POST /group_create_custom
   |with JSON-Hash in its request.body
   |containing an unknown arg
   |its a 500 error
   |and...
   ) do
     assert_json_post_500(
-      path = 'create_custom_group',
+      path = 'group_create_custom',
       args = '{"unknown":42}'
     ) do |jr|
       #...
@@ -27,13 +27,13 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest Kp3: %w(
-  |POST /create_custom_group
+  |POST /group_create_custom
   |with non-JSON in its request.body
   |is a 500 error
   |and...
   ) do
     assert_json_post_500(
-      path = 'create_custom_group',
+      path = 'group_create_custom',
       args = 'not-json'
     ) do |jr|
       #...
@@ -43,13 +43,13 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest Kp4: %w(
-  |POST /create_custom_group
+  |POST /group_create_custom
   |with non-JSON-Hash in its request.body
   |is a 500 error
   |and...
   ) do
     assert_json_post_500(
-      path = 'create_custom_group',
+      path = 'group_create_custom',
       args = 42
     ) do |jr|
       #...
@@ -59,12 +59,12 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest aX3: %w(
-  |POST /create_custom_group?display_name=INVALID
+  |POST /group_create_custom?display_name=INVALID
   |is a 500 error
   |and...
   ) do
     _stdout,_stderr = capture_stdout_stderr {
-      post '/create_custom_group', data={ display_name:'invalid' }
+      post '/group_create_custom', data={ display_name:'invalid' }
     }
     assert_status(500)
     #...
@@ -73,14 +73,14 @@ class RouteCreate500BadRequestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest aX4: %w(
-  |POST /create_custom_group
+  |POST /group_create_custom
   |with a display_name in its request.body
   |that does not exist in custom-chooser
   |is a 500 error
   |and...
   ) do
     assert_json_post_500(
-      path = 'create_custom_group',
+      path = 'group_create_custom',
       args = { display_name:'invalid' }
     ) do |jr|
       #...

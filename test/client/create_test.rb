@@ -7,14 +7,19 @@ class CreateTest < CreatorTestBase
     '26F'
   end
 
+  def id58_setup
+    @display_name = any_custom_start_point_display_name
+  end
+
+  attr_reader :display_name
+
   # - - - - - - - - - - - - - - - - -
   # old API (deprecated)
   # - - - - - - - - - - - - - - - - -
 
   test '802',
-  %w( deprecated_create_custom_group returns the id of a newly created group ) do
-    display_name = any_custom_start_point_display_name
-    id = creator.deprecated_create_custom_group(display_name)
+  %w( deprecated_group_create_custom returns the id of a newly created group ) do
+    id = creator.deprecated_group_create_custom(display_name)
     assert group_exists?(id), id
     manifest = group_manifest(id)
     assert_equal display_name, manifest['display_name']
@@ -23,9 +28,8 @@ class CreateTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '803',
-  %w( deprecated_create_custom_kata returns the id of a newly created kata ) do
-    display_name = any_custom_start_point_display_name
-    id = creator.deprecated_create_custom_kata(display_name)
+  %w( deprecated_kata_create_custom returns the id of a newly created kata ) do
+    id = creator.deprecated_kata_create_custom(display_name)
     assert kata_exists?(id), id
     manifest = kata_manifest(id)
     assert_equal display_name, manifest['display_name']
@@ -36,9 +40,8 @@ class CreateTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '702',
-  %w( create_custom_group returns the id of a newly created group ) do
-    display_name = any_custom_start_point_display_name
-    id = creator.create_custom_group([display_name])
+  %w( group_create_custom returns the id of a newly created group ) do
+    id = creator.group_create_custom([display_name])
     assert group_exists?(id), id
     manifest = group_manifest(id)
     assert_equal display_name, manifest['display_name']
@@ -47,9 +50,8 @@ class CreateTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '703',
-  %w( create_custom_kata returns the id of a newly created kata ) do
-    display_name = any_custom_start_point_display_name
-    id = creator.create_custom_kata(display_name)
+  %w( kata_create_custom returns the id of a newly created kata ) do
+    id = creator.kata_create_custom(display_name)
     assert kata_exists?(id), id
     manifest = kata_manifest(id)
     assert_equal display_name, manifest['display_name']

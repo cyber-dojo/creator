@@ -10,16 +10,16 @@ class BadRequestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '45e',
-  %w( create_custom_group(manifest=nil) raises ) do
+  %w( group_create_custom(manifest=nil) raises ) do
     _error = assert_raises(HttpJsonHash::ServiceError) {
-      creator.create_custom_group(nil)
+      creator.group_create_custom(nil)
     }
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test '45a',
-  %w( custom.manifest(name='unknown') raises ) do
+  %w( custom_start_points.manifest(name='unknown') raises ) do
     _error = assert_raises(HttpJsonHash::ServiceError) {
       custom_start_points.manifest('unknown-name')
     }

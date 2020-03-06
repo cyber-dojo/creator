@@ -20,7 +20,6 @@ demo()
 {
   demo_new_route__probing
   demo_new_route__probing_non_JSON
-  demo_new_route__identity
   demo_new_route__create
   demo_old_route__create
 }
@@ -31,6 +30,7 @@ demo_new_route__probing()
   echo 'API:new probing'
   curl_json_body_200 GET "$(new_controller)/alive?"
   curl_json_body_200 GET "$(new_controller)/ready?"
+  curl_json_body_200 GET "$(new_controller)/sha"
   echo
 }
 
@@ -39,14 +39,7 @@ demo_new_route__probing_non_JSON()
   echo 'API:new probing (non JSON)'
   curl_200 GET "$(new_controller)/alive?"
   curl_200 GET "$(new_controller)/ready?"
-  echo
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-demo_new_route__identity()
-{
-  echo 'API:new identity'
-  curl_json_body_200 GET "$(new_controller)/sha"
+  curl_200 GET "$(new_controller)/sha"
   echo
 }
 
@@ -54,8 +47,8 @@ demo_new_route__identity()
 demo_new_route__create()
 {
   echo 'API:new create...'
-  curl_json_body_200 POST "$(new_controller)/create_custom_group" "$(json_display_names)"
-  curl_json_body_200 POST "$(new_controller)/create_custom_kata"  "$(json_display_name)"
+  curl_json_body_200 POST "$(new_controller)/group_create_custom" "$(json_display_names)"
+  curl_json_body_200 POST "$(new_controller)/kata_create_custom"  "$(json_display_name)"
   echo
 }
 
