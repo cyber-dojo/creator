@@ -1,8 +1,7 @@
 # API
 - - - -
-## POST create_custom_group(display_names)
-Creates a new group from the custom-start-points manifest whose key
-is the first display_name in `display_names` and returns the group's id.
+## POST group_create_custom(display_names)
+Creates a new group from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is the first display_name in `display_names` and returns the group's id.
 Note: display_names is an array for a planned future feature.
 - parameters [(JSON-in)](#json-in)
   * **display_names:[String...]**.
@@ -15,14 +14,13 @@ Note: display_names is an array for a planned future feature.
     --header 'Content-type: application/json' \
     --silent \
     -X POST \
-      http://${IP_ADDRESS}:${PORT}/create_group
-  {"create_custom_group":"P0R0cU"}
+      http://${IP_ADDRESS}:${PORT}/group_create_custom
+  {"group_create_custom":"P0R0cU"}
   ```
 
 - - - -
-## POST create_custom_kata(display_name)
-Creates a new kata from the custom-start-point manifest whose key
-is `display_name` and returns the kata's id.
+## POST kata_create_custom(display_name)
+Creates a new kata from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is `display_name` and returns the kata's id.
 - parameters [(JSON-in)](#json-in)
   * **display_name:String**.
 - returns [(JSON-out)](#json-out)
@@ -34,8 +32,8 @@ is `display_name` and returns the kata's id.
     --header 'Content-type: application/json' \
     --silent \
     -X POST \
-      http://${IP_ADDRESS}:${PORT}/create_kata
-  {"create_custom_kata":"8Ey4xK"}
+      http://${IP_ADDRESS}:${PORT}/kata_create_custom
+  {"kata_create_custom":"8Ey4xK"}
   ```
 
 - - - -
@@ -99,10 +97,10 @@ The git commit sha used to create the Docker image.
   * If the method raises an exception, a string key equals `"exception"`, with
     a json-hash as its value. eg
     ```bash
-    $ curl --silent -X POST http://${IP_ADDRESS}:${PORT}/create_group | jq      
+    $ curl --silent -X POST http://${IP_ADDRESS}:${PORT}/group_create_custom | jq      
     {
       "exception": {
-        "path": "/create_group",
+        "path": "/group_create_custom",
         "body": "",
         "class": "CreatorService",
         "message": "manifest is missing",
