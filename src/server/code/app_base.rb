@@ -7,12 +7,12 @@ require_relative 'http_json_hash/service'
 
 class AppBase < Sinatra::Base
 
+  silently { register Sinatra::Contrib }
+  set :port, ENV['PORT']
+
   def initialize
     super(nil)
   end
-
-  silently { register Sinatra::Contrib }
-  set :port, ENV['PORT']
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
@@ -57,10 +57,15 @@ class AppBase < Sinatra::Base
   private
 
   def json_args
-    Hash[payload.map{ |key,value| [key.to_sym, value] }]
+    symbolized(json_payload)
   end
 
-  def payload
+  def symbolized(h)
+    # named-args require symbolization
+    h.transform_keys! { |key| key.to_sym }
+  end
+
+  def json_payload
     json_hash_parse(request.body.read)
   end
 
