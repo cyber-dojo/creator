@@ -1,7 +1,7 @@
 # API
 - - - -
 ## POST group_create_custom(display_names,options)
-Creates a new group from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is the first display_name in `display_names` and returns the group's id.
+Creates a new group practice-session from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is the first display_name in `display_names` and returns the group's id.
 - parameters [(JSON-in)](#json-in)
   * **display_names:[String...]**.
   At present only `display_names[0]` is used.
@@ -23,10 +23,10 @@ Creates a new group from the [custom-start-points](https://github.com/cyber-dojo
 
 - - - -
 ## POST kata_create_custom(display_name,options)
-Creates a new kata from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is `display_name` and returns the kata's id.
+Creates a new (individual) kata practice-session from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is `display_name` and returns the kata's id.
 - parameters [(JSON-in)](#json-in)
   * **display_name:String**.
-  * **options:Hash[Symbol=>Boolean]**
+  * **options:Hash[Symbol=>Boolean]**.
   Currently unused. For a planned feature.
 - returns [(JSON-out)](#json-out)
   * the new kata's id.
