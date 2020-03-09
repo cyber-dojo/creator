@@ -7,8 +7,8 @@
 - An http service for creating a new group or a new kata.
 
 - - - -
-* [POST group_create_custom(display_names)](docs/api.md#post-group_create_customdisplay_names)
-* [POST kata_create_custom(display_name)](docs/api.md#post-kata_create_customdisplay_name)
+* [POST group_create_custom(display_names,options)](docs/api.md#post-group_create_customdisplay_namesoptions)
+* [POST kata_create_custom(display_name,options)](docs/api.md#post-kata_create_customdisplay_nameoptions)
 * [GET ready?](docs/api.md#get-ready)
 * [GET alive?](docs/api.md#get-alive)  
 * [GET sha](docs/api.md#get-sha)

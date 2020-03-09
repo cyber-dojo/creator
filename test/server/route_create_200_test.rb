@@ -136,6 +136,28 @@ class RouteCreate200Test < CreatorTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  qtest p44: %w(
+  |POST /group_create_custom
+  |display_names is an Array of Strings for planned feature
+  |  where a group can be setup with a small number of display_names
+  |  and you choose your individual display_names on joining.
+  |options is a Hash of Symbol->Boolean
+  |  {line_numbers,syntax_hilight,colour_prediction}
+  |  and is also for a planned feature
+  |  where the options can be initialized at setup.
+  ) do
+    options = { line_numbers:true, syntax_hilight:true, predict_colour:true }
+    assert_json_post_200(
+      path = 'group_create_custom',
+      args = { display_names:[display_name,'unused'], options:options }
+    ) do |jrb|
+      assert_equal [path], jrb.keys.sort, :keys
+      assert_group_exists(jrb[path], display_name)
+    end
+  end
+
   private
 
   def assert_group_exists(id, display_name)
