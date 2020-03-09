@@ -46,11 +46,13 @@ class Creator
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def group_create_custom(display_names:, options:default_options)
-    group_create(custom_start_points.manifest(display_names[0]), options)
+    manifest = custom_start_points.manifest(display_names[0])
+    group_create(manifest, options)
   end
 
   def kata_create_custom(display_name:, options:default_options)
-    kata_create(custom_start_points.manifest(display_name), options)
+    manifest = custom_start_points.manifest(display_name)
+    kata_create(manifest, options)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -58,8 +60,6 @@ class Creator
   # def kata_create(exercise_name:, display_name:, options:default_options)
 
   private
-
-  include IdPather # group_id_path, kata_id_path
 
   #- - - - - - - - - - - - - - - - - -
   # group
@@ -151,6 +151,8 @@ class Creator
   def pretty_json(obj)
     JSON.pretty_generate(obj)
   end
+
+  include IdPather # group_id_path, kata_id_path
 
   #- - - - - - - - - - - - - - - - - -
 

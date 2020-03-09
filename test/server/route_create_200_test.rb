@@ -144,7 +144,7 @@ class RouteCreate200Test < CreatorTestBase
   |  where a group can be setup with a small number of display_names
   |  and you choose your individual display_names on joining.
   |options is a Hash of Symbol->Boolean
-  |  {line_numbers,syntax_hilight,colour_prediction}
+  |  {line_numbers,syntax_hilight,predict_colour}
   |  and is also for a planned feature
   |  where the options can be initialized at setup.
   ) do
