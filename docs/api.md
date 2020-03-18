@@ -4,10 +4,11 @@
 Creates a new group practice-session from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is the first entry in `display_names`, and returns the group's id.
 - parameters [(JSON-in)](#json-in)
   * **display_names:[String...]**.
+  The names of [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifests.  
   At present only `display_names[0]` is used.
-  An array for a planned future feature.
+  The array is for a planned feature.
   * **options:Hash[Symbol=>Boolean]**.
-  Currently unused. For a planned future feature.
+  Currently unused (and defaulted). For a planned feature.
 - returns [(JSON-out)](#json-out)
   * the new group's id.
 - example
@@ -26,8 +27,9 @@ Creates a new group practice-session from the [custom-start-points](https://gith
 Creates a new (individual) kata practice-session from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is `display_name`, and returns the kata's id.
 - parameters [(JSON-in)](#json-in)
   * **display_name:String**.
+  The name of a [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest.
   * **options:Hash[Symbol=>Boolean]**.
-  Currently unused. For a planned feature.
+  Currently unused (and defaulted). For a planned feature.
 - returns [(JSON-out)](#json-out)
   * the new kata's id.
 - example
@@ -48,11 +50,13 @@ Creates a new group practice-session by combining the [exercises-start-points](h
 whose key is the first entry in `languages_names`, and returns the group's id.
 - parameters [(JSON-in)](#json-in)
   * **exercise_name:String**.
+  The name of an [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest.  
   * **languages_names:[String...]**.
+  The names of [languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifests.  
   At present only `languages_names[0]` is used.
-  An array for a planned future feature.
+  The array is for a planned feature.
   * **options:Hash[Symbol=>Boolean]**.
-  Currently unused. For a planned future feature.
+  Currently unused (and defaulted). For a planned feature.
 - returns [(JSON-out)](#json-out)
   * the new group's id.
 - example
@@ -73,9 +77,11 @@ Creates a new (individual) kata practice-session by combining the [exercises-sta
 whose key is `language_name`, and returns the kata's id.
 - parameters [(JSON-in)](#json-in)
   * **exercise_name:String**.
+  The name of an [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest.
   * **language_name:String**.
+  The name of a [languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifest.
   * **options:Hash[Symbol=>Boolean]**.
-  Currently unused. For a planned feature.
+  Currently unused (and defaulted). For a planned feature.
 - returns [(JSON-out)](#json-out)
   * the new kata's id.
 - example

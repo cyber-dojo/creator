@@ -10,7 +10,7 @@
 * [POST group_create_custom(display_names,options)](docs/api.md#post-group_create_customdisplay_namesoptions)
 * [POST kata_create_custom(display_name,options)](docs/api.md#post-kata_create_customdisplay_nameoptions)
 * [POST group_create(exercise_name,languages_names,options)](docs/api.md#post-group_createexercise_namelanguages_namesoptions)
-* [POST kata_create(exercise_name,languages_name,options)](docs/api.md#post-kata_createexercise_namelanguage_nameoptions)
+* [POST kata_create(exercise_name,language_name,options)](docs/api.md#post-kata_createexercise_namelanguage_nameoptions)
 * [GET ready?](docs/api.md#get-ready)
 * [GET alive?](docs/api.md#get-alive)  
 * [GET sha](docs/api.md#get-sha)
