@@ -1,71 +1,31 @@
-Run options: --seed 46376
+Run options: --seed 55375
 
 # Running:
 
-..............................id.
-Expected nil to not be nil.
-F..id.
-Expected nil to not be nil.
-F............SimpleCov failed with exit 1
+..............................................
 
-Finished in 0.810507s, 56.7546 runs/s, 249.2268 assertions/s.
+Finished in 0.738435s, 62.2939 runs/s, 278.9683 assertions/s.
 
-  1) Failure:
-RouteCreate200Test#test_
-
-f32:
-|POST /kata_create 
-|with exercise_name 
-|that exists in exercises-start-points 
-|with languages_name 
-|that exists in languages-start-points 
-|has status 200 
-|returns the id: of a new kata 
-|that exists in saver 
-|whose manifest matches the exercise_name and language_name
-
- [/test/server/route_create_200_test.rb:158]:
-id.
-Expected nil to not be nil.
-
-  2) Failure:
-RouteCreate200Test#test_
-
-f31:
-|POST /group_create 
-|with exercise_name 
-|that exists in exercises-start-points 
-|with languages_names[] holding a single language_name 
-|that exists in languages-start-points 
-|has status 200 
-|returns the id: of a new group 
-|that exists in saver 
-|whose manifest matches the exercise_name and language_name
-
- [/test/server/route_create_200_test.rb:136]:
-id.
-Expected nil to not be nil.
-
-46 runs, 202 assertions, 2 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to //tmp/reports. 8177 / 15116 LOC (54.09%) covered.
+46 runs, 206 assertions, 0 failures, 0 errors, 0 skips
+Coverage report generated for MiniTest to //tmp/reports. 8167 / 15130 LOC (53.98%) covered.
 
 Slowest 5 tests are...
-0.2116 - A6Da63:id_generator_test.rb:23:group ids are spread across the entire id alphabet
-0.1496 - A6Da64:id_generator_test.rb:37:kata ids are spead across the entire id alphabet
-0.0353 - f26q34:route_create_200_test.rb:82:|POST /group_create_custom |can use RandomStub to control group id
-0.0273 - f27aX4:route_create_500_bad_request_test.rb:75:|POST /group_create_custom |with a display_name in its request.body |that does no...
-0.0258 - f26q33:route_create_200_test.rb:65:|POST /kata_create_custom |can use RandomStub to control kata id
-0.0223 - f26q31:route_create_200_test.rb:23:|POST /group_create_custom |with display_names[] holding a single display_name |t...
+0.2273 - A6Da64:id_generator_test.rb:37:kata ids are spead across the entire id alphabet
+0.1387 - A6Da63:id_generator_test.rb:23:group ids are spread across the entire id alphabet
+0.0287 - de3p23:route_sha_test.rb:12:|GET /sha |has status 200 |returns the 40-char git commit sha used to create the ...
+0.0249 - f26De1:route_create_200_test.rb:171:|POST /deprecated_group_create_custom |with a single display_name |that exists in...
+0.0238 - f26De2:route_create_200_test.rb:194:|POST /deprecated_kata_create_custom |with a single display_name |that exists in ...
+0.0193 - f26q33:route_create_200_test.rb:65:|POST /kata_create_custom |can use RandomStub to control kata id
 
 
-                 failures |       2   <=     0 | [31m false [0m
+                 failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.81   <=     1 | [32m true [0m
+        duration(test)[s] |    0.74   <=     1 | [32m true [0m
                     tests |      46   >=     1 | [32m true [0m
-      coverage(tested)[%] |    98.9   >=   100 | [31m false [0m
+      coverage(tested)[%] |   99.47   >=   100 | [31m false [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
-     lines(tester/tested) |    0.81   >=   0.8 | [32m true [0m
-      hits(tested/tester) |    5.99   >=   5.8 | [32m true [0m
+     lines(tester/tested) |    0.78   >=   0.8 | [31m false [0m
+      hits(tested/tester) |    5.95   >=   5.8 | [32m true [0m
 

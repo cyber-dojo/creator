@@ -160,7 +160,7 @@ class RouteCreate200Test < CreatorTestBase
       args = { exercise_name:exercise_name, language_name:language_name }
     ) do |jrb|
       assert_equal [path], jrb.keys.sort, :keys
-      assert_group_exists(jrb[path], language_name)
+      assert_kata_exists(jrb[path], language_name)
     end
   end
 

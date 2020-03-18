@@ -46,11 +46,23 @@ class Creator
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def group_create(exercise_name:, languages_names:, options:default_options)
-    #get 2 manifests. Merge them
+    em = exercises_start_points.manifest(exercise_name)
+    manifest = languages_start_points.manifest(languages_names[0])
+    manifest['visible_files'].merge!(em['visible_files'])
+    manifest['exercise'] = em['display_name']
+    create_group(manifest, options)
   end
 
   def kata_create(exercise_name:, language_name:, options:default_options)
-    #get 2 manifests. Merge them
+    #puts "1:#{exercise_name}:#{language_name}:"
+    em = exercises_start_points.manifest(exercise_name)
+    #puts "2:#{em}"
+    manifest = languages_start_points.manifest(language_name)
+    #puts "3:#{manifest}:"
+    manifest['visible_files'].merge!(em['visible_files'])
+    manifest['exercise'] = em['display_name']
+    #puts "4:#{manifest}:"
+    create_kata(manifest, options)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
@@ -168,6 +180,14 @@ class Creator
 
   def custom_start_points
     @externals.custom_start_points
+  end
+
+  def exercises_start_points
+    @externals.exercises_start_points
+  end
+
+  def languages_start_points
+    @externals.languages_start_points
   end
 
   def saver
