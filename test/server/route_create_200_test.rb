@@ -138,7 +138,7 @@ class RouteCreate200Test < CreatorTestBase
       args = { exercise_name:exercise_name, languages_names:[language_name] }
     ) do |jrb|
       assert_equal [path], jrb.keys.sort, :keys
-      assert_group_exists(jrb[path], language_name)
+      assert_group_exists(jrb[path], language_name, exercise_name)
     end
   end
 
@@ -160,7 +160,7 @@ class RouteCreate200Test < CreatorTestBase
       args = { exercise_name:exercise_name, language_name:language_name }
     ) do |jrb|
       assert_equal [path], jrb.keys.sort, :keys
-      assert_kata_exists(jrb[path], language_name)
+      assert_kata_exists(jrb[path], language_name, exercise_name)
     end
   end
 
@@ -185,7 +185,7 @@ class RouteCreate200Test < CreatorTestBase
     ) do |jrb|
       assert_equal [path,'id'], jrb.keys.sort, :keys
       assert_group_exists(jrb['id'], display_name)
-      assert_equal jrb[path], jrb['id']
+      assert_equal jrb[path], jrb['id'], :id
     end
   end
 
@@ -208,24 +208,34 @@ class RouteCreate200Test < CreatorTestBase
     ) do |jrb|
       assert_equal [path,'id'], jrb.keys.sort, :keys
       assert_kata_exists(jrb['id'], display_name)
-      assert_equal jrb[path], jrb['id']
+      assert_equal jrb[path], jrb['id'], :id
     end
   end
 
   private
 
-  def assert_group_exists(id, display_name)
+  def assert_group_exists(id, display_name, exercise_name=nil)
     refute_nil id, :id
     assert group_exists?(id), "!group_exists?(#{id})"
     manifest = group_manifest(id)
     assert_equal display_name, manifest['display_name'], manifest.keys.sort
+    if exercise_name.nil?
+      refute manifest.has_key?('exercise'), :exercise
+    else
+      assert_equal exercise_name, manifest['exercise'], :exercise
+    end
   end
 
-  def assert_kata_exists(id, display_name)
+  def assert_kata_exists(id, display_name, exercise_name=nil)
     refute_nil id, :id
     assert kata_exists?(id), "!kata_exists?(#{id})"
     manifest = kata_manifest(id)
     assert_equal display_name, manifest['display_name'], manifest.keys.sort
+    if exercise_name.nil?
+      refute manifest.has_key?('exercise'), :exercise
+    else
+      assert_equal exercise_name, manifest['exercise'], :exercise
+    end
   end
 
   def group_manifest(id)
