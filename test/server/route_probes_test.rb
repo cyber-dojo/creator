@@ -55,6 +55,34 @@ class RouteProbesTest < CreatorTestBase
     end
   end
 
+  qtest E16: %w(
+  |when exercises_start_points http-service is not ready
+  |GET/ready?
+  |has status 200
+  |returns false
+  |and nothing else
+  ) do
+    externals.instance_exec { @exercises_start_points=STUB_READY_FALSE }
+    assert_get_200(path='ready?') do |jr|
+      assert_equal [path], jr.keys, "keys:#{last_response.body}:"
+      assert false?(jr[path]), "false?:#{last_response.body}:"
+    end
+  end
+
+  qtest E17: %w(
+  |when languages_start_points http-service is not ready
+  |GET/ready?
+  |has status 200
+  |returns false
+  |and nothing else
+  ) do
+    externals.instance_exec { @languages_start_points=STUB_READY_FALSE }
+    assert_get_200(path='ready?') do |jr|
+      assert_equal [path], jr.keys, "keys:#{last_response.body}:"
+      assert false?(jr[path]), "false?:#{last_response.body}:"
+    end
+  end
+
   # - - - - - - - - - - - - - - - - -
 
   qtest F15: %w(
@@ -148,7 +176,7 @@ class RouteProbesTest < CreatorTestBase
   qtest QN7: %w(
   |when an external http-service
   |returns JSON-Hash in its response.body
-  |which does not contain the "ready?" key 
+  |which does not contain the "ready?" key
   |GET/ready? is a 500 error
   ) do
     stub_saver_http(response='{"wibble":42}')
