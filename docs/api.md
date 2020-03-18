@@ -151,7 +151,7 @@ The git commit sha used to create the Docker image.
 - example
   ```bash     
   $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/sha
-  
+
   {"sha":"41d7e6068ab75716e4c7b9262a3a44323b4d1448"}
   ```
 
@@ -167,12 +167,14 @@ The git commit sha used to create the Docker image.
   * If the method completes, a string key equals the method's name. eg
     ```bash
     $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
+
     {"ready?":true}
     ```
   * If the method raises an exception, a string key equals `"exception"`, with
     a json-hash as its value. eg
     ```bash
     $ curl --silent -X POST http://${IP_ADDRESS}:${PORT}/group_create_custom | jq      
+
     {
       "exception": {
         "path": "/group_create_custom",
