@@ -58,14 +58,10 @@ class Creator
   end
 
   def kata_create(exercise_name:, language_name:, options:default_options)
-    #puts "1:#{exercise_name}:#{language_name}:"
     em = exercises_start_points.manifest(exercise_name)
-    #puts "2:#{em}"
     manifest = languages_start_points.manifest(language_name)
-    #puts "3:#{manifest}:"
     manifest['visible_files'].merge!(em['visible_files'])
     manifest['exercise'] = em['display_name']
-    #puts "4:#{manifest}:"
     create_kata(manifest, options)
   end
 
