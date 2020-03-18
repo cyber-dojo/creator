@@ -1,7 +1,7 @@
 # API
 - - - -
 ## POST group_create_custom(display_names,options)
-Creates a new group practice-session from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is the first display_name in `display_names` and returns the group's id.
+Creates a new group practice-session from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is the first entry in `display_names`, and returns the group's id.
 - parameters [(JSON-in)](#json-in)
   * **display_names:[String...]**.
   At present only `display_names[0]` is used.
@@ -23,7 +23,7 @@ Creates a new group practice-session from the [custom-start-points](https://gith
 
 - - - -
 ## POST kata_create_custom(display_name,options)
-Creates a new (individual) kata practice-session from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is `display_name` and returns the kata's id.
+Creates a new (individual) kata practice-session from the [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest whose key is `display_name`, and returns the kata's id.
 - parameters [(JSON-in)](#json-in)
   * **display_name:String**.
   * **options:Hash[Symbol=>Boolean]**.
@@ -42,14 +42,14 @@ Creates a new (individual) kata practice-session from the [custom-start-points](
   ```
 
 - - - -
-## POST group_create(exercise_name,display_names,options)
+## POST group_create(exercise_name,languages_names,options)
 Creates a new group practice-session by combining the [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest whose key is `exercise_name` with the
 [languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifest
-whose key is the first display_name in `display_names`, and returns the group's id.
+whose key is the first entry in `languages_names`, and returns the group's id.
 - parameters [(JSON-in)](#json-in)
   * **exercise_name:String**.
-  * **display_names:[String...]**.
-  At present only `display_names[0]` is used.
+  * **languages_names:[String...]**.
+  At present only `languages_names[0]` is used.
   An array for a planned future feature.
   * **options:Hash[Symbol=>Boolean]**.
   Currently unused. For a planned future feature.
@@ -58,7 +58,7 @@ whose key is the first display_name in `display_names`, and returns the group's 
 - example
   ```bash
   $ curl \
-    --data '{"exercise_name":"Fizz Buzz","display_names":["C#, NUnit"]}' \
+    --data '{"exercise_name":"Fizz Buzz","languages_names":["C#, NUnit"]}' \
     --header 'Content-type: application/json' \
     --silent \
     -X POST \
@@ -67,13 +67,13 @@ whose key is the first display_name in `display_names`, and returns the group's 
   ```
 
 - - - -
-## POST kata_create(exercise_name,display_name,options)
+## POST kata_create(exercise_name,language_name,options)
 Creates a new (individual) kata practice-session by combining the [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest whose key is `exercise_name` with the
 [languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifest
-whose key is the first display_name in `display_names`, and returns the kata's id.
+whose key is `language_name`, and returns the kata's id.
 - parameters [(JSON-in)](#json-in)
   * **exercise_name:String**.
-  * **display_name:String**.
+  * **language_name:String**.
   * **options:Hash[Symbol=>Boolean]**.
   Currently unused. For a planned feature.
 - returns [(JSON-out)](#json-out)
@@ -81,7 +81,7 @@ whose key is the first display_name in `display_names`, and returns the kata's i
 - example
   ```bash
   $ curl \
-    --data '{"exercise_name":"Fizz Buzz","display_name":"C#, NUnit"}' \
+    --data '{"exercise_name":"Fizz Buzz","language_name":"C#, NUnit"}' \
     --header 'Content-type: application/json' \
     --silent \
     -X POST \
