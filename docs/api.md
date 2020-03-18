@@ -74,7 +74,7 @@ whose key is `languages_names[0]`, and returns its id.
     -X POST \
       http://${IP_ADDRESS}:${PORT}/group_create
 
-  {"group_create":"P0R0cU"}
+  {"group_create":"MwA7SJ"}
   ```
 
 - - - -
@@ -102,12 +102,14 @@ whose key is `language_name`, and returns its id.
     -X POST \
       http://${IP_ADDRESS}:${PORT}/kata_create
 
-  {"kata_create":"8Ey4xK"}
+  {"kata_create":"UrNKPr"}
   ```
 
 - - - -
 ## GET ready?
 Tests if the service is ready to handle requests.
+Used as a [Kubernetes](https://kubernetes.io/) readiness probe.
+
 - parameters
   * none
 - returns [(JSON-out)](#json-out)
@@ -118,12 +120,14 @@ Tests if the service is ready to handle requests.
 - example
   ```bash     
   $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
+
   {"ready?":false}
   ```
 
 - - - -
 ## GET alive?
-Tests if the service is alive.  
+Tests if the service is alive.
+Used as a [Kubernetes](https://kubernetes.io/) liveness probe.  
 - parameters
   * none
 - returns [(JSON-out)](#json-out)
@@ -133,6 +137,7 @@ Tests if the service is alive.
 - example
   ```bash     
   $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/alive?
+
   {"alive?":true}
   ```
 
@@ -146,6 +151,7 @@ The git commit sha used to create the Docker image.
 - example
   ```bash     
   $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/sha
+  
   {"sha":"41d7e6068ab75716e4c7b9262a3a44323b4d1448"}
   ```
 
