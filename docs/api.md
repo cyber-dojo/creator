@@ -42,6 +42,54 @@ Creates a new (individual) kata practice-session from the [custom-start-points](
   ```
 
 - - - -
+## POST group_create(exercise_name,display_names,options)
+Creates a new group practice-session by combining the [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest whose key is `exercise_name` with the
+[languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifest
+whose key is the first display_name in `display_names`, and returns the group's id.
+- parameters [(JSON-in)](#json-in)
+  * **exercise_name:String**.
+  * **display_names:[String...]**.
+  At present only `display_names[0]` is used.
+  An array for a planned future feature.
+  * **options:Hash[Symbol=>Boolean]**.
+  Currently unused. For a planned future feature.
+- returns [(JSON-out)](#json-out)
+  * the new group's id.
+- example
+  ```bash
+  $ curl \
+    --data '{"exercise_name":"Fizz Buzz","display_names":["C#, NUnit"]}' \
+    --header 'Content-type: application/json' \
+    --silent \
+    -X POST \
+      http://${IP_ADDRESS}:${PORT}/group_create
+  {"group_create":"P0R0cU"}
+  ```
+
+- - - -
+## POST kata_create(exercise_name,display_name,options)
+Creates a new (individual) kata practice-session by combining the [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest whose key is `exercise_name` with the
+[languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifest
+whose key is the first display_name in `display_names`, and returns the kata's id.
+- parameters [(JSON-in)](#json-in)
+  * **exercise_name:String**.
+  * **display_name:String**.
+  * **options:Hash[Symbol=>Boolean]**.
+  Currently unused. For a planned feature.
+- returns [(JSON-out)](#json-out)
+  * the new kata's id.
+- example
+  ```bash
+  $ curl \
+    --data '{"exercise_name":"Fizz Buzz","display_name":"C#, NUnit"}' \
+    --header 'Content-type: application/json' \
+    --silent \
+    -X POST \
+      http://${IP_ADDRESS}:${PORT}/kata_create
+  {"kata_create":"8Ey4xK"}
+  ```
+
+- - - -
 ## GET ready?
 Tests if the service is ready to handle requests.
 - parameters
