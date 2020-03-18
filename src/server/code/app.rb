@@ -20,6 +20,9 @@ class App < AppBase
   post_json(:group_create_custom)
   post_json(:kata_create_custom)
 
+  post_json(:group_create)
+  post_json(:kata_create)
+
   deprecated_post_json(:deprecated_group_create_custom)
   deprecated_post_json(:deprecated_kata_create_custom)
 

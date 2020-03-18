@@ -33,38 +33,44 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def deprecated_group_create_custom(display_name:)
-    manifest = custom_start_points.manifest(display_name)
-    group_create(manifest, default_options)
-  end
-
-  def deprecated_kata_create_custom(display_name:)
-    manifest = custom_start_points.manifest(display_name)
-    kata_create(manifest, default_options)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   def group_create_custom(display_names:, options:default_options)
     manifest = custom_start_points.manifest(display_names[0])
-    group_create(manifest, options)
+    create_group(manifest, options)
   end
 
   def kata_create_custom(display_name:, options:default_options)
     manifest = custom_start_points.manifest(display_name)
-    kata_create(manifest, options)
+    create_kata(manifest, options)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-  # def group_create(exercise_name:, display_names:, options:default_options)
-  # def kata_create(exercise_name:, display_name:, options:default_options)
+
+  def group_create(exercise_name:, languages_names:, options:default_options)
+    #get 2 manifests. Merge them
+  end
+
+  def kata_create(exercise_name:, language_name:, options:default_options)
+    #get 2 manifests. Merge them
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def deprecated_group_create_custom(display_name:)
+    manifest = custom_start_points.manifest(display_name)
+    create_group(manifest, default_options)
+  end
+
+  def deprecated_kata_create_custom(display_name:)
+    manifest = custom_start_points.manifest(display_name)
+    create_kata(manifest, default_options)
+  end
 
   private
 
   #- - - - - - - - - - - - - - - - - -
   # group
 
-  def group_create(manifest, _options)
+  def create_group(manifest, _options)
     set_version(manifest)
     set_time_stamp(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
@@ -94,7 +100,7 @@ class Creator
   #- - - - - - - - - - - - - - - - - -
   # kata
 
-  def kata_create(manifest, _options)
+  def create_kata(manifest, _options)
     set_version(manifest)
     set_time_stamp(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).kata_id
