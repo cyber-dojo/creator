@@ -8,7 +8,7 @@ Creates a new group exercise from the [custom-start-points](https://github.com/c
   For example, `["Java Countdown, Round 1"]`.
   At present only `display_names[0]` is used.
   The array is for a planned feature.
-  * **options:Hash[Symbol=>Boolean]**.
+  * **options:Hash[String=>Boolean]**.
   Currently unused (and defaulted). For a planned feature.
 - returns [(JSON-out)](#json-out)
   * the new exercise's id.
@@ -31,7 +31,7 @@ Creates a new individual exercise from the [custom-start-points](https://github.
   * **display_name:String**.
   The name of a [custom-start-points](https://github.com/cyber-dojo/custom-start-points) manifest.
   For example, `"Java Countdown, Round 2"`.
-  * **options:Hash[Symbol=>Boolean]**.
+  * **options:Hash[String=>Boolean]**.
   Currently unused (and defaulted). For a planned feature.
 - returns [(JSON-out)](#json-out)
   * the new exercise's id.
@@ -61,7 +61,7 @@ whose key is `languages_names[0]`, and returns its id.
   For example, `["C#, NUnit"]`.
   At present only `languages_names[0]` is used.
   The array is for a planned feature.
-  * **options:Hash[Symbol=>Boolean]**.
+  * **options:Hash[String=>Boolean]**.
   Currently unused (and defaulted). For a planned feature.
 - returns [(JSON-out)](#json-out)
   * the new exercise's id.
@@ -89,7 +89,7 @@ whose key is `language_name`, and returns its id.
   * **language_name:String**.
   The name of a [languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifest.
   For example, `"C#, NUnit"`.
-  * **options:Hash[Symbol=>Boolean]**.
+  * **options:Hash[String=>Boolean]**.
   Currently unused (and defaulted). For a planned feature.
 - returns [(JSON-out)](#json-out)
   * the new exercise's id.
@@ -109,14 +109,11 @@ whose key is `language_name`, and returns its id.
 ## GET ready?
 Tests if the service is ready to handle requests.
 Used as a [Kubernetes](https://kubernetes.io/) readiness probe.
-
 - parameters
   * none
 - returns [(JSON-out)](#json-out)
   * **true** if the service is ready
   * **false** if the service is not ready
-- notes
-  * Used as a [Kubernetes](https://kubernetes.io/) readiness probe.
 - example
   ```bash     
   $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/ready?
@@ -132,8 +129,6 @@ Used as a [Kubernetes](https://kubernetes.io/) liveness probe.
   * none
 - returns [(JSON-out)](#json-out)
   * **true**
-- notes
-  * Used as a [Kubernetes](https://kubernetes.io/) liveness probe.  
 - example
   ```bash     
   $ curl --silent -X GET http://${IP_ADDRESS}:${PORT}/alive?
@@ -180,7 +175,7 @@ The git commit sha used to create the Docker image.
         "path": "/group_create_custom",
         "body": "",
         "class": "CreatorService",
-        "message": "manifest is missing",
+        "message": "...",
         "backtrace": [
           ...
           "/usr/bin/rackup:23:in `<main>'"

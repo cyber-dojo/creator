@@ -1,28 +1,28 @@
-Run options: --seed 58609
+Run options: --seed 12960
 
 # Running:
 
 ................................................
 
-Finished in 0.743765s, 64.5365 runs/s, 305.2040 assertions/s.
+Finished in 0.597235s, 80.3704 runs/s, 380.0849 assertions/s.
 
 48 runs, 227 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to //tmp/reports. 8189 / 15150 LOC (54.05%) covered.
 
 Slowest 5 tests are...
-0.1548 - A6Da64:id_generator_test.rb:37:kata ids are spead across the entire id alphabet
-0.1373 - A6Da63:id_generator_test.rb:23:group ids are spread across the entire id alphabet
-0.0331 - f26De2:route_create_200_test.rb:194:|POST /deprecated_kata_create_custom |with a single display_name |that exists in ...
-0.0317 - f27aX4:route_create_500_bad_request_test.rb:75:|POST /group_create_custom |with a display_name in its request.body |that does no...
-0.0297 - f26De1:route_create_200_test.rb:171:|POST /deprecated_group_create_custom |with a single display_name |that exists in...
-0.0247 - f26f31:route_create_200_test.rb:125:|POST /group_create |with exercise_name |that exists in exercises-start-points |w...
+0.1369 - A6Da63:id_generator_test.rb:23:group ids are spread across the entire id alphabet
+0.1046 - A6Da64:id_generator_test.rb:37:kata ids are spead across the entire id alphabet
+0.0421 - f26q32:route_create_200_test.rb:43:|POST /kata_create_custom |with display_names[] holding a single display_name |th...
+0.0258 - f26f32:route_create_200_test.rb:147:|POST /kata_create |with exercise_name |that exists in exercises-start-points |wi...
+0.0179 - f26f31:route_create_200_test.rb:125:|POST /group_create |with exercise_name |that exists in exercises-start-points |w...
+0.0174 - f26De1:route_create_200_test.rb:171:|POST /deprecated_group_create_custom |with a single display_name |that exists in...
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.74   <=     1 | [32m true [0m
+        duration(test)[s] |     0.6   <=     1 | [32m true [0m
                     tests |      48   >=     1 | [32m true [0m
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
