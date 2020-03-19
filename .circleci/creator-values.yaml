@@ -4,10 +4,8 @@ fullnameOverride: "creator"
 replicaCount: 3
 
 service:
-  port: 4523
   annotations:
     prometheus.io/scrape: "true"
-    prometheus.io/port: "4523"
 
 volumes:
   - name: creator-tmp-dir
@@ -21,7 +19,6 @@ podSecurityContext:
 
 containers:
   - name: creator
-    image: cyberdojo/creator
     securityContext:
       allowPrivilegeEscalation: false
       readOnlyRootFilesystem: true
@@ -38,10 +35,8 @@ containers:
         memory: 128Mi
     livenessProbe:
       path: /alive?
-      port: 4523
     readinessProbe:
       path: /ready?
-      port: 4523
 
 envFromSecret: {}
 
