@@ -1,31 +1,31 @@
-Run options: --seed 26889
+Run options: --seed 56842
 
 # Running:
 
-.............
+...................
 
-Finished in 0.185286s, 70.1618 runs/s, 107.9413 assertions/s.
+Finished in 0.255214s, 74.4474 runs/s, 117.5485 assertions/s.
 
-13 runs, 20 assertions, 0 failures, 0 errors, 0 skips
-Coverage report generated for MiniTest to //tmp/reports. 3376 / 6446 LOC (52.37%) covered.
+19 runs, 30 assertions, 0 failures, 0 errors, 0 skips
+Coverage report generated for MiniTest to //tmp/reports. 3433 / 6503 LOC (52.79%) covered.
 
 Slowest 5 tests are...
-0.0395 - 26F703:create_test.rb:52:kata_create_custom returns the id of a newly created kata
-0.0255 - A8615D:ready_test.rb:12:its ready                                       
-0.0244 - 26F702:create_test.rb:42:group_create_custom returns the id of a newly created group
-0.0240 - 26F803:create_test.rb:30:deprecated_kata_create_custom returns the id of a newly created kata
-0.0233 - 26F802:create_test.rb:20:deprecated_group_create_custom returns the id of a newly created group
-0.0086 - 16F45e:bad_request_raises_test.rb:12:group_create_custom(manifest=nil) raises
+0.0268 - 26F702:create_test.rb:22:group_create_custom returns the id of a newly created group
+0.0238 - 26F703:create_test.rb:32:kata_create_custom returns the id of a newly created kata
+0.0222 - 26F603:create_test.rb:53:kata_create returns the id of a newly created kata
+0.0206 - 26F602:create_test.rb:42:group_create returns the id of a newly created group
+0.0181 - 26F802:create_test.rb:66:deprecated_group_create_custom returns the id of a newly created group
+0.0165 - 26F803:create_test.rb:76:deprecated_kata_create_custom returns the id of a newly created kata
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.19   <=     1 | [32m true [0m
-                    tests |      13   >=     1 | [32m true [0m
+        duration(test)[s] |    0.26   <=     1 | [32m true [0m
+                    tests |      19   >=     1 | [32m true [0m
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
-     lines(tester/tested) |    0.65   >=   0.6 | [32m true [0m
-      hits(tested/tester) |    3.03   >=   3.0 | [32m true [0m
+     lines(tester/tested) |    0.72   >=   0.6 | [32m true [0m
+      hits(tested/tester) |    4.81   >=   3.0 | [32m true [0m
 

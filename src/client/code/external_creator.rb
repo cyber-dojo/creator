@@ -33,6 +33,22 @@ class ExternalCreator
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  def group_create(exercise_name, languages_names)
+    @http.post(__method__, {
+      exercise_name:exercise_name,
+      languages_names:languages_names
+    })
+  end
+
+  def kata_create(exercise_name, language_name)
+    @http.post(__method__, {
+      exercise_name:exercise_name,
+      language_name:language_name
+    })
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - - - - - -
+
   def deprecated_group_create_custom(display_name)
     @http.post(__method__, {display_name:display_name})
   end

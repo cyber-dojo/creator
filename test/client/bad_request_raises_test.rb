@@ -10,24 +10,54 @@ class BadRequestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test '45e',
-  %w( group_create_custom(manifest=nil) raises ) do
+  %w( group_create_custom([unknown_display_name]) raises ) do
     _error = assert_raises(HttpJsonHash::ServiceError) {
-      creator.group_create_custom(nil)
+      creator.group_create_custom(['xxx'])
     }
   end
-
-  # - - - - - - - - - - - - - - - - -
 
   test '45a',
-  %w( custom_start_points.manifest(name='unknown') raises ) do
+  %w( kata_create_custom(unknown_display_name) raises ) do
     _error = assert_raises(HttpJsonHash::ServiceError) {
-      custom_start_points.manifest('unknown-name')
+      creator.kata_create_custom('xxx')
     }
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  test '45b',
+  test '15S',
+  %w( group_create(unknown_exercise_name) raises ) do
+    _error = assert_raises(HttpJsonHash::ServiceError) do
+      creator.group_create('xxx',[any_languages_start_points_display_name])
+    end
+  end
+
+  test '15T',
+  %w( group_create(unknown_language_name) raises ) do
+    _error = assert_raises(HttpJsonHash::ServiceError) do
+      creator.group_create(any_exercises_start_points_display_name,['xxx'])
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test '25K',
+  %w( kata_create(unknown_exercise_name) raises ) do
+    _error = assert_raises(HttpJsonHash::ServiceError) do
+      creator.kata_create('xxx', [any_languages_start_points_display_name])
+    end
+  end
+
+  test '25L',
+  %w( kata_create(unknown_language_name) raises ) do
+    _error = assert_raises(HttpJsonHash::ServiceError) do
+      creator.kata_create(any_exercises_start_points_display_name, ['xxx'])
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test '75b',
   %w( saver.exists?(key=nil) raises ) do
     _error = assert_raises(HttpJsonHash::ServiceError) {
       saver.exists?(nil)

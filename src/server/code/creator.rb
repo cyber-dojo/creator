@@ -18,10 +18,11 @@ class Creator
   end
 
   def ready?
-    services = [saver]
+    services = []
     services << custom_start_points
     services << exercises_start_points
     services << languages_start_points
+    services << saver
     services.all?(&:ready?)
   end
 

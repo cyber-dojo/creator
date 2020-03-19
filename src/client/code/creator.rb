@@ -9,27 +9,50 @@ class Creator
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def ready?
-    @externals.all_ready?
+    creator.ready?
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def group_create_custom(display_names)
-    @externals.creator.group_create_custom(display_names)
+  def group_create_custom(display_names, _options=default_options)
+    creator.group_create_custom(display_names)
   end
 
-  def kata_create_custom(display_name)
-    @externals.creator.kata_create_custom(display_name)
+  def kata_create_custom(display_name, _options=default_options)
+    creator.kata_create_custom(display_name)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def group_create(exercise_name, languages_names, _options=default_options)
+    creator.group_create(exercise_name, languages_names)
+  end
+
+  def kata_create(exercise_name, language_name, _options=default_options)
+    creator.kata_create(exercise_name, language_name)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def deprecated_group_create_custom(display_name)
-    @externals.creator.deprecated_group_create_custom(display_name)
+    creator.deprecated_group_create_custom(display_name)
   end
 
   def deprecated_kata_create_custom(display_name)
-    @externals.creator.deprecated_kata_create_custom(display_name)
+    creator.deprecated_kata_create_custom(display_name)
+  end
+
+  private
+
+  def default_options
+    { "line_numbers":true,
+      "syntax_highlight":false,
+      "predict_colour":false
+    }
+  end
+
+  def creator
+    @externals.creator
   end
 
 end
