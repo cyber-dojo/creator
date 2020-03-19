@@ -31,12 +31,6 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def default_options
-    { line_numbers:true, syntax_hilight:false, predict_colour:false }
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   def group_create_custom(display_names:, options:default_options)
     manifest = custom_start_points.manifest(display_names[0])
     create_group(manifest, options)
@@ -78,6 +72,10 @@ class Creator
   end
 
   private
+
+  def default_options
+    { line_numbers:true, syntax_hilight:false, predict_colour:false }
+  end
 
   #- - - - - - - - - - - - - - - - - -
   # group
