@@ -45,7 +45,7 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def any_custom_start_point_display_name
+  def any_custom_start_points_display_name
     custom_start_points.display_names.sample
   end
 
@@ -58,7 +58,7 @@ class CreatorTestBase < Id58TestBase
   end
 
   # - - - - - - - - - - - - - - - - - - -
-  
+
   def custom_start_points
     externals.custom_start_points
   end
