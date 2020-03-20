@@ -60,7 +60,6 @@ services:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   custom-start-points:
-    container_name: test-creator-custom-start-points
     environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
     init: true
@@ -73,7 +72,6 @@ services:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   exercises-start-points:
-    container_name: test-creator-exercises-start-points
     environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
     init: true
@@ -86,7 +84,6 @@ services:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   languages-start-points:
-    container_name: test-creator-languages-start-points
     environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
     init: true
@@ -99,7 +96,6 @@ services:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   saver:
-    container_name: test-creator-saver
     environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
     init: true
