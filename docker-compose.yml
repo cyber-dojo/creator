@@ -1,6 +1,6 @@
 
-# This is augmented with missing services by
-# sh/augmented-docker-compose.sh
+# This is augmented with dependent services by
+# sh/augmented_docker_compose.sh
 
 version: '3.7'
 

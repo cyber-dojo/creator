@@ -1,7 +1,7 @@
 #!/bin/bash -Eeu
 
 readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
-source "${ROOT_DIR}/sh/augmented-docker-compose.sh"
+source "${ROOT_DIR}/sh/augmented_docker_compose.sh"
 source "${ROOT_DIR}/sh/ip_address.sh"
 readonly IP_ADDRESS=$(ip_address) # slow
 export NO_PROMETHEUS=true

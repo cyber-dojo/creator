@@ -1,28 +1,28 @@
-Run options: --seed 50756
+Run options: --seed 4523
 
 # Running:
 
 ...................
 
-Finished in 0.232363s, 81.7684 runs/s, 129.1081 assertions/s.
+Finished in 0.241607s, 78.6403 runs/s, 124.1688 assertions/s.
 
 19 runs, 30 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to //tmp/reports. 3433 / 6503 LOC (52.79%) covered.
 
 Slowest 5 tests are...
+0.0232 - 26F603:create_test.rb:53:kata_create returns the id of a newly created kata
 0.0214 - 26F602:create_test.rb:42:group_create returns the id of a newly created group
-0.0200 - 26F703:create_test.rb:32:kata_create_custom returns the id of a newly created kata
-0.0196 - 26F702:create_test.rb:22:group_create_custom returns the id of a newly created group
-0.0156 - 26F603:create_test.rb:53:kata_create returns the id of a newly created kata
-0.0155 - 26F802:create_test.rb:66:deprecated_group_create_custom returns the id of a newly created group
-0.0146 - 26F803:create_test.rb:76:deprecated_kata_create_custom returns the id of a newly created kata
+0.0179 - 26F802:create_test.rb:66:deprecated_group_create_custom returns the id of a newly created group
+0.0164 - 16F25L:bad_request_raises_test.rb:51:kata_create(unknown_language_name) raises
+0.0154 - 26F702:create_test.rb:22:group_create_custom returns the id of a newly created group
+0.0147 - 26F703:create_test.rb:32:kata_create_custom returns the id of a newly created kata
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.23   <=     1 | [32m true [0m
+        duration(test)[s] |    0.24   <=     1 | [32m true [0m
                     tests |      19   >=     1 | [32m true [0m
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
