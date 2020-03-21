@@ -1,5 +1,8 @@
 #!/bin/bash -Eeu
 
+# cyberdojo/service-yaml image lives at
+# https://github.com/cyber-dojo-tools/service-yaml
+
 creator_docker_compose()
 {
   cd "${ROOT_DIR}" && cat "./docker-compose.yml" \
@@ -7,6 +10,7 @@ creator_docker_compose()
          custom-start-points \
       exercises-start-points \
       languages-start-points \
+                       saver \
     | \
       docker-compose --file - "$@"
 }

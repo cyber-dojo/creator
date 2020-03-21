@@ -1,4 +1,7 @@
 
+# This is augmented with missing services by
+# sh/creator-docker-compose.sh
+
 version: '3.7'
 
 services:
@@ -56,17 +59,3 @@ services:
     tmpfs: /tmp
     user: nobody
     volumes: [ "./test:/test/:ro" ]
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  saver:
-    environment: [ NO_PROMETHEUS ]
-    image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
-    init: true
-    ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
-    read_only: true
-    restart: "no"
-    tmpfs:
-      - /cyber-dojo:uid=19663,gid=65533
-      - /tmp:uid=19663,gid=65533
-    user: saver
