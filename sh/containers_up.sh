@@ -1,8 +1,10 @@
 #!/bin/bash -Eeu
 
 readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
-source ${ROOT_DIR}/sh/ip_address.sh
+source "${ROOT_DIR}/sh/creator-docker-compose.sh"
+source "${ROOT_DIR}/sh/ip_address.sh"
 readonly IP_ADDRESS=$(ip_address) # slow
+export NO_PROMETHEUS=true
 
 # - - - - - - - - - - - - - - - - - - - - - -
 wait_briefly_until_ready()
@@ -124,8 +126,7 @@ container_up()
 {
   local -r service_name="${1}"
   printf '\n'
-  docker-compose \
-    --file "${ROOT_DIR}/docker-compose.yml" \
+  creator_docker_compose \
     up \
     --detach \
     --force-recreate \
@@ -133,7 +134,6 @@ container_up()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-export NO_PROMETHEUS=true
 
 if [ "${1:-}" == 'api-demo' ]; then
   container_up nginx

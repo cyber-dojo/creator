@@ -1,6 +1,8 @@
 #!/bin/bash -Eeu
 readonly SH_DIR="$(cd "$(dirname "${0}")/sh" && pwd)"
 source ${SH_DIR}/versioner_env_vars.sh
+source ${SH_DIR}/image_name.sh
+source ${SH_DIR}/image_sha.sh
 export $(versioner_env_vars)
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -12,8 +14,6 @@ main()
   ${SH_DIR}/containers_up.sh "$@"
   ${SH_DIR}/test_in_containers.sh "${client_user}" "${server_user}" "$@"
   ${SH_DIR}/containers_down.sh
-  source ${SH_DIR}/image_name.sh
-  source ${SH_DIR}/image_sha.sh
   tag_the_image
   on_ci_publish_tagged_images
 }

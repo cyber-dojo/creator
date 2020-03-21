@@ -1,9 +1,9 @@
 #!/bin/bash -Eeu
 
-readonly ROOT_DIR="$( cd "$( dirname "${0}" )" && cd .. && pwd )"
+readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
+source "${ROOT_DIR}/sh/creator-docker-compose.sh"
 
-docker-compose \
-  --file "${ROOT_DIR}/docker-compose.yml" \
+creator_docker_compose \
   down \
   --remove-orphans \
   --volumes

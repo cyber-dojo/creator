@@ -1,10 +1,10 @@
 #!/bin/bash -Eeu
 
 readonly SH_DIR="$( cd "$(dirname "${0}")" && pwd )"
-source "${SH_DIR}/versioner_env_vars.sh" # for build-image
+source "${SH_DIR}/ip_address.sh"
+source "${SH_DIR}/versioner_env_vars.sh"
 export $(versioner_env_vars)
-source "${SH_DIR}/ip_address.sh" # slow
-readonly IP_ADDRESS="$(ip_address)"
+readonly IP_ADDRESS="$(ip_address)" # slow
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 main()
