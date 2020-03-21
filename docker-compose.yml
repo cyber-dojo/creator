@@ -1,6 +1,6 @@
 
 # This is augmented with missing services by
-# sh/creator-docker-compose.sh
+# sh/augmented-docker-compose.sh
 
 version: '3.7'
 

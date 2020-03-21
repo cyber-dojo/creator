@@ -1,9 +1,9 @@
 #!/bin/bash -Eeu
 
 readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
-source "${ROOT_DIR}/sh/creator-docker-compose.sh"
+source "${ROOT_DIR}/sh/augmented-docker-compose.sh"
 
-creator_docker_compose \
+augmented_docker_compose \
   down \
   --remove-orphans \
   --volumes

@@ -1,7 +1,7 @@
 #!/bin/bash -Eeu
 
 readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
-source "${ROOT_DIR}/sh/creator-docker-compose.sh"
+source "${ROOT_DIR}/sh/augmented-docker-compose.sh"
 source "${ROOT_DIR}/sh/ip_address.sh"
 readonly IP_ADDRESS=$(ip_address) # slow
 export NO_PROMETHEUS=true
@@ -126,7 +126,7 @@ container_up()
 {
   local -r service_name="${1}"
   printf '\n'
-  creator_docker_compose \
+  augmented_docker_compose \
     up \
     --detach \
     --force-recreate \

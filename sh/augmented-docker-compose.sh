@@ -3,7 +3,7 @@
 # cyberdojo/service-yaml image lives at
 # https://github.com/cyber-dojo-tools/service-yaml
 
-creator_docker_compose()
+augmented_docker_compose()
 {
   cd "${ROOT_DIR}" && cat "./docker-compose.yml" \
     | docker run --rm --interactive cyberdojo/service-yaml \

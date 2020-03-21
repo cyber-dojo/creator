@@ -1,7 +1,7 @@
 #!/bin/bash -Eeu
 
 readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
-source "${ROOT_DIR}/sh/creator-docker-compose.sh"
+source "${ROOT_DIR}/sh/augmented-docker-compose.sh"
 source "${ROOT_DIR}/sh/versioner_env_vars.sh"
 source "${ROOT_DIR}/sh/image_sha.sh"
 export $(versioner_env_vars)
@@ -10,7 +10,7 @@ export $(versioner_env_vars)
 build_images()
 {
   export COMMIT_SHA="$(git_commit_sha)"
-  creator_docker_compose build
+  augmented_docker_compose build
   unset COMMIT_SHA
 }
 
