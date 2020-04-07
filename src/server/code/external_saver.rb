@@ -11,19 +11,35 @@ class ExternalSaver
     @http.get(__method__, {})
   end
 
-  def create(key)
-    @http.post(__method__, { key:key })
+  # - - - - - - - - - - - - - - - - - - -
+
+  def create_command(dirname)
+    ['create',dirname]
   end
 
-  def exists?(key)
-    @http.get(__method__, { key:key })
+  def exists_command(dirname)
+    ['exists?',dirname]
   end
 
-  def read(key)
-    @http.get(__method__, { key:key })
+  def write_command(filename, content)
+    ['write',filename,content]
   end
 
-  def batch(commands)
+  def read_command(filename)
+    ['read',filename]
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+  # primitives
+
+  def run(command)
+    @http.post(__method__, { command:command })
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+  # batches
+
+  def batch_assert(commands)
     @http.post(__method__, { commands:commands })
   end
 
