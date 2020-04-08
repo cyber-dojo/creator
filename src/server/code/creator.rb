@@ -87,7 +87,7 @@ class Creator
     set_version(manifest)
     set_time_stamp(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
-    saver.batch_assert([
+    saver.assert_all([
       group_manifest_write_cmd(id, pretty_json(manifest)),
       group_katas_write_cmd(id, '')
     ])
@@ -117,7 +117,7 @@ class Creator
     event0 = {
       'files' => manifest['visible_files']
     }
-    saver.batch_assert([
+    saver.assert_all([
       kata_manifest_write_cmd(id, pretty_json(manifest)),
       kata_events_write_cmd(id, pretty_json(event_summary)),
       kata_event_write_cmd(id, 0, pretty_json(event0.merge(event_summary)))

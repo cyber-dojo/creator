@@ -1,28 +1,28 @@
-Run options: --seed 29601
+Run options: --seed 63111
 
 # Running:
 
 ...................
 
-Finished in 0.230963s, 82.2643 runs/s, 129.8910 assertions/s.
+Finished in 0.252892s, 75.1308 runs/s, 118.6276 assertions/s.
 
 19 runs, 30 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to //tmp/reports. 3433 / 6503 LOC (52.79%) covered.
 
 Slowest 5 tests are...
-0.0256 - 26F703:create_test.rb:32:kata_create_custom returns the id of a newly created kata
-0.0168 - 26F603:create_test.rb:53:kata_create returns the id of a newly created kata
-0.0165 - 26F803:create_test.rb:76:deprecated_kata_create_custom returns the id of a newly created kata
-0.0164 - 26F602:create_test.rb:42:group_create returns the id of a newly created group
-0.0163 - 16F15T:bad_request_raises_test.rb:35:group_create(unknown_language_name) raises
-0.0151 - 26F702:create_test.rb:22:group_create_custom returns the id of a newly created group
+0.0366 - 26F602:create_test.rb:42:group_create returns the id of a newly created group
+0.0212 - 26F702:create_test.rb:22:group_create_custom returns the id of a newly created group
+0.0198 - 26F803:create_test.rb:76:deprecated_kata_create_custom returns the id of a newly created kata
+0.0194 - 26F603:create_test.rb:53:kata_create returns the id of a newly created kata
+0.0168 - 26F802:create_test.rb:66:deprecated_group_create_custom returns the id of a newly created group
+0.0165 - 26F703:create_test.rb:32:kata_create_custom returns the id of a newly created kata
 
 
                  failures |       0   <=     0 | [32m true [0m
                    errors |       0   <=     0 | [32m true [0m
                  warnings |       0   <=     0 | [32m true [0m
                     skips |       0   <=     0 | [32m true [0m
-        duration(test)[s] |    0.23   <=     1 | [32m true [0m
+        duration(test)[s] |    0.25   <=     1 | [32m true [0m
                     tests |      19   >=     1 | [32m true [0m
       coverage(tested)[%] |   100.0   >=   100 | [32m true [0m
       coverage(tester)[%] |   100.0   >=   100 | [32m true [0m
