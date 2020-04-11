@@ -55,13 +55,4 @@ class BadRequestTest < CreatorTestBase
     end
   end
 
-  # - - - - - - - - - - - - - - - - -
-
-  test '75b',
-  %w( saver.exists?(key=nil) raises ) do
-    _error = assert_raises(HttpJsonHash::ServiceError) {
-      saver.exists?(nil)
-    }
-  end
-
 end

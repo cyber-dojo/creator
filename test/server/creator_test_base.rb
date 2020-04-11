@@ -104,11 +104,11 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - - -
 
   def group_exists?(id)
-    saver.run(saver.exists_command(group_id_path(id)))
+    saver.run(saver.dir_exists_command(group_id_path(id)))
   end
 
   def kata_exists?(id)
-    saver.run(saver.exists_command(kata_id_path(id)))
+    saver.run(saver.dir_exists_command(kata_id_path(id)))
   end
 
   # - - - - - - - - - - - - - - - -

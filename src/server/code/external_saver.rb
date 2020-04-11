@@ -13,20 +13,20 @@ class ExternalSaver
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def create_command(dirname)
-    ['create',dirname]
+  def dir_make_command(dirname)
+    ['dir_make',dirname]
   end
 
-  def exists_command(dirname)
-    ['exists?',dirname]
+  def dir_exists_command(dirname)
+    ['dir_exists?',dirname]
   end
 
-  def write_command(filename, content)
-    ['write',filename,content]
+  def file_create_command(filename, content)
+    ['file_create',filename,content]
   end
 
-  def read_command(filename)
-    ['read',filename]
+  def file_read_command(filename)
+    ['file_read',filename]
   end
 
   # - - - - - - - - - - - - - - - - - - -

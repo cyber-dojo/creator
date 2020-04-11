@@ -29,7 +29,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
       assert_equal not_json, http_service['body'], jr
       assert_equal 'ExternalSaver', http_service['name'], jr
       assert_equal 'run', http_service['path'], jr
-      assert_equal({'command' => ['create','/groups/de/34/Ty']}, http_service['args'], jr)
+      assert_equal({'command' => ['dir_make','/groups/de/34/Ty']}, http_service['args'], jr)
     end
   end
 

@@ -239,12 +239,12 @@ class RouteCreate200Test < CreatorTestBase
   end
 
   def group_manifest(id)
-    command = saver.read_command("#{group_id_path(id)}/manifest.json")
+    command = saver.file_read_command("#{group_id_path(id)}/manifest.json")
     JSON::parse!(saver.run(command))
   end
 
   def kata_manifest(id)
-    command = saver.read_command("#{kata_id_path(id)}/manifest.json")
+    command = saver.file_read_command("#{kata_id_path(id)}/manifest.json")
     JSON::parse!(saver.run(command))
   end
 

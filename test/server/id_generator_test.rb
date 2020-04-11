@@ -134,7 +134,7 @@ class IdGeneratorTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  qtest f69: 
+  qtest f69:
   %w( id?(s) false examples
   ) do
     refute id?(42)

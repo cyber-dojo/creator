@@ -88,18 +88,18 @@ class Creator
     set_time_stamp(manifest)
     id = manifest['id'] = IdGenerator.new(@externals).group_id
     saver.assert_all([
-      group_manifest_write_cmd(id, pretty_json(manifest)),
-      group_katas_write_cmd(id, '')
+      group_manifest_create_cmd(id, pretty_json(manifest)),
+      group_katas_create_cmd(id, '')
     ])
     id
   end
 
-  def group_manifest_write_cmd(id, manifest_src)
-    saver.write_command(group_manifest_filename(id), manifest_src)
+  def group_manifest_create_cmd(id, manifest_src)
+    saver.file_create_command(group_manifest_filename(id), manifest_src)
   end
 
-  def group_katas_write_cmd(id, src)
-    saver.write_command(group_katas_filename(id), src)
+  def group_katas_create_cmd(id, src)
+    saver.file_create_command(group_katas_filename(id), src)
   end
 
   #- - - - - - - - - - - - - - - - - -
@@ -118,23 +118,23 @@ class Creator
       'files' => manifest['visible_files']
     }
     saver.assert_all([
-      kata_manifest_write_cmd(id, pretty_json(manifest)),
-      kata_events_write_cmd(id, pretty_json(event_summary)),
-      kata_event_write_cmd(id, 0, pretty_json(event0.merge(event_summary)))
+      kata_manifest_create_cmd(id, pretty_json(manifest)),
+      kata_events_create_cmd(id, pretty_json(event_summary)),
+      kata_event_create_cmd(id, 0, pretty_json(event0.merge(event_summary)))
     ])
     id
   end
 
-  def kata_manifest_write_cmd(id, manifest_src)
-    saver.write_command(kata_manifest_filename(id), manifest_src)
+  def kata_manifest_create_cmd(id, manifest_src)
+    saver.file_create_command(kata_manifest_filename(id), manifest_src)
   end
 
-  def kata_events_write_cmd(id, event0_src)
-    saver.write_command(kata_events_filename(id), event0_src)
+  def kata_events_create_cmd(id, event0_src)
+    saver.file_create_command(kata_events_filename(id), event0_src)
   end
 
-  def kata_event_write_cmd(id, index, event_src)
-    saver.write_command(kata_event_filename(id,index), event_src)
+  def kata_event_create_cmd(id, index, event_src)
+    saver.file_create_command(kata_event_filename(id,index), event_src)
   end
 
   #- - - - - - - - - - - - - - - - - -
