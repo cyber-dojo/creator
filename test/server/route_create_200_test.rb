@@ -103,12 +103,12 @@ class RouteCreate200Test < CreatorTestBase
   |display_names is an Array of Strings for planned feature
   |  where a group can be setup with a small number of display_names
   |  and you choose your individual display_names on joining.
-  |options is a Hash of Symbol->Boolean
-  |  {line_numbers,syntax_hilight,predict_colour}
+  |options is a Hash of Symbol->Boolean|String
+  |  {colour,theme,prediction}
   |  and is also for a planned feature
   |  where the options can be initialized at setup.
   ) do
-    options = { line_numbers:true, syntax_hilight:true, predict_colour:true }
+    options = { colour:'on', theme:'dark', prediction:false }
     assert_json_post_200(
       path = 'group_create_custom',
       args = { display_names:[display_name,'unused'], options:options }
