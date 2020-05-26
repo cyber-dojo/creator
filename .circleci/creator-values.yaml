@@ -1,7 +1,7 @@
 
 fullnameOverride: "creator"
 
-replicaCount: 3
+replicaCount: 1
 
 service:
   port: 4523
@@ -37,7 +37,7 @@ containers:
         memory: 64Mi
     livenessProbe:
       path: /alive?
-      port: 4523      
+      port: 4523
     readinessProbe:
       path: /ready?
       port: 4523
