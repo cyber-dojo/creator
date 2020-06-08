@@ -4,10 +4,8 @@ fullnameOverride: "creator"
 replicaCount: 1
 
 service:
-  port: 4523
   annotations:
     prometheus.io/scrape: "true"
-    prometheus.io/port: "4523"
 
 volumes:
   - name: creator-tmp-dir
@@ -30,17 +28,14 @@ containers:
         readOnly: false
     resources:
       requests:
-        cpu: 10m
+        cpu: 20m
         memory: 32Mi
       limits:
-        cpu: 100m
         memory: 64Mi
     livenessProbe:
       path: /alive?
-      port: 4523
     readinessProbe:
       path: /ready?
-      port: 4523
 
 envFromSecret: {}
 

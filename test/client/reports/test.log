@@ -1,21 +1,21 @@
-Run options: --seed 26680
+Run options: --seed 13858
 
 # Running:
 
 ..................
 
-Finished in 0.212311s, 84.7814 runs/s, 136.5923 assertions/s.
+Finished in 0.212943s, 84.5296 runs/s, 136.1866 assertions/s.
 
 18 runs, 29 assertions, 0 failures, 0 errors, 0 skips
 Coverage report generated for MiniTest to //tmp/reports. 3440 / 6510 LOC (52.84%) covered.
 
 Slowest 5 tests are...
-0.0156 - 26F603:create_test.rb:53:kata_create returns the id of a newly created kata
-0.0153 - 26F602:create_test.rb:42:group_create returns the id of a newly created group
-0.0147 - 16F45e:bad_request_raises_test.rb:12:group_create_custom([unknown_display_name]) raises
-0.0141 - 26F703:create_test.rb:32:kata_create_custom returns the id of a newly created kata
-0.0140 - 26F803:create_test.rb:76:deprecated_kata_create_custom returns the id of a newly created kata
-0.0138 - 26F802:create_test.rb:66:deprecated_group_create_custom returns the id of a newly created group
+0.0168 - 26F602:create_test.rb:42:group_create returns the id of a newly created group
+0.0164 - 26F803:create_test.rb:76:deprecated_kata_create_custom returns the id of a newly created kata
+0.0151 - 16F25K:bad_request_raises_test.rb:44:kata_create(unknown_exercise_name) raises
+0.0149 - 26F802:create_test.rb:66:deprecated_group_create_custom returns the id of a newly created group
+0.0148 - 26F603:create_test.rb:53:kata_create returns the id of a newly created kata
+0.0145 - 26F703:create_test.rb:32:kata_create_custom returns the id of a newly created kata
 
 
                  failures |       0   <=     0 | [32m true [0m

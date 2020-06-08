@@ -1,16 +1,6 @@
 #!/bin/bash -Eeu
 
-# Normally I export the cyberdojo env-vars using the command
-# $ docker run --rm cyberdojo/versioner:latest
-# This won't work on the.circleci deployment step since it is
-# run inside the cyberdojo/gcloud-kubectl-helm image which does
-# not have docker. So doing it directly from versioner's git repo
-export $(curl https://raw.githubusercontent.com/cyber-dojo/versioner/master/app/.env)
-
-readonly NAMESPACE="${1}" # eg beta
-readonly IMAGE="${CYBER_DOJO_CREATOR_IMAGE}"
-readonly PORT="${CYBER_DOJO_CREATOR_PORT}"
-readonly TAG="${CIRCLE_SHA1:0:7}"
+source ./.circleci/helm_upgrade.sh
 
 # misc env-vars are in ci context
 
@@ -29,12 +19,23 @@ helm init --client-only
 
 helm repo add praqma https://praqma-helm-repo.s3.amazonaws.com/
 
-helm upgrade \
-  --install \
-  --namespace=${NAMESPACE} \
-  --set-string containers[0].image=${IMAGE} \
-  --set-string containers[0].tag=${TAG} \
-  --values .circleci/creator-values.yaml \
-  ${NAMESPACE}-creator \
-  praqma/cyber-dojo-service \
-  --version 0.2.5
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# Normally I export the cyberdojo env-vars using the command
+# $ docker run --rm cyberdojo/versioner:latest
+# This won't work on the .circleci deployment step since it is
+# run inside the cyberdojo/gcloud-kubectl-helm image which does
+# not have docker. So doing it directly from versioner's git repo
+export $(curl https://raw.githubusercontent.com/cyber-dojo/versioner/master/app/.env)
+
+readonly NAMESPACE="${1}" # beta|prod
+readonly CYBER_DOJO_CREATOR_TAG="${CIRCLE_SHA1:0:7}"
+
+helm_upgrade \
+   "${NAMESPACE}" \
+   "${CYBER_DOJO_CREATOR_IMAGE}" \
+   "${CYBER_DOJO_CREATOR_TAG}" \
+   "${CYBER_DOJO_CREATOR_PORT}" \
+   ".circleci/k8s-general-values.yml" \
+   ".circleci/k8s-specific-values.yml" \
+   "creator" \
+   "praqma/cyber-dojo-service --version 0.2.5"
