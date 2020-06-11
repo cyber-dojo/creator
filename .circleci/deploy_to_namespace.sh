@@ -31,7 +31,7 @@ readonly NAMESPACE="${1}" # beta|prod
 readonly CYBER_DOJO_CREATOR_TAG="${CIRCLE_SHA1:0:7}"
 
 helm_upgrade \
-   "${NAMESPACE}" "creator" "praqma/cyber-dojo-service --version 0.2.5"
+   "${NAMESPACE}" "creator" "praqma/cyber-dojo-service --version 0.2.5" \
    "${CYBER_DOJO_CREATOR_IMAGE}" \
    "${CYBER_DOJO_CREATOR_TAG}" \
    "${CYBER_DOJO_CREATOR_PORT}" \
