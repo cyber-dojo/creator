@@ -141,5 +141,6 @@ if [ "${1:-}" == 'api-demo' ]; then
   exit 0
 fi
 
-container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT}        creator-server
+#container_up_ready_and_clean ${CYBER_DOJO_RUNNER_PORT}         runner
+#container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT}        creator-server
 container_up_ready_and_clean ${CYBER_DOJO_CREATOR_CLIENT_PORT} creator-client
