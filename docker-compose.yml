@@ -50,6 +50,7 @@ services:
       - exercises-start-points
       - languages-start-points
       - saver
+      - runner
     environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_CREATOR_IMAGE}
     init: true

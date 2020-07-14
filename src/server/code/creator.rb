@@ -21,6 +21,7 @@ class Creator
     services << custom_start_points
     services << exercises_start_points
     services << languages_start_points
+    services << runner
     services << saver
     services.all?(&:ready?)
   end
@@ -188,6 +189,10 @@ class Creator
 
   def languages_start_points
     @externals.languages_start_points
+  end
+
+  def runner
+    @externals.runner
   end
 
   def saver

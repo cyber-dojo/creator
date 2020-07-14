@@ -11,7 +11,7 @@ wait_briefly_until_ready()
 {
   local -r port="${1}"
   local -r container_name="${2}"
-  local -r max_tries=20
+  local -r max_tries=50
   printf "Waiting until ${container_name} is ready"
   for _ in $(seq ${max_tries}); do
     if curl_ready ${port}; then
@@ -19,7 +19,7 @@ wait_briefly_until_ready()
       return
     else
       printf .
-      sleep 0.1
+      sleep 0.2
     fi
   done
   printf 'FAIL\n'
@@ -87,9 +87,9 @@ exit_if_unclean()
   local -r line_count=$(echo -n "${log}" | grep --count '^')
   printf "Checking ${container_name} started cleanly..."
   # 3 lines on Thin (Unicorn=6, Puma=6)
-  #Thin web server (v1.7.2 codename Bachmanity)
-  #Maximum connections set to 1024
-  #Listening on 0.0.0.0:4536, CTRL+C to stop
+  # Thin web server (v1.7.2 codename Bachmanity)
+  # Maximum connections set to 1024
+  # Listening on 0.0.0.0:4536, CTRL+C to stop
   if [ "${line_count}" == '6' ]; then
     echo OK
   else
@@ -118,7 +118,7 @@ container_up_ready_and_clean()
   local -r container_name="test-${service_name}"
   container_up "${service_name}"
   wait_briefly_until_ready "${port}" "${container_name}"
-  exit_if_unclean "${container_name}"
+  #exit_if_unclean "${container_name}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -141,8 +141,5 @@ if [ "${1:-}" == 'api-demo' ]; then
   exit 0
 fi
 
-if [ "${1:-}" == 'server' ]; then
-  container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT}        creator-server
-else
-  container_up_ready_and_clean ${CYBER_DOJO_CREATOR_CLIENT_PORT} creator-client
-fi
+container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT}        creator-server
+container_up_ready_and_clean ${CYBER_DOJO_CREATOR_CLIENT_PORT} creator-client
