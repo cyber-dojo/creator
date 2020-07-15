@@ -13,13 +13,11 @@ class ExternalRunner
 
   # - - - - - - - - - - - - - - - - - - -
 
-=begin
   def pull_image(id, image_name)
     @http.post(__method__, {
       id:id,
       image_name:image_name
     })
   end
-=end
 
 end

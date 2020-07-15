@@ -75,7 +75,7 @@ strip_known_warning()
 # - - - - - - - - - - - - - - - - - - -
 exit_if_unclean()
 {
-  local -r container_name="${1}"
+  local -r container_name="test-${1}"
   local log=$(docker logs "${container_name}" 2>&1)
 
   #Thin warnings...
@@ -111,14 +111,13 @@ echo_docker_log()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-container_up_ready_and_clean()
+container_up_and_ready()
 {
   local -r port="${1}"
   local -r service_name="${2}"
   local -r container_name="test-${service_name}"
   container_up "${service_name}"
   wait_briefly_until_ready "${port}" "${container_name}"
-  #exit_if_unclean "${container_name}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -129,7 +128,6 @@ container_up()
   augmented_docker_compose \
     up \
     --detach \
-    --force-recreate \
     "${service_name}"
 }
 
@@ -141,6 +139,10 @@ if [ "${1:-}" == 'api-demo' ]; then
   exit 0
 fi
 
-#container_up_ready_and_clean ${CYBER_DOJO_RUNNER_PORT}         runner
-#container_up_ready_and_clean ${CYBER_DOJO_CREATOR_PORT}        creator-server
-container_up_ready_and_clean ${CYBER_DOJO_CREATOR_CLIENT_PORT} creator-client
+container_up_and_ready ${CYBER_DOJO_RUNNER_PORT}         runner
+
+container_up_and_ready ${CYBER_DOJO_CREATOR_PORT}        creator-server
+exit_if_unclean creator-server
+
+container_up_and_ready ${CYBER_DOJO_CREATOR_CLIENT_PORT} creator-client
+exit_if_unclean creator-client

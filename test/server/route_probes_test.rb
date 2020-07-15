@@ -83,6 +83,20 @@ class RouteProbesTest < CreatorTestBase
     end
   end
 
+  qtest E18: %w(
+  |when runner http-service is not ready
+  |GET/ready?
+  |has status 200
+  |returns false
+  |and nothing else
+  ) do
+    externals.instance_exec { @runner=STUB_READY_FALSE }
+    assert_get_200(path='ready?') do |jr|
+      assert_equal [path], jr.keys, "keys:#{last_response.body}:"
+      assert false?(jr[path]), "false?:#{last_response.body}:"
+    end
+  end
+
   # - - - - - - - - - - - - - - - - -
 
   qtest F15: %w(
