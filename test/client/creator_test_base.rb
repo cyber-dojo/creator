@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 require_relative '../id58_test_base'
 require_relative 'id_pather'
-require_src 'creator'
-require_src 'externals'
+require_source 'creator'
+require_source 'externals'
 require 'json'
 
 class CreatorTestBase < Id58TestBase

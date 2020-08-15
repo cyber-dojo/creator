@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
-require_src 'id_generator'
+require_source 'id_generator'
 
 class RouteCreate200Test < CreatorTestBase
 

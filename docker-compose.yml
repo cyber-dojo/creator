@@ -8,7 +8,7 @@ services:
 
   nginx:
     build:
-      context: src/nginx_stub
+      context: source/nginx_stub
     container_name: test-creator-nginx
     depends_on:
       - creator-server
@@ -22,7 +22,7 @@ services:
   creator-client:
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_CLIENT_PORT ]
-      context: src/client
+      context: source/client
     container_name: test-creator-client
     depends_on:
       - custom-start-points
@@ -42,7 +42,7 @@ services:
   creator-server:
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_PORT ]
-      context: src/server
+      context: source/server
     container_name: test-creator-server
     depends_on:
       - custom-start-points

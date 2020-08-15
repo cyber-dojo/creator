@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'rack/test'
 
-def require_src(required)
+def require_source(required)
   require_relative "../app/code/#{required}"
 end
 
@@ -26,9 +26,9 @@ class Id58TestBase < MiniTest::Test
   end
 
   def self.test(id58_suffix, *lines, &test_block)
-    src = test_block.source_location
-    src_file = File.basename(src[0])
-    src_line = src[1].to_s
+    source = test_block.source_location
+    source_file = File.basename(source[0])
+    source_line = source[1].to_s
     id58 = checked_id58(id58_suffix.to_s, lines)
     if @@args === [] || @@args.any?{ |arg| id58.include?(arg) }
       name58 = lines.join(space = ' ')
@@ -42,7 +42,7 @@ class Id58TestBase < MiniTest::Test
           self.instance_eval(&test_block)
           t2 = Time.now
           stripped = trimmed(name58.split("\n").join)
-          @@timings[id58+':'+src_file+':'+src_line+':'+stripped] = (t2 - t1)
+          @@timings[id58+':'+source_file+':'+source_line+':'+stripped] = (t2 - t1)
         ensure
           puts $!.message unless $!.nil?
           id58_teardown

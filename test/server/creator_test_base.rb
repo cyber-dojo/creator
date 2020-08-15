@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 require_relative 'capture_stdout_stderr'
 require_relative '../id58_test_base'
-require_src 'app'
-require_src 'externals'
-require_src 'id_generator'
-require_src 'id_pather'
+require_source 'app'
+require_source 'externals'
+require_source 'id_generator'
+require_source 'id_pather'
 require 'json'
 require 'ostruct'
 
