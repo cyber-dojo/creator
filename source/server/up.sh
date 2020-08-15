@@ -1,13 +1,9 @@
 #!/bin/bash -Eeu
 
-readonly MY_DIR="$(cd "$(dirname "${0}")" && pwd)"
+readonly MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 export RUBYOPT='-W2'
 
-rackup \
-  --env production \
-  --host 0.0.0.0   \
-  --port ${PORT}   \
-  --server thin    \
-  --warn           \
-    ${MY_DIR}/config.ru
+puma \
+  --port=${PORT} \
+  --config=${MY_DIR}/puma.rb
