@@ -11,4 +11,5 @@ ENV PORT=${CYBER_DOJO_CREATOR_CLIENT_PORT}
 EXPOSE ${PORT}
 
 USER nobody
+ENTRYPOINT ["/sbin/tini", "-g", "--"]
 CMD [ "/app/up.sh" ]

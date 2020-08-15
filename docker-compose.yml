@@ -30,7 +30,6 @@ services:
       - languages-start-points
       - creator-server
     image: cyberdojo/creator-client
-    init: true
     ports: [ "${CYBER_DOJO_CREATOR_CLIENT_PORT}:${CYBER_DOJO_CREATOR_CLIENT_PORT}" ]
     read_only: true
     restart: "no"
@@ -53,7 +52,6 @@ services:
       - runner
     environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_CREATOR_IMAGE}
-    init: true
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     read_only: true
     restart: "no"
