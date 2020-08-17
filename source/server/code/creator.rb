@@ -21,7 +21,7 @@ class Creator
     services << custom_start_points
     services << exercises_start_points
     services << languages_start_points
-    services << runner
+    services << puller
     services << saver
     services.all?(&:ready?)
   end
@@ -182,14 +182,14 @@ class Creator
   #- - - - - - - - - - - - - - - - - -
 
   def pull_image_onto_nodes(id, image_name)
-    # runner is deployed as a kubernetes daemonSet which
-    # means you cannot make http requests to individual runners.
+    # puller is deployed as a kubernetes daemonSet which
+    # means you cannot make http requests to individual pullers.
     # So instead, send the request many times (it is asynchronous),
     # and rely on one request reaching each node. If a node is missed
     # it simply means the image will get pulled onto the node on the
     # first run_cyber_dojo_sh() call, and at the browser, the [test]
     # will result in an hour-glass icon.
-    16.times { runner.pull_image(id, image_name) }
+    16.times { puller.pull_image(id, image_name) }
   end
 
   #- - - - - - - - - - - - - - - - - -
@@ -206,8 +206,8 @@ class Creator
     @externals.languages_start_points
   end
 
-  def runner
-    @externals.runner
+  def puller
+    @externals.puller
   end
 
   def saver

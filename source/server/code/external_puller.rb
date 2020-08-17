@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 require_relative 'http_json_hash/service'
 
-class ExternalRunner
+class ExternalPuller
 
   def initialize(http)
-    @http = HttpJsonHash::service(self.class.name, http, 'runner', 4597)
+    @http = HttpJsonHash::service(self.class.name, http, 'puller', 5017)
   end
 
   def ready?

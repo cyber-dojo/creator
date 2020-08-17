@@ -11,7 +11,7 @@ augmented_docker_compose()
       exercises-start-points \
       languages-start-points \
                        saver \
-                      runner \
+                      puller \
     | \
       docker-compose --file - "$@"
 }

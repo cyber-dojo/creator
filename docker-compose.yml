@@ -49,7 +49,7 @@ services:
       - exercises-start-points
       - languages-start-points
       - saver
-      - runner
+      - puller
     environment: [ NO_PROMETHEUS ]
     image: ${CYBER_DOJO_CREATOR_IMAGE}
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
