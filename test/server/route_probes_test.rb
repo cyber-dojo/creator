@@ -181,6 +181,7 @@ class RouteProbesTest < CreatorTestBase
   ) do
     stub_saver_http(response='{"exception":42}')
     assert_get_500('ready?') do |jr|
+      assert_equal [ 'exception' ], jr.keys.sort, last_response.body
       #...
     end
   end
@@ -195,6 +196,7 @@ class RouteProbesTest < CreatorTestBase
   ) do
     stub_saver_http(response='{"wibble":42}')
     assert_get_500('ready?') do |jr|
+      assert_equal [ 'exception' ], jr.keys.sort, last_response.body      
       #...
     end
   end
