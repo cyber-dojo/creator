@@ -1,12 +1,12 @@
 #!/bin/bash -Eeu
-readonly root_dir="$(cd "$(dirname "${0}")/.." && pwd)"
+readonly root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 readonly my_name=creator
-readonly client_user="${1}"; shift
-readonly server_user="${1}"; shift
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-main()
+test_in_containers()
 {
+  local -r client_user="${1}"; shift
+  local -r server_user="${1}"; shift  
   if on_ci ; then
     docker pull cyberdojo/check-test-results:latest
   fi
@@ -89,6 +89,3 @@ run_tests()
   fi
   return ${status}
 }
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - -
-main "$@"

@@ -15,6 +15,10 @@ class ExternalCustomStartPoints
     @http.get(:names, {})
   end
 
+  def manifests
+    @http.get(:manifests, {})
+  end
+
   def manifest(display_name)
     @http.get(__method__, { name:display_name })
   end

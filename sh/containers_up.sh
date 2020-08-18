@@ -1,8 +1,8 @@
 #!/bin/bash -Eeu
 
-readonly ROOT_DIR="$(cd "$(dirname "${0}")/.." && pwd)"
-source "${ROOT_DIR}/sh/augmented_docker_compose.sh"
-source "${ROOT_DIR}/sh/ip_address.sh"
+readonly MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${MY_DIR}/augmented_docker_compose.sh"
+source "${MY_DIR}/ip_address.sh"
 readonly IP_ADDRESS=$(ip_address) # slow
 export NO_PROMETHEUS=true
 
@@ -132,17 +132,19 @@ container_up()
 }
 
 # - - - - - - - - - - - - - - - - - - -
+containers_up()
+{
+  if [ "${1:-}" == 'api-demo' ]; then
+    container_up nginx
+    wait_briefly_until_ready ${CYBER_DOJO_CREATOR_PORT} creator-server
+    return
+  fi
 
-if [ "${1:-}" == 'api-demo' ]; then
-  container_up nginx
-  wait_briefly_until_ready ${CYBER_DOJO_CREATOR_PORT} creator-server
-  exit 0
-fi
+  container_up_and_ready ${CYBER_DOJO_PULLER_PORT}         puller
 
-container_up_and_ready ${CYBER_DOJO_PULLER_PORT}         puller
+  container_up_and_ready ${CYBER_DOJO_CREATOR_PORT}        creator-server
+  exit_if_unclean creator-server
 
-container_up_and_ready ${CYBER_DOJO_CREATOR_PORT}        creator-server
-exit_if_unclean creator-server
-
-container_up_and_ready ${CYBER_DOJO_CREATOR_CLIENT_PORT} creator-client
-exit_if_unclean creator-client
+  container_up_and_ready ${CYBER_DOJO_CREATOR_CLIENT_PORT} creator-client
+  exit_if_unclean creator-client
+}

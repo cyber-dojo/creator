@@ -1,20 +1,24 @@
 #!/bin/bash -Eeu
-readonly SH_DIR="$(cd "$(dirname "${0}")/sh" && pwd)"
+readonly SH_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/sh" && pwd)"
 source ${SH_DIR}/versioner_env_vars.sh
+source ${SH_DIR}/build_images.sh
+source ${SH_DIR}/containers_down.sh
+source ${SH_DIR}/containers_up.sh
+source ${SH_DIR}/test_in_containers.sh
 source ${SH_DIR}/image_name.sh
 source ${SH_DIR}/image_sha.sh
 export $(versioner_env_vars)
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-main()
+build_tag_test_publish()
 {
   local -r client_user="${CYBER_DOJO_CREATOR_CLIENT_USER}"
   local -r server_user="${CYBER_DOJO_CREATOR_SERVER_USER}"
-  ${SH_DIR}/build_images.sh
-  ${SH_DIR}/containers_down.sh
-  ${SH_DIR}/containers_up.sh "$@"
-  ${SH_DIR}/test_in_containers.sh "${client_user}" "${server_user}" "$@"
-  ${SH_DIR}/containers_down.sh
+  build_images
+  containers_down
+  containers_up "$@"
+  test_in_containers "${client_user}" "${server_user}" "$@"
+  containers_down
   tag_the_image
   on_ci_publish_tagged_images
 }
@@ -26,6 +30,9 @@ tag_the_image()
   local -r sha="$(image_sha)"
   local -r tag="${sha:0:7}"
   docker tag "${image}:latest" "${image}:${tag}"
+  echo
+  echo "CYBER_DOJO_CREATOR_SHA=${sha}"
+  echo "CYBER_DOJO_CREATOR_TAG=${tag}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -53,4 +60,4 @@ on_ci_publish_tagged_images()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-main "$@"
+build_tag_test_publish "$@"

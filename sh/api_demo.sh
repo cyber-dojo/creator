@@ -1,18 +1,19 @@
 #!/bin/bash -Eeu
 
-readonly SH_DIR="$( cd "$(dirname "${0}")" && pwd )"
-source "${SH_DIR}/ip_address.sh"
-source "${SH_DIR}/versioner_env_vars.sh"
+MY_DIR="$( cd "$(dirname "${BASH_SOURCE[0]}")" && pwd )"
+source "${MY_DIR}/ip_address.sh"
+source "${MY_DIR}/versioner_env_vars.sh"
 export $(versioner_env_vars)
 readonly IP_ADDRESS="$(ip_address)" # slow
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 main()
 {
-  "${SH_DIR}/build_images.sh"
-  "${SH_DIR}/containers_up.sh" api-demo
-  echo; demo
-  "${SH_DIR}/containers_down.sh"
+  "${MY_DIR}/build_images.sh"
+  "${MY_DIR}/containers_up.sh" api-demo
+  echo
+  demo
+  "${MY_DIR}/containers_down.sh"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
