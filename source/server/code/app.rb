@@ -62,7 +62,7 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # - - - - - - - - - - - - - - - - - - - - -
+  
   # - - - - - - - - - - - - - - - - - - - - -
 
   post_json(:group_create_custom)
@@ -97,5 +97,5 @@ class App < AppBase
 
   include EscapeHtmlHelper
   include SelectedHelper
-  
+
 end
