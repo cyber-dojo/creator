@@ -1,0 +1,8 @@
+
+When group [ok] button is clicked
+show new creator page giving details of created group
+its [ok] leads to new home page with ID filled into <input>
+
+When kata [ok] button is clicked
+show new creator page giving details of created kata
+its [ok] leads to /kata/edit/ID
