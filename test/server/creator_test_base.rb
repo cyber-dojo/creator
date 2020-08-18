@@ -174,4 +174,34 @@ class CreatorTestBase < Id58TestBase
     externals.saver
   end
 
+  # - - - - - - - - - - - - - - -
+
+  def status?(expected)
+    status === expected
+  end
+
+  def status
+    last_response.status
+  end
+
+  # - - - - - - - - - - - - - - -
+
+  def html_content?
+    content_type === 'text/html;charset=utf-8'
+  end
+
+  def css_content?
+    content_type === 'text/css; charset=utf-8'
+  end
+
+  def content_type
+    last_response.headers['Content-Type']
+  end
+
+  # - - - - - - - - - - - - - - -
+
+  def escape_html(text)
+    Rack::Utils.escape_html(text)
+  end
+
 end

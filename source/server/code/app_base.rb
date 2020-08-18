@@ -78,10 +78,6 @@ class AppBase < Sinatra::Base
     symbolized(json_payload)
   end
 
-  def params_args
-    symbolized(params)
-  end
-
   private
 
   def symbolized(h)

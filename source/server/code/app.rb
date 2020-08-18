@@ -76,6 +76,10 @@ class App < AppBase
 
   private
 
+  def params_args
+    symbolized(params)
+  end
+
   def set_view_data(start_points, next_url)
     manifests = start_points.manifests
     @display_names = manifests.keys.sort
