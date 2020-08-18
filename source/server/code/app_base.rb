@@ -34,7 +34,9 @@ class AppBase < Sinatra::Base
 
   def self.get_probe(name)
     get "/#{name}" do
-      result = instance_exec { target.public_send(name) }
+      result = instance_exec {
+        creator.public_send(name)
+      }
       json({ name => result })
     end
   end
@@ -46,7 +48,7 @@ class AppBase < Sinatra::Base
       respond_to do |format|
         format.json {
           result = instance_exec {
-            target.public_send(name, **json_args)
+            creator.public_send(name, **json_args)
           }
           json({ name => result })
         }
@@ -61,7 +63,7 @@ class AppBase < Sinatra::Base
       respond_to do |format|
         format.json {
           result = instance_exec {
-            target.public_send(name, **json_args)
+            creator.public_send(name, **json_args)
           }
           backwards_compatible = { id:result }
           json backwards_compatible.merge({name => result})
