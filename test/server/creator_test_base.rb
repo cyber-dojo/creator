@@ -118,7 +118,7 @@ class CreatorTestBase < Id58TestBase
   end
 
   def stub_rng(stub)
-    externals.instance_eval { @random = RandomStub.new(stub) }
+    externals.instance_exec { @random = RandomStub.new(stub) }
   end
 
   private

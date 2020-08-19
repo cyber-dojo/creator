@@ -20,7 +20,7 @@ class AppBase < Sinatra::Base
     get "/#{name}", provides:[:json] do
       respond_to do |format|
         format.json {
-          result = instance_eval {
+          result = instance_exec {
             target.public_send(name, **args)
           }
           json({ name => result })
@@ -33,7 +33,9 @@ class AppBase < Sinatra::Base
 
   def self.probe(name)
     get "/#{name}" do
-      result = instance_eval { target.public_send(name) }
+      result = instance_exec {
+        target.public_send(name)
+      }
       json({ name => result })
     end
   end
