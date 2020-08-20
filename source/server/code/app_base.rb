@@ -21,7 +21,7 @@ class AppBase < Sinatra::Base
   set :environment, Sprockets::Environment.new
   environment.append_path('code/assets/javascripts')
   environment.append_path('code/assets/stylesheets')
-  environment.js_compressor  = Uglifier.new(harmony: true) #:uglify
+  environment.js_compressor  = Uglifier.new(harmony: true)
   environment.css_compressor = :sassc
 
   get '/assets/app.css', provides:[:css] do
