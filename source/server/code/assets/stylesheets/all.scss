@@ -23,140 +23,45 @@
   @include center-align();
 }
 
-#custom.chooser-page
+#heading, #sub-heading
 {
-  #heading
-  {
-    @include non-code-font();
-    color: $lighter-color;
-    font-size: 70px;
-    text-align: center;
-  }
+  @include non-code-font();
+  color: $lighter-color;
+  text-align: left;
+}
+#heading { font-size: 60px; }
+#sub-heading { font-size: 25px; margin-bottom: 10px; }
 
-  #display-box
+#display-box
+{
+  @include center-align();
+  #display-names, #display-content
   {
-    @include center-align();
-    #display-names, #display-content
-    {
-      height: 340px;
-      padding: 6px;
-      margin-right: 5px;
-      overflow-y: auto;
-      overflow-x: none;
-      @include edged-panel();
-    }
-    #display-names   { width: 300px; max-width: 300px; }
-    #display-content { width: 500px; max-width: 500px; }
-    #display-content { font-size: 0.85em; }
-    #display-names .display-name
-    {
-      @include wide-list-item();
-      max-width: 300px;
-    }
+    height: 340px;
+    padding: 6px;
+    margin-right: 5px;
+    overflow-y: auto;
+    overflow-x: none;
+    @include edged-panel();
   }
-
-  button#ok
+  #display-names   { width: 300px; max-width: 300px; }
+  #display-content { width: 500px; max-width: 500px; }
+  #display-content
   {
-    @include non-code-font();
-    font-size: 1.85em;
-    margin-top: 5px;
+    font-size: 0.85em;
+    position: relative;
+    top: -2px;
+  }
+  #display-names .display-name
+  {
+    @include wide-list-item();
+    max-width: 300px;
   }
 }
 
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-#exercises.chooser-page
+button#ok, button#next
 {
-  #heading, #sub-heading
-  {
-    @include non-code-font();
-    color: $lighter-color;
-    text-align: left;
-  }
-  #heading { font-size: 60px; }
-  #sub-heading { font-size: 25px; margin-bottom: 10px; }
-
-  #display-box
-  {
-    @include center-align();
-    #display-names, #display-content
-    {
-      height: 340px;
-      padding: 6px;
-      margin-right: 5px;
-      overflow-y: auto;
-      overflow-x: auto;
-      @include edged-panel();
-    }
-    #display-names   { width: 250px; max-width: 250px; }
-    #display-content
-    {
-      width: 500px;
-      max-width: 500px;
-      font-size: 0.85em;
-      position: relative;
-      top: -2px;
-    }
-    #display-names .display-name
-    {
-      @include wide-list-item();
-      max-width: 250px;
-    }
-  }
-
-  button#next
-  {
-    @include non-code-font();
-    font-size: 1.85em;
-    margin-top: 5px;
-  }
-}
-
-//- - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-#languages.chooser-page
-{
-  #heading, #sub-heading
-  {
-    @include non-code-font();
-    color: $lighter-color;
-    text-align: left;
-  }
-  #heading { font-size: 60px; }
-  #sub-heading { font-size: 25px; margin-bottom: 10px; }
-
-  #display-box
-  {
-    @include center-align();
-    #display-names, #display-content
-    {
-      height: 340px;
-      padding: 6px;
-      margin-right: 5px;
-      overflow-y: auto;
-      overflow-x: none;
-      @include edged-panel();
-    }
-    #display-names   { width: 250px; max-width: 250px; }
-    #display-content
-    {
-      width: 500px;
-      max-width: 500px;
-      font-size: 0.85em;
-      position: relative;
-      top: -2px;
-    }
-    #display-names .display-name
-    {
-      @include wide-list-item();
-      max-width: 300px;
-    }
-  }
-
-  button#ok
-  {
-    @include non-code-font();
-    font-size: 1.85em;
-    margin-top: 5px;
-  }
+  @include non-code-font();
+  font-size: 1.85em;
+  margin-top: 5px;
 }
