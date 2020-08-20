@@ -42,7 +42,7 @@ class App < AppBase
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - -
+  # - - - -
 
   get '/kata_custom_choose', provides:[:html] do
     respond_to do |format|
@@ -74,6 +74,8 @@ class App < AppBase
     end
   end
 
+  # - - - -
+
   get '/kata_exercise_choose', provides:[:html] do
     respond_to do |format|
       format.html do
@@ -103,6 +105,8 @@ class App < AppBase
       }
     end
   end
+
+  # - - - -
 
   get '/kata_language_choose', provides:[:html] do
     respond_to do |format|

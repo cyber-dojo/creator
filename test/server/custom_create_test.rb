@@ -89,41 +89,4 @@ class CustomCreateTest < CreatorTestBase
     assert status?(500), status
   end
 
-  private
-
-  def group_exists?(id)
-    dirname = group_id_path(id)
-    command = saver.dir_exists_command(dirname)
-    saver.run(command)
-  end
-
-  def kata_exists?(id)
-    dirname = kata_id_path(id)
-    command = saver.dir_exists_command(dirname)
-    saver.run(command)
-  end
-
-  include IdPather
-
-  def verify_exception_info_on(stdout, name)
-    json = JSON.parse!(stdout)
-    assert_equal ['exception'], json.keys, stdout
-    ex = json['exception']
-    assert_equal ['request','backtrace',name].sort, ex.keys.sort, stdout
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def group_manifest(id)
-    filename = "#{group_id_path(id)}/manifest.json"
-    command = saver.file_read_command(filename)
-    JSON::parse!(saver.run(command))
-  end
-
-  def kata_manifest(id)
-    filename = "#{kata_id_path(id)}/manifest.json"
-    command = saver.file_read_command(filename)
-    JSON::parse!(saver.run(command))
-  end
-
 end
