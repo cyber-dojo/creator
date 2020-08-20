@@ -5,6 +5,7 @@ silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require_relative 'http_json_hash/service'
 require 'json'
 require 'sprockets'
+require 'uglifier'
 
 class AppBase < Sinatra::Base
 
@@ -18,12 +19,23 @@ class AppBase < Sinatra::Base
   # - - - - - - - - - - - - - - - - - - - - - -
 
   set :environment, Sprockets::Environment.new
+  environment.append_path('code/assets/javascripts')
   environment.append_path('code/assets/stylesheets')
+  environment.js_compressor  = Uglifier.new(harmony: true) #:uglify
   environment.css_compressor = :sassc
 
   get '/assets/app.css', provides:[:css] do
     respond_to do |format|
       format.css do
+        env['PATH_INFO'].sub!('/assets', '')
+        settings.environment.call(env)
+      end
+    end
+  end
+
+  get '/assets/app.js', provides:[:js] do
+    respond_to do |format|
+      format.js do
         env['PATH_INFO'].sub!('/assets', '')
         settings.environment.call(env)
       end
