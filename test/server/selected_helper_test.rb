@@ -39,6 +39,45 @@ class LargestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - -
 
   test '843', %w(
+  select filename containing the word 'test'
+  ) do
+    expected = 'hiker.test.js' # javascript-jest
+    visible_files = {
+      expected => { 'content' => 'x'*3 },
+      'hiker.js' => { 'content' => 'y'*34 }
+    }
+    assert_equal expected, selected(visible_files)
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  test '844', %w(
+  select filename containing the word 'spec'
+  ) do
+    expected = 'hiker-spec.js' # javascript-jasmine
+    visible_files = {
+      expected => { 'content' => 'x'*3 },
+      'hiker.js' => { 'content' => 'y'*34 }
+    }
+    assert_equal expected, selected(visible_files)
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  test '845', %w(
+  select filename containing the word 'feature'
+  ) do
+    expected = 'hiker.feature' # javascript-cucumber
+    visible_files = {
+      expected => { 'content' => 'x'*3 },
+      'hiker.js' => { 'content' => 'y'*34 }
+    }
+    assert_equal expected, selected(visible_files)
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  test '943', %w(
   select filename with the largest content
   when more than one file and none are called readme.txt
   ) do
