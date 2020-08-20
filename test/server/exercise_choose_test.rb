@@ -48,7 +48,7 @@ class ExerciseChooseTest < CreatorTestBase
   def heading(html)
     # (.*?) for non-greedy match
     # /m for . matching newlines
-    html.match(/<div id="heading">(.*?)<\/div>/m)[1]
+    html.match(/<div class="heading">(.*?)<\/div>/m)[1]
   end
 
   def div_for(display_name)
