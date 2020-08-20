@@ -3,7 +3,7 @@
 $(() => {
 
   const displayNames = $('.display-name');
-  const displayContent = $('#display-content');
+  const displayContent = $('.display-content');
   displayNames.click((event) => {
     const element = $(event.target);
     cd.selectedDisplayName = element.data('name').trim();
@@ -20,10 +20,10 @@ $(() => {
 });
 </script>
 
-<table id="display-box">
+<table class="display-box">
   <tr>
     <td>
-      <div id="display-names">
+      <div class="display-names">
         <% @display_names.each.with_index do |name,index| %>
           <div class="display-name"
                data-name="<%= name %>"
@@ -34,7 +34,7 @@ $(() => {
       </div>
     </td>
     <td>
-      <textarea id="display-content" readonly="readonly"></textarea>
+      <textarea class="display-content" readonly="readonly"></textarea>
     </td>
   </tr>
 </table>

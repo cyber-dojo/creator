@@ -23,19 +23,19 @@
   @include center-align();
 }
 
-#heading, #sub-heading
+.heading, .sub-heading
 {
   @include non-code-font();
   color: $lighter-color;
   text-align: left;
 }
-#heading { font-size: 25px; }
-#sub-heading { font-size: 40px; margin-bottom: 10px; }
+.heading { font-size: 25px; }
+.sub-heading { font-size: 40px; margin-bottom: 10px; }
 
-#display-box
+.display-box
 {
   @include center-align();
-  #display-names, #display-content
+  .display-names, .display-content
   {
     height: 340px;
     padding: 6px;
@@ -44,15 +44,15 @@
     overflow-x: none;
     @include edged-panel();
   }
-  #display-names   { width: 300px; max-width: 300px; }
-  #display-content { width: 500px; max-width: 500px; }
-  #display-content
+  .display-names   { width: 300px; max-width: 300px; }
+  .display-content { width: 500px; max-width: 500px; }
+  .display-content
   {
     font-size: 0.85em;
     position: relative;
     top: -2px;
   }
-  #display-names .display-name
+  .display-names .display-name
   {
     @include wide-list-item();
     max-width: 300px;
