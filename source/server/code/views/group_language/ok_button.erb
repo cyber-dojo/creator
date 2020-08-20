@@ -11,7 +11,7 @@ $(() => {
     const exerciseName = urlParam('exercise_name');
     const displayName = encodeURIComponent(cd.selectedDisplayName);
     const params = `exercise_name=${exerciseName}&languages_names[]=${displayName}`;
-    window.location = `<%= @create_url %>?${params}`;
+    window.location = `<%= @next_url %>?${params}`;
   });
 
 });

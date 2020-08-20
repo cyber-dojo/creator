@@ -98,7 +98,7 @@ class App < AppBase
   get '/group_language_create', provides:[:html] do
     respond_to do |format|
       format.html {
-        id = target.group_create(**params_args)
+        id = creator.group_create(**params_args)
         redirect "/kata/group/#{id}"
       }
     end
@@ -116,7 +116,7 @@ class App < AppBase
   get '/kata_language_create', provides:[:html] do
     respond_to do |format|
       format.html {
-        id = target.kata_create(**params_args)
+        id = creator.kata_create(**params_args)
         redirect "/kata/edit/#{id}"
       }
     end
