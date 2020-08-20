@@ -188,6 +188,10 @@ class CreatorTestBase < Id58TestBase
     content_type === 'application/json'
   end
 
+  def js_content?
+    content_type === 'application/javascript'
+  end
+
   def content_type
     last_response.headers['Content-Type']
   end
