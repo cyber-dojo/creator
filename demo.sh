@@ -33,9 +33,9 @@ api_demo()
   curl_200           assets/app.css 'Content-Type: text/css'
   echo
   curl_200           group_custom_choose exercise
-  curl_params_302    group_custom_create "$(params_display_names)"
-  echo
   curl_200           kata_custom_choose exercise
+  echo
+  curl_params_302    group_custom_create "$(params_display_names)"
   curl_params_302    kata_custom_create  "$(params_display_name)"
   echo
   curl_200           group_exercise_choose our

@@ -86,6 +86,41 @@ class App < AppBase
   # - - - - - - - - - - - - - - - - - - - - -
   # Language
 
+  get '/group_language_choose', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        set_view_data(externals.languages_start_points, 'group_language_create')
+        erb :'group_language/choose'
+      end
+    end
+  end
+
+  get '/group_language_create', provides:[:html] do
+    respond_to do |format|
+      format.html {
+        id = target.group_create(**params_args)
+        redirect "/kata/group/#{id}"
+      }
+    end
+  end
+
+  get '/kata_language_choose', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        set_view_data(externals.languages_start_points, 'kata_language_create')
+        erb :'kata_language/choose'
+      end
+    end
+  end
+
+  get '/kata_language_create', provides:[:html] do
+    respond_to do |format|
+      format.html {
+        id = target.kata_create(**params_args)
+        redirect "/kata/edit/#{id}"
+      }
+    end
+  end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
