@@ -1,0 +1,116 @@
+
+@import "colour";
+@import "fonts";
+@import "rounded-corner";
+@import "edged-panel";
+@import "wide-list-item";
+@import "button";
+@import "body";
+@import "center";
+
+#custom-chooser-page
+{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: inline-block;
+  margin: { top: 10px; }
+  font-size: 1.15em;
+
+  #heading
+  {
+    @include non-code-font();
+    color: $lighter-color;
+    font-size: 70px;
+    text-align: center;
+  }
+
+  #display-box
+  {
+    @include center-align();
+    #display-names, #display-content
+    {
+      height: 340px;
+      padding: 6px;
+      margin-right: 5px;
+      overflow-y: auto;
+      overflow-x: none;
+      @include edged-panel();
+    }
+    #display-names   { width: 300px; max-width: 300px; }
+    #display-content { width: 500px; max-width: 500px; }
+    #display-content { font-size: 0.85em; }
+    #display-names .display-name
+    {
+      @include wide-list-item();
+      max-width: 300px;
+    }
+  }
+
+  button#ok
+  {
+    @include non-code-font();
+    font-size: 1.85em;
+    margin-top: 5px;
+  }
+}
+
+//- - - - - - - - - - - - - - - - - - - - - - - - -
+
+#exercises-chooser-page
+{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  display: inline-block;
+  margin: { top: 10px; }
+  font-size: 1.15em;
+
+  #exercises-chooser-box
+  {
+    @include center-align();
+  }
+  #heading, #sub-heading
+  {
+    @include non-code-font();
+    color: $lighter-color;
+    text-align: left;
+  }
+  #heading { font-size: 60px; }
+  #sub-heading { font-size: 25px; margin-bottom: 10px; }
+
+  #display-box
+  {
+    @include center-align();
+    #display-names, #display-content
+    {
+      height: 340px;
+      padding: 6px;
+      margin-right: 5px;
+      overflow-y: auto;
+      overflow-x: auto;
+      @include edged-panel();
+    }
+    #display-names   { width: 250px; max-width: 250px; }
+    #display-content
+    {
+      width: 500px;
+      max-width: 500px;
+      font-size: 0.85em;
+      position: relative;
+      top: -2px;
+    }
+    #display-names .display-name
+    {
+      @include wide-list-item();
+      max-width: 250px;
+    }
+  }
+
+  button#next
+  {
+    @include non-code-font();
+    font-size: 1.85em;
+    margin-top: 5px;
+  }
+}

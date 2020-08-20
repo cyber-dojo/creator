@@ -22,6 +22,7 @@ class App < AppBase
   get_probe(:sha)    # identity
 
   # - - - - - - - - - - - - - - - - - - - - -
+  # Custom
 
   get '/group_custom_choose', provides:[:html] do
     respond_to do |format|
@@ -62,7 +63,30 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  
+  # Exercise
+
+  get '/group_exercise_choose', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        set_view_data(externals.exercises_start_points, 'group_language_choose')
+        erb :'group_exercise/choose'
+      end
+    end
+  end
+
+  get '/kata_exercise_choose', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        set_view_data(externals.exercises_start_points, 'kata_language_choose')
+        erb :'kata_exercise/choose'
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+  # Language
+
+
   # - - - - - - - - - - - - - - - - - - - - -
 
   post_json(:group_create_custom)

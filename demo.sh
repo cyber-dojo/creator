@@ -17,7 +17,7 @@ html_demo()
   if [ "${1:-}" == '--no-browser' ]; then
     containers_down
   else
-    open "http://${IP_ADDRESS}:80/creator/group_custom_choose"
+    open "http://${IP_ADDRESS}:80/creator/group_exercise_choose"
   fi
 }
 
@@ -37,6 +37,9 @@ api_demo()
   echo
   curl_200           kata_custom_choose exercise
   curl_params_302    kata_custom_create  "$(params_display_name)"
+  echo
+  curl_200           group_exercise_choose our
+  curl_200           kata_exercise_choose  my
   echo
 }
 

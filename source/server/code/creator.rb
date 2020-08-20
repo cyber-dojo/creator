@@ -17,13 +17,7 @@ class Creator
   end
 
   def ready?
-    services = []
-    services << custom_start_points
-    services << exercises_start_points
-    services << languages_start_points
-    services << puller
-    services << saver
-    services.all?(&:ready?)
+    dependent_services.all?(&:ready?)
   end
 
   def sha
@@ -193,6 +187,16 @@ class Creator
   end
 
   #- - - - - - - - - - - - - - - - - -
+
+  def dependent_services
+    @dependent_services ||= [
+      custom_start_points,
+      exercises_start_points,
+      languages_start_points,
+      puller,
+      saver
+    ]
+  end
 
   def custom_start_points
     @externals.custom_start_points
