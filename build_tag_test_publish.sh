@@ -33,6 +33,7 @@ tag_the_image()
   echo
   echo "CYBER_DOJO_CREATOR_SHA=${sha}"
   echo "CYBER_DOJO_CREATOR_TAG=${tag}"
+  echo
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
