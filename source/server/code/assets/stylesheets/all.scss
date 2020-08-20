@@ -8,7 +8,7 @@
 @import "body";
 @import "center";
 
-#custom.chooser-page
+.chooser-page
 {
   width: 100%;
   height: 100%;
@@ -16,7 +16,10 @@
   display: inline-block;
   margin: { top: 10px; }
   font-size: 1.15em;
+}
 
+#custom.chooser-page
+{
   #heading
   {
     @include non-code-font();
@@ -59,13 +62,6 @@
 
 #exercises.chooser-page
 {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  display: inline-block;
-  margin: { top: 10px; }
-  font-size: 1.15em;
-
   #exercises-chooser-box
   {
     @include center-align();
@@ -119,13 +115,6 @@
 
 #languages.chooser-page
 {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  display: inline-block;
-  margin: { top: 10px; }
-  font-size: 1.15em;
-
   #languages-chooser-box
   {
     @include center-align();
