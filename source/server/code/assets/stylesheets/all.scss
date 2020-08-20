@@ -18,6 +18,11 @@
   font-size: 1.15em;
 }
 
+.chooser-box
+{
+  @include center-align();
+}
+
 #custom.chooser-page
 {
   #heading
@@ -62,10 +67,6 @@
 
 #exercises.chooser-page
 {
-  #exercises-chooser-box
-  {
-    @include center-align();
-  }
   #heading, #sub-heading
   {
     @include non-code-font();
@@ -115,11 +116,6 @@
 
 #languages.chooser-page
 {
-  #languages-chooser-box
-  {
-    @include center-align();
-  }
-
   #heading, #sub-heading
   {
     @include non-code-font();
