@@ -14,12 +14,10 @@ export $(versioner_env_vars)
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_tag_test_publish()
 {
-  local -r client_user="${CYBER_DOJO_CREATOR_CLIENT_USER}"
-  local -r server_user="${CYBER_DOJO_CREATOR_SERVER_USER}"
   build_images
   containers_down
   containers_up "$@"
-  test_in_containers "${client_user}" "${server_user}" "$@"
+  test_in_containers "$@"
   containers_down
   tag_the_image
   on_ci_publish_tagged_images

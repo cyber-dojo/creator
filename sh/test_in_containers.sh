@@ -3,8 +3,6 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_in_containers()
 {
-  local -r client_user="${1}"; shift
-  local -r server_user="${1}"; shift
   if on_ci ; then
     docker pull cyberdojo/check-test-results:latest
   fi
@@ -25,8 +23,14 @@ test_in_containers()
 on_ci() { [ -n "${CIRCLECI:-}" ]; }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-run_client_tests() { run_tests "${client_user}" client "${@:-}"; }
-run_server_tests() { run_tests "${server_user}" server "${@:-}"; }
+run_client_tests()
+{
+  run_tests "${CYBER_DOJO_CREATOR_CLIENT_USER}" client "${@:-}"
+}
+run_server_tests()
+{
+  run_tests "${CYBER_DOJO_CREATOR_SERVER_USER}" server "${@:-}"
+}
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()
