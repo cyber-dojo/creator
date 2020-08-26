@@ -10,9 +10,6 @@ build_tagged_images()
   build_images
   tag_images
   check_embedded_env_var
-  echo
-  echo "CYBER_DOJO_CREATOR_TAG=$(image_tag)"
-  echo "CYBER_DOJO_CREATOR_SHA=$(image_sha)"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - -
