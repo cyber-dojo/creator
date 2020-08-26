@@ -1,7 +1,6 @@
 #!/bin/bash -Eeu
 
-MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${MY_DIR}/augmented_docker_compose.sh"
+source "${SH_DIR}/augmented_docker_compose.sh"
 
 containers_down()
 {

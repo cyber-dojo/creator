@@ -1,5 +1,4 @@
 #!/bin/bash -Eeu
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 # cyberdojo/service-yaml image lives at
 # https://github.com/cyber-dojo-tools/service-yaml

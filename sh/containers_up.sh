@@ -1,8 +1,7 @@
 #!/bin/bash -Eeu
 
-readonly MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "${MY_DIR}/augmented_docker_compose.sh"
-source "${MY_DIR}/ip_address.sh"
+source "${SH_DIR}/augmented_docker_compose.sh"
+source "${SH_DIR}/ip_address.sh"
 readonly IP_ADDRESS=$(ip_address) # slow
 export NO_PROMETHEUS=true
 

@@ -1,12 +1,10 @@
 #!/bin/bash -Eeu
-readonly root_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-readonly my_name=creator
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_in_containers()
 {
   local -r client_user="${1}"; shift
-  local -r server_user="${1}"; shift  
+  local -r server_user="${1}"; shift
   if on_ci ; then
     docker pull cyberdojo/check-test-results:latest
   fi
@@ -38,10 +36,10 @@ run_tests()
   local -r reports_dir_name=reports
   local -r tmp_dir=/tmp
   local -r coverage_root=/${tmp_dir}/${reports_dir_name}
-  local -r test_dir="${root_dir}/test/${type}"
+  local -r test_dir="${ROOT_DIR}/test/${type}"
   local -r reports_dir=${test_dir}/${reports_dir_name}
   local -r test_log=test.log
-  local -r container_name="test-${my_name}-${type}" # eg test-creator-server
+  local -r container_name="test-creator-${type}" # eg test-creator-server
   local -r coverage_code_tab_name=tested
   local -r coverage_test_tab_name=tester
 

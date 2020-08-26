@@ -2,5 +2,5 @@
 
 image_sha()
 {
-  docker run --rm ${CYBER_DOJO_CREATOR_IMAGE}:latest sh -c 'echo ${SHA}'
+  docker run --rm ${CYBER_DOJO_CREATOR_IMAGE}:latest sh -c 'echo -n ${SHA}'
 }
