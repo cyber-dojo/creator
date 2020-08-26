@@ -3,18 +3,17 @@
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SH_DIR="${ROOT_DIR}/sh"
 source ${SH_DIR}/versioner_env_vars.sh
-source ${SH_DIR}/build_images.sh
+source ${SH_DIR}/build_tagged_images.sh
 source ${SH_DIR}/containers_down.sh
 source ${SH_DIR}/containers_up.sh
 source ${SH_DIR}/test_in_containers.sh
-source ${SH_DIR}/image_name.sh
-source ${SH_DIR}/image_sha.sh
+source ${SH_DIR}/image_name_sha_tag.sh
 export $(versioner_env_vars)
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 build_tag_test_publish()
 {
-  build_images
+  build_tagged_images
   containers_down
   containers_up "$@"
   test_in_containers "$@"
