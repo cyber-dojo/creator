@@ -2,12 +2,13 @@
 require_relative 'app_base'
 require_relative 'creator'
 require_relative 'escape_html_helper'
+require_relative 'probe'
 require_relative 'selected_helper'
 
 class App < AppBase
 
   def initialize(externals)
-    super()
+    super(externals)
     @externals = externals
   end
 
@@ -16,10 +17,6 @@ class App < AppBase
   def creator
     Creator.new(externals)
   end
-
-  get_probe(:alive?) # curl/k8s
-  get_probe(:ready?) # curl/k8s
-  get_probe(:sha)    # identity
 
   # - - - - - - - - - - - - - - - - - - - - -
   # Custom

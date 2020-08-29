@@ -10,21 +10,6 @@ class Creator
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
-  # k8s/curl probing + identity
-
-  def alive?
-    true
-  end
-
-  def ready?
-    dependent_services.all?(&:ready?)
-  end
-
-  def sha
-    ENV['SHA']
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
 
   def group_create_custom(display_names:, options:default_options)
     manifest = custom_start_points.manifest(display_names[0])
@@ -187,16 +172,6 @@ class Creator
   end
 
   #- - - - - - - - - - - - - - - - - -
-
-  def dependent_services
-    @dependent_services ||= [
-      custom_start_points,
-      exercises_start_points,
-      languages_start_points,
-      puller,
-      saver
-    ]
-  end
 
   def custom_start_points
     @externals.custom_start_points
