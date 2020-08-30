@@ -1,6 +1,10 @@
 
 const cd = {};
 
+$.fn.random = function() {
+  return this.eq(Math.floor(Math.random() * this.length));
+}
+
 cd.setupDisplayNamesClickHandlers = () => {
   const $displayNames = $('.display-name');
   const $displayContent = $('.display-content');
@@ -15,5 +19,5 @@ cd.setupDisplayNamesClickHandlers = () => {
   });
   const random = (n) => Math.floor(Math.random() * n);
   const any = random($displayNames.length);
-  $displayNames[any].click().scrollIntoView();
+  $displayNames.random().click().scrollIntoView();
 };
