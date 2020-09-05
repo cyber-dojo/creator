@@ -48,6 +48,7 @@ services:
       - custom-start-points
       - exercises-start-points
       - languages-start-points
+      - runner
       - saver
       - puller
     environment: [ NO_PROMETHEUS ]

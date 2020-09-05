@@ -11,6 +11,7 @@ augmented_docker_compose()
       exercises-start-points \
       languages-start-points \
                        saver \
+                      runner \
                       puller \
                     selenium \
     | tee /tmp/augmented-docker-compose.creator.peek.yml \
