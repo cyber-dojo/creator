@@ -139,6 +139,7 @@ containers_up()
     return
   fi
 
+  container_up_and_ready ${CYBER_DOJO_RUNNER_PORT}         runner
   container_up_and_ready ${CYBER_DOJO_PULLER_PORT}         puller
 
   container_up_and_ready ${CYBER_DOJO_CREATOR_PORT}        creator-server

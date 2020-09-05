@@ -5,6 +5,7 @@ require_relative 'external_languages_start_points'
 require_relative 'external_puller'
 require_relative 'external_http'
 require_relative 'external_random'
+require_relative 'external_runner'
 require_relative 'external_saver'
 require_relative 'external_time'
 
@@ -39,6 +40,13 @@ class Externals
   end
   def puller_http
     @puller_http ||= ExternalHttp.new
+  end
+
+  def runner
+    @runner ||= ExternalRunner.new(runner_http)
+  end
+  def runner_http
+    @runner_http ||= ExternalHttp.new
   end
 
   def saver

@@ -97,6 +97,20 @@ class RouteProbesTest < CreatorTestBase
     end
   end
 
+  qtest E19: %w(
+  |when runner http-service is not ready
+  |GET/ready?
+  |has status 200
+  |returns false
+  |and nothing else
+  ) do
+    externals.instance_exec { @runner=STUB_READY_FALSE }
+    assert_get_200(path='ready?') do |jr|
+      assert_equal [path], jr.keys, "keys:#{last_response.body}:"
+      assert false?(jr[path]), "false?:#{last_response.body}:"
+    end
+  end
+
   # - - - - - - - - - - - - - - - - -
 
   qtest F15: %w(
@@ -196,7 +210,7 @@ class RouteProbesTest < CreatorTestBase
   ) do
     stub_saver_http(response='{"wibble":42}')
     assert_get_500('ready?') do |jr|
-      assert_equal [ 'exception' ], jr.keys.sort, last_response.body      
+      assert_equal [ 'exception' ], jr.keys.sort, last_response.body
       #...
     end
   end
