@@ -216,8 +216,6 @@ class CreatorTestBase < Id58TestBase
     saver.run(command)
   end
 
-  include IdPather
-
   def verify_exception_info_on(stdout, name)
     json = JSON.parse!(stdout)
     assert_equal ['exception'], json.keys, stdout
