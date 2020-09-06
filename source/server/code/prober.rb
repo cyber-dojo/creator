@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Probe # k8s/curl probing + identity
+class Prober # k8s/curl probing + identity
 
   def initialize(externals)
     @externals = externals
@@ -25,7 +25,6 @@ class Probe # k8s/curl probing + identity
       @externals.custom_start_points,
       @externals.exercises_start_points,
       @externals.languages_start_points,
-      @externals.puller,
       @externals.runner,
       @externals.saver
     ]

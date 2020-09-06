@@ -2,7 +2,6 @@
 require_relative 'app_base'
 require_relative 'creator'
 require_relative 'escape_html_helper'
-require_relative 'probe'
 require_relative 'selected_helper'
 
 class App < AppBase

@@ -3,7 +3,7 @@ require_relative 'silently'
 require 'sinatra/base'
 silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require_relative 'http_json_hash/service'
-require_relative 'probe'
+require_relative 'prober'
 require 'json'
 require 'sprockets'
 require 'uglifier'
@@ -54,14 +54,14 @@ class AppBase < Sinatra::Base
   def self.get_probe(name)
     get "/#{name}", provides:[:json] do
       result = instance_exec {
-        probe.public_send(name)
+        prober.public_send(name)
       }
       json({ name => result })
     end
   end
 
-  def probe
-    Probe.new(@externals)
+  def prober
+    Prober.new(@externals)
   end
 
   public
