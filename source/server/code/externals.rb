@@ -2,7 +2,6 @@
 require_relative 'external_custom_start_points'
 require_relative 'external_exercises_start_points'
 require_relative 'external_languages_start_points'
-require_relative 'external_puller'
 require_relative 'external_http'
 require_relative 'external_random'
 require_relative 'external_runner'
@@ -33,13 +32,6 @@ class Externals
   end
   def languages_start_points_http
     @languages_start_points_http ||= ExternalHttp.new
-  end
-
-  def puller
-    @puller ||= ExternalPuller.new(puller_http)
-  end
-  def puller_http
-    @puller_http ||= ExternalHttp.new
   end
 
   def runner

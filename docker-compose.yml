@@ -50,7 +50,6 @@ services:
       - languages-start-points
       - runner
       - saver
-      - puller
     environment: [ NO_PROMETHEUS ]
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     read_only: true

@@ -168,7 +168,6 @@ class Creator
     # it simply means the image will get pulled onto the node on the
     # first run_cyber_dojo_sh() call, and at the browser, the [test]
     # will result in an hour-glass icon.
-    16.times { puller.pull_image(id, image_name) }
     16.times { runner.pull_image(id, image_name) }
   end
 
@@ -184,10 +183,6 @@ class Creator
 
   def languages_start_points
     @externals.languages_start_points
-  end
-
-  def puller
-    @externals.puller
   end
 
   def runner

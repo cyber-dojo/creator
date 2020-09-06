@@ -140,7 +140,6 @@ containers_up()
   fi
 
   container_up_and_ready ${CYBER_DOJO_RUNNER_PORT}         runner
-  container_up_and_ready ${CYBER_DOJO_PULLER_PORT}         puller
 
   container_up_and_ready ${CYBER_DOJO_CREATOR_PORT}        creator-server
   exit_if_unclean creator-server
