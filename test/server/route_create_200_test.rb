@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
-require_source 'id_generator'
 
 class RouteCreate200Test < CreatorTestBase
 
@@ -55,42 +54,6 @@ class RouteCreate200Test < CreatorTestBase
     ) do |jrb|
       assert_equal [path], jrb.keys.sort, :keys
       assert_kata_exists(jrb[path], display_name)
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - -
-  # RandomStub
-  # - - - - - - - - - - - - - - - - -
-
-  qtest q33: %w(
-  |POST /kata_create_custom
-  |can use RandomStub to control kata id
-  ) do
-    id = id58
-    externals.instance_exec { @random = RandomStub.new(id) }
-    assert_json_post_200(
-      path = 'kata_create_custom',
-      args = { display_name:display_name }
-    ) do |jrb|
-      assert_equal id, jrb[path], jrb
-      assert_kata_exists(id, display_name)
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  qtest q34: %w(
-  |POST /group_create_custom
-  |can use RandomStub to control group id
-  ) do
-    id = id58
-    externals.instance_exec { @random = RandomStub.new(id) }
-    assert_json_post_200(
-      path = 'group_create_custom',
-      args = { display_names:[display_name] }
-    ) do |jrb|
-      assert_equal id, jrb[path], jrb
-      assert_group_exists(id, display_name)
     end
   end
 
@@ -235,30 +198,6 @@ class RouteCreate200Test < CreatorTestBase
       refute manifest.has_key?('exercise'), :exercise
     else
       assert_equal exercise_name, manifest['exercise'], :exercise
-    end
-  end
-
-  def group_manifest(id)
-    command = saver.file_read_command("#{group_id_path(id)}/manifest.json")
-    JSON::parse!(saver.run(command))
-  end
-
-  def kata_manifest(id)
-    command = saver.file_read_command("#{kata_id_path(id)}/manifest.json")
-    JSON::parse!(saver.run(command))
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  class RandomStub
-    def initialize(id)
-      @id = id
-      @index = 0
-    end
-    def sample(_size)
-      ch = IdGenerator::ALPHABET.index(@id[@index])
-      @index += 1
-      ch
     end
   end
 

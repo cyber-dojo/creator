@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 require_relative '../id58_test_base'
-require_relative 'id_pather'
 require_source 'creator'
 require_source 'externals'
-require 'json'
 
 class CreatorTestBase < Id58TestBase
 
@@ -22,34 +20,24 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - - - - - -
 
   def group_exists?(id)
-    dirname = group_id_path(id)
-    command = saver.dir_exists_command(dirname)
-    saver.run(command)
+    model.group_exists?(id)
   end
 
   def group_manifest(id)
-    filename = "#{group_id_path(id)}/manifest.json"
-    command = saver.file_read_command(filename)
-    JSON::parse!(saver.run(command))
+    model.group_manifest(id)
   end
 
   def kata_exists?(id)
-    dirname = kata_id_path(id)
-    command = saver.dir_exists_command(dirname)
-    saver.run(command)
+    model.kata_exists?(id)
   end
 
   def kata_manifest(id)
-    filename = "#{kata_id_path(id)}/manifest.json"
-    command = saver.file_read_command(filename)
-    JSON::parse!(saver.run(command))
+    model.kata_manifest(id)
   end
 
-  def saver
-    externals.saver
+  def model
+    externals.model
   end
-
-  include IdPather
 
   # - - - - - - - - - - - - - - - - - - -
 

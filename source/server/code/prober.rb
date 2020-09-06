@@ -25,8 +25,8 @@ class Prober # k8s/curl probing + identity
       @externals.custom_start_points,
       @externals.exercises_start_points,
       @externals.languages_start_points,
-      @externals.runner,
-      @externals.saver
+      @externals.model,
+      @externals.runner
     ]
   end
 

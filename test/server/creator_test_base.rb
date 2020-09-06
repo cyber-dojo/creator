@@ -3,12 +3,11 @@ require_relative 'capture_stdout_stderr'
 require_relative '../id58_test_base'
 require_source 'app'
 require_source 'externals'
-require_source 'id_generator'
-require_source 'id_pather'
 require 'json'
 require 'ostruct'
 
 class CreatorTestBase < Id58TestBase
+
   include CaptureStdoutStderr
   include Rack::Test::Methods # [1]
 
@@ -103,17 +102,11 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def stub_saver_http(body)
-    externals.instance_exec { @saver_http = HttpAdapterStub.new(body) }
-  end
-
-  def stub_rng(stub)
-    externals.instance_exec { @random = RandomStub.new(stub) }
+  def stub_model_http(body)
+    externals.instance_exec { @model_http = HttpAdapterStub.new(body) }
   end
 
   private
-
-  include IdPather
 
   class HttpAdapterStub
     def initialize(body)
@@ -133,21 +126,6 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  class RandomStub
-    def initialize(letters)
-      alphabet = IdGenerator::ALPHABET
-      @indexes = letters.each_char.map{ |ch| alphabet.index(ch) }
-      @n = 0
-    end
-    def sample(size)
-      index = @indexes[@n]
-      @n += 1
-      index
-    end
-  end
-
-  # - - - - - - - - - - - - - - - -
-
   def custom_start_points
     externals.custom_start_points
   end
@@ -160,8 +138,8 @@ class CreatorTestBase < Id58TestBase
     externals.languages_start_points
   end
 
-  def saver
-    externals.saver
+  def model
+    externals.model
   end
 
   # - - - - - - - - - - - - - - -
@@ -205,36 +183,30 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - -
 
   def group_exists?(id)
-    dirname = group_id_path(id)
-    command = saver.dir_exists_command(dirname)
-    saver.run(command)
+    model.group_exists?(id)
   end
 
-  def kata_exists?(id)
-    dirname = kata_id_path(id)
-    command = saver.dir_exists_command(dirname)
-    saver.run(command)
+  def group_manifest(id)
+    model.group_manifest(id)
   end
+
+  # - - - - - - - - - - - - - - -
+
+  def kata_exists?(id)
+    model.kata_exists?(id)
+  end
+
+  def kata_manifest(id)
+    model.kata_manifest(id)
+  end
+
+  # - - - - - - - - - - - - - - -
 
   def verify_exception_info_on(stdout, name)
     json = JSON.parse!(stdout)
     assert_equal ['exception'], json.keys, stdout
     ex = json['exception']
     assert_equal ['request','backtrace',name].sort, ex.keys.sort, stdout
-  end
-
-  # - - - - - - - - - - - - - - - - - - - -
-
-  def group_manifest(id)
-    filename = "#{group_id_path(id)}/manifest.json"
-    command = saver.file_read_command(filename)
-    JSON::parse!(saver.run(command))
-  end
-
-  def kata_manifest(id)
-    filename = "#{kata_id_path(id)}/manifest.json"
-    command = saver.file_read_command(filename)
-    JSON::parse!(saver.run(command))
   end
 
 end

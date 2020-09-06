@@ -14,8 +14,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |returns JSON (but not Hash) in its response.body
   |its a 500 error
   ) do
-    stub_rng('de34Ty')
-    stub_saver_http(not_json='xxxx')
+    stub_model_http(not_json='xxxx')
     assert_json_post_500(
       path='group_create_custom',
       args={ display_names:['Java Countdown, Round 2']}
@@ -27,9 +26,8 @@ class RouteCreate500BadResponseTest < CreatorTestBase
       http_service = ex['http_service']
       assert_equal 'body is not JSON', http_service['message'], jr
       assert_equal not_json, http_service['body'], jr
-      assert_equal 'ExternalSaver', http_service['name'], jr
-      assert_equal 'run', http_service['path'], jr
-      assert_equal({'command' => ['dir_make','/groups/de/34/Ty']}, http_service['args'], jr)
+      assert_equal 'ExternalModel', http_service['name'], jr
+      assert_equal 'group_create', http_service['path'], jr
     end
   end
 

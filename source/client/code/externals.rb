@@ -4,7 +4,7 @@ require_relative 'external_custom_start_points'
 require_relative 'external_exercises_start_points'
 require_relative 'external_languages_start_points'
 require_relative 'external_http'
-require_relative 'external_saver'
+require_relative 'external_model'
 
 class Externals
 
@@ -36,11 +36,11 @@ class Externals
     @languages_start_points_http ||= ExternalHttp.new
   end
 
-  def saver
-    @saver ||= ExternalSaver.new(saver_http)
+  def model
+    @model ||= ExternalModel.new(model_http)
   end
-  def saver_http
-    @saver_http ||= ExternalHttp.new
+  def model_http
+    @model_http ||= ExternalHttp.new
   end
 
 end

@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
-require_source 'id_pather'
 require_source 'external_http'
 require 'json'
 

@@ -10,8 +10,9 @@ augmented_docker_compose()
          custom-start-points \
       exercises-start-points \
       languages-start-points \
-                       saver \
                       runner \
+                       model \
+                       saver \
                     selenium \
     | tee /tmp/augmented-docker-compose.creator.peek.yml \
     | docker-compose \

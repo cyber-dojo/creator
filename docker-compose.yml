@@ -49,7 +49,7 @@ services:
       - exercises-start-points
       - languages-start-points
       - runner
-      - saver
+      - model
     environment: [ NO_PROMETHEUS ]
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     read_only: true

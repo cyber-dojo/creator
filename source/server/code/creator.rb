@@ -1,6 +1,4 @@
 # frozen_string_literal: true
-require_relative 'id_generator'
-require_relative 'id_pather'
 require 'json'
 
 class Creator
@@ -13,7 +11,7 @@ class Creator
 
   def group_create_custom(display_names:, options:default_options)
     manifest = custom_start_points.manifest(display_names[0])
-    create_group(manifest, options)
+    create_group([manifest], options)
   end
 
   def kata_create_custom(display_name:, options:default_options)
@@ -28,7 +26,7 @@ class Creator
     manifest = languages_start_points.manifest(languages_names[0])
     manifest['visible_files'].merge!(em['visible_files'])
     manifest['exercise'] = em['display_name']
-    create_group(manifest, options)
+    create_group([manifest], options)
   end
 
   def kata_create(exercise_name:, language_name:, options:default_options)
@@ -43,7 +41,7 @@ class Creator
 
   def deprecated_group_create_custom(display_name:)
     manifest = custom_start_points.manifest(display_name)
-    create_group(manifest, default_options)
+    create_group([manifest], default_options)
   end
 
   def deprecated_kata_create_custom(display_name:)
@@ -61,101 +59,21 @@ class Creator
   end
 
   #- - - - - - - - - - - - - - - - - -
-  # group
 
-  def create_group(manifest, _options)
-    set_version(manifest)
-    set_time_stamp(manifest)
-    id = manifest['id'] = IdGenerator.new(@externals).group_id
-    saver.assert_all([
-      group_manifest_create_cmd(id, pretty_json(manifest)),
-      group_katas_create_cmd(id, '')
-    ])
-    pull_image_onto_nodes(id, manifest['image_name'])
+  def create_group(manifests, options)
+    id = model.group_create(manifests, options)
+    manifests.each do |manifest|
+      pull_image_onto_nodes(id, manifest['image_name'])
+    end
     id
   end
 
-  def group_manifest_create_cmd(id, manifest_src)
-    saver.file_create_command(group_manifest_filename(id), manifest_src)
-  end
-
-  def group_katas_create_cmd(id, src)
-    saver.file_create_command(group_katas_filename(id), src)
-  end
-
   #- - - - - - - - - - - - - - - - - -
-  # kata
 
-  def create_kata(manifest, _options)
-    set_version(manifest)
-    set_time_stamp(manifest)
-    id = manifest['id'] = IdGenerator.new(@externals).kata_id
-    event_summary = {
-      'index' => 0,
-      'time' => manifest['created'],
-      'event' => 'created'
-    }
-    event0 = {
-      'files' => manifest['visible_files']
-    }
-    saver.assert_all([
-      kata_manifest_create_cmd(id, pretty_json(manifest)),
-      kata_events_create_cmd(id, pretty_json(event_summary)),
-      kata_event_create_cmd(id, 0, pretty_json(event0.merge(event_summary)))
-    ])
+  def create_kata(manifest, options)
+    id = model.kata_create(manifest, options)
     pull_image_onto_nodes(id, manifest['image_name'])
     id
-  end
-
-  def kata_manifest_create_cmd(id, manifest_src)
-    saver.file_create_command(kata_manifest_filename(id), manifest_src)
-  end
-
-  def kata_events_create_cmd(id, event0_src)
-    saver.file_create_command(kata_events_filename(id), event0_src)
-  end
-
-  def kata_event_create_cmd(id, index, event_src)
-    saver.file_create_command(kata_event_filename(id,index), event_src)
-  end
-
-  #- - - - - - - - - - - - - - - - - -
-  # filenames
-
-  def group_manifest_filename(id)
-    group_id_path(id, 'manifest.json')
-  end
-
-  def group_katas_filename(id)
-    group_id_path(id, 'katas.txt')
-  end
-
-  def kata_manifest_filename(id)
-    kata_id_path(id, 'manifest.json')
-  end
-
-  def kata_events_filename(id)
-    kata_id_path(id, 'events.json')
-  end
-
-  def kata_event_filename(id, index)
-    kata_id_path(id, "#{index}.event.json")
-  end
-
-  include IdPather # group_id_path, kata_id_path
-
-  #- - - - - - - - - - - - - - - - - -
-
-  def set_version(manifest)
-    manifest['version'] = 1
-  end
-
-  def set_time_stamp(manifest)
-    manifest['created'] = time.now
-  end
-
-  def pretty_json(obj)
-    JSON.pretty_generate(obj)
   end
 
   #- - - - - - - - - - - - - - - - - -
@@ -185,16 +103,14 @@ class Creator
     @externals.languages_start_points
   end
 
+  #- - - - - - - - - - - - - - - - - -
+
+  def model
+    @externals.model
+  end
+
   def runner
     @externals.runner
-  end
-
-  def saver
-    @externals.saver
-  end
-
-  def time
-    @externals.time
   end
 
 end

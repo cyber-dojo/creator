@@ -100,13 +100,13 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest F15: %w(
-  |when saver http-service is not ready
+  |when model http-service is not ready
   |GET/ready?
   |has status 200
   |returns false
   |and nothing else
   ) do
-    externals.instance_exec { @saver=STUB_READY_FALSE }
+    externals.instance_exec { @model=STUB_READY_FALSE }
     assert_get_200(path='ready?') do |jr|
       assert_equal [path], jr.keys, "keys:#{last_response.body}:"
       assert false?(jr[path]), "false?:#{last_response.body}:"
@@ -150,7 +150,7 @@ class RouteProbesTest < CreatorTestBase
   |returns non-JSON in its response.body
   |GET/ready? is a 500 error
   ) do
-    stub_saver_http('xxxx')
+    stub_model_http('xxxx')
     assert_get_500('ready?') do |jr|
       assert_equal [ 'exception' ], jr.keys.sort, last_response.body
       #...
@@ -164,7 +164,7 @@ class RouteProbesTest < CreatorTestBase
   |returns JSON (but not a Hash) in its response.body
   |GET/ready? is a 500 error
   ) do
-    stub_saver_http('[]')
+    stub_model_http('[]')
     assert_get_500('ready?') do |jr|
       assert_equal [ 'exception' ], jr.keys.sort, last_response.body
       #...
@@ -179,7 +179,7 @@ class RouteProbesTest < CreatorTestBase
   |which contains the key "exception"
   |GET/ready? is a 500 error
   ) do
-    stub_saver_http(response='{"exception":42}')
+    stub_model_http(response='{"exception":42}')
     assert_get_500('ready?') do |jr|
       assert_equal [ 'exception' ], jr.keys.sort, last_response.body
       #...
@@ -194,7 +194,7 @@ class RouteProbesTest < CreatorTestBase
   |which does not contain the "ready?" key
   |GET/ready? is a 500 error
   ) do
-    stub_saver_http(response='{"wibble":42}')
+    stub_model_http(response='{"wibble":42}')
     assert_get_500('ready?') do |jr|
       assert_equal [ 'exception' ], jr.keys.sort, last_response.body
       #...
