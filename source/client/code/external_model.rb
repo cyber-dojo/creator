@@ -4,7 +4,9 @@ require_relative 'http_json_hash/service'
 class ExternalModel
 
   def initialize(http)
-    @http = HttpJsonHash::service(self.class.name, http, 'model', 4528)
+    service = 'model'
+    port = ENV['CYBER_DOJO_MODEL_PORT'].to_i
+    @http = HttpJsonHash::service(self.class.name, http, service, port)
   end
 
   def group_exists?(id)

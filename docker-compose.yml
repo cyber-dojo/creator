@@ -29,6 +29,8 @@ services:
       - exercises-start-points
       - languages-start-points
       - creator-server
+    env_file:
+      - .env
     ports: [ "${CYBER_DOJO_CREATOR_CLIENT_PORT}:${CYBER_DOJO_CREATOR_CLIENT_PORT}" ]
     read_only: true
     restart: "no"
@@ -50,7 +52,8 @@ services:
       - languages-start-points
       - runner
       - model
-    environment: [ NO_PROMETHEUS ]
+    env_file:
+      - .env
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     read_only: true
     restart: "no"
