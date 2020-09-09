@@ -9,8 +9,6 @@ class CreateTest < CreatorTestBase
 
   def id58_setup
     @display_name = any_custom_start_points_display_name
-    #@exercise_name = any_exercises_start_points_display_name
-    #@language_name = any_languages_start_points_display_name
   end
 
   attr_reader :display_name, :exercise_name, :language_name
