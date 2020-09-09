@@ -88,4 +88,33 @@ class CustomCreateTest < CreatorTestBase
     assert status?(500), status
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  test 'xW9', %w(
+  |GET/group_custom_create with non-JSON in request body
+  |is 500 error
+  ) do
+    stdout,stderr = capture_stdout_stderr {
+      get '/kata_custom_create', 'non-JSON', { 'CONTENT_TYPE' => 'application/json' }
+    }
+    verify_exception_info_on(stdout, 'message')
+    assert_equal '', stderr, :stderr_is_empty
+    assert status?(500), status
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test 'xW8', %w(
+  |GET/group_custom_create with non-JSON-Hash in request body
+  |is 500 error
+  ) do
+    stdout,stderr = capture_stdout_stderr {
+      get '/kata_custom_create', '42', { 'CONTENT_TYPE' => 'application/json' }
+    }
+    verify_exception_info_on(stdout, 'message')
+    assert_equal '', stderr, :stderr_is_empty
+    assert status?(500), status
+  end
+
+
 end

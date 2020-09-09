@@ -72,20 +72,20 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |there is useful diagnostic info
   ) do
     stub_model_http(not_json='xxxx')
-    assert_json_post_500(
-      path='group_create_custom',
-      args={ display_names:['Java Countdown, Round 2']}
-    ) do |response|
-      ex = response['exception']
-      assert_equal '/group_create_custom', ex['request']['path'], response
-      assert_equal '', ex['request']['body'], response
-      refute_nil ex['backtrace'], response
-      http_service = ex['http_service']
-      assert_equal 'body is not JSON', http_service['message'], response
-      assert_equal not_json, http_service['body'], response
-      assert_equal 'ExternalModel', http_service['name'], response
-      assert_equal 'group_create', http_service['path'], response
-    end
+
+    stdout,stderr = capture_stdout_stderr {
+      get '/group_custom_create',
+      {display_names:['Java Countdown, Round 2']}.to_json
+    }
+    assert_status 500
+    assert_json_content
+    assert_equal '', stderr, :stderr
+    assert_equal stdout, last_response.body+"\n", :stdout
+    ex = json_response['exception']
+    assert_equal '/group_custom_create', ex['request']['path'], json_response
+    assert_equal '', ex['request']['body'], json_response
+    refute_nil ex['backtrace'], json_response
+    assert_equal 'missing keyword: :display_names', ex['message'], json_response
   end
 
 end

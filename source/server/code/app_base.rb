@@ -72,21 +72,6 @@ class AppBase < Sinatra::Base
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def self.post_json(name)
-    post "/#{name}", provides:[:json] do
-      respond_to do |format|
-        format.json {
-          result = instance_exec {
-            creator.public_send(name, **json_args)
-          }
-          json({ name => result })
-        }
-      end
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   def self.deprecated_post_json(name)
     post "/#{name}", provides:[:json] do
       respond_to do |format|
