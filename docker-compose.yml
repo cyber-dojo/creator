@@ -52,6 +52,7 @@ services:
       - languages-start-points
       - runner
       - model
+      - avatars
     env_file:
       - .env
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
