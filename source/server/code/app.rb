@@ -24,7 +24,7 @@ class App < AppBase
     respond_to do |format|
       format.html do
         set_view_data(externals.custom_start_points, 'group_custom_create')
-        erb :'group_custom/choose'
+        erb :group_custom
       end
     end
   end
@@ -44,7 +44,7 @@ class App < AppBase
     respond_to do |format|
       format.html do
         set_view_data(externals.custom_start_points, 'kata_custom_create')
-        erb :'kata_custom/choose'
+        erb :kata_custom
       end
     end
   end
@@ -65,7 +65,7 @@ class App < AppBase
     respond_to do |format|
       format.html do
         set_view_data(externals.exercises_start_points, 'group_language_choose')
-        erb :'group_exercise/choose'
+        erb :group_exercise
       end
     end
   end
@@ -76,7 +76,7 @@ class App < AppBase
     respond_to do |format|
       format.html do
         set_view_data(externals.exercises_start_points, 'kata_language_choose')
-        erb :'kata_exercise/choose'
+        erb :kata_exercise
       end
     end
   end
@@ -88,7 +88,7 @@ class App < AppBase
     respond_to do |format|
       format.html do
         set_view_data(externals.languages_start_points, 'group_language_create')
-        erb :'group_language/choose'
+        erb :group_language
       end
     end
   end
@@ -108,7 +108,7 @@ class App < AppBase
     respond_to do |format|
       format.html do
         set_view_data(externals.languages_start_points, 'kata_language_create')
-        erb :'kata_language/choose'
+        erb :kata_language
       end
     end
   end

@@ -10,13 +10,17 @@ $(() => {
   $('button#ok').click(() => {
     const exerciseName = urlParam('exercise_name');
     const displayName = encodeURIComponent(cd.selectedDisplayName);
-    const params = `exercise_name=${exerciseName}&language_name=${displayName}`;
+    const params = `exercise_name=${exerciseName}&languages_names[]=${displayName}`;
     window.location = `<%= @next_url %>?${params}`;
   });
 
 });
 </script>
 
+<div class="chooser-page">
+  <div class="chooser edged-panel">
+    <%= erb :'shared/language_heading' %>
+    <%= erb :'shared/display_names' %>
+    <button type="button" id="ok">create our group exercise</button>
+  </div>
 <div>
-  <button type="button" id="ok">create my new exercise</button>
-</div>
