@@ -21,7 +21,9 @@ remove_all_but_latest()
   for image_name in `echo "${docker_image_ls}" | grep "${name}:"`
   do
     if [ "${image_name}" != "${name}:latest" ]; then
-      docker image rm "${image_name}"
+      if [ "${image_name}" != "${name}:<none>" ]; then
+        docker image rm "${image_name}"
+      fi
     fi
   done
 }
