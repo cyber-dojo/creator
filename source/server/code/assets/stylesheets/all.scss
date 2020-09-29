@@ -6,7 +6,7 @@
 @import "wide-list-item";
 @import "button";
 @import "body";
-@import "center";
+@import "centered";
 
 .chooser-page
 {
@@ -18,50 +18,46 @@
   font-size: 1.15em;
 }
 
-.chooser-box
-{
-  @include center-align();
-}
-
-.heading, .sub-heading
+.heading
 {
   @include non-code-font();
-  color: $lighter-color;
-  text-align: left;
+  font-size:25px;
+  margin-bottom:10px;
+  color:$lighter-color;
+  text-align:left;
 }
-.heading { font-size: 25px; }
-.sub-heading { font-size: 40px; margin-bottom: 10px; }
 
 .display-box
 {
-  @include center-align();
+  @include centered();
+
+  .display-names   { width:300px; max-width:300px; height:360px; max-height:360px; }
+  .display-content { width:500px; max-width:500px; height:360px; max-height:360px; }
   .display-names, .display-content
   {
-    height: 340px;
-    padding: 6px;
+    @include rounded-corner();
+    display:inline-block;
     margin-right: 5px;
     overflow-y: auto;
     overflow-x: none;
-    @include edged-panel();
   }
-  .display-names   { width: 300px; max-width: 300px; }
-  .display-content { width: 500px; max-width: 500px; }
+  .display-names
+  {
+    padding: { top:6px; bottom:6px; }
+    position:relative; top:4px;
+  }
+  .display-name { @include wide-list-item(); }
   .display-content
   {
-    font-size: 0.85em;
-    position: relative;
-    top: -2px;
+    padding: { top:8px; left:8px; right:8px; bottom:0px; }
+    font-size:13px;
   }
-  .display-names .display-name
-  {
-    @include wide-list-item();
-    max-width: 300px;
-  }
+
 }
 
 button#ok, button#next
 {
   @include non-code-font();
-  font-size: 1.85em;
-  margin-top: 5px;
+  font-size: 40px;
+  margin-top: 15px;
 }

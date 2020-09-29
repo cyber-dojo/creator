@@ -8,13 +8,12 @@
 
   border: 1px solid $darker-color;
   margin: 0px;
-  padding: { left: 4px; right: 0px; }
+  padding: { left: 6px; right: 0px; }
   cursor: pointer;
 
   overflow-y: none;
   &::-webkit-scrollbar:vertical { width: 0px; }
   &::-webkit-scrollbar:horizontal { height: 0px; }
-  max-width: 295px;
   overflow-x: auto;
 
   &[class~='selected']

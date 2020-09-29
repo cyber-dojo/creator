@@ -3,24 +3,18 @@
 $(() => cd.setupDisplayNamesClickHandlers());
 </script>
 
-<table class="display-box">
-  <tr>
-    <td>
-      <div class="display-names">
-        <% @display_names.each.with_index do |name,index| %>
-          <div class="display-name"
-               data-name="<%= name %>"
-               data-index="<%= index %>">
-            <%= escape_html(name) %>
-          </div>
-        <% end %>
+<div class="display-box">
+  <div class="display-names">
+    <% @display_names.each.with_index do |name,index| %>
+      <div class="display-name"
+           data-name="<%= name %>"
+           data-index="<%= index %>">
+        <%= escape_html(name) %>
       </div>
-    </td>
-    <td>
-      <textarea class="display-content" readonly="readonly"></textarea>
-    </td>
-  </tr>
-</table>
+    <% end %>
+  </div>
+  <textarea class="display-content" readonly="readonly"></textarea>
+</div>
 
 <div style="display:none;">
   <% @display_contents.each.with_index do |content,index| %>
