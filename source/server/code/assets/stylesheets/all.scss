@@ -10,12 +10,12 @@
 
 .chooser-page
 {
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  display: inline-block;
-  margin: { top: 10px; }
-  font-size: 1.15em;
+  width:100%;
+  height:100%;
+  text-align:center;
+  display:inline-block;
+  margin: { top:10px; }
+  //font-size:1.15em;
 }
 
 .heading
@@ -37,9 +37,9 @@
   {
     @include rounded-corner();
     display:inline-block;
-    margin-right: 5px;
-    overflow-y: auto;
-    overflow-x: none;
+    margin-right:5px;
+    overflow-y:auto;
+    overflow-x:none;
   }
   .display-names
   {
@@ -55,7 +55,7 @@
 
 }
 
-button#next, button#ok
+button.next, button.create
 {
   @include non-code-font();
   font-size: 25px;

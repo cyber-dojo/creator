@@ -7,7 +7,7 @@ $(() => {
     return (results !== null) ? results[1] || 0 : false;
   };
 
-  $('button#ok').click(() => {
+  $('button.create').click(() => {
     const exerciseName = urlParam('exercise_name');
     const displayName = encodeURIComponent(cd.selectedDisplayName);
     const params = `exercise_name=${exerciseName}&languages_names[]=${displayName}`;
@@ -21,6 +21,6 @@ $(() => {
   <div class="chooser edged-panel">
     <%= erb :'shared/language_heading' %>
     <%= erb :'shared/display_names' %>
-    <button type="button" id="ok">create our group exercise</button>
+    <button type="button" class="create">create exercise</button>
   </div>
 <div>

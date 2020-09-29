@@ -2,7 +2,7 @@
 'use strict';
 $(() => {
 
-  $('button#next').click(() => {
+  $('button.next').click(() => {
     const displayName = cd.selectedDisplayName;
     const params = `exercise_name=${encodeURIComponent(displayName)}`;
     window.location = `<%= @next_url %>?${params}`;
@@ -11,4 +11,4 @@ $(() => {
 });
 </script>
 
-<button type="button" id="next">next</button>
+<button type="button" class="next">next</button>

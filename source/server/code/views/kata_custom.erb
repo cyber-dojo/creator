@@ -2,7 +2,7 @@
 'use strict';
 $(() => {
 
-  $('button#ok').click(() => {
+  $('button.create').click(() => {
     const displayName = cd.selectedDisplayName;
     const params = 'display_name=' + encodeURIComponent(displayName);
     window.location = `<%= @next_url %>?${params}`;
@@ -15,6 +15,6 @@ $(() => {
   <div class="chooser edged-panel">
     <%= erb :'shared/custom_heading' %>
     <%= erb :'shared/display_names' %>
-    <button type="button" id="ok">create my new custom exercise</button>
+    <button type="button" class="create">create exercise</button>
   </div>
 <div>
