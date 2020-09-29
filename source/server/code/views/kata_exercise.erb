@@ -1,7 +1,20 @@
+<script>
+'use strict';
+$(() => {
+
+  $('button.next').click(() => {
+    const displayName = cd.selectedDisplayName;
+    const params = `exercise_name=${encodeURIComponent(displayName)}`;
+    window.location = `/creator/kata_language_choose?${params}`;
+  });
+
+});
+</script>
+
 <div class="chooser-page">
   <div class="chooser edged-panel">
     <%= erb :'shared/exercise_heading' %>
     <%= erb :'shared/display_names' %>
-    <%= erb :'shared/exercise_next_button' %>
+    <button type="button" class="next">next</button>
   </div>
 <div>

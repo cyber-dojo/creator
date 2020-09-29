@@ -11,7 +11,7 @@ $(() => {
     const exerciseName = urlParam('exercise_name');
     const displayName = encodeURIComponent(cd.selectedDisplayName);
     const params = `exercise_name=${exerciseName}&language_name=${displayName}`;
-    window.location = `<%= @next_url %>?${params}`;
+    window.location = `/creator/kata_language_create?${params}`;
   });
 
 });

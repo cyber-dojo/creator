@@ -5,7 +5,7 @@ $(() => {
   $('button.create').click(() => {
     const displayName = cd.selectedDisplayName;
     const params = `display_names[]=${encodeURIComponent(displayName)}`;
-    window.location = `<%= @next_url %>?${params}`;
+    window.location = `/creator/group_custom_create?${params}`;
   });
 
 });

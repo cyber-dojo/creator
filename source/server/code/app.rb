@@ -23,7 +23,7 @@ class App < AppBase
   get '/group_custom_choose', provides:[:html] do
     respond_to do |format|
       format.html do
-        set_view_data(externals.custom_start_points, 'group_custom_create')
+        set_view_data(externals.custom_start_points)
         erb :group_custom
       end
     end
@@ -43,7 +43,7 @@ class App < AppBase
   get '/kata_custom_choose', provides:[:html] do
     respond_to do |format|
       format.html do
-        set_view_data(externals.custom_start_points, 'kata_custom_create')
+        set_view_data(externals.custom_start_points)
         erb :kata_custom
       end
     end
@@ -64,7 +64,7 @@ class App < AppBase
   get '/group_exercise_choose', provides:[:html] do
     respond_to do |format|
       format.html do
-        set_view_data(externals.exercises_start_points, 'group_language_choose')
+        set_view_data(externals.exercises_start_points)
         erb :group_exercise
       end
     end
@@ -75,7 +75,7 @@ class App < AppBase
   get '/kata_exercise_choose', provides:[:html] do
     respond_to do |format|
       format.html do
-        set_view_data(externals.exercises_start_points, 'kata_language_choose')
+        set_view_data(externals.exercises_start_points)
         erb :kata_exercise
       end
     end
@@ -87,7 +87,7 @@ class App < AppBase
   get '/group_language_choose', provides:[:html] do
     respond_to do |format|
       format.html do
-        set_view_data(externals.languages_start_points, 'group_language_create')
+        set_view_data(externals.languages_start_points)
         erb :group_language
       end
     end
@@ -107,7 +107,7 @@ class App < AppBase
   get '/kata_language_choose', provides:[:html] do
     respond_to do |format|
       format.html do
-        set_view_data(externals.languages_start_points, 'kata_language_create')
+        set_view_data(externals.languages_start_points)
         erb :kata_language
       end
     end
@@ -133,7 +133,7 @@ class App < AppBase
     symbolized(params)
   end
 
-  def set_view_data(start_points, next_url)
+  def set_view_data(start_points)
     manifests = start_points.manifests
     @display_names = manifests.keys.sort
     @display_contents = []
@@ -143,7 +143,6 @@ class App < AppBase
       content = visible_files[filename]['content']
       @display_contents << content
     end
-    @next_url = "/creator/#{next_url}"
   end
 
   include EscapeHtmlHelper
