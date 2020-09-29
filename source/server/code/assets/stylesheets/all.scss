@@ -15,7 +15,6 @@
   text-align:center;
   display:inline-block;
   margin: { top:10px; }
-  //font-size:1.15em;
 }
 
 .heading
@@ -37,12 +36,12 @@
   {
     @include rounded-corner();
     display:inline-block;
-    margin-right:5px;
     overflow-y:auto;
     overflow-x:none;
   }
   .display-names
   {
+    margin-right:5px;
     padding: { top:6px; bottom:6px; }
     position:relative; top:4px;
   }
@@ -51,13 +50,14 @@
   {
     padding: { top:8px; left:8px; right:8px; bottom:0px; }
     font-size:13px;
+    resize:none;
   }
-
 }
 
-button.next, button.create
+button.next, button.switch, button.create
 {
   @include non-code-font();
-  font-size: 25px;
-  margin-top: 15px;
+  font-size:25px;
+  margin: { top:15px; }
 }
+button.switch { float:right; }
