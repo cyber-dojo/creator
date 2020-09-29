@@ -18,8 +18,6 @@ class LanguageChooseTest < CreatorTestBase
     get '/group_language_choose'
     assert status?(200), status
     html = last_response.body
-    assert heading(html).include?('our'), html
-    refute heading(html).include?('my'), html
     languages_start_points.display_names.each do |language_name|
       assert html =~ div_for(language_name), language_name
     end
@@ -36,20 +34,12 @@ class LanguageChooseTest < CreatorTestBase
     get '/kata_language_choose'
     assert status?(200), status
     html = last_response.body
-    assert heading(html).include?('my'), html
-    refute heading(html).include?('our'), html
     languages_start_points.display_names.each do |language_name|
       assert html =~ div_for(language_name), language_name
     end
   end
 
   private
-
-  def heading(html)
-    # (.*?) for non-greedy match
-    # /m for . matching newlines
-    html.match(/<div class="heading">(.*?)<\/div>/m)[1]
-  end
 
   def div_for(display_name)
     # eg cater for "C++ (clang++), GoogleMock"

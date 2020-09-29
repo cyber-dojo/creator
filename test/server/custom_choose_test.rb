@@ -18,8 +18,6 @@ class CustomChooseTest < CreatorTestBase
     get '/group_custom_choose'
     assert status?(200), status
     html = last_response.body
-    assert heading(html).include?('our'), html
-    refute heading(html).include?('my'), html
     custom_start_points.display_names.each do |display_name|
       assert html =~ div_for(display_name), display_name
     end
@@ -36,20 +34,12 @@ class CustomChooseTest < CreatorTestBase
     get '/kata_custom_choose'
     assert status?(200), status
     html = last_response.body
-    assert heading(html).include?('my'), html
-    refute heading(html).include?('our'), html
     custom_start_points.display_names.each do |display_name|
       assert html =~ div_for(display_name), display_name
     end
   end
 
   private
-
-  def heading(html)
-    # (.*?) for non-greedy match
-    # /m for . matching newlines
-    html.match(/<div class="heading">(.*?)<\/div>/m)[1]
-  end
 
   def div_for(display_name)
     # eg cater for "C++ Countdown, Round 1"
