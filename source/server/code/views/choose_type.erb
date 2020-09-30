@@ -3,16 +3,16 @@
 $(() => {
 
   const urlParams = () => {
-    const s = window.location.search;
-    return s.substring(s.indexOf('?') + 1);
+    const url = window.location.search;
+    return url.substring(url.indexOf('?') + 1);
   };
 
   $('button.create.group').click(() => {
-    window.location = `/creator/create?${urlParams()}&type=group`;
+    window.location = `/creator/create_group_exercise?${urlParams()}`;
   });
 
   $('button.create.individual').click(() => {
-    window.location = `/creator/create?${urlParams()}&type=individual`;
+    window.location = `/creator/create_individual_exercise?${urlParams()}`;
   });
 
 });
@@ -21,7 +21,7 @@ $(() => {
 <div class="choose-type-page">
   <div class="edged-panel">
     <div class="title">create a new exercise</div>
-    <div class="sub-title">last step: choose the exercise type</div>
+    <div class="sub-title">choose the exercise type</div>
     <button type="button" class="create group">create a group exercise</button>
     <button type="button" class="create individual">create an individual exercise</button>
   </div>

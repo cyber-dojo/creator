@@ -8,8 +8,8 @@ $(() => {
   };
 
   $('button.next').click(() => {
-    const ltfName = encodeURIComponent(cd.selectedDisplayName);
-    window.location = `/creator/choose_type?${urlParams()}&ltf_name=${ltfName}`;
+    const name = encodeURIComponent(cd.selectedDisplayName);
+    window.location = `/creator/choose_type?${urlParams()}&language_name=${name}`;
   });
 
 });
@@ -18,7 +18,7 @@ $(() => {
 <div class="choose-ltf-page">
   <div class="edged-panel">
     <div class="title">create a new exercise</div>
-    <div class="sub-title">step 2: choose a language &amp; test-framework</div>
+    <div class="sub-title">choose a language &amp; test-framework</div>
     <%= erb :'shared/display_names' %>
     <button type="button" class="next">next</button>
   </div>

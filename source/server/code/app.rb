@@ -67,9 +67,11 @@ class App < AppBase
   get '/create_group_exercise', provides:[:html] do
     respond_to do |format|
       format.html do
-        #TODO: params: problem or custom_problem?
-        #id = creator.group_create_custom(**params_args)
-        #id = creator.group_create(**params_args)
+        if params_args.has_key?(:display_name)
+          id = creator.group_create_custom(**params_args)
+        else
+          id = creator.group_create(**params_args)
+        end
         redirect "/kata/group/#{id}"
       end
     end
@@ -78,9 +80,11 @@ class App < AppBase
   get '/create_individual_exercise', provides:[:html] do
     respond_to do |format|
       format.html do
-        #TODO: params: problem or custom_problem?
-        #id = creator.kata_create_custom(**params_args)
-        #id = creator.kata_create(**params_args)
+        if params_args.has_key?(:display_name)
+          id = creator.kata_create_custom(**params_args)
+        else
+          id = creator.kata_create(**params_args)
+        end
         redirect "/kata/edit/#{id}"
       end
     end

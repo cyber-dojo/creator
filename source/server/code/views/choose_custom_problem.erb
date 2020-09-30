@@ -3,8 +3,8 @@
 $(() => {
 
   $('button.next').click(() => {
-    const exerciseName = cd.selectedDisplayName;
-    const params = `exercise_name=${encodeURIComponent(exerciseName)}`;
+    const name = cd.selectedDisplayName;
+    const params = `display_name=${encodeURIComponent(name)}`;
     window.location = `/creator/choose_type?${params}`;
   });
 
@@ -14,7 +14,7 @@ $(() => {
 <div class="choose-custom-problem-page">
   <div class="edged-panel">
     <div class="title">create a new exercise</div>
-    <div class="sub-title">step 1: choose a custom problem</div>
+    <div class="sub-title">choose a custom problem</div>
     <%= erb :'shared/display_names' %>
     <button type="button" class="next">next</button>
   </div>
