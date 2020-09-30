@@ -132,14 +132,12 @@ curl_url_params_302()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 port() { echo -n "${CYBER_DOJO_CREATOR_PORT}"; }
 
-#url_custom_params() { url_param display_names[] "$(custom_name)"; }
 url_custom_param() { url_param display_name "$(custom_name)"; }
 custom_name() { echo -n 'Java Countdown, Round 1'; }
 
 url_exercise_param()  { url_param exercise_name "$(exercise_name)"; }
 exercise_name() { echo -n 'Fizz Buzz'; }
 
-#url_languages_param() { url_param languages_names[] "$(language_name)"; }
 url_language_param()  { url_param language_name "$(language_name)"; }
 language_name() { echo -n 'Java, JUnit'; }
 
