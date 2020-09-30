@@ -1,0 +1,21 @@
+<script>
+'use strict';
+$(() => {
+
+  $('button.next').click(() => {
+    const customName = cd.selectedDisplayName;
+    const params = `custom_name=${encodeURIComponent(customName)}`;
+    window.location = `/creator/choose_type?${params}`;
+  });
+
+});
+</script>
+
+<div class="chooser-page">
+  <div class="chooser edged-panel">
+    <div class="title">create a new exercise</div>
+    <div class="sub-title">step 1: choose a custom problem</div>
+    <%= erb :'shared/display_names' %>
+    <button type="button" class="next">next</button>
+  </div>
+<div>

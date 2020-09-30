@@ -21,6 +21,21 @@
 {
   @include non-code-font();
   font-size:40px;
+}
+
+.title
+{
+  @include non-code-font();
+  font-size:58px;
+  color:$lighter-color;
+  text-align:left;
+  position:relative; top:-19px;
+}
+
+.sub-title
+{
+  @include non-code-font();
+  font-size:26px;
   margin-bottom:10px;
   color:$lighter-color;
   text-align:left;

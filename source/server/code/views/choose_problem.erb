@@ -1,0 +1,24 @@
+<script>
+'use strict';
+$(() => {
+
+  $('button.next').click(() => {
+    const problemName = cd.selectedDisplayName;
+    const params = `problem_name=${encodeURIComponent(problemName)}`;
+    window.location = `/creator/choose_ltf?${params}`;
+  });
+
+  $('button.switch').click(() => window.location = '/creator/choose_custom_problem');
+
+});
+</script>
+
+<div class="chooser-page">
+  <div class="chooser edged-panel">
+    <div class="title">create a new exercise</div>
+    <div class="sub-title">step 1: choose a problem</div>
+    <%= erb :'shared/display_names' %>
+    <button type="button" class="next">next</button>
+    <button type="button" class="switch">switch to custom problems</button>
+  </div>
+<div>

@@ -1,0 +1,28 @@
+<script>
+'use strict';
+$(() => {
+
+  const urlParams = () => {
+    const s = window.location.search;
+    return s.substring(s.indexOf('?') + 1);
+  };
+
+  $('button.create.group').click(() => {
+    window.location = `/creator/create?${urlParams()}&type=group`;
+  });
+
+  $('button.create.individual').click(() => {
+    window.location = `/creator/create?${urlParams()}&type=individual`;    
+  });
+
+});
+</script>
+
+<div class="chooser-page">
+  <div class="chooser edged-panel">
+    <div class="title">create a new exercise</div>
+    <div class="sub-title">last step: choose the type</div>
+    <button type="button" class="create group">create a group exercise</button>
+    <button type="button" class="create individual">create an individual exercise</button>
+  </div>
+<div>

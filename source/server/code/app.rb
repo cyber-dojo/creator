@@ -18,6 +18,75 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
+  # Step 1 : choose a problem
+
+  get '/choose_problem', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        set_view_data(externals.exercises_start_points)
+        erb :choose_problem
+      end
+    end
+  end
+
+  get '/choose_custom_problem', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        set_view_data(externals.custom_start_points)
+        erb :choose_custom_problem
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+  # Step 2 : choose a language + test-framework
+
+  get '/choose_ltf', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        set_view_data(externals.languages_start_points)
+        erb :choose_ltf
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+  # Step 3 : choose a type (group or individual)
+
+  get '/choose_type', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        erb :choose_type
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+  # Step 4 : create the exercise
+
+  get '/create_group_exercise', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        id = creator.group_create(**params_args)
+        redirect "/kata/group/#{id}"
+      end
+    end
+  end
+
+  get '/create_individual_exercise', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        id = creator.kata_create_custom(**params_args)
+        redirect "/kata/edit/#{id}"
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - - - - -
   # Custom
 
   get '/group_custom_choose', provides:[:html] do
