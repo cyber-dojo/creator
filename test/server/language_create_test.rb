@@ -28,7 +28,7 @@ class LanguageCreateTest < CreatorTestBase
   ) do
     get '/group_language_create', {
       exercise_name:exercise_name,
-      languages_names:[language_name]
+      language_name:language_name
     }
     assert status?(302), status
     follow_redirect!

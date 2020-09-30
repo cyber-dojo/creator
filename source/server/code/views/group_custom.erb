@@ -4,8 +4,8 @@ $(() => {
 
   $('button.create').click(() => {
     const displayName = cd.selectedDisplayName;
-    const params = `display_names[]=${encodeURIComponent(displayName)}`;
-    window.location = `/creator/group_custom_create?${params}`;
+    const param = 'display_name=' + encodeURIComponent(displayName);
+    window.location = `/creator/group_custom_create?${param}`;
   });
 
 });

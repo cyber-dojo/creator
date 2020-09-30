@@ -3,8 +3,8 @@
 $(() => {
 
   $('button.next').click(() => {
-    const problemName = cd.selectedDisplayName;
-    const params = `problem_name=${encodeURIComponent(problemName)}`;
+    const exerciseName = cd.selectedDisplayName;
+    const params = `exercise_name=${encodeURIComponent(exerciseName)}`;
     window.location = `/creator/choose_ltf?${params}`;
   });
 

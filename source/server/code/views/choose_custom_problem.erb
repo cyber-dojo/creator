@@ -3,8 +3,8 @@
 $(() => {
 
   $('button.next').click(() => {
-    const customName = cd.selectedDisplayName;
-    const params = `custom_name=${encodeURIComponent(customName)}`;
+    const exerciseName = cd.selectedDisplayName;
+    const params = `exercise_name=${encodeURIComponent(exerciseName)}`;
     window.location = `/creator/choose_type?${params}`;
   });
 

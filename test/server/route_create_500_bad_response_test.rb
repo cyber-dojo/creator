@@ -75,7 +75,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
 
     stdout,stderr = capture_stdout_stderr {
       get '/group_custom_create',
-      {display_names:['Java Countdown, Round 2']}.to_json
+      {display_name:'Java Countdown, Round 2'}.to_json
     }
     assert_status 500
     assert_json_content
@@ -85,7 +85,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
     assert_equal '/group_custom_create', ex['request']['path'], json_response
     assert_equal '', ex['request']['body'], json_response
     refute_nil ex['backtrace'], json_response
-    assert_equal 'missing keyword: :display_names', ex['message'], json_response
+    assert_equal 'missing keyword: :display_name', ex['message'], json_response
   end
 
 end

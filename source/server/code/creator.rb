@@ -9,9 +9,9 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def group_create_custom(display_names:, options:default_options)
-    manifest = custom_start_points.manifest(display_names[0])
-    create_group([manifest], options)
+  def group_create_custom(display_name:, options:default_options)
+    manifest = custom_start_points.manifest(display_name)
+    create_group(manifest, options)
   end
 
   def kata_create_custom(display_name:, options:default_options)
@@ -21,12 +21,12 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def group_create(exercise_name:, languages_names:, options:default_options)
+  def group_create(exercise_name:, language_name:, options:default_options)
     em = exercises_start_points.manifest(exercise_name)
-    manifest = languages_start_points.manifest(languages_names[0])
+    manifest = languages_start_points.manifest(language_name)
     manifest['visible_files'].merge!(em['visible_files'])
     manifest['exercise'] = em['display_name']
-    create_group([manifest], options)
+    create_group(manifest, options)
   end
 
   def kata_create(exercise_name:, language_name:, options:default_options)
@@ -41,7 +41,7 @@ class Creator
 
   def deprecated_group_create_custom(display_name:)
     manifest = custom_start_points.manifest(display_name)
-    create_group([manifest], default_options)
+    create_group(manifest, default_options)
   end
 
   def deprecated_kata_create_custom(display_name:)
@@ -60,11 +60,9 @@ class Creator
 
   #- - - - - - - - - - - - - - - - - -
 
-  def create_group(manifests, options)
-    id = model.group_create(manifests, options)
-    manifests.each do |manifest|
-      pull_image_onto_nodes(id, manifest['image_name'])
-    end
+  def create_group(manifest, options)
+    id = model.group_create([manifest], options)
+    pull_image_onto_nodes(id, manifest['image_name'])
     id
   end
 

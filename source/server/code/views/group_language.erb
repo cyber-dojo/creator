@@ -10,7 +10,7 @@ $(() => {
   $('button.create').click(() => {
     const exerciseName = urlParam('exercise_name');
     const displayName = encodeURIComponent(cd.selectedDisplayName);
-    const params = `exercise_name=${exerciseName}&languages_names[]=${displayName}`;
+    const params = `exercise_name=${exerciseName}&language_name=${displayName}`;
     window.location = `/creator/group_language_create?${params}`;
   });
 

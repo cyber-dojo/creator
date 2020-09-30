@@ -37,7 +37,7 @@ api_demo()
   curl_200           group_custom_choose exercise
   curl_200           kata_custom_choose exercise
   echo
-  curl_params_302    group_custom_create "$(url_custom_params)"
+  curl_params_302    group_custom_create "$(url_custom_param)"
   curl_params_302    kata_custom_create  "$(url_custom_param)"
   echo
   curl_200           group_exercise_choose our
@@ -46,7 +46,7 @@ api_demo()
   curl_200            group_language_choose our "$(url_exercise_param)"
   curl_200            kata_language_choose  my  "$(url_exercise_param)"
   echo
-  curl_url_params_302 group_language_create "$(url_exercise_param)" "$(url_languages_param)"
+  curl_url_params_302 group_language_create "$(url_exercise_param)" "$(url_language_param)"
   curl_url_params_302 kata_language_create  "$(url_exercise_param)" "$(url_language_param)"
   echo
 }
@@ -132,14 +132,14 @@ curl_url_params_302()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 port() { echo -n "${CYBER_DOJO_CREATOR_PORT}"; }
 
-url_custom_params() { url_param display_names[] "$(custom_name)"; }
+#url_custom_params() { url_param display_names[] "$(custom_name)"; }
 url_custom_param() { url_param display_name "$(custom_name)"; }
 custom_name() { echo -n 'Java Countdown, Round 1'; }
 
 url_exercise_param()  { url_param exercise_name "$(exercise_name)"; }
 exercise_name() { echo -n 'Fizz Buzz'; }
 
-url_languages_param() { url_param languages_names[] "$(language_name)"; }
+#url_languages_param() { url_param languages_names[] "$(language_name)"; }
 url_language_param()  { url_param language_name "$(language_name)"; }
 language_name() { echo -n 'Java, JUnit'; }
 

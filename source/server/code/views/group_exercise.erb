@@ -4,8 +4,8 @@ $(() => {
 
   $('button.next').click(() => {
     const displayName = cd.selectedDisplayName;
-    const params = `exercise_name=${encodeURIComponent(displayName)}`;
-    window.location = `/creator/group_language_choose?${params}`;
+    const param = 'exercise_name=' + encodeURIComponent(displayName);
+    window.location = `/creator/group_language_choose?${param}`;
   });
 
   $('button.switch').click(() => window.location = '/creator/group_custom_choose');

@@ -24,7 +24,7 @@ class CustomCreateTest < CreatorTestBase
   |redirects to /kata/group/:id page
   |and a group with :id exists
   ) do
-    get '/group_custom_create', display_names:[display_name]
+    get '/group_custom_create', display_name:display_name
     assert status?(302), status
     follow_redirect!
     assert html_content?, content_type
