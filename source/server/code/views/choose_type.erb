@@ -12,14 +12,14 @@ $(() => {
   });
 
   $('button.create.individual').click(() => {
-    window.location = `/creator/create?${urlParams()}&type=individual`;    
+    window.location = `/creator/create?${urlParams()}&type=individual`;
   });
 
 });
 </script>
 
-<div class="chooser-page">
-  <div class="chooser edged-panel">
+<div class="choose-type-page">
+  <div class="edged-panel">
     <div class="title">create a new exercise</div>
     <div class="sub-title">last step: choose the type</div>
     <button type="button" class="create group">create a group exercise</button>

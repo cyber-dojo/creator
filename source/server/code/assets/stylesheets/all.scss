@@ -23,6 +23,18 @@
   font-size:40px;
 }
 
+//- - - - - - - - - - - - - - - - - - - - - - - - -
+
+.choose-problem-page, .choose-custom-problem-page, .choose-ltf-page, .choose-type-page
+{
+  width:100%;
+  height:100%;
+  text-align:center;
+  display:inline-block;
+  margin: { top:10px; }
+  .edged-panel { width:835px; }
+}
+
 .title
 {
   @include non-code-font();
@@ -76,3 +88,11 @@ button.next, button.switch, button.create
   margin: { top:15px; }
 }
 button.switch { float:right; }
+
+button.create.group, button.create.individual
+{
+  font-size:40px;
+  width:830px;
+  display:block;
+  text-align:left;
+}
