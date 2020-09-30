@@ -41,6 +41,10 @@ tag_images()
 {
   docker tag ${CYBER_DOJO_CREATOR_IMAGE}:$(image_tag)        ${CYBER_DOJO_CREATOR_IMAGE}:latest
   docker tag ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:$(image_tag) ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:latest
+  echo
+  echo "CYBER_DOJO_CREATOR_SHA=$(git_commit_sha)"
+  echo "CYBER_DOJO_CREATOR_TAG=$(image_tag)"
+  echo
 }
 
 # - - - - - - - - - - - - - - - - - - - - - -
