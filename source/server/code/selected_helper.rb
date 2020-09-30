@@ -5,7 +5,7 @@ module SelectedHelper
     if visible_files.has_key?('readme.txt')
       return 'readme.txt'
     end
-    %w( feature spec test ).each do |key|
+    %w( feature spec test .rs ).each do |key|
       file = visible_files.keys.find { |filename| filename.downcase.include?(key) }
       unless file.nil?
         return file
