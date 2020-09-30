@@ -9,7 +9,6 @@ $(() => {
 
   $('button.next').click(() => {
     const ltfName = encodeURIComponent(cd.selectedDisplayName);
-    const s = urlParams();
     window.location = `/creator/choose_type?${urlParams()}&ltf_name=${ltfName}`;
   });
 
