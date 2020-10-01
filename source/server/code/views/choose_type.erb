@@ -8,11 +8,13 @@ $(() => {
   };
 
   $('button.create.group').click(() => {
-    window.location = `/creator/create_group_exercise?${urlParams()}`;
+    window.location = '/home/index';    
+    window.open(`/creator/create_group_exercise?${urlParams()}`);
   });
 
   $('button.create.individual').click(() => {
-    window.location = `/creator/create_individual_exercise?${urlParams()}`;
+    window.location = '/home/index';
+    window.open(`/creator/create_individual_exercise?${urlParams()}`);
   });
 
 });
