@@ -209,4 +209,11 @@ class CreatorTestBase < Id58TestBase
     assert_equal ['request','backtrace',name].sort, ex.keys.sort, stdout
   end
 
+  # - - - - - - - - - - - - - - -
+
+  def display_name_div(display_name)
+    name = Regexp.quote(escape_html(display_name))
+    /<div class="display-name"\s*data-name=".*"\s*data-index=".*">\s*#{name}\s*<\/div>/
+  end
+
 end

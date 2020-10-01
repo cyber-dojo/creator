@@ -17,15 +17,8 @@ class ChooseLanguageTest < CreatorTestBase
     assert status?(200), status
     html = last_response.body
     languages_start_points.display_names.each do |language_name|
-      assert html =~ div_for(language_name), language_name
+      assert html =~ display_name_div(language_name), language_name
     end
-  end
-
-  private
-
-  def div_for(display_name)
-    name = Regexp.quote(escape_html(display_name))
-    /<div class="display-name"\s*data-name=".*"\s*data-index=".*">\s*#{name}\s*<\/div>/
   end
 
 end
