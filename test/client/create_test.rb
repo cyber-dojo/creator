@@ -11,7 +11,7 @@ class CreateTest < CreatorTestBase
     @display_name = any_custom_start_points_display_name
   end
 
-  attr_reader :display_name, :exercise_name, :language_name
+  attr_reader :display_name
 
   # - - - - - - - - - - - - - - - - -
 
