@@ -72,7 +72,7 @@ class App < AppBase
         else
           id = creator.group_create(**params_args)
         end
-        redirect "/kata/group/#{id}"
+        redirect "/home/enter?id=#{id}"
       end
     end
   end
