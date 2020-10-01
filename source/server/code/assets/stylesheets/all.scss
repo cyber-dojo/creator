@@ -92,7 +92,14 @@ button.next, button.switch, button.create
   font-size:25px;
   margin: { top:15px; }
 }
-button.switch { float:right; margin-right:2px; }
+button.switch
+{
+  float:right;
+  margin-right:2px;
+  position:relative;
+  top:-431px;
+  font-size:21px;
+}
 
 button.create.group, button.create.individual
 {
