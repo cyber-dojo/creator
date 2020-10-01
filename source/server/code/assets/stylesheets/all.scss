@@ -49,7 +49,7 @@
 {
   @include non-code-font();
   padding-left:6px;
-  font-size:26px;
+  font-size:30px;
   margin-bottom:10px;
   color:$lighter-color;
   text-align:left;
@@ -89,7 +89,7 @@
 button.next, button.switch, button.create
 {
   @include non-code-font();
-  font-size:25px;
+  font-size:40px;
   margin: { top:15px; }
 }
 button.switch
