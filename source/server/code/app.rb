@@ -77,7 +77,7 @@ class App < AppBase
     end
   end
 
-  get '/create_individual_exercise', provides:[:html] do
+  get '/create_kata_exercise', provides:[:html] do
     respond_to do |format|
       format.html do
         if params_args.has_key?(:display_name)

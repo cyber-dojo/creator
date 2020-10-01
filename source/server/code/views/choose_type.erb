@@ -8,13 +8,13 @@ $(() => {
   };
 
   $('button.create.group').click(() => {
-    window.location = '/home/index';    
+    window.location = '/home/index';
     window.open(`/creator/create_group_exercise?${urlParams()}`);
   });
 
   $('button.create.individual').click(() => {
     window.location = '/home/index';
-    window.open(`/creator/create_individual_exercise?${urlParams()}`);
+    window.open(`/creator/create_kata_exercise?${urlParams()}`);
   });
 
 });
