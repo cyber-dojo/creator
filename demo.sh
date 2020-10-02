@@ -19,7 +19,7 @@ html_demo()
   if [ "${1:-}" == '--no-browser' ]; then
     containers_down
   else
-    open "http://${IP_ADDRESS}:80/creator/group_exercise_choose"
+    open "http://${IP_ADDRESS}:80/creator/choose_problem"
   fi
 }
 

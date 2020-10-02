@@ -12,7 +12,7 @@ $(() => {
     window.open(`/creator/create_group_exercise?${urlParams()}`);
   });
 
-  $('button.create.individual').click(() => {
+  $('button.create.single').click(() => {
     window.location = '/home/index';
     window.open(`/creator/create_kata_exercise?${urlParams()}`);
   });
@@ -25,6 +25,6 @@ $(() => {
     <div class="title">create a new exercise</div>
     <div class="sub-title">choose the exercise type</div>
     <button type="button" class="create group">create a group exercise</button>
-    <button type="button" class="create individual">create an individual exercise</button>
+    <button type="button" class="create single">create a single exercise</button>
   </div>
 <div>
