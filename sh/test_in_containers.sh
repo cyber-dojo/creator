@@ -20,9 +20,6 @@ test_in_containers()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
-on_ci() { [ -n "${CIRCLECI:-}" ]; }
-
-# - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_client_tests()
 {
   run_tests "${CYBER_DOJO_CREATOR_CLIENT_USER}" client "${@:-}"

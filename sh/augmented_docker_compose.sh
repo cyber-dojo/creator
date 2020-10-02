@@ -17,6 +17,7 @@ augmented_docker_compose()
                      avatars \
     | tee /tmp/augmented-docker-compose.creator.peek.yml \
     | docker-compose \
-      --file -       \
-      "$@"
+        --project-name cyber-dojo \
+        --file -       \
+        "$@"
 }

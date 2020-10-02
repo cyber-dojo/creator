@@ -9,7 +9,7 @@ build_tagged_images()
   remove_all_but_latest "${dil}" "${CYBER_DOJO_CREATOR_CLIENT_IMAGE}"
   remove_all_but_latest "${dil}" "${CYBER_DOJO_CREATOR_IMAGE}"
   build_images
-  tag_images
+  tag_images_to_latest
   check_embedded_env_var
 }
 
@@ -37,7 +37,7 @@ build_images()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - -
-tag_images()
+tag_images_to_latest()
 {
   docker tag ${CYBER_DOJO_CREATOR_IMAGE}:$(image_tag)        ${CYBER_DOJO_CREATOR_IMAGE}:latest
   docker tag ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:$(image_tag) ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:latest
@@ -56,4 +56,34 @@ check_embedded_env_var()
     echo "  actual: 'SHA=$(sha_in_image)'"
     exit 42
   fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+git_commit_sha()
+{
+  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_name()
+{
+  echo "${CYBER_DOJO_CREATOR_IMAGE}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_sha()
+{
+  echo "${CYBER_DOJO_CREATOR_SHA}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+image_tag()
+{
+  echo "${CYBER_DOJO_CREATOR_TAG}"
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+sha_in_image()
+{
+  docker run --rm $(image_name):$(image_tag) sh -c 'echo -n ${SHA}'
 }

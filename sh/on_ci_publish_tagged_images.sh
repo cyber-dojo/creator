@@ -1,12 +1,6 @@
 #!/bin/bash -Eeu
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-on_ci()
-{
-  [ -n "${CIRCLECI:-}" ]
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci_publish_tagged_images()
 {
   if ! on_ci; then
@@ -22,4 +16,10 @@ on_ci_publish_tagged_images()
   docker push "${image}:latest"
   docker push "${image}:${tag}"
   docker logout
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
+on_ci()
+{
+  [ -n "${CIRCLECI:-}" ]
 }
