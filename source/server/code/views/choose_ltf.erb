@@ -2,14 +2,9 @@
 'use strict';
 $(() => {
 
-  const urlParams = () => {
-    const s = window.location.search;
-    return s.substring(s.indexOf('?') + 1);
-  };
-
   $('button.next').click(() => {
     const name = encodeURIComponent(cd.selectedDisplayName);
-    window.location = `/creator/choose_type?${urlParams()}&language_name=${name}`;
+    window.location = `/creator/choose_type?${cd.urlParams()}&language_name=${name}`;
   });
 
 });

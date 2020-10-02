@@ -2,20 +2,13 @@
 'use strict';
 $(() => {
 
-  const urlParams = () => {
-    const url = window.location.search;
-    return url.substring(url.indexOf('?') + 1);
+  $('button.create.group' ).click(() => goto(`/creator/create_group_exercise?${cd.urlParams()}`));
+  $('button.create.single').click(() => goto(`/creator/create_kata_exercise?${cd.urlParams()}`));
+
+  const goto = (url) => {
+    window.location = '/home/index';
+    window.open(url);
   };
-
-  $('button.create.group').click(() => {
-    window.location = '/home/index';
-    window.open(`/creator/create_group_exercise?${urlParams()}`);
-  });
-
-  $('button.create.single').click(() => {
-    window.location = '/home/index';
-    window.open(`/creator/create_kata_exercise?${urlParams()}`);
-  });
 
 });
 </script>
