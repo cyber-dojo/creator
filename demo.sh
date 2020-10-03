@@ -7,7 +7,6 @@ source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
 source "${SH_DIR}/containers_up.sh"
 source "${SH_DIR}/ip_address.sh"
-source "${SH_DIR}/image_name_sha_tag.sh"
 export $(versioner_env_vars)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
