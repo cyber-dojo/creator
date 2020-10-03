@@ -6,8 +6,20 @@ $(() => {
 
   const goto = (url) => {
     window.location = '/home/index';
-    window.open(url);
+    window.open(url); // new tab so no back button
   };
+
+  const fillIn = (paramName, name) => {
+      const value = cd.urlParam(paramName);
+      if (value) {
+        $(`.${paramName}`).html(`${name} = ${value}`);
+      }
+  };
+
+  fillIn('type',          'exercise-type');
+  fillIn('exercise_name', 'problem');
+  fillIn('display_name',  'custom-problem');
+  fillIn('language_name', 'language & test-framework');
 
 });
 </script>
@@ -15,7 +27,10 @@ $(() => {
 <div class="submit-page">
   <div class="edged-panel">
     <div class="title">create a new exercise</div>
-    ...
+    <div class="sub-title type"></div>
+    <div class="sub-title exercise_name"></div>
+    <div class="sub-title display_name"></div>
+    <div class="sub-title language_name"></div>
     <button type="button" class="submit">submit</button>
   </div>
 <div>

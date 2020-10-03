@@ -29,7 +29,7 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 2 : choose a problem
+  # Step 2 : choose a problem or custom-problem
 
   get '/choose_problem', provides:[:html] do
     respond_to do |format|
@@ -50,7 +50,7 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 3 : choose a language + test-framework
+  # Step 3 : choose a language + test-framework (not for custom-problem)
 
   get '/choose_ltf', provides:[:html] do
     respond_to do |format|

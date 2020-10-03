@@ -27,4 +27,9 @@ cd.urlParams = () => {
   return url.substring(url.indexOf('?') + 1);
 };
 
+cd.urlParam = (name) => {
+  const searchParams = new URLSearchParams(window.location.search);
+  return searchParams.get(name);
+};
+
 cd.goto = (url) => window.location = url;
