@@ -25,7 +25,8 @@
 
 //- - - - - - - - - - - - - - - - - - - - - - - - -
 
-.choose-problem-page, .choose-custom-problem-page, .choose-ltf-page, .choose-type-page
+.choose-type-page, .choose-problem-page, .choose-custom-problem-page,
+.choose-ltf-page, .submit-page
 {
   width:100%;
   height:100%;
@@ -86,7 +87,7 @@
   }
 }
 
-button.next, button.switch, button.create
+button.next, button.switch, button.group, button.single, button.submit
 {
   @include non-code-font();
   font-size:40px;
@@ -101,7 +102,7 @@ button.switch
   font-size:21px;
 }
 
-button.create.group, button.create.single
+button.group, button.single
 {
   font-size:40px;
   width:830px;

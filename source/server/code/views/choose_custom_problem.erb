@@ -4,8 +4,8 @@ $(() => {
 
   $('button.next').click(() => {
     const name = cd.selectedDisplayName;
-    const params = `display_name=${encodeURIComponent(name)}`;
-    window.location = `/creator/choose_type?${params}`;
+    const param = encodeURIComponent(name);
+    cd.goto(`/creator/submit?${cd.urlParams()}&display_name=${param}`);
   });
 
 });

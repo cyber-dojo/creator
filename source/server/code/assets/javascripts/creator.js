@@ -26,3 +26,5 @@ cd.urlParams = () => {
   const url = window.location.search;
   return url.substring(url.indexOf('?') + 1);
 };
+
+cd.goto = (url) => window.location = url;

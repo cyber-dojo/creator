@@ -5,10 +5,10 @@ $(() => {
   $('button.next').click(() => {
     const name = cd.selectedDisplayName;
     const params = `exercise_name=${encodeURIComponent(name)}`;
-    window.location = `/creator/choose_ltf?${params}`;
+    cd.goto(`/creator/choose_ltf?${cd.urlParams()}&${params}`);
   });
 
-  $('button.switch').click(() => window.location = '/creator/choose_custom_problem');
+  $('button.switch').click(() => cd.goto(`/creator/choose_custom_problem?${cd.urlParams()}`));
 
 });
 </script>

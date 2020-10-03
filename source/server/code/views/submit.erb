@@ -1,0 +1,21 @@
+<script>
+'use strict';
+$(() => {
+
+  $('button.submit' ).click(() => goto(`/creator/create?${cd.urlParams()}`));
+
+  const goto = (url) => {
+    window.location = '/home/index';
+    window.open(url);
+  };
+
+});
+</script>
+
+<div class="submit-page">
+  <div class="edged-panel">
+    <div class="title">create a new exercise</div>
+    ...
+    <button type="button" class="submit">submit</button>
+  </div>
+<div>

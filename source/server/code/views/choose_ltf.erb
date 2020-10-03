@@ -4,7 +4,7 @@ $(() => {
 
   $('button.next').click(() => {
     const name = encodeURIComponent(cd.selectedDisplayName);
-    window.location = `/creator/choose_type?${cd.urlParams()}&language_name=${name}`;
+    cd.goto(`/creator/submit?${cd.urlParams()}&language_name=${name}`);
   });
 
 });

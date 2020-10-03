@@ -2,13 +2,8 @@
 'use strict';
 $(() => {
 
-  $('button.create.group' ).click(() => goto(`/creator/create_group_exercise?${cd.urlParams()}`));
-  $('button.create.single').click(() => goto(`/creator/create_kata_exercise?${cd.urlParams()}`));
-
-  const goto = (url) => {
-    window.location = '/home/index';
-    window.open(url);
-  };
+  $('button.group' ).click(() => cd.goto('/creator/choose_problem?type=group'));
+  $('button.single').click(() => cd.goto('/creator/choose_problem?type=single'));
 
 });
 </script>
@@ -16,8 +11,8 @@ $(() => {
 <div class="choose-type-page">
   <div class="edged-panel">
     <div class="title">create a new exercise</div>
-    <div class="sub-title">choose the exercise type</div>
-    <button type="button" class="create group">create a group exercise</button>
-    <button type="button" class="create single">create a single exercise</button>
+    <div class="sub-title">a group exercise, or a single exercise?</div>
+    <button type="button" class="group">a group exercise</button>
+    <button type="button" class="single">a single exercise</button>
   </div>
 <div>

@@ -18,7 +18,18 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 1 : choose a problem
+  # Step 1 : choose a type (group or single)
+
+  get '/choose_type', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        erb :choose_type
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+  # Step 2 : choose a problem
 
   get '/choose_problem', provides:[:html] do
     respond_to do |format|
@@ -39,7 +50,7 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 2 : choose a language + test-framework
+  # Step 3 : choose a language + test-framework
 
   get '/choose_ltf', provides:[:html] do
     respond_to do |format|
@@ -51,42 +62,43 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 3 : choose a type (group or individual)
+  # Step 4 : submit
 
-  get '/choose_type', provides:[:html] do
+  get '/submit', provides:[:html] do
     respond_to do |format|
       format.html do
-        erb :choose_type
+        erb :submit
       end
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - -
-  # Step 4 : create the exercise
-
-  get '/create_group_exercise', provides:[:html] do
+  get '/create', provides:[:html] do
     respond_to do |format|
       format.html do
-        if params_args.has_key?(:display_name)
-          id = creator.group_create_custom(**params_args)
+        type = params_args.delete(:type)
+        if type === 'group'
+          id = create_group
         else
-          id = creator.group_create(**params_args)
+          id = create_kata
         end
         redirect "/home/enter?id=#{id}"
       end
     end
   end
 
-  get '/create_kata_exercise', provides:[:html] do
-    respond_to do |format|
-      format.html do
-        if params_args.has_key?(:display_name)
-          id = creator.kata_create_custom(**params_args)
-        else
-          id = creator.kata_create(**params_args)
-        end
-        redirect "/home/enter?id=#{id}"
-      end
+  def create_group
+    if params_args.has_key?(:display_name)
+      creator.group_create_custom(**params_args)
+    else
+      creator.group_create(**params_args)
+    end
+  end
+
+  def create_kata
+    if params_args.has_key?(:display_name)
+      creator.kata_create_custom(**params_args)
+    else
+      creator.kata_create(**params_args)
     end
   end
 
@@ -207,7 +219,7 @@ class App < AppBase
   private
 
   def params_args
-    symbolized(params)
+    @params_args ||= symbolized(params)
   end
 
   def set_view_data(start_points)
