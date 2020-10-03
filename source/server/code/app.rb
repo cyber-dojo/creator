@@ -85,7 +85,7 @@ class App < AppBase
         else
           id = creator.kata_create(**params_args)
         end
-        redirect "/kata/edit/#{id}"
+        redirect "/home/enter?id=#{id}"
       end
     end
   end
