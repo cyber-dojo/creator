@@ -60,8 +60,8 @@
 {
   @include centered();
 
-  .display-names   { width:300px; max-width:300px; height:360px; max-height:360px; }
-  .display-content { width:500px; max-width:500px; height:360px; max-height:360px; }
+  .display-names   { width:300px; max-width:300px; height:320px; max-height:320px; }
+  .display-content { width:500px; max-width:500px; height:320px; max-height:320px; }
   .display-names, .display-content
   {
     display:inline-block;
