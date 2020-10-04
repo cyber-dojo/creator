@@ -19,12 +19,13 @@ class CreateGroupTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'w9A', %w(
-  |GET /create_group_exercise
-  |with [exercise_name,language_name] URL params
+  |GET /create
+  |with [type=group,exercise_name,language_name] URL params
   |redirects to /home/enter?id=ID page
   |and a group-exercise with ID exists
   ) do
-    get '/create_group_exercise', {
+    get '/create', {
+      type:'group',
       exercise_name:exercise_name,
       language_name:language_name
     }
@@ -42,12 +43,13 @@ class CreateGroupTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'w9B', %w(
-  |GET /create_group_exercise
-  |with [display_name] URL params
+  |GET /create
+  |with [type=group,display_name] URL params
   |redirects to /home/enter?id=ID page
   |and a group-exercise with ID exists
   ) do
-    get '/create_group_exercise', {
+    get '/create', {
+      type:'group',
       display_name:display_name
     }
     assert status?(302), status
