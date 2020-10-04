@@ -44,6 +44,29 @@ class CreateGroupTest < CreatorTestBase
 
   test 'w9B', %w(
   |GET /create
+  |with [type=group,language_name] URL params
+  |redirects to /home/enter?id=ID page
+  |and a group-exercise with ID exists
+  ) do
+    get '/create', {
+      type:'group',
+      language_name:language_name
+    }
+    assert status?(302), status
+    follow_redirect!
+    assert html_content?, content_type
+    url = last_request.url # eg http://example.org/home/enter?id=xCSKgZ
+    assert %r"http://example.org/home/enter\?id=(?<id>.*)" =~ url, url
+    assert group_exists?(id), "id:#{id}:" # eg xCSKgZ
+    manifest = group_manifest(id)
+    assert_equal language_name, manifest['display_name'], manifest
+    refute manifest.has_key?('exercise'), :skipped_exercise
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  test 'w9C', %w(
+  |GET /create
   |with [type=group,display_name] URL params
   |redirects to /home/enter?id=ID page
   |and a group-exercise with ID exists
