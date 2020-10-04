@@ -2,12 +2,7 @@
 'use strict';
 $(() => {
 
-  $('button.confirm' ).click(() => goto(`/creator/submit?${cd.urlParams()}`));
-
-  const goto = (url) => {
-    window.location = '/home/index';
-    window.open(url); // new tab so no back button
-  };
+  $('button.confirm' ).click(() => cd.goto(`/creator/submit?${cd.urlParams()}`));
 
   const fillIn = (paramName, name) => {
       const value = cd.urlParam(paramName);
