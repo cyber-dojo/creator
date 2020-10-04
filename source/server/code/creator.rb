@@ -22,18 +22,22 @@ class Creator
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def group_create(exercise_name:, language_name:, options:default_options)
-    em = exercises_start_points.manifest(exercise_name)
     manifest = languages_start_points.manifest(language_name)
-    manifest['visible_files'].merge!(em['visible_files'])
-    manifest['exercise'] = em['display_name']
+    unless exercise_name.nil?
+      exercise = exercises_start_points.manifest(exercise_name)
+      manifest['visible_files'].merge!(exercise['visible_files'])
+      manifest['exercise'] = exercise['display_name']
+    end
     create_group(manifest, options)
   end
 
   def kata_create(exercise_name:, language_name:, options:default_options)
-    em = exercises_start_points.manifest(exercise_name)
     manifest = languages_start_points.manifest(language_name)
-    manifest['visible_files'].merge!(em['visible_files'])
-    manifest['exercise'] = em['display_name']
+    unless exercise_name.nil?
+      exercise = exercises_start_points.manifest(exercise_name)
+      manifest['visible_files'].merge!(exercise['visible_files'])
+      manifest['exercise'] = exercise['display_name']
+    end
     create_kata(manifest, options)
   end
 

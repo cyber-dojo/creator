@@ -87,18 +87,18 @@
   }
 }
 
-button.next, button.switch, button.group, button.single, button.submit
+button.next, button.skip, button.switch, button.group, button.single, button.submit
 {
   @include non-code-font();
   font-size:40px;
   margin: { top:15px; }
 }
-button.switch
+button.switch, button.skip
 {
   float:right;
   margin-right:2px;
   position:relative;
-  top:-431px;
+  top:-393px;
   font-size:21px;
 }
 

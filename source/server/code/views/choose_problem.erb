@@ -8,6 +8,8 @@ $(() => {
     cd.goto(`/creator/choose_ltf?${cd.urlParams()}&${params}`);
   });
 
+  $('button.skip').click(() => cd.goto(`/creator/choose_ltf?${cd.urlParams()}`));
+
   $('button.switch').click(() => cd.goto(`/creator/choose_custom_problem?${cd.urlParams()}`));
 
 });
@@ -19,6 +21,7 @@ $(() => {
     <div class="sub-title">choose a problem</div>
     <%= erb :'shared/display_names' %>
     <button type="button" class="next">next</button>
+    <button type="button" class="skip">skip</button>
     <button type="button" class="switch">switch to custom problems</button>
   </div>
 <div>

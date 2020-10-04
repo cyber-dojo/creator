@@ -90,6 +90,7 @@ class App < AppBase
     if params_args.has_key?(:display_name)
       creator.group_create_custom(**params_args)
     else
+      params_args[:exercise_name] ||= nil
       creator.group_create(**params_args)
     end
   end
@@ -98,6 +99,7 @@ class App < AppBase
     if params_args.has_key?(:display_name)
       creator.kata_create_custom(**params_args)
     else
+      params_args[:exercise_name] ||= nil      
       creator.kata_create(**params_args)
     end
   end
