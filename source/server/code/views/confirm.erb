@@ -2,7 +2,7 @@
 'use strict';
 $(() => {
 
-  $('button.submit' ).click(() => goto(`/creator/create?${cd.urlParams()}`));
+  $('button.confirm' ).click(() => goto(`/creator/submit?${cd.urlParams()}`));
 
   const goto = (url) => {
     window.location = '/home/index';
@@ -24,13 +24,13 @@ $(() => {
 });
 </script>
 
-<div class="submit-page">
+<div class="confirm-page">
   <div class="edged-panel">
     <div class="title">create a new exercise</div>
     <div class="sub-title type"></div>
     <div class="sub-title exercise_name"></div>
     <div class="sub-title display_name"></div>
     <div class="sub-title language_name"></div>
-    <button type="button" class="submit">submit</button>
+    <button type="button" class="confirm">confirm</button>
   </div>
 <div>

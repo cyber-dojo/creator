@@ -64,15 +64,15 @@ class App < AppBase
   # - - - - - - - - - - - - - - - - - - - - -
   # Step 4 : submit
 
-  get '/submit', provides:[:html] do
+  get '/confirm', provides:[:html] do
     respond_to do |format|
       format.html do
-        erb :submit
+        erb :confirm
       end
     end
   end
 
-  get '/create', provides:[:html] do
+  get '/submit', provides:[:html] do
     respond_to do |format|
       format.html do
         type = params_args.delete(:type)
@@ -99,7 +99,7 @@ class App < AppBase
     if params_args.has_key?(:display_name)
       creator.kata_create_custom(**params_args)
     else
-      params_args[:exercise_name] ||= nil      
+      params_args[:exercise_name] ||= nil
       creator.kata_create(**params_args)
     end
   end

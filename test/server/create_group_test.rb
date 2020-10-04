@@ -19,16 +19,19 @@ class CreateGroupTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'w9A', %w(
-  |GET /create
+  |GET /submit
   |with [type=group,exercise_name,language_name] URL params
   |redirects to /home/enter?id=ID page
   |and a group-exercise with ID exists
   ) do
-    get '/create', {
+    args = {
       type:'group',
       exercise_name:exercise_name,
       language_name:language_name
     }
+    get '/confirm', args
+    assert status?(200), status
+    get '/submit', args
     assert status?(302), status
     follow_redirect!
     assert html_content?, content_type
@@ -43,15 +46,18 @@ class CreateGroupTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'w9B', %w(
-  |GET /create
+  |GET /submit
   |with [type=group,language_name] URL params
   |redirects to /home/enter?id=ID page
   |and a group-exercise with ID exists
   ) do
-    get '/create', {
+    args = {
       type:'group',
       language_name:language_name
     }
+    get '/confirm', args
+    assert status?(200), status
+    get '/submit', args
     assert status?(302), status
     follow_redirect!
     assert html_content?, content_type
@@ -66,15 +72,18 @@ class CreateGroupTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'w9C', %w(
-  |GET /create
+  |GET /submit
   |with [type=group,display_name] URL params
   |redirects to /home/enter?id=ID page
   |and a group-exercise with ID exists
   ) do
-    get '/create', {
+    args = {
       type:'group',
       display_name:display_name
     }
+    get '/confirm', args
+    assert status?(200), status
+    get '/submit', args
     assert status?(302), status
     follow_redirect!
     assert html_content?, content_type

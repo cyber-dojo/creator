@@ -26,7 +26,7 @@
 //- - - - - - - - - - - - - - - - - - - - - - - - -
 
 .choose-type-page, .choose-problem-page, .choose-custom-problem-page,
-.choose-ltf-page, .submit-page
+.choose-ltf-page, .confirm-page
 {
   width:100%;
   height:100%;
@@ -87,7 +87,7 @@
   }
 }
 
-button.next, button.skip, button.switch, button.group, button.single, button.submit
+button.next, button.skip, button.switch, button.group, button.single, button.confirm
 {
   @include non-code-font();
   font-size:40px;
