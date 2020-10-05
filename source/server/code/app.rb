@@ -18,18 +18,7 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 1 : choose a type (group or single)
-
-  get '/choose_type', provides:[:html] do
-    respond_to do |format|
-      format.html do
-        erb :choose_type
-      end
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-  # Step 2 : choose a problem or custom-problem
+  # Step 1 : choose a problem or custom-problem
 
   get '/choose_problem', provides:[:html] do
     respond_to do |format|
@@ -50,7 +39,7 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 3 : choose a language + test-framework (not for custom-problem)
+  # Step 2 : choose a language + test-framework (not for custom-problem)
 
   get '/choose_ltf', provides:[:html] do
     respond_to do |format|
@@ -62,7 +51,7 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 4 : submit
+  # Step 3 : submit
 
   get '/confirm', provides:[:html] do
     respond_to do |format|
