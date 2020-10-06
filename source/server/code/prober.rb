@@ -6,15 +6,15 @@ class Prober # k8s/curl probing + identity
     @externals = externals
   end
 
-  def alive?
+  def alive?(_args)
     true
   end
 
-  def ready?
+  def ready?(_args)
     dependent_services.all?(&:ready?)
   end
 
-  def sha
+  def sha(_args)
     ENV['SHA']
   end
 

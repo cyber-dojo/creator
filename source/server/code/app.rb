@@ -2,6 +2,7 @@
 require_relative 'app_base'
 require_relative 'creator'
 require_relative 'escape_html_helper'
+require_relative 'prober'
 require_relative 'selected_helper'
 
 class App < AppBase
@@ -16,6 +17,12 @@ class App < AppBase
   def creator
     Creator.new(externals)
   end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
+  get_delegate(Prober, :alive?)
+  get_delegate(Prober, :ready?)
+  get_delegate(Prober, :sha)
 
   # - - - - - - - - - - - - - - - - - - - - -
   # Step 1 : choose a problem or custom-problem
