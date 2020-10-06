@@ -82,7 +82,7 @@ class CreateKataTest < CreatorTestBase
       display_name:display_name
     }
     get '/confirm', args
-    assert status?(200), status    
+    assert status?(200), status
     get '/submit', args
     assert status?(302), status
     follow_redirect!

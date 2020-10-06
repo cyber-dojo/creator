@@ -2,6 +2,8 @@
 'use strict';
 $(() => {
 
+  $('.type').html(cd.urlParam('type'));
+
   $('button.next').click(() => {
     const name = cd.selectedDisplayName;
     const params = `exercise_name=${encodeURIComponent(name)}`;
@@ -17,7 +19,7 @@ $(() => {
 
 <div class="choose-problem-page">
   <div class="edged-panel">
-    <div class="title">create a new exercise</div>
+    <div class="title">create a new <span class="type"></span> exercise</div>
     <div class="sub-title">choose a problem</div>
     <%= erb :'shared/display_names' %>
     <button type="button" class="next">next</button>

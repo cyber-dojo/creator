@@ -2,6 +2,8 @@
 'use strict';
 $(() => {
 
+  $('.type').html(cd.urlParam('type'));
+
   $('button.confirm' ).click(() => cd.goto(`/creator/submit?${cd.urlParams()}`));
 
   const fillIn = (paramName, name) => {
@@ -11,7 +13,6 @@ $(() => {
       }
   };
 
-  fillIn('type',          'exercise-type');
   fillIn('exercise_name', 'problem');
   fillIn('display_name',  'custom-problem');
   fillIn('language_name', 'language & test-framework');
@@ -21,8 +22,7 @@ $(() => {
 
 <div class="confirm-page">
   <div class="edged-panel">
-    <div class="title">create a new exercise</div>
-    <div class="sub-title type"></div>
+    <div class="title">create a new <span class="type"></span> exercise</div>
     <div class="sub-title exercise_name"></div>
     <div class="sub-title display_name"></div>
     <div class="sub-title language_name"></div>
