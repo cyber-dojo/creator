@@ -73,7 +73,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   ) do
     stub_model_http(not_json='xxxx')
 
-    stdout,stderr = capture_stdout_stderr {
+    stdout,stderr = capture_io {
       get '/group_custom_create',
       {display_name:'Java Countdown, Round 2'}.to_json
     }

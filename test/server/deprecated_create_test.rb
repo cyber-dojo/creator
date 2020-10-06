@@ -68,7 +68,7 @@ class DeprecatedCreateTest < CreatorTestBase
   |with body that is non JSON
   |has status 500
   ) do
-    stdout,stderr = capture_stdout_stderr {
+    stdout,stderr = capture_io {
       post '/deprecated_kata_create_custom',
       'not-JSON',
       JSON_REQUEST_HEADERS
@@ -91,7 +91,7 @@ class DeprecatedCreateTest < CreatorTestBase
   |with body that is non JSON-Hash
   |has status 500
   ) do
-    stdout,stderr = capture_stdout_stderr {
+    stdout,stderr = capture_io {
       post '/deprecated_kata_create_custom',
       '[42]',
       JSON_REQUEST_HEADERS

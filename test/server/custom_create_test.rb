@@ -63,7 +63,7 @@ class CustomCreateTest < CreatorTestBase
   |GET/kata_custom_create with unknown display_name
   |is 500 error
   ) do
-    stdout,stderr = capture_stdout_stderr {
+    stdout,stderr = capture_io {
       get '/kata_custom_create', display_name:'unknown'
     }
     verify_exception_info_on(stdout, 'http_service')
@@ -77,7 +77,7 @@ class CustomCreateTest < CreatorTestBase
   |GET/group_custom_create with extra parameter
   |is 500 error
   ) do
-    stdout,stderr = capture_stdout_stderr {
+    stdout,stderr = capture_io {
       get '/kata_custom_create', {
         display_name:display_name,
         extra:'wibble'
@@ -94,7 +94,7 @@ class CustomCreateTest < CreatorTestBase
   |GET/group_custom_create with non-JSON in request body
   |is 500 error
   ) do
-    stdout,stderr = capture_stdout_stderr {
+    stdout,stderr = capture_io {
       get '/kata_custom_create', 'non-JSON', { 'CONTENT_TYPE' => 'application/json' }
     }
     verify_exception_info_on(stdout, 'message')
@@ -108,7 +108,7 @@ class CustomCreateTest < CreatorTestBase
   |GET/group_custom_create with non-JSON-Hash in request body
   |is 500 error
   ) do
-    stdout,stderr = capture_stdout_stderr {
+    stdout,stderr = capture_io {
       get '/kata_custom_create', '42', { 'CONTENT_TYPE' => 'application/json' }
     }
     verify_exception_info_on(stdout, 'message')
