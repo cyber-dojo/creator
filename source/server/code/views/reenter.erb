@@ -1,0 +1,48 @@
+<script>
+'use strict';
+$(() => {
+
+  const groupId = "<%= @group_id %>";
+
+  cd.setupHoverTips($('[data-tip]'));
+
+  $('.small.colour.reenter.avatar').click((event) => {
+    const kataId = $(event.target).data('id');
+    window.open(`/kata/edit/${kataId}`);
+    window.location = `/home/index?id=${groupId}`;
+  });
+
+});
+</script>
+
+<div id="reenter-page">
+  <div class="edged-panel">
+
+    <div class="title">click your avatar</div>
+
+    <table>
+      <% 8.times do |y| %>
+      <tr>
+        <% 8.times do |x| %>
+        <td>
+          <% index = y*8 + x %>
+          <% kata_id = @avatars[index] %>
+          <% avatar_name = @avatars_names[index] %>
+          <% if kata_id %>
+            <div data-tip="<%= avatar_name %>">
+              <img data-id="<%= kata_id %>"
+                   src="/avatars/image/<%= index %>"
+                   class="small colour reenter avatar"/>
+            </div>
+          <% else %>
+            <img src="/avatars/image/<%= index %>"
+                 class="small grey avatar"/>
+          <% end %>
+        </td>
+        <% end %>
+      </tr>
+      <% end %>
+    </table>
+
+  </div>
+</div>

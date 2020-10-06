@@ -3,7 +3,6 @@
 source "${SH_DIR}/augmented_docker_compose.sh"
 source "${SH_DIR}/ip_address.sh"
 readonly IP_ADDRESS=$(ip_address) # slow
-export NO_PROMETHEUS=true
 
 # - - - - - - - - - - - - - - - - - - - - - -
 wait_briefly_until_ready()
@@ -136,6 +135,7 @@ containers_up()
   if [ "${1:-}" == 'api-demo' ]; then
     container_up nginx
     wait_briefly_until_ready ${CYBER_DOJO_CREATOR_PORT} creator-server
+    copy_in_saver_test_data    
     return
   fi
 
@@ -146,4 +146,18 @@ containers_up()
 
   container_up_and_ready ${CYBER_DOJO_CREATOR_CLIENT_PORT} creator-client
   exit_if_unclean creator-client
+
+  copy_in_saver_test_data
+}
+
+# - - - - - - - - - - - - - - - - - - -
+copy_in_saver_test_data()
+{
+  local -r SRC_PATH=${ROOT_DIR}/test/data/cyber-dojo
+  local -r SAVER_CID=$(docker ps --filter status=running --format '{{.Names}}' | grep "saver")
+  local -r DEST_PATH=/cyber-dojo
+  # You cannot docker cp to a tmpfs, so tar-piping instead...
+  cd ${SRC_PATH} \
+    && tar -c . \
+    | docker exec -i ${SAVER_CID} tar x -C ${DEST_PATH}
 }

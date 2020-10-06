@@ -1,0 +1,35 @@
+<script>
+'use strict';
+$(() => {
+
+  const groupId = "<%= @group_id %>";
+  const kataId = "<%= @kata_id %>";
+
+  $('.ok.button').click(() => {
+    window.location = `/home/index?id=${groupId}`;
+    window.open(`/kata/edit/${kataId}`);
+  });
+
+});
+</script>
+
+<div id="avatar-page">
+  <div class="edged-panel">
+
+    <div class="title">your avatar is</div>
+    <table>
+      <% 8.times do %>
+      <tr>
+        <% 8.times do %>
+        <td>
+          <img class="small colour avatar" src="/avatars/image/<%= @index %>"/>
+        </td>
+        <% end %>
+      </tr>
+      <% end %>
+    </table>
+    <div class="avatar-name">the <%= @avatar_name %></div>
+    <div class="ok button">ok</div>
+
+  </div>
+</div>

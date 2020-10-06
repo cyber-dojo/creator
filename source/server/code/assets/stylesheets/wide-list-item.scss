@@ -5,16 +5,12 @@
   color: $lighter-color;
   background: $darker-color;
   text-align: left;
-
   border: 1px solid $darker-color;
   margin: 0px;
   padding: { left: 6px; right: 0px; }
   cursor: pointer;
-
-  overflow-y: none;
-  &::-webkit-scrollbar:vertical { width: 0px; }
-  &::-webkit-scrollbar:horizontal { height: 0px; }
-  overflow-x: auto;
+  overflow-x:auto;
+  overflow-y:hidden;
 
   &[class~='selected']
   {

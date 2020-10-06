@@ -7,6 +7,8 @@
 @import "button";
 @import "body";
 @import "centered";
+@import "avatar-images";
+@import "enter";
 
 .chooser-page
 {
@@ -65,8 +67,8 @@
   .display-names, .display-content
   {
     display:inline-block;
+    overflow-x:hidden;
     overflow-y:auto;
-    overflow-x:none;
   }
   .display-names
   {

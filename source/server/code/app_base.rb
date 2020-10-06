@@ -46,8 +46,6 @@ class AppBase < Sinatra::Base
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   private
 
   def self.get_delegate(klass, name)
@@ -78,16 +76,13 @@ class AppBase < Sinatra::Base
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
+  private
 
   def json_args
     symbolized(json_payload)
   end
 
-  private
-
-  def symbolized(h)
-    # named-args require symbolization
+  def symbolized(h) # named-args require symbolization
     Hash[h.map{ |key,value| [key.to_sym, value] }]
   end
 

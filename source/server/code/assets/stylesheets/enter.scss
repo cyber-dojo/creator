@@ -1,0 +1,42 @@
+
+#enter-page
+{
+  @include non-code-font();
+  .enter-id
+  {
+    margin: { left:5px; right:5px; }
+    input
+    {
+      @include non-code-font();
+      @include rounded-corner(6px);
+      margin: { left:10px; bottom:10px; }
+      font-size:41px;
+      width:220px;
+      padding-left:10px;
+      background:lighten($green, 20%);
+      color:$darker-color;
+      &.invalid { color:darken($red, 10%); }
+    }
+  }
+  .wait-spinner
+  {
+    display:none;
+    position:absolute;
+         top:161px;
+        left:554px;
+       width:56px;
+      height:56px;
+  }
+  .phonetic-id { font-size:26px; margin: { left:10px; bottom:10px; } }
+  .button
+  {
+    &.enter.group, &.reenter.group, &.open.dashboard, &.enter.single
+    {
+      width:615px;
+      padding-left:15px;
+      margin-left:10px;
+    }
+    &.enter.group { font-size:30px; }
+    &.reenter.group, &.open.dashboard { font-size:19px; }
+  }
+}

@@ -1,0 +1,187 @@
+<script>
+'use strict';
+$(() => {
+
+  const phonetic = {
+    '0' : 'zero',
+    '1' : 'one',
+    '2' : 'two',
+    '3' : 'three',
+    '4' : 'four',
+    '5' : 'five',
+    '6' : 'six',
+    '7' : 'seven',
+    '8' : 'eight',
+    '9' : 'nine',
+
+    'A' : 'ALPHA',
+    'B' : 'BRAVO',
+    'C' : 'CHARLIE',
+    'D' : 'DELTA',
+    'E' : 'ECHO',
+    'F' : 'FOXTROT',
+    'G' : 'GOLF',
+    'H' : 'HOTEL',
+    'I' : 'INDIA',
+    'J' : 'JULIETT',
+    'K' : 'KILO',
+    'L' : 'LIMA',
+    'M' : 'MIKE',
+    'N' : 'NOVEMBER',
+    'O' : 'OSCAR',
+    'P' : 'PAPPA',
+    'Q' : 'QUEBEC',
+    'R' : 'ROMEO',
+    'S' : 'SIERRA',
+    'T' : 'TANGO',
+    'U' : 'UNIFORM',
+    'V' : 'VICTOR',
+    'W' : 'WHISKEY',
+    'X' : 'XRAY',
+    'Y' : 'YANKEE',
+    'Z' : 'ZULU',
+
+
+    'a' : 'alpha',
+    'b' : 'bravo',
+    'c' : 'charlie',
+    'd' : 'delta',
+    'e' : 'echo',
+    'f' : 'foxtrot',
+    'g' : 'golf',
+    'h' : 'hotel',
+    'i' : 'india',
+    'j' : 'juliett',
+    'k' : 'kilo',
+    'l' : 'lima',
+    'm' : 'mike',
+    'n' : 'november',
+    'o' : 'oscar',
+    'p' : 'pappa',
+    'q' : 'quebec',
+    'r' : 'romeo',
+    's' : 'sierra',
+    't' : 'tango',
+    'u' : 'uniform',
+    'v' : 'victor',
+    'w' : 'whiskey',
+    'x' : 'xray',
+    'y' : 'yankee',
+    'z' : 'zulu'
+  };
+
+  const $idInput = $('input#id');
+  const $waitSpinner = $('.wait-spinner');
+  const $phoneticId = $('.phonetic-id');
+
+  const $openSingleButton = $('.enter.single.button');
+
+  const $enterGroupButton = $('.enter.group.button');
+  const $reenterGroupButton = $('.reenter.group.button');
+  const $openDashboardButton = $('.open.dashboard.button');
+
+  const $allGroupButtons = $enterGroupButton.add($reenterGroupButton).add($openDashboardButton);
+
+  let id = $idInput.val();
+  let idType = undefined;
+
+  $idInput.isDisabled = () => $idInput.attr('disabled');
+  $idInput.disable = () => $idInput.attr('disabled',  true);
+  $idInput.enable  = () => $idInput.attr('disabled', false);
+
+  const showPhoneticId = () => {
+    let html = '';
+    for (let i = 0; i < id.length; i++) {
+      html += phonetic[id.charAt(i)];
+      html += '&nbsp;&nbsp;';
+    }
+    $phoneticId.show().html(html);
+  };
+
+  const setButtonStates = () => {
+    id = $idInput.val();
+    if (id.length < 6) {
+      $idInput.removeClass('invalid');
+      $phoneticId.hide();
+      $openSingleButton.hide();
+      $allGroupButtons.hide();
+      return;
+    }
+    if (id.length > 6) {
+      $idInput.addClass('invalid');
+      $phoneticId.hide();
+      $openSingleButton.hide();
+      $allGroupButtons.hide();
+      return;
+    }
+    $waitSpinner.fadeIn('fast', () => {
+      const route = `/creator/id_type?id=${encodeURIComponent(id)}`;
+      $.get(route, (response) => {
+        idType = response.id_type;
+        $waitSpinner.fadeOut('fast', () => {
+          if (idType) {
+            $idInput.removeClass('invalid');
+            showPhoneticId();
+            if (idType === 'group') {
+              $allGroupButtons.show();
+            }
+            if (idType === 'single') {
+              $openSingleButton.show();
+            }
+          } else {
+            $idInput.addClass('invalid');
+            $phoneticId.hide();
+            $openSingleButton.hide();
+            $allGroupButtons.hide();
+          }
+        });
+      });
+    });
+  };
+
+  const idInputChange = () => {
+    if ($idInput.val() === id) {
+      return;
+    } else {
+      setButtonStates();
+    }
+  };
+
+  const urlId = () => encodeURIComponent(id);
+
+  const goto = (url) => window.location = url;
+
+  $idInput.keyup(() => idInputChange()).focus();
+
+  $enterGroupButton.click(() => {
+    const json = JSON.stringify({"id":id});
+    $.post(`/creator/enter.json`, json, (response) => goto(response.route));
+  });
+
+  $reenterGroupButton.click(() => goto(`/creator/reenter?id=${urlId()}`));
+
+  $openDashboardButton.click(() => goto(`/dashboard/show/${urlId()}`));
+
+  $openSingleButton.click(() => {
+    goto(`/home/index?id=${urlId()}`);
+    window.open(`/kata/edit/${urlId()}`);
+  });
+
+  setButtonStates();
+
+});
+</script>
+
+<div id="enter-page">
+  <div class="edged-panel enter-id">
+    <div class="title">enter any existing exercise</div>
+    <div class="sub-title">the ID of the exercise is...</div>
+    <input type="text" id="id" placeholder="??????" value="<%= @id %>"></input>
+    <img class="wait-spinner" src="/images/rotate-cyber-dojo.gif">
+    <div class="phonetic-id"></div>
+    <div class="enter group button"    style="display:none;">enter group exercise as <u>new</u> avatar</div>
+    <div class="reenter group button"  style="display:none;">enter group exercise as <u>existing</u> avatar</div>
+    <div class="open dashboard button" style="display:none;">open group dashboard</div>
+    <div class="enter single button"   style="display:none;">enter exercise</div>
+  </div>
+</div>
