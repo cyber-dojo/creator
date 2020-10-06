@@ -32,10 +32,12 @@ $(() => {
             <div data-tip="<%= avatar_name %>">
               <img data-id="<%= kata_id %>"
                    src="/avatars/image/<%= index %>"
+                   alt="<%= avatar_name %>"
                    class="small colour reenter avatar"/>
             </div>
           <% else %>
             <img src="/avatars/image/<%= index %>"
+                 alt="<%= avatar_name %>"
                  class="small grey avatar"/>
           <% end %>
         </td>
