@@ -78,7 +78,7 @@ class App < AppBase
         else
           id = create_kata
         end
-        redirect "/home/enter?id=#{id}"
+        redirect "/creator/enter?id=#{id}"
       end
     end
   end
