@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Creator
+class CreatorHttpProxy
 
   def initialize(externals)
     @externals = externals
@@ -8,8 +8,16 @@ class Creator
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def ready?
+  def alive?(_args)
+    creator.alive?
+  end
+
+  def ready?(_args)
     creator.ready?
+  end
+
+  def sha(_args)
+    creator.sha
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -

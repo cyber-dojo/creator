@@ -9,8 +9,12 @@ class AliveTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest d15d: %w( its alive ) do
+  qtest d15: %w( its alive ) do
     assert true?(externals.creator.alive?)
+  end
+
+  qtest d16: %w( visit routes ) do
+    visit('/creator/choose_problem?type=group')
   end
 
 end

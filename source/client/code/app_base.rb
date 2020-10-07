@@ -7,15 +7,30 @@ require_relative 'http_json_hash/service'
 
 class AppBase < Sinatra::Base
 
-  def initialize
+  def initialize(externals)
+    @externals = externals
     super(nil)
   end
 
   silently { register Sinatra::Contrib }
   set :port, ENV['PORT']
 
-  # - - - - - - - - - - - - - - - - - - - - - -
+  private
 
+  def self.get_delegate(klass, name)
+    get "/#{name}", provides:[:json] do
+      respond_to do |format|
+        format.json {
+          target = klass.new(@externals)
+          result = target.public_send(name, params)
+          json({ name => result })
+        }
+      end
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+=begin
   def self.get_json(name)
     get "/#{name}", provides:[:json] do
       respond_to do |format|
@@ -39,7 +54,7 @@ class AppBase < Sinatra::Base
       json({ name => result })
     end
   end
-
+=end
   # - - - - - - - - - - - - - - - - - - - - - -
 
   set :show_exceptions, false

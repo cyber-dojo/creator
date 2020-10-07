@@ -4,19 +4,38 @@ source "${SH_DIR}/augmented_docker_compose.sh"
 source "${SH_DIR}/ip_address.sh"
 readonly IP_ADDRESS=$(ip_address) # slow
 
+# - - - - - - - - - - - - - - - - - - -
+containers_up()
+{
+  top_container_up nginx
+  wait_briefly_until_ready client
+  copy_in_saver_test_data
+}
+
+# - - - - - - - - - - - - - - - - - - -
+top_container_up()
+{
+  local -r service_name="${1}"
+  printf '\n'
+  augmented_docker_compose \
+    up \
+    --detach \
+    --force-recreate \
+      "${service_name}"
+}
+
 # - - - - - - - - - - - - - - - - - - - - - -
 wait_briefly_until_ready()
 {
-  local -r port="${1}"
-  local -r container_name="${2}"
+  local -r service_name="${1}"
   local -r max_tries=40
-  printf "Waiting until ${container_name} is ready"
-  for _ in $(seq ${max_tries}); do
-    if curl_ready ${port}; then
+  printf "Waiting until ${service_name} is ready"
+  for n in $(seq ${max_tries}); do
+    if curl_ready "${service_name}"; then
       printf '.OK\n'
       return
     else
-      printf .
+      printf ".${n}"
       sleep 0.2
     fi
   done
@@ -25,6 +44,7 @@ wait_briefly_until_ready()
   if [ -f "$(ready_filename)" ]; then
     ready_response
   fi
+  local -r container_name=$(service_container ${service_name})
   docker logs ${container_name}
   exit 42
 }
@@ -32,9 +52,9 @@ wait_briefly_until_ready()
 # - - - - - - - - - - - - - - - - - - -
 curl_ready()
 {
-  local -r port="${1}"
-  local -r path=ready?
-  local -r url="http://${IP_ADDRESS}:${port}/${path}"
+  local -r service_name="${1}"
+  local -r path='ready?'
+  local -r url="http://${IP_ADDRESS}:80/${service_name}/${path}"
   rm -f "$(ready_filename)"
   curl \
     --fail \
@@ -42,7 +62,9 @@ curl_ready()
     --request GET \
     --silent \
     "${url}"
-  [ "$?" == '0' ] && [ "$(ready_response)" == '{"ready?":true}' ]
+
+  local -r status=$?
+  [ "${status}" == '0' ] && [ "$(ready_response)" == '{"ready?":true}' ]
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -55,19 +77,6 @@ ready_response()
 ready_filename()
 {
   printf /tmp/curl-creator-ready-output
-}
-
-# - - - - - - - - - - - - - - - - - - -
-strip_known_warning()
-{
-  local -r log="${1}"
-  local -r pattern="${2}"
-  local -r warning=$(printf "${log}" | grep --extended-regexp "${pattern}")
-  local -r stripped=$(printf "${log}" | grep --invert-match --extended-regexp "${pattern}")
-  if [ "${log}" != "${stripped}" ]; then
-    >&2 echo "SERVICE START-UP WARNING: ${warning}"
-  fi
-  echo "${stripped}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -98,6 +107,19 @@ exit_if_unclean()
 }
 
 # - - - - - - - - - - - - - - - - - - -
+strip_known_warning()
+{
+  local -r log="${1}"
+  local -r pattern="${2}"
+  local -r warning=$(printf "${log}" | grep --extended-regexp "${pattern}")
+  local -r stripped=$(printf "${log}" | grep --invert-match --extended-regexp "${pattern}")
+  if [ "${log}" != "${stripped}" ]; then
+    >&2 echo "SERVICE START-UP WARNING: ${warning}"
+  fi
+  echo "${stripped}"
+}
+
+# - - - - - - - - - - - - - - - - - - -
 echo_docker_log()
 {
   local -r container_name="${1}"
@@ -106,48 +128,6 @@ echo_docker_log()
   echo '<docker_log>'
   echo "${log}"
   echo '</docker_log>'
-}
-
-# - - - - - - - - - - - - - - - - - - -
-container_up_and_ready()
-{
-  local -r port="${1}"
-  local -r service_name="${2}"
-  local -r container_name="test-${service_name}"
-  container_up "${service_name}"
-  wait_briefly_until_ready "${port}" "${container_name}"
-}
-
-# - - - - - - - - - - - - - - - - - - -
-container_up()
-{
-  local -r service_name="${1}"
-  printf '\n'
-  augmented_docker_compose \
-    up \
-    --detach \
-    "${service_name}"
-}
-
-# - - - - - - - - - - - - - - - - - - -
-containers_up()
-{
-  if [ "${1:-}" == 'api-demo' ]; then
-    container_up nginx
-    wait_briefly_until_ready ${CYBER_DOJO_CREATOR_PORT} creator-server
-    copy_in_saver_test_data    
-    return
-  fi
-
-  container_up_and_ready ${CYBER_DOJO_RUNNER_PORT}         runner
-
-  container_up_and_ready ${CYBER_DOJO_CREATOR_PORT}        creator-server
-  exit_if_unclean creator-server
-
-  container_up_and_ready ${CYBER_DOJO_CREATOR_CLIENT_PORT} creator-client
-  exit_if_unclean creator-client
-
-  copy_in_saver_test_data
 }
 
 # - - - - - - - - - - - - - - - - - - -

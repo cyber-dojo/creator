@@ -22,11 +22,11 @@ test_in_containers()
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_client_tests()
 {
-  run_tests "${CYBER_DOJO_CREATOR_CLIENT_USER}" client "${@:-}"
+  run_tests "${CYBER_DOJO_CREATOR_CLIENT_USER}" client test-client "${@:-}"
 }
 run_server_tests()
 {
-  run_tests "${CYBER_DOJO_CREATOR_SERVER_USER}" server "${@:-}"
+  run_tests "${CYBER_DOJO_CREATOR_SERVER_USER}" server test-creator "${@:-}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -34,13 +34,13 @@ run_tests()
 {
   local -r user="${1}" # eg nobody
   local -r type="${2}" # eg client|server
+  local -r container_name="${3}"
   local -r reports_dir_name=reports
   local -r tmp_dir=/tmp
   local -r coverage_root=/${tmp_dir}/${reports_dir_name}
   local -r test_dir="${ROOT_DIR}/test/${type}"
   local -r reports_dir=${test_dir}/${reports_dir_name}
   local -r test_log=test.log
-  local -r container_name="test-creator-${type}" # eg test-creator-server
   local -r coverage_code_tab_name=tested
   local -r coverage_test_tab_name=tester
 
@@ -55,7 +55,7 @@ run_tests()
     --env COVERAGE_TEST_TAB_NAME=${coverage_test_tab_name} \
     --user "${user}" \
     "${container_name}" \
-      sh -c "/test/run.sh ${coverage_root} ${test_log} ${type} ${*:3}"
+      sh -c "/test/run.sh ${coverage_root} ${test_log} ${type} ${*:4}"
   set -e
 
   # You can't [docker cp] from a tmpfs, so tar-piping coverage out
@@ -84,7 +84,10 @@ run_tests()
   echo "${type} coverage at ${coverage_path}"
   echo "${type} status == ${status}"
   if [ "${status}" != '0' ]; then
-    docker logs "${container_name}"
+    local -r log=$(docker logs "${container_name}" 2> /dev/null)
+    echo "${log}" | head -n 10
+    echo ...
+    echo "${log}" | tail -n 10
   fi
   return ${status}
 }

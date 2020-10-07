@@ -10,7 +10,7 @@ class ReadyTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest D15: %w( its ready ) do
-    assert true?(creator.ready?)
+    assert true?(externals.creator.ready?)
   end
 
 end

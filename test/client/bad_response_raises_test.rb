@@ -13,7 +13,7 @@ class BadResponseRaisesTest < CreatorTestBase
   qtest a34:
   %w( http body not JSON raises ) do
     creator_http_stub('{42:"sd"}')
-    error = assert_raises(HttpJsonHash::ServiceError) { creator.ready? }
+    error = assert_raises(HttpJsonHash::ServiceError) { externals.creator.ready? }
     expected = 'body is not JSON'
     assert_equal expected, error.message
   end
@@ -23,7 +23,7 @@ class BadResponseRaisesTest < CreatorTestBase
   qtest b34:
   %w( http body not JSON Hash raises ) do
     creator_http_stub('42')
-    error = assert_raises(HttpJsonHash::ServiceError) { creator.ready? }
+    error = assert_raises(HttpJsonHash::ServiceError) { externals.creator.ready? }
     expected = 'body is not JSON Hash'
     assert_equal expected, error.message
   end
@@ -33,7 +33,7 @@ class BadResponseRaisesTest < CreatorTestBase
   qtest c34:
   %w( http body JSON without key for method name raises ) do
     creator_http_stub('{}')
-    error = assert_raises(HttpJsonHash::ServiceError) { creator.ready? }
+    error = assert_raises(HttpJsonHash::ServiceError) { externals.creator.ready? }
     expected = 'body is missing :path key'
     assert_equal expected, error.message
   end
