@@ -1,44 +1,14 @@
 
-button.next, button.skip, button.switch, button.group, button.single, button.confirm, button.create
-{
-  font-size:40px;
-}
+button.large  { font-size:40px; }
+button.medium { font-size:25px; }
+button.small  { font-size:20px; }
+
 button.switch, button.skip
 {
   float:right;
-  margin-right:2px;
+  margin: { left:10px; right:2px; }
   position:relative;
   top:-393px;
-  font-size:21px;
 }
 
-button.group, button.single
-{
-  font-size:40px;
-  width:830px;
-  display:block;
-}
-
-button.ok { width:73px; }
-
-//- - - - - - - - - - - - - - - - - - - -
-
-#enter-page
-{
-  button
-  {
-    &.enter.group, &.reenter.group, &.open.dashboard, &.enter.single
-    {
-      width:660px;
-    }
-    &.enter.group, &.enter.single { font-size:40px; }
-    &.reenter.group, &.open.dashboard { font-size:25px; }
-  }
-}
-
-//- - - - - - - - - - - - - - - - - - - -
-
-#enter-page, #avatar-page, #reenter-page, #full-page
-{
-  button { &.enter, &.ok { font-size:40px; } }
-}
+#enter-page button { width:660px; }

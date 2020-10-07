@@ -4,19 +4,15 @@ $(() => {
 
   const groupId = "<%= @group_id %>";
 
-  $('.ok.button').click(() => {
-    window.location = `/home/enter?id=${groupId}`;
-  });
+  $('button.ok').click(() => cd.goto(`/home/enter?id=${groupId}`));
 
 });
 </script>
 
 <div id="full-page">
   <div class="edged-panel">
-
     <div class="title">sorry, it's full</div>
     <img src="/avatars/image/all" class="avatars"/>
-    <div class="ok button">ok</div>
-
+    <button type="button" class="large ok">ok</button>
   </div>
 </div>
