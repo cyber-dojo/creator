@@ -6,13 +6,9 @@ body
   color:$lighter-color;
   background:$darker-color;
   padding:0px;
-  //@include centered();
+  @include centered();
   display: block;
-  margin:0px;
-
-  position: relative;
-  font-size: 0.9em;
-
+  margin: { top:8px; bottom:8px; left:0px; right:0px; }
   background-image: url('/avatars/image/all_gray');
   background-repeat: repeat;
   background-size: 450px 450px;
