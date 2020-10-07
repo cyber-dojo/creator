@@ -73,8 +73,8 @@ class DeprecatedCreateTest < CreatorTestBase
       'not-JSON',
       JSON_REQUEST_HEADERS
     }
-    assert_status 500
-    assert_json_content
+    assert status?(500), status
+    assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     ex = json_response['exception']
@@ -96,8 +96,8 @@ class DeprecatedCreateTest < CreatorTestBase
       '[42]',
       JSON_REQUEST_HEADERS
     }
-    assert_status 500
-    assert_json_content
+    assert status?(500), status
+    assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     ex = json_response['exception']

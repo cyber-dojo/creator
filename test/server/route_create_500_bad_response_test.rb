@@ -77,8 +77,8 @@ class RouteCreate500BadResponseTest < CreatorTestBase
       get '/group_custom_create',
       {display_name:'Java Countdown, Round 2'}.to_json
     }
-    assert_status 500
-    assert_json_content
+    assert status?(500), status
+    assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     ex = json_response['exception']

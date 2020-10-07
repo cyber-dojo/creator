@@ -21,17 +21,25 @@ class CreatorTestBase < Id58TestBase
 
   def assert_get_200(path, &block)
     stdout,stderr = capture_io { get '/'+path }
-    assert_status 200
-    assert_json_content
+    assert status?(200), status
+    assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :sdout
     block.call(json_response)
   end
 
+  def assert_get_200_html(path)
+    stdout,stderr = capture_io { get '/'+path }
+    assert status?(200), status
+    assert html_content?, content_type
+    assert_equal '', stderr, :stderr
+    assert_equal '', stdout, :sdout
+  end
+
   def assert_get_500(path, &block)
     stdout,stderr = capture_io { get '/'+path }
-    assert_status 500
-    assert_json_content
+    assert status?(500), status
+    assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     block.call(json_response)
@@ -41,8 +49,8 @@ class CreatorTestBase < Id58TestBase
 
   def assert_json_post_200(path, args, &block)
     stdout,stderr = capture_io { json_post '/'+path, args }
-    assert_status 200
-    assert_json_content
+    assert status?(200), status
+    assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :stdout
     block.call(json_response)
@@ -50,19 +58,11 @@ class CreatorTestBase < Id58TestBase
 
   def assert_json_post_500(path, args, &block)
     stdout,stderr = capture_io { json_post '/'+path, args }
-    assert_status 500
-    assert_json_content
+    assert status?(500), status
+    assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     block.call(json_response)
-  end
-
-  def assert_status(expected)
-    assert_equal expected, last_response.status, :last_response_status
-  end
-
-  def assert_json_content
-    assert_equal 'application/json', last_response.headers['Content-Type']
   end
 
   # - - - - - - - - - - - - - - - -
