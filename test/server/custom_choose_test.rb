@@ -4,12 +4,12 @@ require_relative 'creator_test_base'
 class CustomChooseTest < CreatorTestBase
 
   def self.id58_prefix
-    'a73'
+    :a73
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  test '18w', %w(
+  qtest w18: %w(
   |GET/group_custom_choose
   |offers all display_names
   |ready to create a group
@@ -25,7 +25,7 @@ class CustomChooseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '19w', %w(
+  qtest w19: %w(
   |GET/kata_custom_choose
   |offers all display_names
   |ready to create a kata

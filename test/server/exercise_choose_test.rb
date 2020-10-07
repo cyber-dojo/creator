@@ -4,12 +4,12 @@ require_relative 'creator_test_base'
 class ExerciseChooseTest < CreatorTestBase
 
   def self.id58_prefix
-    'b73'
+    :b73
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  test '18w', %w(
+  qtest w18: %w(
   |GET/group_exercise_choose
   |offers all display_names
   |ready to choose a language
@@ -25,7 +25,7 @@ class ExerciseChooseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '19w', %w(
+  qtest w19: %w(
   |GET/kata_exercise_choose
   |offers all display_names
   |ready to choose a language

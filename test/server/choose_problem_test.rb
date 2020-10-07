@@ -4,12 +4,12 @@ require_relative 'creator_test_base'
 class ChooseProblemTest < CreatorTestBase
 
   def self.id58_prefix
-    'B73'
+    :B73
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  test '18w', %w(
+  qtest w18w: %w(
   |GET/choose_problem
   |offers all exercise_start_point display_names
   ) do

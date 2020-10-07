@@ -6,7 +6,7 @@ require 'json'
 class CustomCreateTest < CreatorTestBase
 
   def self.id58_prefix
-    'v42'
+    :v42
   end
 
   def id58_setup
@@ -19,7 +19,7 @@ class CustomCreateTest < CreatorTestBase
   # 302
   # - - - - - - - - - - - - - - - - -
 
-  test 'w9A', %w(
+  qtest w9A: %w(
   |GET /group_custom_create?display_names[]=...
   |redirects to /kata/group/:id page
   |and a group with :id exists
@@ -38,7 +38,7 @@ class CustomCreateTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'w9B', %w(
+  qtest w9B: %w(
   |GET /kata_custom_create?display_name=...
   |redirects to /kata/edit/:id page
   |and a kata with :id exists
@@ -59,7 +59,7 @@ class CustomCreateTest < CreatorTestBase
   # 500
   # - - - - - - - - - - - - - - - - -
 
-  test 'Je4', %w(
+  qtest Je4: %w(
   |GET/kata_custom_create with unknown display_name
   |is 500 error
   ) do
@@ -73,7 +73,7 @@ class CustomCreateTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'Bq7', %w(
+  qtest Bq7: %w(
   |GET/group_custom_create with extra parameter
   |is 500 error
   ) do
@@ -90,7 +90,7 @@ class CustomCreateTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'xW9', %w(
+  qtest xW9: %w(
   |GET/group_custom_create with non-JSON in request body
   |is 500 error
   ) do
@@ -104,7 +104,7 @@ class CustomCreateTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'xW8', %w(
+  qtest xW8: %w(
   |GET/group_custom_create with non-JSON-Hash in request body
   |is 500 error
   ) do

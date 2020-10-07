@@ -5,7 +5,7 @@ require 'json'
 class CreateGroupTest < CreatorTestBase
 
   def self.id58_prefix
-    'p42'
+    :p42
   end
 
   def id58_setup
@@ -18,7 +18,7 @@ class CreateGroupTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'w9A', %w(
+  qtest w9A: %w(
   |POST /create.json
   |with [type=group,exercise_name,language_name] URL params
   |generates json route /creator/enter?id=ID page
@@ -36,7 +36,7 @@ class CreateGroupTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'w9B', %w(
+  qtest w9B: %w(
   |POST /create.json
   |with [type=group,language_name] URL params
   |generates json route /creator/enter?id=ID page
@@ -53,7 +53,7 @@ class CreateGroupTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'w9C', %w(
+  qtest w9C: %w(
   |POST /create.json
   |with [type=group,display_name] URL params
   |generates json route /creator/enter?id=ID page

@@ -5,7 +5,7 @@ require 'json'
 class CreateKataTest < CreatorTestBase
 
   def self.id58_prefix
-    'p43'
+    :p43
   end
 
   def id58_setup
@@ -18,7 +18,7 @@ class CreateKataTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'w9A', %w(
+  qtest w9A: %w(
   |POST /create.json
   |with [type=single,exercise_name,language_name] URL params
   |generates json route /creator/enter?id=ID page
@@ -36,7 +36,7 @@ class CreateKataTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'w9B', %w(
+  qtest w9B: %w(
   |POST /create.json
   |with [type=single,language_name] URL params
   |generates json route /creator/enter?id=ID page
@@ -53,7 +53,7 @@ class CreateKataTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'w9C', %w(
+  qtest w9C: %w(
   |POST /create.json
   |with [type=single,display_name] URL params
   |generates json route /creator/enter?id=ID page
