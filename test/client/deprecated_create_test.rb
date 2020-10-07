@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
 
-class CreateTest < CreatorTestBase
+class DeprecatedCreateTest < CreatorTestBase
 
   def self.id58_prefix
     :f26F
