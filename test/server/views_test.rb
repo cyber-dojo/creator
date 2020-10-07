@@ -16,6 +16,11 @@ class ViewsTest < CreatorTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+  qtest AC1: %w( GET /creator/confirm 200 ) do
+    params = "type=group&exercise_name=Tennis&language_name=D%2C%20unittest"
+    assert_get_200_html("/creator/confirm?#{params}")
+  end
+
   qtest AC2: %w( GET /creator/enter 200 ) do
     assert_get_200_html("/creator/enter?id=#{@group_id}")
     assert_get_200_html("/creator/enter?id=#{@kata_id}")
