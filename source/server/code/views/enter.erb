@@ -74,11 +74,11 @@ $(() => {
   const $waitSpinner = $('.wait-spinner');
   const $phoneticId = $('.phonetic-id');
 
-  const $openSingleButton = $('.enter.single.button');
+  const $openSingleButton = $('button.enter.single');
 
-  const $enterGroupButton = $('.enter.group.button');
-  const $reenterGroupButton = $('.reenter.group.button');
-  const $openDashboardButton = $('.open.dashboard.button');
+  const $enterGroupButton = $('button.enter.group');
+  const $reenterGroupButton = $('button.reenter.group');
+  const $openDashboardButton = $('button.open.dashboard');
 
   const $allGroupButtons = $enterGroupButton.add($reenterGroupButton).add($openDashboardButton);
 
@@ -179,9 +179,9 @@ $(() => {
     <input type="text" id="id" placeholder="??????" value="<%= @id %>"></input>
     <img class="wait-spinner" src="/images/rotate-cyber-dojo.gif">
     <div class="phonetic-id"></div>
-    <div class="enter group button"    style="display:none;">enter group exercise as <u>new</u> avatar</div>
-    <div class="reenter group button"  style="display:none;">enter group exercise as <u>existing</u> avatar</div>
-    <div class="open dashboard button" style="display:none;">open group dashboard</div>
-    <div class="enter single button"   style="display:none;">enter exercise</div>
+    <button type="button" class="enter group button" style="display:none;">enter group exercise as <u>new</u> avatar</button>
+    <button type="button" class="reenter group button"  style="display:none;">enter group exercise as <u>existing</u> avatar</button>
+    <button type="button" class="open dashboard button" style="display:none;">open group dashboard</button>
+    <button type="button" class="enter single button"   style="display:none;">enter exercise</button>
   </div>
 </div>
