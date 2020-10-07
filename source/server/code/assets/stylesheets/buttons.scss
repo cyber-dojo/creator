@@ -1,0 +1,23 @@
+
+button.next, button.skip, button.switch, button.group, button.single, button.confirm, button.create
+{
+  @include non-code-font();
+  font-size:40px;
+  margin: { top:15px; }
+}
+button.switch, button.skip
+{
+  float:right;
+  margin: { left:10px; right:2px; }
+  position:relative;
+  top:-393px;
+  font-size:21px;
+}
+
+button.group, button.single
+{
+  font-size:40px;
+  width:830px;
+  display:block;
+  text-align:left;
+}
