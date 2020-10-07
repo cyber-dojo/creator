@@ -17,7 +17,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |its a 500 error
   ) do
     stub_model_http('xxxx')
-    assert_get_500('ready?') do |response|
+    assert_get_500_json('ready?') do |response|
       assert_equal [ 'exception' ], response.keys.sort, last_response.body
       #...
     end
@@ -31,7 +31,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |its a 500 error
   ) do
     stub_model_http('[]')
-    assert_get_500('ready?') do |response|
+    assert_get_500_json('ready?') do |response|
       assert_equal [ 'exception' ], response.keys.sort, last_response.body
     end
   end
@@ -45,7 +45,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |its a 500 error
   ) do
     stub_model_http(response='{"exception":42}')
-    assert_get_500('ready?') do |response|
+    assert_get_500_json('ready?') do |response|
       assert_equal [ 'exception' ], response.keys.sort, last_response.body
     end
   end
@@ -59,7 +59,7 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |its a 500 error
   ) do
     stub_model_http(response='{"wibble":42}')
-    assert_get_500('ready?') do |response|
+    assert_get_500_json('ready?') do |response|
       assert_equal [ 'exception' ], response.keys.sort, last_response.body
     end
   end
@@ -86,6 +86,25 @@ class RouteCreate500BadResponseTest < CreatorTestBase
     assert_equal '', ex['request']['body'], json_response
     refute_nil ex['backtrace'], json_response
     assert_equal 'missing keyword: :display_name', ex['message'], json_response
+  end
+
+  private
+
+  def stub_model_http(body)
+    externals.instance_exec { @model_http = HttpAdapterStub.new(body) }
+  end
+
+  class HttpAdapterStub
+    def initialize(body)
+      @body = body
+    end
+    def get(_uri)
+      OpenStruct.new
+    end
+    def start(_hostname, _port, _req)
+      self
+    end
+    attr_reader :body
   end
 
 end

@@ -8,5 +8,5 @@ SimpleCov.start do
   code_tab = ENV['COVERAGE_CODE_TAB_NAME']
   test_tab = ENV['COVERAGE_TEST_TAB_NAME']
   add_group(code_tab) { |source| source.filename =~ %r"^/app/" }
-  add_group(test_tab) { |source| source.filename =~ %r"^/test/.*_test\.rb$" }
+  add_group(test_tab) { |source| source.filename =~ %r"^/test/" }
 end

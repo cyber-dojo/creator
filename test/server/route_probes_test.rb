@@ -18,7 +18,7 @@ class RouteProbesTest < CreatorTestBase
   |returns true
   |and nothing else
   ) do
-    assert_get_200(path='alive?') do |response|
+    assert_get_200_json(path='alive?') do |response|
       assert_equal [path], response.keys, "keys:#{last_response.body}:"
       assert true?(response[path]), "true?:#{last_response.body}:"
     end
@@ -33,7 +33,7 @@ class RouteProbesTest < CreatorTestBase
   |returns true
   |and nothing else
   ) do
-    assert_get_200(path='ready?') do |response|
+    assert_get_200_json(path='ready?') do |response|
       assert_equal [path], response.keys, "keys:#{last_response.body}:"
       assert true?(response[path]), "true?:#{last_response.body}:"
     end
@@ -49,7 +49,7 @@ class RouteProbesTest < CreatorTestBase
   |and nothing else
   ) do
     externals.instance_exec { @custom_start_points=STUB_READY_FALSE }
-    assert_get_200(path='ready?') do |response|
+    assert_get_200_json(path='ready?') do |response|
       assert_equal [path], response.keys, "keys:#{last_response.body}:"
       assert false?(response[path]), "false?:#{last_response.body}:"
     end
@@ -63,7 +63,7 @@ class RouteProbesTest < CreatorTestBase
   |and nothing else
   ) do
     externals.instance_exec { @exercises_start_points=STUB_READY_FALSE }
-    assert_get_200(path='ready?') do |response|
+    assert_get_200_json(path='ready?') do |response|
       assert_equal [path], response.keys, "keys:#{last_response.body}:"
       assert false?(response[path]), "false?:#{last_response.body}:"
     end
@@ -77,7 +77,7 @@ class RouteProbesTest < CreatorTestBase
   |and nothing else
   ) do
     externals.instance_exec { @languages_start_points=STUB_READY_FALSE }
-    assert_get_200(path='ready?') do |response|
+    assert_get_200_json(path='ready?') do |response|
       assert_equal [path], response.keys, "keys:#{last_response.body}:"
       assert false?(response[path]), "false?:#{last_response.body}:"
     end
@@ -91,7 +91,7 @@ class RouteProbesTest < CreatorTestBase
   |and nothing else
   ) do
     externals.instance_exec { @runner=STUB_READY_FALSE }
-    assert_get_200(path='ready?') do |response|
+    assert_get_200_json(path='ready?') do |response|
       assert_equal [path], response.keys, "keys:#{last_response.body}:"
       assert false?(response[path]), "false?:#{last_response.body}:"
     end
@@ -107,7 +107,7 @@ class RouteProbesTest < CreatorTestBase
   |and nothing else
   ) do
     externals.instance_exec { @model=STUB_READY_FALSE }
-    assert_get_200(path='ready?') do |response|
+    assert_get_200_json(path='ready?') do |response|
       assert_equal [path], response.keys, "keys:#{last_response.body}:"
       assert false?(response[path]), "false?:#{last_response.body}:"
     end
@@ -121,7 +121,7 @@ class RouteProbesTest < CreatorTestBase
   |so obeys Postel's Law
   |and ignores any passed arguments
   ) do
-    assert_get_200('alive?arg=unused') do |response|
+    assert_get_200_json('alive?arg=unused') do |response|
       assert_equal ['alive?'], response.keys, "keys:#{last_response.body}:"
       assert true?(response['alive?']), "true?:#{last_response.body}:"
     end
@@ -135,7 +135,7 @@ class RouteProbesTest < CreatorTestBase
   |so obeys Postel's Law
   |and ignores any passed arguments
   ) do
-    assert_get_200('ready?arg=unused') do |response|
+    assert_get_200_json('ready?arg=unused') do |response|
       assert_equal ['ready?'], response.keys, "keys:#{last_response.body}:"
       assert true?(response['ready?']), "true?:#{last_response.body}:"
     end

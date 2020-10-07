@@ -19,7 +19,7 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_get_200(path, &block)
+  def assert_get_200_json(path, &block)
     stdout,stderr = capture_io { get '/'+path }
     assert status?(200), status
     assert json_content?, content_type
@@ -36,7 +36,7 @@ class CreatorTestBase < Id58TestBase
     assert_equal '', stdout, :sdout
   end
 
-  def assert_get_500(path, &block)
+  def assert_get_500_json(path, &block)
     stdout,stderr = capture_io { get '/'+path }
     assert status?(500), status
     assert json_content?, content_type
@@ -47,21 +47,12 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_json_post_200(path, args, &block)
+  def assert_post_200_json(path, args, &block)
     stdout,stderr = capture_io { json_post '/'+path, args }
     assert status?(200), status
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :stdout
-    block.call(json_response)
-  end
-
-  def assert_json_post_500(path, args, &block)
-    stdout,stderr = capture_io { json_post '/'+path, args }
-    assert status?(500), status
-    assert json_content?, content_type
-    assert_equal '', stderr, :stderr
-    assert_equal stdout, last_response.body+"\n", :stdout
     block.call(json_response)
   end
 
@@ -89,40 +80,12 @@ class CreatorTestBase < Id58TestBase
     @json_response ||= JSON.parse(last_response.body)
   end
 
-  def json_pretty(o)
-    JSON.pretty_generate(o)
-  end
-
   JSON_REQUEST_HEADERS = {
     'CONTENT_TYPE' => 'application/json', # sent request
     'HTTP_ACCEPT' => 'application/json'   # received response
   }
 
-  # - - - - - - - - - - - - - - - -
-
-  def stub_model_http(body)
-    externals.instance_exec { @model_http = HttpAdapterStub.new(body) }
-  end
-
   private
-
-  class HttpAdapterStub
-    def initialize(body)
-      @body = body
-    end
-    def get(_uri)
-      OpenStruct.new
-    end
-    def post(_uri)
-      OpenStruct.new
-    end
-    def start(_hostname, _port, _req)
-      self
-    end
-    attr_reader :body
-  end
-
-  # - - - - - - - - - - - - - - - -
 
   def custom_start_points
     externals.custom_start_points

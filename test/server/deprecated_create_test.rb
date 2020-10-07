@@ -28,7 +28,7 @@ class DeprecatedCreateTest < CreatorTestBase
   |and for backwards compatibility
   |it also returns the id against the :id key
   ) do
-    assert_json_post_200(
+    assert_post_200_json(
       path = 'deprecated_group_create_custom',
       args = { display_name:display_name }
     ) do |response|
@@ -51,7 +51,7 @@ class DeprecatedCreateTest < CreatorTestBase
   |and for backwards compatibility
   |it also returns the id against the :id key
   ) do
-    assert_json_post_200(
+    assert_post_200_json(
       path = 'deprecated_kata_create_custom',
       args = { display_name:display_name }
     ) do |response|
