@@ -6,7 +6,7 @@ $(() => {
   const kataId = "<%= @kata_id %>";
 
   $('button.ok').click(() => {
-    window.location = `/home/index?id=${groupId}`;
+    window.location = `/dojo/index?id=${groupId}`;
     window.open(`/kata/edit/${kataId}`);
   });
 

@@ -163,7 +163,7 @@ $(() => {
   $openDashboardButton.click(() => goto(`/dashboard/show/${urlId()}`));
 
   $openSingleButton.click(() => {
-    goto(`/home/index?id=${urlId()}`);
+    goto(`/dojo/index?id=${urlId()}`);
     window.open(`/kata/edit/${urlId()}`);
   });
 

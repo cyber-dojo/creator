@@ -8,7 +8,7 @@ $(() => {
 
   $('.small.colour.reenter.avatar').click((event) => {
     const kataId = $(event.target).data('id');
-    window.location = `/home/index?id=${groupId}`;
+    window.location = `/dojo/index?id=${groupId}`;
     window.open(`/kata/edit/${kataId}`);
   });
 
