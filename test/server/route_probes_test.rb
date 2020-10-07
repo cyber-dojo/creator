@@ -27,7 +27,7 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest D15: %w(
-  |when all http-services are ready
+  |when all http-proxy are ready
   |GET/ready?
   |has status 200
   |returns true
@@ -41,8 +41,22 @@ class RouteProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
+  qtest e14: %w(
+  |when avatars http-proxy is not ready
+  |GET/ready?
+  |has status 200
+  |returns false
+  |and nothing else
+  ) do
+    externals.instance_exec { @avatars=STUB_READY_FALSE }
+    assert_get_200_json(path='ready?') do |response|
+      assert_equal [path], response.keys, "keys:#{last_response.body}:"
+      assert false?(response[path]), "false?:#{last_response.body}:"
+    end
+  end
+
   qtest E15: %w(
-  |when custom_start_points http-service is not ready
+  |when custom_start_points http-proxy is not ready
   |GET/ready?
   |has status 200
   |returns false
@@ -56,7 +70,7 @@ class RouteProbesTest < CreatorTestBase
   end
 
   qtest E16: %w(
-  |when exercises_start_points http-service is not ready
+  |when exercises_start_points http-proxy is not ready
   |GET/ready?
   |has status 200
   |returns false
@@ -70,7 +84,7 @@ class RouteProbesTest < CreatorTestBase
   end
 
   qtest E17: %w(
-  |when languages_start_points http-service is not ready
+  |when languages_start_points http-proxy is not ready
   |GET/ready?
   |has status 200
   |returns false
@@ -84,7 +98,7 @@ class RouteProbesTest < CreatorTestBase
   end
 
   qtest E19: %w(
-  |when runner http-service is not ready
+  |when runner http-proxy is not ready
   |GET/ready?
   |has status 200
   |returns false
@@ -100,7 +114,7 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest F15: %w(
-  |when model http-service is not ready
+  |when model http-proxy is not ready
   |GET/ready?
   |has status 200
   |returns false
