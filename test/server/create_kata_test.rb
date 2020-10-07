@@ -19,9 +19,9 @@ class CreateKataTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   test 'w9A', %w(
-  |GET /submit
+  |POST /create.json
   |with [type=single,exercise_name,language_name] URL params
-  |redirects to /home/enter?id=ID page
+  |generates json route /creator/enter?id=ID page
   |and a kata-exercise with ID exists
   ) do
     args = {
@@ -29,15 +29,10 @@ class CreateKataTest < CreatorTestBase
       exercise_name:exercise_name,
       language_name:language_name
     }
-    get '/confirm', args
-    assert status?(200), status
-    get '/submit', args
-    assert status?(302), status
-    follow_redirect!
-    assert html_content?, content_type
-    url = last_request.url # eg http://example.org/home/enter?id=xCSKgZ
-    assert %r"http://example.org/home/enter\?id=(?<id>.*)" =~ url, url
-    assert kata_exists?(id), "id:#{id}:" # eg xCSKgZ
+    json_post '/create.json', args
+    route = json_response['route'] # eg "/creator/enter?id=xCSKgZ"
+    assert %r"/creator/enter\?id=(?<id>.*)" =~ route, route
+    assert kata_exists?(id), "id:#{id}:" # eg "xCSKgZ"
     manifest = kata_manifest(id)
     assert_equal language_name, manifest['display_name'], manifest
     assert_equal exercise_name, manifest['exercise'], manifest
