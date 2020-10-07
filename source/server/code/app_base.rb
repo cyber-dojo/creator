@@ -60,26 +60,14 @@ class AppBase < Sinatra::Base
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def self.deprecated_post_json(name)
-    post "/#{name}", provides:[:json] do
-      respond_to do |format|
-        format.json {
-          result = instance_exec {
-            creator.public_send(name, **json_args)
-          }
-          backwards_compatible = { id:result }
-          json backwards_compatible.merge({name => result})
-        }
-      end
-    end
-  end
-
   private
 
+  def params_args
+    @params_args ||= symbolized(params)
+  end
+
   def json_args
-    symbolized(json_payload)
+    @json_args ||= symbolized(json_payload)
   end
 
   def symbolized(h) # named-args require symbolization

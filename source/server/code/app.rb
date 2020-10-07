@@ -69,16 +69,16 @@ class App < AppBase
     end
   end
 
-  get '/submit', provides:[:html] do
+  post '/create.json', provides:[:json] do
     respond_to do |format|
-      format.html do
-        type = params_args.delete(:type)
+      format.json do
+        type = json_args.delete(:type)
         if type === 'group'
-          id = create_group
+          id = create_group(json_args)
         else
-          id = create_kata
+          id = create_kata(json_args)
         end
-        redirect "/creator/enter?id=#{id}"
+        json({'route':"/creator/enter?id=#{id}"})
       end
     end
   end
@@ -101,14 +101,14 @@ class App < AppBase
   post '/enter.json', provides:[:json] do
     respond_to do |format|
       format.json do
-        group_id = json_body['id']
+        group_id = json_args[:id]
         kata_id = model.group_join(group_id)
         if kata_id.nil?
           route = "/creator/full?id=#{group_id}"
         else
           route = "/creator/avatar?id=#{kata_id}"
         end
-        json({"route":route})
+        json({'route':route})
       end
     end
   end
@@ -148,26 +148,38 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
+  def self.deprecated_post_json(name)
+    post "/#{name}", provides:[:json] do
+      respond_to do |format|
+        format.json {
+          result = creator.public_send(name, **json_args)
+          backwards_compatible = { id:result }
+          json backwards_compatible.merge({name => result})
+        }
+      end
+    end
+  end
+
   deprecated_post_json(:deprecated_group_create_custom)
   deprecated_post_json(:deprecated_kata_create_custom)
 
   private
 
-  def create_group
-    if params_args.has_key?(:display_name)
-      creator.group_create_custom(**params_args)
+  def create_group(args)
+    if args.has_key?(:display_name)
+      creator.group_create_custom(**args)
     else
-      params_args[:exercise_name] ||= nil
-      creator.group_create(**params_args)
+      args[:exercise_name] ||= nil
+      creator.group_create(**args)
     end
   end
 
-  def create_kata
-    if params_args.has_key?(:display_name)
-      creator.kata_create_custom(**params_args)
+  def create_kata(args)
+    if args.has_key?(:display_name)
+      creator.kata_create_custom(**args)
     else
-      params_args[:exercise_name] ||= nil
-      creator.kata_create(**params_args)
+      args[:exercise_name] ||= nil
+      creator.kata_create(**args)
     end
   end
 
@@ -286,14 +298,6 @@ class App < AppBase
 
   include EscapeHtmlHelper
   include SelectedHelper
-
-  def params_args
-    @params_args ||= symbolized(params)
-  end
-
-  def json_body
-    JSON.parse!(request.body.read)
-  end
 
   def set_view_data(start_points)
     manifests = start_points.manifests
