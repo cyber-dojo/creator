@@ -8,8 +8,8 @@ $(() => {
 
   $('.small.colour.reenter.avatar').click((event) => {
     const kataId = $(event.target).data('id');
-    window.open(`/kata/edit/${kataId}`);
     window.location = `/home/index?id=${groupId}`;
+    window.open(`/kata/edit/${kataId}`);
   });
 
 });
