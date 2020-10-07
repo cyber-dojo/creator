@@ -5,12 +5,12 @@ require 'ostruct'
 class BadResponseRaisesTest < CreatorTestBase
 
   def self.id58_prefix
-    '20F'
+    :f2G
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  test '34a',
+  qtest a34:
   %w( http body not JSON raises ) do
     creator_http_stub('{42:"sd"}')
     error = assert_raises(HttpJsonHash::ServiceError) { creator.ready? }
@@ -20,7 +20,7 @@ class BadResponseRaisesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '34b',
+  qtest b34:
   %w( http body not JSON Hash raises ) do
     creator_http_stub('42')
     error = assert_raises(HttpJsonHash::ServiceError) { creator.ready? }
@@ -30,7 +30,7 @@ class BadResponseRaisesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '34c',
+  qtest c34:
   %w( http body JSON without key for method name raises ) do
     creator_http_stub('{}')
     error = assert_raises(HttpJsonHash::ServiceError) { creator.ready? }

@@ -4,12 +4,12 @@ require_relative 'creator_test_base'
 class AliveTest < CreatorTestBase
 
   def self.id58_prefix
-    'a87'
+    :a87
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  test '15d', 'its alive' do
+  qtest d15d: %w( its alive ) do
     assert true?(externals.creator.alive?)
   end
 

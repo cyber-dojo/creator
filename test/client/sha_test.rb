@@ -4,12 +4,12 @@ require_relative 'creator_test_base'
 class ShaTest < CreatorTestBase
 
   def self.id58_prefix
-    'de3'
+    :de3
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  test 'p23', %w( sha is 40-char git commit sha ) do
+  qtest p23: %w( sha is 40-char git commit sha ) do
     sha = externals.creator.sha
     assert git_sha?(sha), sha
   end

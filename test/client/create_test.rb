@@ -4,7 +4,7 @@ require_relative 'creator_test_base'
 class CreateTest < CreatorTestBase
 
   def self.id58_prefix
-    '26F'
+    :f26F
   end
 
   def id58_setup
@@ -15,7 +15,7 @@ class CreateTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '802',
+  qtest K80:
   %w( deprecated_group_create_custom returns the id of a newly created group ) do
     id = creator.deprecated_group_create_custom(display_name)
     assert group_exists?(id), id
@@ -25,7 +25,7 @@ class CreateTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '803',
+  qtest K81:
   %w( deprecated_kata_create_custom returns the id of a newly created kata ) do
     id = creator.deprecated_kata_create_custom(display_name)
     assert kata_exists?(id), id

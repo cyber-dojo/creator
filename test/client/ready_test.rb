@@ -4,12 +4,12 @@ require_relative 'creator_test_base'
 class ReadyTest < CreatorTestBase
 
   def self.id58_prefix
-    'A86'
+    :A86
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  test '15D', 'its ready' do
+  qtest D15: %w( its ready ) do
     assert true?(creator.ready?)
   end
 

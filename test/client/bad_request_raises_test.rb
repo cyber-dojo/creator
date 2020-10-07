@@ -4,19 +4,19 @@ require_relative 'creator_test_base'
 class BadRequestTest < CreatorTestBase
 
   def self.id58_prefix
-    '16F'
+    :Fy3
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  test '45e',
+  qtest e45:
   %w( group_create_custom([unknown_display_name]) raises exception ) do
     _error = assert_raises(HttpJsonHash::ServiceError) {
       creator.deprecated_group_create_custom(['xxx'])
     }
   end
 
-  test '45a',
+  qtest a45:
   %w( kata_create_custom(unknown_display_name) raises exception ) do
     _error = assert_raises(HttpJsonHash::ServiceError) {
       creator.deprecated_kata_create_custom('xxx')

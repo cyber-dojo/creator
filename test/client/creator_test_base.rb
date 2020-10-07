@@ -35,10 +35,6 @@ class CreatorTestBase < Id58TestBase
     model.kata_manifest(id)
   end
 
-  def model
-    externals.model
-  end
-
   # - - - - - - - - - - - - - - - - - - -
 
   def any_custom_start_points_display_name
@@ -54,6 +50,10 @@ class CreatorTestBase < Id58TestBase
   end
 
   # - - - - - - - - - - - - - - - - - - -
+
+  def model
+    externals.model
+  end
 
   def custom_start_points
     externals.custom_start_points

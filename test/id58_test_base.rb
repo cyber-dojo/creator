@@ -55,7 +55,9 @@ class Id58TestBase < MiniTest::Test
 
   def trimmed(s)
     if s.length > 80
+      # :nocov:
       s[0..80] + '...'
+      # :nocov:      
     else
       s
     end
@@ -125,12 +127,16 @@ class Id58TestBase < MiniTest::Test
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
+  # :nocov:
   def id58
     @id58
   end
+  # :nocov:
 
+  # :nocov:
   def name58
     @name58
   end
+  # :nocov:
 
 end
