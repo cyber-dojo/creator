@@ -89,8 +89,8 @@
 
   .divider
   {
-    margin: { top:0px; bottom:13px; }
-    width:600px;
-    border-bottom: 1px dashed lighten($darker-color, 25%);
+    margin: { top:5px; bottom:9px; }
+    width:625px;
+    border-bottom: 1px dashed lighten($darker-color, 15%);
   }
 }

@@ -29,49 +29,44 @@ $(() => {
 
   <div class="edged-panel questions">
     <div class="question">
-      Is <code>https://cyber-dojo.org</code> free to use?
+      Is cyber-dojo free?
     </div>
     <div class="answer">
-      Commercial use of <code>https://cyber-dojo.org</code> requires a licence.<br/>
-      Non-commercial use is free, but please
-      <form action="https://www.paypal.com/cgi-bin/webscr"
-            method="post"
-            id="donate"
-            target="_blank">
-      <input type="hidden"
-             name="cmd"
-             value="_s-xclick">
-      <input type="hidden"
-             name="hosted_button_id"
-             value="7HAUYJCMFCS8C">
-      <input type="image"
-             src="/images/donate.png"
-             name="submit"
-             alt="PayPal - The safe, easier way to pay online.">
-      </form>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="question">
-      What happens to the licence fees and donations?
-    </div>
-    <div class="answer">
-      100% goes to
-      <a href="https://blog.cyber-dojo.org/2020/06/supporting-turing-trust.html"
-         target="_blank">helping children learn about software</a>.
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="question">
-      Is cyber-dojo run as a charity?
-    </div>
-    <div class="answer">
-      Yes. The
-      <a href="http://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
-        target="_blank">cyberdojo Foundation</a>
-      is a Scottish Charitable Incorporated Organisation.
+      It depends...
+      <ul>
+        <li>
+          Using <code>https://cyber-dojo.org</code> in a commercial organization requires a licence.
+        </li>
+        <li>
+          Non-commercial use is free, but please
+          <form action="https://www.paypal.com/cgi-bin/webscr"
+                method="post"
+                id="donate"
+                target="_blank">
+          <input type="hidden"
+                 name="cmd"
+                 value="_s-xclick">
+          <input type="hidden"
+                 name="hosted_button_id"
+                 value="7HAUYJCMFCS8C">
+          <input type="image"
+                 src="/images/donate.png"
+                 name="submit"
+                 alt="PayPal - The safe, easier way to pay online.">
+          </form>
+        </li>
+        <li>
+          100% of the licence fees and donations
+          <a href="https://blog.cyber-dojo.org/2020/06/supporting-turing-trust.html"
+             target="_blank">help children learn about software</a>.
+        </li>
+        <li>
+          The
+          <a href="http://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
+            target="_blank">cyberdojo Foundation</a>
+            is a Scottish Charitable Incorporated Organisation.
+        </li>
+      </ul>
     </div>
 
     <div class="divider"></div>
@@ -80,28 +75,24 @@ $(() => {
       How much is a licence?
     </div>
     <div class="answer">
-      Whatever you feel is appropriate!
+      It's up to you!
+      <ul>
+        <li>Large companies/organizations typically pay £1000-£750.</li>
+        <li>Smaller teams/individuals typically pay £250-£50.</li>
+      </ul>
     </div>
 
     <div class="divider"></div>
 
     <div class="question">
-      What do people typically pay for a licence?
+      How long does a license last?
     </div>
     <div class="answer">
-      Large companies/organizations typically pay £1000-£750.<br/>
-      Smaller teams/individuals typically pay £250-£50.
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="question">
-      Do I have to buy a licence every year?
-    </div>
-    <div class="answer">
-      It's up to you!<br/>
-      You can pay a larger amount once.<br/>
-      You can pay a smaller amount at regular intervals.
+      Forever!
+      <ul>
+        <li>Some organizations/people nevertheless 'renew' their license each year.</li>
+        <li>We really appreciate their generosity :-)</li>
+      </ul>
     </div>
 
     <div class="divider"></div>
@@ -120,10 +111,77 @@ $(() => {
       What about operational costs (such as cloud hosting)?
     </div>
     <div class="answer">
-      They are generously paid by
-      <a href="https://www.praqma.com" target="_blank">Praqma</a>,
-      <a href="https://cucumber.io" target="_blank">Cucumber Limited</a>,
-      and CodeEntropy.
+      They are generously paid by our sponsors:
+      <ul>
+        <li>
+          <a href="https://www.praqma.com" target="_blank">Praqma</a>,
+          <a href="https://cucumber.io" target="_blank">Cucumber Limited</a>,
+          and CodeEntropy.
+        </li>
+        <li>
+          If you are interested in being a sponsor, please email
+          <a href="mailto:sponsor@cyber-dojo.org?subject=I'm interesting in sponsoring cyber-dojo&body=...">sponsor@cyber-dojo.org</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      Why did you build cyber-dojo?
+    </div>
+    <div class="answer">
+      To create a environment designed for the deliberate
+      <a href="http://jonjagger.blogspot.com/2013/10/practice.html" target="_blank">practice</a> of:
+      <ul>
+        <li><a href="http://jonjagger.blogspot.com/2016/03/code-and-test-oppose-each-other.html">Test driven software development<a/>.</li>
+        <li><a href="http://jonjagger.blogspot.com/2013/10/teams.html" target="_blank">Team
+        dynamics and collaboration</a>. Doing <em>group</em> exercises is the target use.</li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      Is cyber-dojo open-sourced?
+    </div>
+    <div class="answer">
+      Yes. The repositories are split across three
+      <a href="https://github.com" target="_blank">github</a> organizations:
+      <ul>
+        <li><a href="https://github.com/cyber-dojo"
+               target="_blank">cyber-dojo</a>
+            holds the microservices for the server.
+        </li>
+        <li><a href="https://github.com/cyber-dojo-start-points"
+               target="_blank">cyber-dojo-start-points</a>
+            holds the sets of initial source files.
+        </li>
+        <li><a href="https://github.com/cyber-dojo-languages"
+               target="_blank">cyber-dojo-languages</a>
+            holds the Dockerfiles for the images where the tests run.
+        </li>
+      </ul>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      Can I run my own cyber-dojo server?
+    </div>
+    <div class="answer">
+      Yes. Instructions and scripts for running on...
+      <ul>
+        <li>
+        a Linux server (with <a href="https://docker.com">Docker</a> installed)
+        are <a href="https://blog.cyber-dojo.org/2016/10/running-your-own-cyber-dojo-server-on.html" target="_blank">here</a>.
+        </li>
+        <li>
+        a <a href="https://kubernetes.io/" target="_blank">Kubernetes</a> cluster in a cloud
+        or on a local <a href="https://kubernetes.io/docs/setup/learning-environment/minikube/" target="_blank">minukube</a>
+        are <a href="https://github.com/cyber-dojo/k8s-install" target="_blank">here</a>.
+        </li>
+      </ul>
     </div>
 
     <div class="divider"></div>
@@ -178,75 +236,13 @@ $(() => {
     <div class="divider"></div>
 
     <div class="question">
-      Is cyber-dojo open-sourced?
-    </div>
-    <div class="answer">
-      Yes. The repositories are split across three
-      <a href="https://github.com" target="_blank">github</a> organizations:
-      <ul>
-        <li><a href="https://github.com/cyber-dojo"
-               target="_blank">cyber-dojo</a>
-            holds the microservices for the main server.
-        </li>
-        <li><a href="https://github.com/cyber-dojo-start-points"
-               target="_blank">cyber-dojo-start-points</a>
-            holds the sets of initial source files.
-        </li>
-        <li><a href="https://github.com/cyber-dojo-languages"
-               target="_blank">cyber-dojo-languages</a>
-            holds the Dockerfiles for the images where the tests run.
-        </li>
-      </ul>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="question">
-      Can I run my own cyber-dojo server?
-    </div>
-    <div class="answer">
-      Yes. Instructions and scripts for running on...
-      <ul>
-        <li>
-        a plain Linux server (with <a href="https://docker.com">Docker</a> installed)
-        are <a href="https://blog.cyber-dojo.org/2016/10/running-your-own-cyber-dojo-server-on.html" target="_blank">here</a>.
-        </li>
-        <li>
-        any <a href="https://kubernetes.io/" target="_blank">Kubernetes</a> cluster in a cloud
-        or on a local <a href="https://kubernetes.io/docs/setup/learning-environment/minikube/" target="_blank">minukube</a>
-        are <a href="https://github.com/cyber-dojo/k8s-install" target="_blank">here</a>.
-        </li>
-      </ul>
-    </div>
-
-    <div class="divider"></div>
-
-
-    <div class="question">
-      Why did you build cyber-dojo?
-    </div>
-    <div class="answer">
-      To create a environment designed for the deliberate
-      <a href="http://jonjagger.blogspot.com/2013/10/practice.html" target="_blank">practice</a> of:
-      <ul>
-        <li>Test driven software development.<br/>
-          Not 'dogmatic' TDD; but TDD in the sense
-        of <a href="http://jonjagger.blogspot.com/2016/03/code-and-test-oppose-each-other.html" target="_blank">Le Chatelier's Principle</a>.
-        </li>
-        <li><a href="http://jonjagger.blogspot.com/2013/10/teams.html" target="_blank">Team</a>
-        dynamics and collaboration.<br/>
-        Doing group exercises is the target use.
-        </li>
-      </ul>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="question">
       Why does cyber-dojo use animal avatars?
     </div>
     <div class="answer">
-      To provide anonymity during reviews.
+      Two main reasons:
+      <ul>
+        <li>To provide anonymity during reviews.</li>
+        <li>To provide identity without needing to login.</li>
     </div>
 
     <div class="divider"></div>
@@ -261,7 +257,9 @@ $(() => {
     <div class="divider"></div>
 
     <div class="question">
-      Who are the cyber-dojo Foundation trustees?
+      Who are the
+      <a href="http://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
+        target="_blank">cyberdojo Foundation</a> trustees?
     </div>
     <div class="answer">
       <table>
