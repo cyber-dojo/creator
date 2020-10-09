@@ -17,7 +17,7 @@
       }
       .cyber-dojo
       {
-        font-size:104px;
+        font-size:107px;
         position:relative;
         top:-17px;left:5px;
         color:$text-color;
@@ -26,10 +26,10 @@
 
     .a-place-to-practise-programming
     {
-      font-size:34px;
+      font-size:35.5px;
       position:relative;
       top:-39px;
-      left:151px;
+      left:146px;
       color:lighten($text-color, 5%);
     }
   }
@@ -50,7 +50,11 @@
   .buttons
   {
     padding-top:10px;
-    button.create, button.enter { width:625px; }
+    button.create, button.enter
+    {
+      width:621px; 
+      margin-left:2px;
+    }
   }
 
   .questions
