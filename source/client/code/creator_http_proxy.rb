@@ -8,15 +8,15 @@ class CreatorHttpProxy
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def alive?(_args)
+  def alive?(_args=nil)
     creator.alive?
   end
 
-  def ready?(_args)
+  def ready?(_args=nil)
     creator.ready?
   end
 
-  def sha(_args)
+  def sha(_args=nil)
     creator.sha
   end
 

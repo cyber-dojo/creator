@@ -8,7 +8,6 @@ class CreatorTestBase < Id58TestBase
 
   include Capybara::DSL
   include Capybara::Minitest::Assertions
-  include Rack::Test::Methods # [1]
 
   Capybara.register_driver :selenium do |app|
     Capybara::Selenium::Driver.new(app,
@@ -40,10 +39,6 @@ class CreatorTestBase < Id58TestBase
     @externals ||= Externals.new
   end
 
-  def app
-    App.new(externals) # [1]
-  end
-
   def creator
     CreatorHttpProxy.new(externals)
   end
@@ -72,40 +67,20 @@ class CreatorTestBase < Id58TestBase
     custom_start_points.display_names.sample
   end
 
-  def any_exercises_start_points_display_name
-    exercises_start_points.display_names.sample
-  end
-
-  def any_languages_start_points_display_name
-    languages_start_points.display_names.sample
-  end
-
   # - - - - - - - - - - - - - - - - - - -
-
-  def model
-    externals.model
-  end
 
   def custom_start_points
     externals.custom_start_points
   end
 
-  def exercises_start_points
-    externals.exercises_start_points
-  end
-
-  def languages_start_points
-    externals.languages_start_points
+  def model
+    externals.model
   end
 
   # - - - - - - - - - - - - - - - - - - -
 
   def true?(b)
     b.is_a?(TrueClass)
-  end
-
-  def false?(b)
-    b.is_a?(FalseClass)
   end
 
 end

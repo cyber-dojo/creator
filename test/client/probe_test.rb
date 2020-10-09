@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
 
-class AliveTest < CreatorTestBase
+class ProbeTest < CreatorTestBase
 
   def self.id58_prefix
     :a87
@@ -10,7 +10,11 @@ class AliveTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest d15: %w( its alive ) do
-    assert true?(externals.creator.alive?)
+    assert true?(creator.alive?)
+  end
+
+  qtest d16: %w( its ready ) do
+    assert true?(creator.ready?)
   end
 
 end
