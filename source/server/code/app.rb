@@ -2,7 +2,7 @@
 require_relative 'app_base'
 require_relative 'creator'
 require_relative 'escape_html_helper'
-require_relative 'home'
+require_relative 'id_typer'
 require_relative 'prober'
 require_relative 'selected_helper'
 
@@ -24,6 +24,17 @@ class App < AppBase
   get_delegate(Prober, :alive?)
   get_delegate(Prober, :ready?)
   get_delegate(Prober, :sha)
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
+  get '/home', provides:[:html] do
+    respond_to do |format|
+      format.html do
+        @id = params['id'] || ''
+        erb :home
+      end
+    end
+  end
 
   # - - - - - - - - - - - - - - - - - - - - -
   # Step 1 : choose a problem or custom-problem
@@ -94,7 +105,7 @@ class App < AppBase
     end
   end
 
-  get_delegate(Home, :id_type)
+  get_delegate(IdTyper, :id_type)
 
   # - - - - - - - - - - - - - - - - - - - - -
 

@@ -1,0 +1,96 @@
+
+#home-page
+{
+  @include non-code-font();
+
+  .heading
+  {
+    padding: { top:5px; bottom:5px; }
+    height:170px;
+    .logo
+    {
+      img
+      {
+          width:140px;
+         height:140px;
+        padding: { top:10px; left:0px; right:8px; }
+      }
+      .cyber-dojo
+      {
+        font-size:104px;
+        position:relative;
+        top:-17px;left:5px;
+        color:$text-color;
+      }
+    }
+
+    .a-place-to-practise-programming
+    {
+      font-size:35px;
+      position:relative;
+      top:-48px;
+      left:153px;
+      color:lighten($text-color, 5%);
+    }
+  }
+
+  form#donate
+  {
+    display:inline;
+    position:relative;
+    top:3px;
+    cursor:pointer;
+    input[type=image] { width:52px; height:15px; }
+  }
+
+  //------------------------------------------
+
+  .heading, .buttons, .questions { width:625px; }
+
+  .buttons
+  {
+    padding-top:10px;
+    button.create, button.enter { width:625px; }
+  }
+
+  .questions
+  {
+    @include plaintext-font();
+    font-size:15px;
+    img
+    {
+      background:lighten($darker-color, 15%);
+      @include rounded-corner(6px);
+      margin: { top:0px; bottom:0px; left:3px; right:3px; }
+      filter:grayscale(100%);
+    }
+    &.donate.button { font-size:20px; width:125px; }
+    img.technology { width:74px; height:74px; }
+    img.trustee { width:120px; height:120px; }
+    .name { font-size:10px; text-align:center; }
+    .bio { font-size:11px; width:120px; text-align:center; }
+    table { margin: { top:12px; bottom:12px; } }
+  }
+
+  .question
+  {
+    font-size:16px;
+    padding-left:5px;
+    margin: { top:0px; bottom:10px; }
+  }
+
+  .answer
+  {
+    font-size:14px;
+    margin-left:30px;
+    padding-bottom:13px;
+    margin: { top:0px; bottom:0px; }
+  }
+
+  .divider
+  {
+    margin: { top:0px; bottom:13px; }
+    width:600px;
+    border-bottom: 1px dashed lighten($darker-color, 25%);
+  }
+}

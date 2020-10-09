@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Home
+class IdTyper
 
   def initialize(externals)
     @externals = externals
