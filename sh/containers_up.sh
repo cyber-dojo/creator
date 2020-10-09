@@ -44,7 +44,7 @@ wait_briefly_until_ready()
   if [ -f "$(ready_filename)" ]; then
     ready_response
   fi
-  local -r container_name=$(service_container ${service_name})
+  local -r container_name="test-${service_name}"
   docker logs ${container_name}
   exit 42
 }
