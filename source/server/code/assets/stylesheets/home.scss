@@ -6,13 +6,13 @@
   .heading
   {
     padding: { top:5px; bottom:5px; }
-    height:170px;
+    height:160px;
     .logo
     {
       img
       {
-          width:140px;
-         height:140px;
+          width:125px;
+         height:125px;
         padding: { top:10px; left:0px; right:8px; }
       }
       .cyber-dojo
@@ -26,10 +26,10 @@
 
     .a-place-to-practise-programming
     {
-      font-size:35px;
+      font-size:34px;
       position:relative;
-      top:-48px;
-      left:153px;
+      top:-39px;
+      left:151px;
       color:lighten($text-color, 5%);
     }
   }
