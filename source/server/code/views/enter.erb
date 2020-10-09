@@ -149,21 +149,19 @@ $(() => {
 
   const urlId = () => encodeURIComponent(id);
 
-  const goto = (url) => window.location = url;
-
   $idInput.keyup(() => idInputChange()).focus();
 
   $enterGroupButton.click(() => {
     const json = JSON.stringify({"id":id});
-    $.post(`/creator/enter.json`, json, (response) => goto(response.route));
+    $.post(`/creator/enter.json`, json, (response) => cd.goto(response.route));
   });
 
-  $reenterGroupButton.click(() => goto(`/creator/reenter?id=${urlId()}`));
+  $reenterGroupButton.click(() => cd.goto(`/creator/reenter?id=${urlId()}`));
 
-  $openDashboardButton.click(() => goto(`/dashboard/show/${urlId()}`));
+  $openDashboardButton.click(() => cd.goto(`/dashboard/show/${urlId()}`));
 
   $openSingleButton.click(() => {
-    goto(`/dojo/index?id=${urlId()}`);
+    cd.goto('/creator/home');
     window.open(`/kata/edit/${urlId()}`);
   });
 

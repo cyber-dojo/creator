@@ -129,7 +129,6 @@ class App < AppBase
       format.html do
         @kata_id = params['id']
         manifest = model.kata_manifest(@kata_id)
-        @group_id = manifest['group_id']
         @index = manifest['group_index'].to_i
         @avatar_name = avatars.names[@index]
         erb :avatar
@@ -149,8 +148,8 @@ class App < AppBase
   get '/reenter', provides:[:html] do
     respond_to do |format|
       format.html do
-        @group_id = params['id']
-        @avatars = model.group_avatars(@group_id).to_h
+        group_id = params['id']
+        @avatars = model.group_avatars(group_id).to_h
         @avatars_names = avatars.names
         erb :reenter
       end

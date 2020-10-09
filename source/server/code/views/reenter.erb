@@ -2,13 +2,11 @@
 'use strict';
 $(() => {
 
-  const groupId = "<%= @group_id %>";
-
   cd.setupHoverTips($('[data-tip]'));
 
   $('.small.colour.reenter.avatar').click((event) => {
     const kataId = $(event.target).data('id');
-    window.location = `/dojo/index?id=${groupId}`;
+    window.location = '/creator/home';
     window.open(`/kata/edit/${kataId}`);
   });
 

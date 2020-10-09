@@ -2,11 +2,10 @@
 'use strict';
 $(() => {
 
-  const groupId = "<%= @group_id %>";
   const kataId = "<%= @kata_id %>";
 
   $('button.ok').click(() => {
-    window.location = `/dojo/index?id=${groupId}`;
+    window.location = '/creator/home';
     window.open(`/kata/edit/${kataId}`);
   });
 
