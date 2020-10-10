@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CreatorHttpProxy
+class Prober
 
   def initialize(externals)
     @externals = externals
@@ -18,16 +18,6 @@ class CreatorHttpProxy
 
   def sha(_args=nil)
     creator.sha
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def deprecated_group_create_custom(display_name)
-    creator.deprecated_group_create_custom(display_name)
-  end
-
-  def deprecated_kata_create_custom(display_name)
-    creator.deprecated_kata_create_custom(display_name)
   end
 
   private

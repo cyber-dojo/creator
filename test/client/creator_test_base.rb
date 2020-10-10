@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 require_relative '../id58_test_base'
 require 'capybara/minitest'
-require_source 'creator_http_proxy'
 require_source 'externals'
 
 class CreatorTestBase < Id58TestBase
@@ -39,10 +38,6 @@ class CreatorTestBase < Id58TestBase
     @externals ||= Externals.new
   end
 
-  def creator
-    CreatorHttpProxy.new(externals)
-  end
-
   # - - - - - - - - - - - - - - - - - - -
 
   def group_exists?(id)
@@ -68,6 +63,10 @@ class CreatorTestBase < Id58TestBase
   end
 
   # - - - - - - - - - - - - - - - - - - -
+
+  def creator
+    externals.creator
+  end
 
   def custom_start_points
     externals.custom_start_points

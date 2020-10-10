@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-require_relative 'creator_http_proxy'
 require_relative 'app_base'
+require_relative 'prober'
 
 class App < AppBase
 
@@ -9,16 +9,8 @@ class App < AppBase
     @externals = externals
   end
 
-  get_delegate(CreatorHttpProxy, :alive?)
-  get_delegate(CreatorHttpProxy, :ready?)
-  get_delegate(CreatorHttpProxy, :sha)
-
-  #def target
-  #  Creator.new(@externals)
-  #end
-
-  #probe(:alive?) # curl/k8s
-  #probe(:ready?) # curl/k8s
-  #get_json(:sha) # identity
+  get_delegate(Prober, :alive?)
+  get_delegate(Prober, :ready?)
+  get_delegate(Prober, :sha)
 
 end

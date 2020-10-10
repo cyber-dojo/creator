@@ -25,12 +25,6 @@ class ExternalCreator
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  def home
-    @http.get(__method__, {})
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   def deprecated_group_create_custom(display_name)
     @http.post(__method__, {display_name:display_name})
   end
