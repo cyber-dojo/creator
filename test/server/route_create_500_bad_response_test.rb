@@ -71,24 +71,27 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |has a 500 error
   |there is useful diagnostic info
   ) do
-    stub_model_http(not_json='xxxx')
+    stub_exercises_start_points(not_json='xxxx')
 
     stdout,stderr = capture_io {
-      get '/group_custom_create',
-      {display_name:'Java Countdown, Round 2'}.to_json
+      get '/choose_problem',
+      {type:'group'}.to_json
     }
     assert status?(500), status
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal stdout, last_response.body+"\n", :stdout
     ex = json_response['exception']
-    assert_equal '/group_custom_create', ex['request']['path'], json_response
+    assert_equal '/choose_problem', ex['request']['path'], json_response
     assert_equal '', ex['request']['body'], json_response
     refute_nil ex['backtrace'], json_response
-    assert_equal 'missing keyword: :display_name', ex['message'], json_response
   end
 
   private
+
+  def stub_exercises_start_points(body)
+    externals.instance_exec { @exercises_start_points_http = HttpAdapterStub.new(body) }
+  end
 
   def stub_model_http(body)
     externals.instance_exec { @model_http = HttpAdapterStub.new(body) }
