@@ -2,7 +2,6 @@
 .edged-panel
 {
   @include rounded-corner(5px);
-  display:inline-block; // for centering
   margin: { top:10px; bottom:7px; left:auto; right:auto; }
   padding:20px;
   text-align:left;
