@@ -25,21 +25,17 @@
 #enter-page
 {
   @include non-code-font();
-  .enter-id
+  input
   {
-    margin: { left:5px; right:5px; }
-    input
-    {
-      @include non-code-font();
-      @include rounded-corner(6px);
-      margin: { left:0px; bottom:10px; }
-      font-size:41px;
-      width:220px;
-      padding-left:10px;
-      background:lighten($green, 20%);
-      color:$darker-color;
-      &.invalid { color:darken($red, 10%); }
-    }
+    @include non-code-font();
+    @include rounded-corner(6px);
+    margin: { left:0px; bottom:10px; }
+    font-size:41px;
+    width:220px;
+    padding-left:10px;
+    background:lighten($green, 20%);
+    color:$darker-color;
+    &.invalid { color:darken($red, 10%); }
   }
   .wait-spinner
   {
