@@ -1,6 +1,4 @@
 
-[data-cursor=pointer] { cursor:pointer; }
-
 img.avatars
 {
   width:314px;
@@ -34,4 +32,7 @@ img.avatar
 
 #reenter-page img.avatar.small { width:45px; height:45px; }
 
-#full-page .colour { cursor:default }
+#avatar-page, #full-page
+{
+  img.avatar.colour { cursor:default; }
+}
