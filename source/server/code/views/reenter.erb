@@ -2,12 +2,36 @@
 'use strict';
 $(() => {
 
-  cd.setupHoverTips($('[data-tip]'));
-
-  $('.small.colour.reenter.avatar').click((event) => {
-    const kataId = $(event.target).data('id');
-    window.location = '/creator/home';
-    window.open(`/kata/edit/${kataId}`);
+  $.getJSON('/images/avatars/names.json', {}, (avatarNames) => {
+    const attrName = 'data-avatar-index';
+    const $divs = $(`div[${attrName}]`);
+    $divs.each(function() {
+      const $div = $(this);
+      const avatarIndex = $div.attr(attrName);
+      const avatarName = avatarNames[avatarIndex];
+      const kataId = $div.attr('data-kata-id');
+      if (kataId != '') {
+        $div.click(() => {
+          window.location = '/creator/home';
+          window.open(`/kata/edit/${kataId}`);
+        });
+        $div.attr('data-tip', avatarName);
+        cd.setupHoverTips($div);
+        const $colourImage = $('<img>', {
+          'src':`/images/avatars/${avatarIndex}.jpg`,
+          'class':'small colour reenter avatar',
+          'alt': avatarName
+        });
+        $div.append($colourImage);
+      } else {
+        const $greyImage = $('<img>', {
+          'src':`/images/avatars/${avatarIndex}.jpg`,
+          'class':'small grey avatar',
+          'alt': avatarName
+        });
+        $div.append($greyImage);
+      }
+    });
   });
 
 });
@@ -17,29 +41,13 @@ $(() => {
   <div class="edged-panel">
     <div class="title">click your avatar</div>
     <table>
-      <% 8.times do |y| %>
-      <tr>
-        <% 8.times do |x| %>
-        <td>
+      <% 8.times do |y| %><tr>
+        <% 8.times do |x| %><td>
           <% index = y*8 + x %>
           <% kata_id = @avatars[index] %>
-          <% avatar_name = @avatars_names[index] %>
-          <% if kata_id %>
-            <div data-tip="<%= avatar_name %>">
-              <img data-id="<%= kata_id %>"
-                   src="/avatars/image/<%= index %>"
-                   alt="<%= avatar_name %>"
-                   class="small colour reenter avatar"/>
-            </div>
-          <% else %>
-            <img src="/avatars/image/<%= index %>"
-                 alt="<%= avatar_name %>"
-                 class="small grey avatar"/>
-          <% end %>
-        </td>
-        <% end %>
-      </tr>
-      <% end %>
+          <div data-avatar-index="<%= index %>" data-kata-id="<%= kata_id %>"></div>
+        </td><% end %>
+      </tr><% end %>
     </table>
   </div>
 </div>

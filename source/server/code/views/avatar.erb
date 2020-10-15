@@ -4,6 +4,10 @@ $(() => {
 
   const kataId = "<%= @kata_id %>";
 
+  $.getJSON('/images/avatars/names.json', {}, (avatarNames) => {
+    
+  });
+
   $('button.ok').click(() => {
     window.location = '/creator/home';
     window.open(`/kata/edit/${kataId}`);
@@ -16,17 +20,13 @@ $(() => {
   <div class="edged-panel">
     <div class="title">your avatar is</div>
     <table>
-      <% 8.times do %>
-      <tr>
-        <% 8.times do %>
-        <td>
+      <% 8.times do %><tr>
+        <% 8.times do %><td>
           <img class="small colour avatar"
                alt="<%= @avatar_name %>"
-               src="/avatars/image/<%= @index %>"/>
-        </td>
-        <% end %>
-      </tr>
-      <% end %>
+               src="/images/avatars/<%= @index %>.jpg"/>
+        </td><% end %>
+      </tr><% end %>
     </table>
     <div class="avatar-name">the <%= @avatar_name %></div>
     <button type="button" class="large ok">ok</button>

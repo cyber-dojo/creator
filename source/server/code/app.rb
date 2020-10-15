@@ -150,7 +150,6 @@ class App < AppBase
       format.html do
         group_id = params['id']
         @avatars = model.group_avatars(group_id).to_h
-        @avatars_names = avatars.names
         erb :reenter
       end
     end
