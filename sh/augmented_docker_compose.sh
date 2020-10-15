@@ -14,7 +14,6 @@ augmented_docker_compose()
                        model \
                        saver \
                     selenium \
-                     avatars \
     | tee /tmp/augmented-docker-compose.creator.peek.yml \
     | docker-compose \
         --project-name cyber-dojo \

@@ -3,7 +3,6 @@ require_relative 'external_custom_start_points'
 require_relative 'external_exercises_start_points'
 require_relative 'external_languages_start_points'
 require_relative 'external_http'
-require_relative 'external_avatars'
 require_relative 'external_model'
 require_relative 'external_runner'
 
@@ -28,15 +27,6 @@ class Externals
   end
   def languages_start_points_http
     @languages_start_points_http ||= ExternalHttp.new
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def avatars
-    @avatars ||= ExternalAvatars.new(avatars_http)
-  end
-  def avatars_http
-    @avatars_http ||= ExternalHttp.new
   end
 
   # - - - - - - - - - - - - - - - - - - -

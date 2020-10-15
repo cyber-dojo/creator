@@ -321,10 +321,6 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - -
 
-  def avatars
-    externals.avatars
-  end
-
   def model
     externals.model
   end

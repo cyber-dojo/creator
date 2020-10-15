@@ -41,20 +41,6 @@ class RouteProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest e14: %w(
-  |when avatars http-proxy is not ready
-  |GET/ready?
-  |has status 200
-  |returns false
-  |and nothing else
-  ) do
-    externals.instance_exec { @avatars=STUB_READY_FALSE }
-    assert_get_200_json(path='ready?') do |response|
-      assert_equal [path], response.keys, "keys:#{last_response.body}:"
-      assert false?(response[path]), "false?:#{last_response.body}:"
-    end
-  end
-
   qtest E15: %w(
   |when custom_start_points http-proxy is not ready
   |GET/ready?
