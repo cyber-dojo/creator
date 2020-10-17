@@ -2,7 +2,7 @@
 'use strict';
 $(() => {
 
-  cd.homeIcon.show();
+  cd.setupHomeIcon();
 
   $.getJSON('/images/avatars/names.json', {}, (avatarNames) => {
     const attrName = 'data-avatar-index';

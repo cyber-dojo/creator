@@ -81,15 +81,8 @@ cd.hoverTipContainer = () => {
   return $('#hover-tip-container');
 };
 
-const $homeIcon = () => $('.home-icon');
-
-cd.homeIcon = {
-  show: () => {
-    $homeIcon().show();
-    $homeIcon().click(() => cd.goto('/creator/home'));
-    cd.setupHoverTips($homeIcon());
-  },
-  hide: () => {
-    $homeIcon().hide();
-  }
+cd.setupHomeIcon = () => {
+  const $homeIcon = () => $('.home-icon');
+  $homeIcon().show().click(() => cd.goto('/creator/home'));
+  cd.setupHoverTips($homeIcon());
 };

@@ -2,7 +2,7 @@
 'use strict';
 $(() => {
 
-  cd.homeIcon.show();
+  cd.setupHomeIcon();
   $('button.create.group' ).click(() => cd.goto('/creator/choose_problem?type=group'));
   $('button.enter'        ).click(() => cd.goto('/creator/enter'));
 
