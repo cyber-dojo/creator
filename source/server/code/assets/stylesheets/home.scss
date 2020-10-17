@@ -1,4 +1,13 @@
 
+.home-icon
+{
+  width:20px;
+  height:20px;
+  position:absolute;
+  top:10px;
+  left:10px;
+}
+
 #home-page
 {
   @include non-code-font();
