@@ -9,8 +9,18 @@ class View200Test < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest d15: %w( home ) do
+  qtest d13: %w( home ) do
     visit('/creator/home')
+    assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
+  end
+
+  qtest d14: %w( group ) do
+    visit('/creator/group')
+    assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
+  end
+
+  qtest d15: %w( single ) do
+    visit('/creator/single')
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
 
