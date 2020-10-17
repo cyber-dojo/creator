@@ -2,9 +2,8 @@
 'use strict';
 $(() => {
 
-  $('button.create.group' ).click(() => cd.goto('/creator/choose_problem?type=group'));
-  $('button.create.single').click(() => cd.goto('/creator/choose_problem?type=single'));
-  $('button.enter'        ).click(() => cd.goto('/creator/enter'));
+  $('button.single').click(() => cd.goto('/creator/single'));
+  $('button.group' ).click(() => cd.goto('/creator/group'));
 
 });
 </script>
@@ -22,9 +21,8 @@ $(() => {
     </div>
   </div>
   <div class="edged-panel buttons">
-    <button type="button" class="large create group">create a new group exercise</button>
-    <button type="button" class="large create single">create a new single exercise</button>
-    <button type="button" class="large enter">enter any existing exercise</button>
+    <button type="button" class="large single">i'm on my own</button>
+    <button type="button" class="large group">we're in a group</button>
   </div>
 
   <div class="edged-panel questions">
@@ -182,7 +180,7 @@ $(() => {
     <div class="divider"></div>
 
     <div class="question">
-      What technologies does cyber-dojo uses?
+      What technologies does cyber-dojo use?
     </div>
     <div class="answer">
       <table>
@@ -228,7 +226,6 @@ $(() => {
       </table>
     </div>
 
-    <!--
     <div class="divider"></div>
 
     <div class="question">
@@ -284,7 +281,6 @@ $(() => {
         </tr>
       </table>
     </div>
-    -->
 
   </div>
 </div>

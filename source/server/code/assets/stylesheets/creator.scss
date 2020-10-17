@@ -9,12 +9,13 @@
 #enter-page, #avatar-page, #reenter-page, #full-page
 {
   @include non-code-font();
-  .title { font-size:58px; margin: 0px }
   .sub-title { font-size:27px; margin: { left:0px; bottom:10px; } }
   table { margin: { left:0px; bottom:10px; } }
   .group-id, .kata-id { font-size:90px; }
-  .avatar-name { font-size:33px; margin: { left:0px; bottom:10px; } }
+  .avatar-name { font-size:44px; margin: { left:0px; bottom:5px; } }
 }
+#single-page  .edged-panel { width:590px; }
+#group-page   .edged-panel { width:590px; }
 #enter-page   .edged-panel { width:660px; }
 #avatar-page  .edged-panel { width:340px; }
 #reenter-page .edged-panel { width:420px; }
@@ -51,6 +52,7 @@
 
 //- - - - - - - - - - - - - - - - - - - - - - - - -
 
+.single-page, .group-page,
 .choose-problem-page, .choose-custom-problem-page,
 .choose-ltf-page, .confirm-page
 {

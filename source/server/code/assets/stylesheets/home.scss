@@ -50,11 +50,11 @@
   .buttons
   {
     padding-top:10px;
-    button.create, button.enter
+    button.group, button.single
     {
-      width:621px; 
-      margin-left:2px;
+      width:305px;
     }
+    button.single { margin-right:10px; }
   }
 
   .questions

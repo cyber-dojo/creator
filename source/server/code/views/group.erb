@@ -1,0 +1,17 @@
+<script>
+'use strict';
+$(() => {
+
+  $('button.create.group' ).click(() => cd.goto('/creator/choose_problem?type=group'));
+  $('button.enter'        ).click(() => cd.goto('/creator/enter'));
+
+});
+</script>
+
+<div id="group-page">
+  <div class="edged-panel">
+    <div class="title">we're in a group</div>
+    <button type="button" class="large create group">create a new group exercise</button>
+    <button type="button" class="large enter">enter an existing exercise</button>
+  </div>
+</div>
