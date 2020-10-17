@@ -6,6 +6,20 @@
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
+#home-page                  .edged-panel { width:625px; }
+#single-page                .edged-panel { width:590px; }
+#group-page                 .edged-panel { width:590px; }
+
+#choose-problem-page        .edged-panel { width:835px; }
+#choose-custom-problem-page .edged-panel { width:835px; }
+#choose-ltf-page            .edged-panel { width:835px; }
+#confirm-page               .edged-panel { width:835px; }
+
+#enter-page                 .edged-panel { width:660px; }
+#avatar-page                .edged-panel { width:340px; }
+#reenter-page               .edged-panel { width:420px; }
+#full-page                  .edged-panel { width:320px; }
+
 #enter-page, #avatar-page, #reenter-page, #full-page
 {
   @include non-code-font();
@@ -14,12 +28,6 @@
   .group-id, .kata-id { font-size:90px; }
   .avatar-name { font-size:44px; margin: { left:0px; bottom:5px; } }
 }
-#single-page  .edged-panel { width:590px; }
-#group-page   .edged-panel { width:590px; }
-#enter-page   .edged-panel { width:660px; }
-#avatar-page  .edged-panel { width:340px; }
-#reenter-page .edged-panel { width:420px; }
-#full-page    .edged-panel { width:320px; }
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -51,18 +59,6 @@
 }
 
 //- - - - - - - - - - - - - - - - - - - - - - - - -
-
-.single-page, .group-page,
-.choose-problem-page, .choose-custom-problem-page,
-.choose-ltf-page, .confirm-page
-{
-  width:100%;
-  height:100%;
-  text-align:center;
-  display:inline-block;
-  margin: { top:10px; }
-  .edged-panel { width:835px; }
-}
 
 .title
 {
