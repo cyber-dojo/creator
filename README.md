@@ -10,6 +10,7 @@
 * [GET ready?](docs/api.md#get-ready)
 * [GET alive?](docs/api.md#get-alive)  
 * [GET sha](docs/api.md#get-sha)
+* ...
 
 - - - -
 ![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)

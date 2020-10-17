@@ -10,6 +10,8 @@ class View200Test < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest d13: %w( home ) do
+    visit('/')
+    assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
     visit('/creator/home')
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end

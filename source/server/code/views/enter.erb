@@ -158,14 +158,9 @@ $(() => {
     $.post(`/creator/enter.json`, json, (response) => cd.goto(response.route));
   });
 
-  $reenterGroupButton.click(() => cd.goto(`/creator/reenter?id=${urlId()}`));
-
+  $reenterGroupButton.click (() => cd.goto(`/creator/reenter?id=${urlId()}`));
   $openDashboardButton.click(() => cd.goto(`/dashboard/show/${urlId()}`));
-
-  $openSingleButton.click(() => {
-    cd.goto('/creator/home');
-    window.open(`/kata/edit/${urlId()}`);
-  });
+  $openSingleButton.click   (() => cd.newTab(`/kata/edit/${urlId()}`));
 
   setButtonStates();
 

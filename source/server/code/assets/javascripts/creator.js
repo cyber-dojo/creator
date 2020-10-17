@@ -32,6 +32,11 @@ cd.urlParam = (name) => {
 
 cd.goto = (url) => window.location = url;
 
+cd.newTab = (url) => {
+  cd.goto('/');
+  window.open(url);
+};
+
 //= = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 cd.setupHoverTips = function(nodes) {
@@ -83,6 +88,6 @@ cd.hoverTipContainer = () => {
 
 cd.setupHomeIcon = () => {
   const $homeIcon = () => $('.home-icon');
-  $homeIcon().show().click(() => cd.goto('/creator/home'));
+  $homeIcon().show().click(() => cd.goto('/'));
   cd.setupHoverTips($homeIcon());
 };

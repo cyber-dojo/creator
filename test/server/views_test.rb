@@ -17,6 +17,7 @@ class ViewsTest < CreatorTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   qtest AC0: %w( GET /creator/home 200 ) do
+    assert_get_200_html('/')
     assert_get_200_html('/creator/home')
   end
 

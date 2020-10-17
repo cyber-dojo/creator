@@ -13,10 +13,7 @@ $(() => {
       const avatarName = avatarNames[avatarIndex];
       const kataId = $div.attr('data-kata-id');
       if (kataId != '') {
-        $div.click(() => {
-          window.location = '/creator/home';
-          window.open(`/kata/edit/${kataId}`);
-        });
+        $div.click(() => cd.newTab(`/kata/edit/${kataId}`));
         $div.attr('data-tip', avatarName);
         cd.setupHoverTips($div);
         const $colourImage = $('<img>', {
