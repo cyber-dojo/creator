@@ -1,7 +1,7 @@
 
 MIN = {
   test_count:1,
-  app_coverage:100,
+  app_coverage:99,
   test_coverage:100,
   line_ratio:1.2,
   hits_ratio:0.5
