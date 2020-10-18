@@ -62,10 +62,6 @@ class AppBase < Sinatra::Base
 
   private
 
-  def params_args
-    @params_args ||= symbolized(params)
-  end
-
   def json_args
     @json_args ||= symbolized(json_payload)
   end
