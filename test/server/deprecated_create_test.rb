@@ -66,22 +66,20 @@ class DeprecatedCreateTest < CreatorTestBase
   qtest De3: %w(
   |POST /deprecated_kata_create_custom
   |with body that is non JSON
-  |has status 500
+  |logs to stdout
   ) do
     stdout,stderr = capture_io {
       post '/deprecated_kata_create_custom',
       'not-JSON',
       JSON_REQUEST_HEADERS
     }
-    assert status?(500), status
-    assert json_content?, content_type
     assert_equal '', stderr, :stderr
-    assert_equal stdout, last_response.body+"\n", :stdout
-    ex = json_response['exception']
-    assert_equal '/deprecated_kata_create_custom', ex['request']['path'], json_response
-    assert_equal '', ex['request']['body'], json_response
-    refute_nil ex['backtrace'], json_response
-    assert_equal 'body is not JSON', ex['message'], json_response
+    json_stdout = JSON.parse(stdout)
+    ex = json_stdout['exception']
+    assert_equal '/deprecated_kata_create_custom', ex['request']['path'], stdout
+    assert_equal '', ex['request']['body'], stdout
+    refute_nil ex['backtrace'], stdout
+    assert_equal 'body is not JSON', ex['message'], stdout
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -89,22 +87,20 @@ class DeprecatedCreateTest < CreatorTestBase
   qtest De4: %w(
   |POST /deprecated_kata_create_custom
   |with body that is non JSON-Hash
-  |has status 500
+  |logs to stdout
   ) do
     stdout,stderr = capture_io {
       post '/deprecated_kata_create_custom',
       '[42]',
       JSON_REQUEST_HEADERS
     }
-    assert status?(500), status
-    assert json_content?, content_type
     assert_equal '', stderr, :stderr
-    assert_equal stdout, last_response.body+"\n", :stdout
-    ex = json_response['exception']
-    assert_equal '/deprecated_kata_create_custom', ex['request']['path'], json_response
-    assert_equal '', ex['request']['body'], json_response
-    refute_nil ex['backtrace'], json_response
-    assert_equal 'body is not JSON Hash', ex['message'], json_response
+    json_stdout = JSON.parse(stdout)
+    ex = json_stdout['exception']
+    assert_equal '/deprecated_kata_create_custom', ex['request']['path'], stdout
+    assert_equal '', ex['request']['body'], stdout
+    refute_nil ex['backtrace'], stdout
+    assert_equal 'body is not JSON Hash', ex['message'], stdout
   end
 
   private

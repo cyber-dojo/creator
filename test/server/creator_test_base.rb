@@ -36,15 +36,6 @@ class CreatorTestBase < Id58TestBase
     assert_equal '', stdout, :sdout
   end
 
-  def assert_get_500_json(path, &block)
-    stdout,stderr = capture_io { get '/'+path }
-    assert status?(500), status
-    assert json_content?, content_type
-    assert_equal '', stderr, :stderr
-    assert_equal stdout, last_response.body+"\n", :stdout
-    block.call(json_response)
-  end
-
   # - - - - - - - - - - - - - - - -
 
   def assert_post_200_json(path, args, &block)

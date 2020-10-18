@@ -1,26 +1,21 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
 
-class RouteCreate500BadResponseTest < CreatorTestBase
+class RouteCreateBadResponseTest < CreatorTestBase
 
   def self.id58_prefix
     :f28
   end
 
   # - - - - - - - - - - - - - - - - -
-  # 500
-  # - - - - - - - - - - - - - - - - -
 
   qtest QN4: %w(
   |when an http-proxy
   |returns non-JSON in its response.body
-  |its a 500 error
+  |it logs the exeption to stdout
   ) do
     stub_model_http('xxxx')
-    assert_get_500_json('ready?') do |response|
-      assert_equal [ 'exception' ], response.keys.sort, last_response.body
-      #...
-    end
+    logs_exception_to_stdout('/ready?')
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -28,12 +23,10 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   qtest QN5: %w(
   |when an http-proxy
   |returns JSON (but not a Hash) in its response.body
-  |its a 500 error
+  |it logs the exception to stdout
   ) do
     stub_model_http('[]')
-    assert_get_500_json('ready?') do |response|
-      assert_equal [ 'exception' ], response.keys.sort, last_response.body
-    end
+    logs_exception_to_stdout('/ready?')
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -42,12 +35,10 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |when an http-proxy
   |returns JSON-Hash in its response.body
   |which contains the key "exception"
-  |its a 500 error
+  |it logs the exception to stdout
   ) do
     stub_model_http(response='{"exception":42}')
-    assert_get_500_json('ready?') do |response|
-      assert_equal [ 'exception' ], response.keys.sort, last_response.body
-    end
+    logs_exception_to_stdout('/ready?')
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -56,12 +47,10 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   |when an http-proxy
   |returns JSON-Hash in its response.body
   |which does not contain the requested method's key
-  |its a 500 error
+  |it logs the exception to stdout
   ) do
     stub_model_http(response='{"wibble":42}')
-    assert_get_500_json('ready?') do |response|
-      assert_equal [ 'exception' ], response.keys.sort, last_response.body
-    end
+    logs_exception_to_stdout('/ready?')
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -69,7 +58,8 @@ class RouteCreate500BadResponseTest < CreatorTestBase
   qtest QN8: %w(
   |when an http-proxy
   |has a 500 error
-  |there is useful diagnostic info
+  |you get the error.erb page
+  |and the exception is logged to stdout
   ) do
     stub_exercises_start_points(not_json='xxxx')
 
@@ -78,13 +68,14 @@ class RouteCreate500BadResponseTest < CreatorTestBase
       {type:'group'}.to_json
     }
     assert status?(500), status
-    assert json_content?, content_type
-    assert_equal '', stderr, :stderr
-    assert_equal stdout, last_response.body+"\n", :stdout
-    ex = json_response['exception']
-    assert_equal '/choose_problem', ex['request']['path'], json_response
-    assert_equal '', ex['request']['body'], json_response
-    refute_nil ex['backtrace'], json_response
+    assert html_content?, content_type
+    assert last_response.body.include?('<div id="error-page">')
+    assert_equal '', stderr
+    json = JSON.parse(stdout)
+    ex = json['exception']
+    assert_equal '/choose_problem', ex['request']['path'], stdout
+    assert_equal '', ex['request']['body'], stdout
+    refute_nil ex['backtrace'], stdout
   end
 
   private
@@ -108,6 +99,15 @@ class RouteCreate500BadResponseTest < CreatorTestBase
       self
     end
     attr_reader :body
+  end
+
+  def logs_exception_to_stdout(path)
+    stdout,stderr = capture_io { get path }
+    assert status?(500), status
+    assert json_content?, content_type
+    assert_equal '', stderr
+    json = JSON.parse(stdout)
+    assert_equal [ 'exception' ], json.keys.sort, stdout
   end
 
 end
