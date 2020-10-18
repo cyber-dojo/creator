@@ -1,9 +1,8 @@
 
 .home-icon
 {
+  // width and height are already set to try and avoid 'flash resize'
   display:none;
-  width:20px;
-  height:20px;
   position:absolute;
   top:10px;
   left:10px;

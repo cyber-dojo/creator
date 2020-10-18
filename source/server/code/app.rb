@@ -162,8 +162,8 @@ class App < AppBase
   get '/reenter', provides:[:html] do
     respond_to do |format|
       format.html do
-        group_id = params['id']
-        @avatars = model.group_avatars(group_id).to_h
+        @group_id = params['id']
+        @avatars = model.group_avatars(@group_id).to_h
         erb :reenter
       end
     end

@@ -16,8 +16,8 @@
 #confirm-page               .edged-panel { width:835px; }
 
 #enter-page                 .edged-panel { width:660px; }
-#avatar-page                .edged-panel { width:340px; }
-#reenter-page               .edged-panel { width:420px; }
+#avatar-page                .edged-panel { width:316px; }
+#reenter-page               .edged-panel { width:400px; }
 #full-page                  .edged-panel { width:320px; }
 
 #enter-page, #avatar-page, #reenter-page, #full-page
@@ -64,7 +64,7 @@
 {
   @include non-code-font();
   margin-left:0px;
-  font-size:58px;
+  font-size:56px;
   color:$lighter-color;
   text-align:left;
   position:relative; top:-19px;
