@@ -20,6 +20,8 @@
 #reenter-page               .edged-panel { width:400px; }
 #full-page                  .edged-panel { width:320px; }
 
+#error-page                 .edged-panel { width:314px; }
+
 #enter-page, #avatar-page, #reenter-page, #full-page
 {
   @include non-code-font();

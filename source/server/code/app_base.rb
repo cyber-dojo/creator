@@ -94,8 +94,6 @@ class AppBase < Sinatra::Base
 
   error do
     error = $!
-    status(500)
-    content_type('application/json')
     info = {
       exception: {
         request: {
@@ -117,9 +115,8 @@ class AppBase < Sinatra::Base
     else
       exception[:message] = error.message
     end
-    diagnostic = JSON.pretty_generate(info)
-    puts diagnostic
-    body diagnostic
+    puts JSON.pretty_generate(info)
+    halt erb :error
   end
 
 end
