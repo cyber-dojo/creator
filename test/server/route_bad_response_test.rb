@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
+require 'ostruct'
 
-class RouteCreateBadResponseTest < CreatorTestBase
+class RouteBadResponseTest < CreatorTestBase
 
   def self.id58_prefix
     :f28
