@@ -32,11 +32,6 @@ cd.urlParam = (name) => {
 
 cd.goto = (url) => window.location = url;
 
-cd.newTab = (url) => {
-  cd.goto('/');
-  window.open(url);
-};
-
 //= = = = = = = = = = = = = = = = = = = = = = = = = = = = =
 
 cd.setupHoverTips = function(nodes) {

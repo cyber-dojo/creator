@@ -160,7 +160,7 @@ $(() => {
 
   $reenterGroupButton.click (() => cd.goto(`/creator/reenter?id=${urlId()}`));
   $openDashboardButton.click(() => cd.goto(`/dashboard/show/${urlId()}`));
-  $openSingleButton.click   (() => cd.newTab(`/kata/edit/${urlId()}`));
+  $openSingleButton.click   (() => cd.goto(`/kata/edit/${urlId()}`));
 
   setButtonStates();
 
