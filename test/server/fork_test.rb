@@ -58,7 +58,7 @@ class ForkingTest < CreatorTestBase #!
   ) do
     @id = '5U2J18'
     @index = 2
-    post "/fork_individual?id=#{@id}&index=#{@index}", '{}', HTTP_REQUEST_HEADER
+    post "/fork_individual?id=#{@id}&index=#{@index}", '{}', HTML_REQUEST_HEADER
     assert_HTML_forked_individual
   end
 
@@ -68,7 +68,7 @@ class ForkingTest < CreatorTestBase #!
   ) do
     @id = '5U2J18'
     @index = 2
-    post "/fork_group?id=#{@id}&index=#{@index}", '{}', HTTP_REQUEST_HEADER
+    post "/fork_group?id=#{@id}&index=#{@index}", '{}', HTML_REQUEST_HEADER
     assert_HTML_forked_group
   end
 
@@ -96,6 +96,26 @@ class ForkingTest < CreatorTestBase #!
     assert_JSON_forked_individual
   end
 
+  qtest B6D: %w(
+  |HTML: fork a new group exercise with index=-1 uses last index
+  |redirects to URL with forked-group-id as arg
+  ) do
+    @id = 'k5ZTk0'
+    @index = 3
+    post "/fork_group?id=#{@id}&index=-1", '{}', HTML_REQUEST_HEADER
+    assert_HTML_forked_group
+  end
+
+  qtest B7D: %w(
+  |HTML: fork a new individual exercise with index=-1 uses last index
+  |redirects to URL with forked-kata-id as arg
+  ) do
+    @id = 'k5ZTk0'
+    @index = 3
+    post "/fork_individual?id=#{@id}&index=-1", '{}', HTML_REQUEST_HEADER
+    assert_HTML_forked_individual
+  end
+
   private
 
   ENTER_REGEX = /^(.*)\/creator\/enter\?id=([0-9A-Za-z]*)$/
@@ -104,7 +124,7 @@ class ForkingTest < CreatorTestBase #!
     'HTTP_ACCEPT' => 'application/json'
   }
 
-  HTTP_REQUEST_HEADER = {
+  HTML_REQUEST_HEADER = {
     'HTTP_ACCEPT' => 'text/html;charset=utf-8'
   }
 
