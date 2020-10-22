@@ -56,32 +56,20 @@ class ForkingTest < CreatorTestBase #!
   |HTML: fork a new individual exercise
   |redirects to URL with forked-kata-id as arg
   ) do
-    id = '5U2J18'
-    post "/fork_individual?id=#{id}&index=2", '{}', HTTP_REQUEST_HEADER
-
-    assert_equal 302, last_response.status
-    assert_equal 'text/html;charset=utf-8', last_response.headers['Content-Type'], :response_is_html
-    assert m = ENTER_REGEX.match(last_response.location)
-    forked_id = m[2]
-    assert kata_exists?(forked_id)
-    assert_equal 1, kata_manifest(forked_id)['version']
-    assert_equal kata_manifest(id)['image_name'], kata_manifest(forked_id)['image_name']
+    @id = '5U2J18'
+    @index = 2
+    post "/fork_individual?id=#{@id}&index=#{@index}", '{}', HTTP_REQUEST_HEADER
+    assert_HTML_forked_individual
   end
 
   qtest q9B: %w(
   |HTML: fork a new group exercise
   |redirects to URL with forked-group-id as arg
   ) do
-    id = '5U2J18'
-    post "/fork_group?id=#{id}&index=2", '{}', HTTP_REQUEST_HEADER
-
-    assert_equal 302, last_response.status
-    assert_equal 'text/html;charset=utf-8', last_response.headers['Content-Type'], :response_is_html
-    assert m = ENTER_REGEX.match(last_response.location)
-    forked_id = m[2]
-    assert group_exists?(forked_id), :group_exists
-    assert_equal 1, group_manifest(forked_id)['version']
-    assert_equal kata_manifest(id)['image_name'], group_manifest(forked_id)['image_name']
+    @id = '5U2J18'
+    @index = 2
+    post "/fork_group?id=#{@id}&index=#{@index}", '{}', HTTP_REQUEST_HEADER
+    assert_HTML_forked_group
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -122,25 +110,58 @@ class ForkingTest < CreatorTestBase #!
 
   # - - - - - - - - - - - - - - - - -
 
+  def assert_HTML_forked_group
+    src_manifest,src_event,new_id = *forked_manifest_HTML
+    assert group_exists?(new_id)
+    new_manifest = group_manifest(new_id)
+    assert_manifest_match(src_manifest, src_event, new_manifest)
+  end
+
+  def assert_HTML_forked_individual
+    src_manifest,src_event,new_id = *forked_manifest_HTML
+    assert kata_exists?(new_id)
+    new_manifest = kata_manifest(new_id)
+    assert_manifest_match(src_manifest, src_event, new_manifest)
+  end
+
+  def forked_manifest_HTML
+    assert_equal 302, last_response.status
+    assert_equal 'text/html;charset=utf-8', last_response.headers['Content-Type'], :response_is_html
+    assert m = ENTER_REGEX.match(last_response.location)
+    [ kata_manifest(@id), kata_event(@id,@index), m[2] ]
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   def assert_JSON_forked_group
     src_manifest,src_event,new_id = *forked_manifest_JSON
+    assert group_exists?(new_id)
     new_manifest = group_manifest(new_id)
-    assert_equal src_manifest['image_name'], new_manifest['image_name']    
-    assert_equal src_event['files'], new_manifest['visible_files']
+    assert_manifest_match(src_manifest, src_event, new_manifest)
   end
 
   def assert_JSON_forked_individual
     src_manifest,src_event,new_id = *forked_manifest_JSON
+    assert kata_exists?(new_id)
     new_manifest = kata_manifest(new_id)
-    assert_equal src_manifest['image_name'], new_manifest['image_name']
-    assert_equal src_event['files'], new_manifest['visible_files']
+    assert_manifest_match(src_manifest, src_event, new_manifest)
   end
 
   def forked_manifest_JSON
     assert_equal 200, status, :success
     assert_equal 'application/json', last_response.headers['Content-Type'], :response_is_json
     json = JSON.parse(last_response.body)
+    assert json['forked'].is_a?(TrueClass)
     [ kata_manifest(@id), kata_event(@id,@index), json['id'] ]
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
+  def assert_manifest_match(src_manifest, src_event, new_manifest)
+    ['image_name','tab_size','display_name','filename_extension'].each do |key|
+      assert_equal src_manifest[key], new_manifest[key], key
+    end
+    assert_equal src_event['files'], new_manifest['visible_files']
   end
 
 end
