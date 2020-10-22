@@ -110,19 +110,18 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
+  # Step 4 : enter
 
   get '/enter', provides:[:html] do
     respond_to do |format|
       format.html do
-        @id = params['id'] || ''
+        @id = params['id']
         erb :enter
       end
     end
   end
 
   get_delegate(IdTyper, :id_type)
-
-  # - - - - - - - - - - - - - - - - - - - - -
 
   post '/enter.json', provides:[:json] do
     respond_to do |format|
@@ -171,13 +170,25 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
+  post '/fork_group' do
+    json = fork { |manifest| model.group_create(manifest,{}) }
+    respond_to_forked(json)
+  end
+
+  post '/fork_individual' do
+    json = fork { |manifest| model.kata_create(manifest,{}) }
+    respond_to_forked(json)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
   def self.deprecated_post_json(name)
     post "/#{name}", provides:[:json] do
       respond_to do |format|
         format.json {
           result = creator.public_send(name, **json_args)
           backwards_compatible = { id:result }
-          json backwards_compatible.merge({name => result})
+          json backwards_compatible.merge({ name => result })
         }
       end
     end
@@ -187,6 +198,9 @@ class App < AppBase
   deprecated_post_json(:deprecated_kata_create_custom)
 
   private
+
+  include EscapeHtmlHelper
+  include SelectedHelper
 
   def create_group(args)
     if args.has_key?(:display_name)
@@ -206,10 +220,38 @@ class App < AppBase
     end
   end
 
-  private
+  # - - - - - - - - - - - - - - - - - - - - -
 
-  include EscapeHtmlHelper
-  include SelectedHelper
+  def fork
+    {     id: yield(manifest_at_index),
+      forked: true
+    }
+  rescue => caught
+    { message: caught.message,
+       forked: false,
+    }
+  end
+
+  def manifest_at_index
+    id = params['id']
+    index = params['index'].to_i
+    manifest = model.kata_manifest(id)
+    files = model.kata_event(id, index)['files']
+    manifest.merge!({ 'visible_files' => files })
+    # Kata we are forking from may have been in a group...
+    manifest.delete('group_id')
+    manifest.delete('group_index')
+    manifest
+  end
+
+  def respond_to_forked(json)
+    respond_to do |format|
+      format.html { redirect "/creator/enter?id=#{json[:id]}" }
+      format.json { json(json) }
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
 
   def set_view_data(start_points)
     manifests = start_points.manifests
