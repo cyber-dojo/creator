@@ -171,12 +171,12 @@ class App < AppBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   post '/fork_group' do
-    json = fork { |manifest| model.group_create(manifest,{}) }
+    json = fork { |manifest| model.group_create([manifest], default_options) }
     respond_to_forked(json)
   end
 
   post '/fork_individual' do
-    json = fork { |manifest| model.kata_create(manifest,{}) }
+    json = fork { |manifest| model.kata_create(manifest, default_options) }
     respond_to_forked(json)
   end
 
@@ -266,6 +266,10 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - -
+
+  def default_options
+    {}
+  end
 
   def model
     externals.model
