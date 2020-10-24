@@ -60,7 +60,7 @@ class AppBase < Sinatra::Base
     end
   end
 
-  private
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def json_args
     @json_args ||= symbolized(json_payload)
