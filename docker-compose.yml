@@ -12,7 +12,7 @@ services:
     container_name: test-nginx
     depends_on:
       - client
-    image: cyberdojo/nginx_custom_stub
+    image: cyberdojo/nginx_creator_stub
     ports: [ "${CYBER_DOJO_NGINX_PORT}:${CYBER_DOJO_NGINX_PORT}" ]
     user: root
 
