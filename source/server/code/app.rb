@@ -28,76 +28,68 @@ class App < AppBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   get '/home', provides:[:html] do
-    respond_to do |format|
-      format.html do
-        erb :home
-      end
-    end
+    respond_to { |wants|
+      wants.html { erb :home }
+    }
   end
 
   get '/group', provides:[:html] do
-    respond_to do |format|
-      format.html do
-        erb :group
-      end
-    end
+    respond_to { |wants|
+      wants.html { erb :group }
+    }
   end
 
   get '/single', provides:[:html] do
-    respond_to do |format|
-      format.html do
-        erb :single
-      end
-    end
+    respond_to { |wants|
+      wants.html { erb :single }
+    }
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
   # Step 1 : choose a problem or custom-problem
 
   get '/choose_problem', provides:[:html] do
-    respond_to do |format|
-      format.html do
+    respond_to { |wants|
+      wants.html {
         set_view_data(externals.exercises_start_points)
         erb :choose_problem
-      end
-    end
+      }
+    }
   end
 
   get '/choose_custom_problem', provides:[:html] do
-    respond_to do |format|
-      format.html do
+    respond_to { |wants|
+      wants.html {
         set_view_data(externals.custom_start_points)
         erb :choose_custom_problem
-      end
-    end
+      }
+    }
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
   # Step 2 : choose a language + test-framework (not for custom-problem)
 
   get '/choose_ltf', provides:[:html] do
-    respond_to do |format|
-      format.html do
+    respond_to { |wants|
+      wants.html {
         set_view_data(externals.languages_start_points)
         erb :choose_ltf
-      end
-    end
+      }
+    }
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
   # Step 3 : submit
 
   get '/confirm', provides:[:html] do
-    respond_to do |format|
-      format.html do
-        erb :confirm
-      end
-    end
+    respond_to { |wants|
+      wants.html { erb :confirm }
+    }
   end
 
   post '/create.json', provides:[:json] do
-    respond_to do |format|
-      format.json do
+    respond_to { |wants|
+      wants.json {
         type = json_args.delete(:type)
         if type === 'group'
           id = create_group(json_args)
@@ -105,27 +97,27 @@ class App < AppBase
           id = create_kata(json_args)
         end
         json({'route':"/creator/enter?id=#{id}"})
-      end
-    end
+      }
+    }
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
   # Step 4 : enter
 
   get '/enter', provides:[:html] do
-    respond_to do |format|
-      format.html do
+    respond_to { |wants|
+      wants.html {
         @id = params['id']
         erb :enter
-      end
-    end
+      }
+    }
   end
 
   get_delegate(IdTyper, :id_type)
 
   post '/enter.json', provides:[:json] do
-    respond_to do |format|
-      format.json do
+    respond_to { |wants|
+      wants.json {
         group_id = json_args[:id]
         kata_id = model.group_join(group_id)
         if kata_id.nil?
@@ -134,49 +126,53 @@ class App < AppBase
           route = "/creator/avatar?id=#{kata_id}"
         end
         json({'route':route})
-      end
-    end
+      }
+    }
   end
 
   get '/avatar', provides:[:html] do
-    respond_to do |format|
-      format.html do
+    respond_to { |wants|
+      wants.html {
         @kata_id = params['id']
         manifest = model.kata_manifest(@kata_id)
         @avatar_index = manifest['group_index'].to_i
         erb :avatar
-      end
-    end
+      }
+    }
   end
 
   get '/full', provides:[:html] do
-    respond_to do |format|
-      format.html do
+    respond_to { |wants|
+      wants.html {
         @group_id = params['id']
         erb :full
-      end
-    end
+      }
+    }
   end
 
   get '/reenter', provides:[:html] do
-    respond_to do |format|
-      format.html do
+    respond_to { |wants|
+      wants.html {
         @group_id = params['id']
         @avatars = model.group_avatars(@group_id).to_h
         erb :reenter
-      end
-    end
+      }
+    }
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   post '/fork_group' do
-    json = fork { |manifest| model.group_create([manifest], default_options) }
+    json = fork { |manifest|
+      model.group_create([manifest], default_options)
+    }
     respond_to_forked(json)
   end
 
   post '/fork_individual' do
-    json = fork { |manifest| model.kata_create(manifest, default_options) }
+    json = fork { |manifest|
+      model.kata_create(manifest, default_options)
+    }
     respond_to_forked(json)
   end
 
@@ -184,13 +180,13 @@ class App < AppBase
 
   def self.deprecated_post_json(name)
     post "/#{name}", provides:[:json] do
-      respond_to do |format|
-        format.json {
+      respond_to { |wants|
+        wants.json {
           result = creator.public_send(name, **json_args)
           backwards_compatible = { id:result }
           json backwards_compatible.merge({ name => result })
         }
-      end
+      }
     end
   end
 
@@ -245,9 +241,9 @@ class App < AppBase
   end
 
   def respond_to_forked(json)
-    respond_to do |format|
-      format.html { redirect "/creator/enter?id=#{json[:id]}" }
-      format.json { json(json) }
+    respond_to do |wants|
+      wants.html { redirect "/creator/enter?id=#{json[:id]}" }
+      wants.json { json(json) }
     end
   end
 
