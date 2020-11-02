@@ -8,8 +8,7 @@ $(() => {
 
   $('button.confirm' ).click(() => {
     $.post('/creator/create.json', toJSON(cd.urlParams()), (response) => {
-      const url = `/creator/enter?id=${response.id}`;
-      cd.goto(url);
+      cd.goto(response.route);
     });
   });
 
