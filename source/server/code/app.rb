@@ -234,7 +234,8 @@ class App < AppBase
     manifest = model.kata_manifest(id)
     files = model.kata_event(id, index)['files']
     manifest.merge!({ 'visible_files' => files })
-    # Kata we are forking from may have been in a group...
+    # Kata we are forking from may have been in a group
+    # but leave no trace of that in the manifest.
     manifest.delete('group_id')
     manifest.delete('group_index')
     manifest

@@ -1,0 +1,14 @@
+
+post '/create.json'
+------------------
+This currently returns an id.
+It should return a route.
+Most of the time this will be '/kata/edit?id=ID'
+And maybe a redirect too.
+
+But what if saver is down?
+For this I need to redirect to /kata/offline?ARGS
+eg /kata/offline?language_name=XXXXXX&exercise_name=YYYYY
+and the kata controller will have to rebuild the manifest
+(from API on creator) and then delegate to
+/kata/edit?ID=999999 with @manifest set.
