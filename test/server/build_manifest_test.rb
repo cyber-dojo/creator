@@ -21,12 +21,11 @@ class BuildManifestTest < CreatorTestBase
     args = "exercise_name=#{CGI::escape(exercise_name)}"
     args += '&'
     args += "language_name=#{CGI::escape(language_name)}"
-    get "/build_manifest?#{args}"
-    assert_equal 200, status, :success
-    assert_equal 'application/json', last_response.headers['Content-Type'], :response_is_json
-    manifest = JSON.parse(last_response.body)
-    assert_equal language_name, manifest['display_name'], manifest
-    assert_equal exercise_name, manifest['exercise'], manifest
+
+    assert_get_200_json("build_manifest?#{args}") do |manifest|
+      assert_equal language_name, manifest['display_name'], manifest
+      assert_equal exercise_name, manifest['exercise'], manifest
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -38,11 +37,10 @@ class BuildManifestTest < CreatorTestBase
   ) do
     display_name = custom_start_points.display_names.sample
     args = "display_name=#{CGI::escape(display_name)}"
-    get "/build_custom_manifest?#{args}"
-    assert_equal 200, status, :success
-    assert_equal 'application/json', last_response.headers['Content-Type'], :response_is_json
-    manifest = JSON.parse(last_response.body)
-    assert_equal display_name, manifest['display_name'], manifest
+
+    assert_get_200_json("build_custom_manifest?#{args}") do |manifest|
+      assert_equal display_name, manifest['display_name'], manifest
+    end
   end
 
 end
