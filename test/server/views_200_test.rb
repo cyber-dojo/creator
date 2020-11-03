@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
+require 'cgi'
 
 class Views200Test < CreatorTestBase
 
@@ -48,7 +49,8 @@ class Views200Test < CreatorTestBase
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   qtest AC1: %w( GET /creator/confirm 200 ) do
-    params = "type=group&exercise_name=Tennis&language_name=D%2C%20unittest"
+    language_name = CGI::escape('D, unittest')
+    params = "type=group&exercise_name=Tennis&language_name=#{language_name}"
     assert_get_200_html("/creator/confirm?#{params}")
   end
 
