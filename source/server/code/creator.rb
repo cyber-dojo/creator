@@ -10,47 +10,41 @@ class Creator
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def group_create_custom(display_name:, options:default_options)
-    manifest = custom_start_points.manifest(display_name)
-    create_group(manifest, options)
+    create_group(custom_manifest(display_name), options)
   end
 
   def kata_create_custom(display_name:, options:default_options)
-    manifest = custom_start_points.manifest(display_name)
-    create_kata(manifest, options)
+    create_kata(custom_manifest(display_name), options)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def group_create(exercise_name:, language_name:, options:default_options)
-    manifest = languages_start_points.manifest(language_name)
-    unless exercise_name.nil?
-      exercise = exercises_start_points.manifest(exercise_name)
-      manifest['visible_files'].merge!(exercise['visible_files'])
-      manifest['exercise'] = exercise['display_name']
-    end
-    create_group(manifest, options)
+    create_group(manifest(exercise_name, language_name), options)
   end
 
   def kata_create(exercise_name:, language_name:, options:default_options)
-    manifest = languages_start_points.manifest(language_name)
-    unless exercise_name.nil?
-      exercise = exercises_start_points.manifest(exercise_name)
-      manifest['visible_files'].merge!(exercise['visible_files'])
-      manifest['exercise'] = exercise['display_name']
-    end
-    create_kata(manifest, options)
+    create_kata(manifest(exercise_name, language_name), options)
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - - -
+
+  def build_custom_manifest(display_name:)
+    custom_manifest(display_name)
+  end
+
+  def build_manifest(exercise_name:, language_name:)
+    manifest(exercise_name, language_name);
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
   def deprecated_group_create_custom(display_name:)
-    manifest = custom_start_points.manifest(display_name)
-    create_group(manifest, default_options)
+    create_group(custom_manifest(display_name), default_options)
   end
 
   def deprecated_kata_create_custom(display_name:)
-    manifest = custom_start_points.manifest(display_name)
-    create_kata(manifest, default_options)
+    create_kata(custom_manifest(display_name), default_options)
   end
 
   private
@@ -76,6 +70,22 @@ class Creator
     id = model.kata_create(manifest, options)
     pull_image_onto_nodes(id, manifest['image_name'])
     id
+  end
+
+  #- - - - - - - - - - - - - - - - - -
+
+  def custom_manifest(display_name)
+    custom_start_points.manifest(display_name)
+  end
+
+  def manifest(exercise_name, language_name)
+    result = languages_start_points.manifest(language_name)
+    unless exercise_name.nil?
+      exercise = exercises_start_points.manifest(exercise_name)
+      result['visible_files'].merge!(exercise['visible_files'])
+      result['exercise'] = exercise['display_name']
+    end
+    result
   end
 
   #- - - - - - - - - - - - - - - - - -

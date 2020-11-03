@@ -162,6 +162,24 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
+  get '/build_manifest', provides:[:json] do
+    respond_to { |wants|
+      wants.json {
+        json(creator.build_manifest(**symbolized(params)))
+      }
+    }
+  end
+
+  get '/build_custom_manifest', provides:[:json] do
+    respond_to { |wants|
+      wants.json {
+        json(creator.build_custom_manifest(**symbolized(params)))
+      }
+    }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
   post '/fork_group' do
     json = fork { |manifest|
       model.group_create([manifest], default_options)
