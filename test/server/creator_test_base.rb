@@ -21,7 +21,9 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - - -
 
   def assert_get_200_json(path, args={}, &block)
-    stdout,stderr = capture_io { get path_with_args(path,args) }
+    stdout,stderr = capture_io {
+      get path_with_args(path,args)
+    }
     assert status?(200), status
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
@@ -30,7 +32,9 @@ class CreatorTestBase < Id58TestBase
   end
 
   def assert_get_200_html(path, args={})
-    stdout,stderr = capture_io { get path_with_args(path,args) }
+    stdout,stderr = capture_io {
+      get path_with_args(path,args)
+    }
     assert status?(200), status
     assert html_content?, content_type
     assert_equal '', stderr, :stderr
@@ -50,7 +54,9 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - - -
 
   def assert_post_200_json(path, args, &block)
-    stdout,stderr = capture_io { json_post '/'+path, args }
+    stdout,stderr = capture_io {
+      json_post '/'+path, args
+    }
     assert status?(200), status
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
