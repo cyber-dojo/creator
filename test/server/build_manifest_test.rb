@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 require_relative 'creator_test_base'
-require 'cgi'
 require 'json'
 
 class BuildManifestTest < CreatorTestBase
