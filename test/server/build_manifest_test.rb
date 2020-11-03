@@ -12,17 +12,17 @@ class BuildManifestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w9A: %w(
-  |GET /build_manifest.json
+  |GET /build_manifest
   |with [exercise_name,language_name] URL params
   |generates json manifest
   ) do
-    exercise_name = exercises_start_points.display_names.sample
-    language_name = languages_start_points.display_names.sample
-    args = "exercise_name=#{CGI::escape(exercise_name)}"
-    args += '&'
-    args += "language_name=#{CGI::escape(language_name)}"
-
-    assert_get_200_json("build_manifest?#{args}") do |manifest|
+    exercise_name = any_exercises_start_points_display_name
+    language_name = any_languages_start_points_display_name
+    args = {
+      exercise_name:exercise_name,
+      language_name:language_name
+    }
+    assert_get_200_json('build_manifest', args) do |manifest|
       assert_equal language_name, manifest['display_name'], manifest
       assert_equal exercise_name, manifest['exercise'], manifest
     end
@@ -31,14 +31,13 @@ class BuildManifestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w9B: %w(
-  |GET /build_custom_manifest.json
+  |GET /build_custom_manifest
   |with [display_name] URL param
   |generates json manifest
   ) do
-    display_name = custom_start_points.display_names.sample
-    args = "display_name=#{CGI::escape(display_name)}"
-
-    assert_get_200_json("build_custom_manifest?#{args}") do |manifest|
+    display_name = any_custom_start_points_display_name
+    args = { display_name:display_name }
+    assert_get_200_json('build_custom_manifest', args) do |manifest|
       assert_equal display_name, manifest['display_name'], manifest
     end
   end

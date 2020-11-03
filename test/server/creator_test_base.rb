@@ -2,6 +2,7 @@
 require_relative '../id58_test_base'
 require_source 'app'
 require_source 'externals'
+require 'cgi'
 require 'json'
 require 'ostruct'
 
@@ -19,8 +20,11 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_get_200_json(path, &block)
-    stdout,stderr = capture_io { get '/'+path }
+  def assert_get_200_json(path, args={}, &block)
+    route = '/' + path + '?' + args.map{|name,value|
+      "#{name.to_s}=#{CGI::escape(value)}"
+    }.join('&')
+    stdout,stderr = capture_io { get route }
     assert status?(200), status
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
