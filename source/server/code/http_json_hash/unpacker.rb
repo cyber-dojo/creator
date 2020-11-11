@@ -31,7 +31,7 @@ module HttpJsonHash
       if json.is_a?(Hash) && json.has_key?('exception')
         service_error(path, args, body, 'body has embedded exception')
       end
-      if json.has_key?(path) && json.has_key?(path)
+      if json.is_a?(Hash) && json.has_key?(path)
         json[path]
       else
         json
