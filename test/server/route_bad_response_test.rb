@@ -48,10 +48,15 @@ class RouteBadResponseTest < CreatorTestBase
   |when an http-proxy
   |returns JSON-Hash in its response.body
   |which does not contain the requested method's key
-  |it logs the exception to stdout
+  |it returns the JSON
   ) do
-    stub_model_http(response='{"wibble":42}')
-    logs_exception_to_stdout('/ready?')
+    http = HttpAdapterStub.new('{"wibble":42}')
+    hostname = 'model'
+    port = ENV['CYBER_DOJO_MODEL_PORT'].to_i
+    requester = ::HttpJsonHash::Requester.new(http, hostname, port)
+    model = ::HttpJsonHash::Unpacker.new('model', requester)
+    json = model.get('/ready?', {})
+    assert_equal({"wibble"=>42}, json)
   end
 
   # - - - - - - - - - - - - - - - - -
