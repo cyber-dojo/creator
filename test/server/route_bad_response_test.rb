@@ -21,17 +21,6 @@ class RouteBadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest QN5: %w(
-  |when an http-proxy
-  |returns JSON (but not a Hash) in its response.body
-  |it logs the exception to stdout
-  ) do
-    stub_model_http('[]')
-    logs_exception_to_stdout('/ready?')
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
   qtest QN6: %w(
   |when an http-proxy
   |returns JSON-Hash in its response.body

@@ -21,9 +21,9 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
+  get_delegate(Prober, :sha)
   get_delegate(Prober, :alive?)
   get_delegate(Prober, :ready?)
-  get_delegate(Prober, :sha)
 
   # - - - - - - - - - - - - - - - - - - - - -
 
