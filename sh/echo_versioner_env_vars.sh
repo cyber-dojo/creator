@@ -1,7 +1,7 @@
 #!/bin/bash -Eeu
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
-versioner_env_vars()
+echo_versioner_env_vars()
 {
   local -r sha=$(git_commit_sha)
   local -r tag="${sha:0:7}"
@@ -12,6 +12,9 @@ versioner_env_vars()
   echo CYBER_DOJO_CREATOR_CLIENT_PORT=9999
   echo CYBER_DOJO_CREATOR_CLIENT_USER=nobody
   echo CYBER_DOJO_CREATOR_SERVER_USER=nobody
+
+  echo CYBER_DOJO_MODEL_SHA=d1a1882130f5aeda064d8c073bda98a385076a16
+  echo CYBER_DOJO_MODEL_TAG=d1a1882
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
