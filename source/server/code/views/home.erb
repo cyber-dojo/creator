@@ -37,21 +37,7 @@ $(() => {
         </li>
         <li>
           Non-commercial use is free, but please
-          <form action="https://www.paypal.com/cgi-bin/webscr"
-                method="post"
-                id="donate"
-                target="_blank">
-          <input type="hidden"
-                 name="cmd"
-                 value="_s-xclick">
-          <input type="hidden"
-                 name="hosted_button_id"
-                 value="7HAUYJCMFCS8C">
-          <input type="image"
-                 src="/images/donate.png"
-                 name="submit"
-                 alt="PayPal - The safe, easier way to pay online.">
-          </form>
+          <%= erb :'shared/donate_button' %>
         </li>
         <li>
           100% of the licence fees and donations
@@ -99,9 +85,19 @@ $(() => {
       How do I buy a licence?
     </div>
     <div class="answer">
-      Please email
-      <a href="mailto:license@cyber-dojo.org?subject=I'd like to buy a license please&body=...">license@cyber-dojo.org</a><br/>
-      with much you would like to pay, and how often.
+      There are two ways:
+      <ul>
+        <li>Email
+        <a href="mailto:license@cyber-dojo.org?subject=I'd like to buy a license please&body=...">license@cyber-dojo.org</a>
+        with much you would like to pay, and how often.
+        </li>
+        <li>
+          <%= erb :'shared/donate_button' %>
+          If you would like a license document, email
+          <a href="mailto:license@cyber-dojo.org?subject=I'd like to buy a license please&body=...">license@cyber-dojo.org</a>.
+        </li>
+        <li>Thank you.</li>
+      </ul>
     </div>
 
     <div class="divider"></div>
@@ -127,11 +123,14 @@ $(() => {
     <div class="divider"></div>
 
     <div class="question">
-      Why does cyber-dojo use animal avatars?
+      Why does cyber-dojo use animal avatars (drawn by <a href="https://www.behance.net/NadyaSivers" target="_blank">Nadya Sivers</a>)?
     </div>
     <div class="answer">
-      The animals (drawn by <a href="https://www.behance.net/NadyaSivers" target="_blank">Nadya Sivers</a>)
-      provide anonymity during reviews.
+      Two reasons:
+      <ul>
+        <li>To provide identity without requiring a login.</li>
+        <li>To provide anonymity during reviews.</li>
+      </ul>
     </div>
 
     <div class="divider"></div>
@@ -168,11 +167,10 @@ $(() => {
       Can I run my own cyber-dojo server?
     </div>
     <div class="answer">
-      Yes. Instructions and scripts for running on...
+      Yes. Instructions and scripts for running...
       <ul>
         <li>
-        a <a href="https://kubernetes.io/" target="_blank">Kubernetes</a> cluster in a cloud
-        or on a local <a href="https://kubernetes.io/docs/setup/learning-environment/minikube/" target="_blank">minukube</a>
+        on a Kubernetes cluster in a cloud, or on a local minukube
         are <a href="https://github.com/cyber-dojo/k8s-install" target="_blank">here</a>.
         </li>
         <li>
@@ -293,6 +291,54 @@ $(() => {
           </td>
         </tr>
       </table>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="question">
+      What was the inspiration for cyber-dojo?
+    </div>
+    <div class="answer">
+      In 2009 I (Jon) was consulting in Norway. A user-group organized an evening coding-dojo
+      (in a local pub). An exercise, language, and test-framework was picked, and participants split
+      into teams of about 5 people. After ~90 minutes everyone gathered for a review...
+      <ul>
+        <li>
+        Two teams had <em>nothing</em> to show since they were still trying to install
+        the language and test-framework (using the pub wifi).
+        </li>
+        <li>
+        The other teams spent a <em>long</em> <em>long</em> <em>long</em> time trying to connect
+        their laptops to the projector (Linux, Mac, &amp; Windows).
+        </li>
+      </ul>
+      I became convinced an online coding-dojo was a worthwhile project.
+      <ul>
+        <li>I think the idea of <a href="http://blog.cyber-dojo.org/2015/05/do-more-deliberate-practice.html" target="_blank">practising</a> programming deserves more attention.</li>
+        <li>I believe effective programming is a
+        <a href="http://jonjagger.blogspot.com/2013/10/teams.html" target="_blank">team</a> activity.
+        </li>
+      </ul>
+      I think there is real benefit <em>not</em> practising in a professional IDE:
+      <ul>
+        <li>an IDE is a <em>development</em> environment;
+          cyber-dojo is a
+          <a href="http://jonjagger.blogspot.co.uk/2013/10/learning.html">learning</a>
+          environment
+        </li>
+        <li>an IDE is for working <em>alone</em>;
+          cyber-dojo is for working
+          <a href="http://jonjagger.blogspot.co.uk/2013/10/teams.html">together</a>
+        </li>
+        <li>an IDE helps you work <em>faster</em>;
+          cyber-dojo helps you work <em>slower</em>
+        </li>
+        <li>an IDE aims to <em>finish</em> <em>products</em>;
+          cyber-dojo aims to
+          <a href="http://jonjagger.blogspot.co.uk/2014/02/improving.html">improve</a>
+          <em>skills</em>
+        </li>
+      </ul>
     </div>
 
   </div>
