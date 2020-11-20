@@ -34,7 +34,7 @@ class ExternalModel
     @http.post(__method__, { id:id })
   end
 
-  def group_avatars(id)
+  def group_events(id)
     @http.get(__method__, { id:id })
   end
 
