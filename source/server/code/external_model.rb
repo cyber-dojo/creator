@@ -34,7 +34,7 @@ class ExternalModel
     @http.post(__method__, { id:id })
   end
 
-  def group_events(id)
+  def group_joined(id)
     @http.get(__method__, { id:id })
   end
 

@@ -154,7 +154,7 @@ class App < AppBase
     respond_to { |wants|
       wants.html {
         @group_id = params['id']
-        @avatars = model.group_events(@group_id)
+        @avatars = model.group_joined(@group_id)
                         .map{ |group_index,v| [group_index.to_i, v["id"]] }
                         .to_h
         erb :reenter
