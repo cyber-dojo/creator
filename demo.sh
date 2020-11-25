@@ -6,47 +6,34 @@ source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
 source "${SH_DIR}/containers_up.sh"
 source "${SH_DIR}/ip_address.sh"
+source "${SH_DIR}/remove_old_images.sh"
+
 source "${SH_DIR}/echo_versioner_env_vars.sh"
 export $(echo_versioner_env_vars)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-html_demo()
-{
-  build_tagged_images
-  containers_up api-demo
-  api_demo
-  if [ "${1:-}" == '--no-browser' ]; then
-    containers_down
-  else
-    open "http://${IP_ADDRESS}:80/"
-  fi
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
 api_demo()
 {
-  echo
-  echo API
   curl_json_body_200 alive
   curl_json_body_200 ready
   curl_json_body_200 sha
   echo
-  curl_200           assets/app.css 'Content-Type: text/css'
-  curl_200           assets/app.js  'Content-Type: application/javascript'
+  curl_200 assets/app.css 'Content-Type: text/css'
+  curl_200 assets/app.js  'Content-Type: application/javascript'
   echo
-  curl_200           home     'Content-Type: text/html'
-  curl_200           group    'Content-Type: text/html'
-  curl_200           single   'Content-Type: text/html'
+  curl_200 home   'Content-Type: text/html'
+  curl_200 group  'Content-Type: text/html'
+  curl_200 single 'Content-Type: text/html'
 
-  curl_200           choose_problem          'Content-Type: text/html'
-  curl_200           choose_ltf              'Content-Type: text/html'
-  curl_200           choose_custom_problem   'Content-Type: text/html'
-  curl_200           confirm                 'Content-Type: text/html'
+  curl_200 choose_problem        'Content-Type: text/html'
+  curl_200 choose_ltf            'Content-Type: text/html'
+  curl_200 choose_custom_problem 'Content-Type: text/html'
+  curl_200 confirm               'Content-Type: text/html'
 
-  curl_200           enter    'Content-Type: text/html'
-  #curl_200           avatar?id=ID   'Content-Type: text/html'
-  #curl_200           reenter?id=ID  'Content-Type: text/html'
-  #curl_200           full?id=ID     'Content-Type: text/html'
+  curl_200 enter          'Content-Type: text/html'
+  #curl_200 avatar?id=ID   'Content-Type: text/html'
+  #curl_200 reenter?id=ID  'Content-Type: text/html'
+  #curl_200 full?id=ID     'Content-Type: text/html'
   echo
 }
 
@@ -67,7 +54,7 @@ curl_json_body_200()
 
   grep --quiet 200 "$(log_filename)" # eg HTTP/1.1 200 OK
   local -r result=$(tail -n 1 "$(log_filename)")
-  echo "$(tab)GET ${route} => 200 ...|${result}"
+  echo "GET ${route} => 200 ...|${result}"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -85,7 +72,7 @@ curl_200()
 
   grep --quiet 200 "$(log_filename)" # eg HTTP/1.1 200 OK
   local -r result=$(grep "${pattern}" "$(log_filename)" | head -n 1)
-  echo "$(tab)GET ${route} => 200 ...|${result}"
+  echo "GET ${route} => 200 ...|${result}"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -104,7 +91,7 @@ curl_params_302()
 
   grep --quiet 302 "$(log_filename)" # eg HTTP/1.1 302 Moved Temporarily
   local -r result=$(grep Location "$(log_filename)" | head -n 1)
-  echo "$(tab)GET ${route} => 302 ...|${result}"
+  echo "GET ${route} => 302 ...|${result}"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -125,11 +112,12 @@ curl_url_params_302()
 
   grep --quiet 302 "$(log_filename)" # eg HTTP/1.1 302 Moved Temporarily
   local -r result=$(grep Location "$(log_filename)" | head -n 1)
-  echo "$(tab)GET ${route} => 302 ...|${result}"
+  echo "GET ${route} => 302 ...|${result}"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 port() { echo -n "${CYBER_DOJO_CREATOR_PORT}"; }
+log_filename() { echo -n /tmp/creator.log; }
 
 #url_custom_param() { url_param display_name "$(custom_name)"; }
 #custom_name() { echo -n 'Java Countdown, Round 1'; }
@@ -142,8 +130,13 @@ port() { echo -n "${CYBER_DOJO_CREATOR_PORT}"; }
 
 #url_param() { echo -n "${1}=${2}"; }
 
-tab() { printf '\t'; }
-log_filename() { echo -n /tmp/creator.log; }
-
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-html_demo "$@"
+remove_old_images
+build_tagged_images
+containers_up api-demo
+api_demo
+if [ "${1:-}" == '--no-browser' ]; then
+  containers_down
+else
+  open "http://${IP_ADDRESS}:80/"
+fi
