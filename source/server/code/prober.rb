@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Prober # k8s/curl probing + identity
+class Prober
 
   def initialize(externals)
     @externals = externals
@@ -15,12 +15,6 @@ class Prober # k8s/curl probing + identity
   end
 
   def ready?(_args)
-    prepared?
-  end
-
-  private
-
-  def prepared?
     [
       @externals.custom_start_points,
       @externals.exercises_start_points,
