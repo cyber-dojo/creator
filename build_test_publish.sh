@@ -27,13 +27,6 @@ exit_zero_if_build_only "$@"
 server_up_healthy_and_clean
 client_up_healthy_and_clean "$@"
 copy_in_saver_test_data
-
-echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-cat /tmp/augmented-docker-compose.creator.peek.yml
-echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-docker ps -a
-docker logs test_nginx
-
 test_in_containers "$@"
 containers_down
 on_ci_publish_tagged_images
