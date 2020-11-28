@@ -13,6 +13,8 @@ services:
     user: root
     build:
       context: source/nginx_stub
+    depends_on:
+      - client
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -25,7 +27,6 @@ services:
       args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_CLIENT_PORT ]
       context: source/client
     depends_on:
-      - nginx
       - custom-start-points    # for test data
       - exercises-start-points # for test data
       - languages-start-points # for test data
