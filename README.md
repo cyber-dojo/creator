@@ -7,8 +7,8 @@
 - An http service, on port 4523, for creating a new group-exercise or a new individual-exercise.
 
 - - - -
-* [GET ready?](docs/api.md#get-ready)
 * [GET alive?](docs/api.md#get-alive)  
+* [GET ready?](docs/api.md#get-ready)
 * [GET sha](docs/api.md#get-sha)
 * ...
 

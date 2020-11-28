@@ -3,9 +3,6 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_in_containers()
 {
-  if on_ci ; then
-    docker pull cyberdojo/check-test-results:latest
-  fi
   if [ "${1:-}" == 'client' ]; then
     shift
     run_client_tests "${@:-}"
@@ -22,23 +19,32 @@ test_in_containers()
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_client_tests()
 {
-  run_tests "${CYBER_DOJO_CREATOR_CLIENT_USER}" client test-client "${@:-}"
+  run_tests \
+    "${CYBER_DOJO_CREATOR_CLIENT_USER}" \
+    "${CYBER_DOJO_CREATOR_CLIENT_CONTAINER_NAME}" \
+    client "${@:-}";
 }
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_server_tests()
 {
-  run_tests "${CYBER_DOJO_CREATOR_SERVER_USER}" server test-creator "${@:-}"
+  run_tests \
+    "${CYBER_DOJO_CREATOR_SERVER_USER}" \
+    "${CYBER_DOJO_CREATOR_SERVER_CONTAINER_NAME}" \
+    server "${@:-}";
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()
 {
-  local -r user="${1}" # eg nobody
-  local -r type="${2}" # eg client|server
-  local -r container_name="${3}"
+  local -r USER="${1}"           # eg nobody
+  local -r CONTAINER_NAME="${2}" # eg test_creator_server
+  local -r TYPE="${3}"           # eg server
+
   local -r reports_dir_name=reports
   local -r tmp_dir=/tmp
   local -r coverage_root=/${tmp_dir}/${reports_dir_name}
-  local -r test_dir="${ROOT_DIR}/test/${type}"
+  local -r test_dir="${ROOT_DIR}/test/${TYPE}"
   local -r reports_dir=${test_dir}/${reports_dir_name}
   local -r test_log=test.log
   local -r coverage_code_tab_name=tested
@@ -46,21 +52,21 @@ run_tests()
 
   echo
   echo '=================================='
-  echo "Running ${type} tests"
+  echo "Running ${TYPE} tests"
   echo '=================================='
 
   set +e
   docker exec \
     --env COVERAGE_CODE_TAB_NAME=${coverage_code_tab_name} \
     --env COVERAGE_TEST_TAB_NAME=${coverage_test_tab_name} \
-    --user "${user}" \
-    "${container_name}" \
-      sh -c "/test/run.sh ${coverage_root} ${test_log} ${type} ${*:4}"
+    --user "${USER}" \
+    "${CONTAINER_NAME}" \
+      sh -c "/test/run.sh ${coverage_root} ${test_log} ${TYPE} ${*:4}"
   set -e
 
   # You can't [docker cp] from a tmpfs, so tar-piping coverage out
   docker exec \
-    "${container_name}" \
+    "${CONTAINER_NAME}" \
     tar Ccf \
       "$(dirname "${coverage_root}")" \
       - "$(basename "${coverage_root}")" \
@@ -81,10 +87,10 @@ run_tests()
   set -e
 
   local -r coverage_path="${reports_dir}/index.html"
-  echo "${type} coverage at ${coverage_path}"
-  echo "${type} status == ${status}"
+  echo "${TYPE} coverage at ${coverage_path}"
+  echo "${TYPE} status == ${status}"
   if [ "${status}" != '0' ]; then
-    local -r log=$(docker logs "${container_name}" 2> /dev/null)
+    local -r log=$(docker logs "${CONTAINER_NAME}" 2> /dev/null)
     echo "${log}" | head -n 10
     echo ...
     echo "${log}" | tail -n 10

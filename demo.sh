@@ -2,13 +2,14 @@
 
 export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export SH_DIR="${ROOT_DIR}/sh"
+
 source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
-source "${SH_DIR}/containers_up.sh"
-source "${SH_DIR}/ip_address.sh"
+source "${SH_DIR}/containers_up_healthy_and_clean.sh"
+source "${SH_DIR}/copy_in_saver_test_data.sh"
+source "${SH_DIR}/echo_versioner_env_vars.sh"
 source "${SH_DIR}/remove_old_images.sh"
 
-source "${SH_DIR}/echo_versioner_env_vars.sh"
 export $(echo_versioner_env_vars)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -133,7 +134,9 @@ log_filename() { echo -n /tmp/creator.log; }
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 remove_old_images
 build_tagged_images
-containers_up api-demo
+server_up_healthy_and_clean
+client_up_healthy_and_clean "$@"
+copy_in_saver_test_data
 api_demo
 if [ "${1:-}" == '--no-browser' ]; then
   containers_down

@@ -10,8 +10,6 @@ services:
     build:
       context: source/nginx_stub
     container_name: test-nginx
-    depends_on:
-      - client
     image: cyberdojo/nginx_creator_stub
     ports: [ "${CYBER_DOJO_NGINX_PORT}:${CYBER_DOJO_NGINX_PORT}" ]
     user: root
@@ -23,8 +21,9 @@ services:
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_CLIENT_PORT ]
       context: source/client
-    container_name: test-client
+    container_name: ${CYBER_DOJO_CREATOR_CLIENT_CONTAINER_NAME}
     depends_on:
+      - nginx
       - custom-start-points    # for test data
       - exercises-start-points # for test data
       - languages-start-points # for test data
@@ -46,7 +45,7 @@ services:
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_PORT ]
       context: source/server
-    container_name: test-creator
+    container_name: ${CYBER_DOJO_CREATOR_SERVER_CONTAINER_NAME}
     depends_on:
       - custom-start-points
       - exercises-start-points
