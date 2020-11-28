@@ -18,6 +18,7 @@ services:
 
   client:
     image: ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
+    user: ${CYBER_DOJO_CREATOR_CLIENT_USER}
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_CLIENT_PORT ]
       context: source/client
@@ -27,7 +28,7 @@ services:
       - custom-start-points    # for test data
       - exercises-start-points # for test data
       - languages-start-points # for test data
-      - selenium               # for testing
+      - selenium
       - creator
     env_file:
       - .env
@@ -35,13 +36,13 @@ services:
     read_only: true
     restart: "no"
     tmpfs: /tmp
-    user: nobody
     volumes: [ "./test:/test/:ro" ]
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   creator:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
+    user: ${CYBER_DOJO_CREATOR_SERVER_USER}
     build:
       args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_PORT ]
       context: source/server
@@ -58,5 +59,4 @@ services:
     read_only: true
     restart: "no"
     tmpfs: /tmp
-    user: nobody
     volumes: [ "./test:/test/:ro" ]
