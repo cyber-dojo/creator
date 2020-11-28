@@ -65,7 +65,6 @@ exit_non_zero_unless_started_cleanly()
   local -r top6=$(echo "${DOCKER_LOG}" | head -6)
   if [ "${top6}" == "$(clean_top_6)" ]; then
     echo "${SERVICE_NAME} started cleanly."
-    echo
   else
     echo "${SERVICE_NAME} did not start cleanly."
     echo "First 10 lines of: docker logs ${CONTAINER_NAME}"
