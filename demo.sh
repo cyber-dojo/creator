@@ -8,9 +8,12 @@ source "${SH_DIR}/containers_down.sh"
 source "${SH_DIR}/containers_up_healthy_and_clean.sh"
 source "${SH_DIR}/copy_in_saver_test_data.sh"
 source "${SH_DIR}/echo_versioner_env_vars.sh"
+source "${SH_DIR}/ip_address.sh"
 source "${SH_DIR}/remove_old_images.sh"
 
 export $(echo_versioner_env_vars)
+
+readonly IP_ADDRESS=$(ip_address)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 api_demo()
