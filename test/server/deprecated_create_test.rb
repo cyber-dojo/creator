@@ -110,7 +110,8 @@ class DeprecatedCreateTest < CreatorTestBase
     assert group_exists?(id), "!group_exists?(#{id})"
     manifest = group_manifest(id)
     assert_equal display_name, manifest['display_name'], manifest.keys.sort
-    refute manifest.has_key?('exercise'), :exercise
+    assert manifest.has_key?('exercise')
+    assert_equal '', manifest['exercise'], :polyfilled
   end
 
   def assert_kata_exists(id, display_name)
@@ -118,7 +119,8 @@ class DeprecatedCreateTest < CreatorTestBase
     assert kata_exists?(id), "!kata_exists?(#{id})"
     manifest = kata_manifest(id)
     assert_equal display_name, manifest['display_name'], manifest.keys.sort
-    refute manifest.has_key?('exercise'), :exercise
+    assert manifest.has_key?('exercise')
+    assert_equal '', manifest['exercise'], :polyfilled
   end
 
 end

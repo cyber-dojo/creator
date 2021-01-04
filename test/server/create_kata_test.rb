@@ -21,7 +21,7 @@ class CreateKataTest < CreatorTestBase
   qtest w9A: %w(
   |POST /create.json
   |with [type=single,exercise_name,language_name] URL params
-  |generates json route /creator/enter?id=ID page
+  |generates json route /creator/enter?id=ID
   |and a kata-exercise with ID exists
   ) do
     json_post_create({
@@ -39,7 +39,7 @@ class CreateKataTest < CreatorTestBase
   qtest w9B: %w(
   |POST /create.json
   |with [type=single,language_name] URL params
-  |generates json route /creator/enter?id=ID page
+  |generates json route /creator/enter?id=ID
   |and a kata-exercise with ID exists
   ) do
     json_post_create({
@@ -47,7 +47,8 @@ class CreateKataTest < CreatorTestBase
       language_name:language_name
     }) do |manifest|
       assert_equal language_name, manifest['display_name'], manifest
-      refute manifest.has_key?('exercise'), :skipped_exercise
+      assert manifest.has_key?('exercise')
+      assert_equal '', manifest['exercise'], :polyfilled
     end
   end
 
@@ -56,7 +57,7 @@ class CreateKataTest < CreatorTestBase
   qtest w9C: %w(
   |POST /create.json
   |with [type=single,display_name] URL params
-  |generates json route /creator/enter?id=ID page
+  |generates json route /creator/enter?id=ID
   |and a kata-exercise with ID exists
   ) do
     json_post_create({
@@ -64,7 +65,8 @@ class CreateKataTest < CreatorTestBase
       display_name:display_name
     }) do |manifest|
       assert_equal display_name, manifest['display_name'], manifest
-      refute manifest.has_key?('exercise'), :custom_problem
+      assert manifest.has_key?('exercise')
+      assert_equal '', manifest['exercise'], :polyfilled
     end
   end
 
