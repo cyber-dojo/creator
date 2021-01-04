@@ -19,21 +19,20 @@ services:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   client:
+    build:
+      args: [ COMMIT_SHA ]
+      context: source/client
     image: ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     container_name: ${CYBER_DOJO_CREATOR_CLIENT_CONTAINER_NAME}
+    env_file: [ .env ]
     ports: [ "${CYBER_DOJO_CREATOR_CLIENT_PORT}:${CYBER_DOJO_CREATOR_CLIENT_PORT}" ]
     user: ${CYBER_DOJO_CREATOR_CLIENT_USER}
-    build:
-      args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_CLIENT_PORT ]
-      context: source/client
     depends_on:
       - custom-start-points    # for test data
       - exercises-start-points # for test data
       - languages-start-points # for test data
       - selenium
       - creator
-    env_file:
-      - .env
     read_only: true
     restart: "no"
     tmpfs: /tmp
@@ -42,21 +41,20 @@ services:
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   creator:
+    build:
+      args: [ COMMIT_SHA ]
+      context: source/server
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     container_name: ${CYBER_DOJO_CREATOR_SERVER_CONTAINER_NAME}
+    env_file: [ .env ]
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     user: ${CYBER_DOJO_CREATOR_SERVER_USER}
-    build:
-      args: [ COMMIT_SHA, CYBER_DOJO_CREATOR_PORT ]
-      context: source/server
     depends_on:
       - custom-start-points
       - exercises-start-points
       - languages-start-points
       - runner
       - model
-    env_file:
-      - .env
     read_only: true
     restart: "no"
     tmpfs: /tmp

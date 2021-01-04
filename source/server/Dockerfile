@@ -7,11 +7,7 @@ COPY --chown=nobody:nogroup . .
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 
-ARG CYBER_DOJO_CREATOR_PORT
-ENV PORT=${CYBER_DOJO_CREATOR_PORT}
-
-EXPOSE ${PORT}
 USER nobody
 HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./config/healthcheck.sh
-ENTRYPOINT ["/sbin/tini", "-g", "--"]
+ENTRYPOINT [ "/sbin/tini", "-g", "--" ]
 CMD [ "/app/config/up.sh" ]
