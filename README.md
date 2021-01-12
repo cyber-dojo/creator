@@ -4,7 +4,7 @@
 
 - The source for the [cyberdojo/creator](https://hub.docker.com/r/cyberdojo/creator/tags) Docker image.
 - A docker-containerized stateless micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
-- An http service, on port 4523, for creating a new group-exercise or a new individual-exercise.
+- An http service for creating a new group-exercise or a new individual-exercise.
 
 - - - -
 * [GET alive?](docs/api.md#get-alive)  
