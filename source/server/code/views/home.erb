@@ -36,8 +36,9 @@ $(() => {
           Using <code>https://cyber-dojo.org</code> in a commercial organization requires a licence.
         </li>
         <li>
-          Non-commercial use is free, but please
-          <%= erb :'shared/donate_button' %>
+          Non-commercial use is free, but please donate
+          <%= erb :'shared/donate_gbp_button' %>
+          <%= erb :'shared/donate_usd_button' %>
         </li>
         <li>
           100% of the licence fees and donations
@@ -87,14 +88,13 @@ $(() => {
     <div class="answer">
       There are two ways:
       <ul>
-        <li>Email
-        <a href="mailto:license@cyber-dojo.org?subject=I'd like to buy a license please&body=...">license@cyber-dojo.org</a>
-        with much you would like to pay, and how often.
+		<li>For larger corporations, email
+        <a href="mailto:license@cyber-dojo.org?subject=I'd like to buy a cyber-dojo license please&body=...">license@cyber-dojo.org</a>
+        with much you would like to pay, and how often, and we will raise an invoice.
         </li>
-        <li>
-          <%= erb :'shared/donate_button' %>
-          If you would like a license document, email
-          <a href="mailto:license@cyber-dojo.org?subject=I'd like to buy a license please&body=...">license@cyber-dojo.org</a>.
+        <li>Smaller businesses and individuals may prefer to pay directly via PayPal<br/>
+          <%= erb :'shared/donate_gbp_button' %>
+          <%= erb :'shared/donate_usd_button' %>
         </li>
         <li>Thank you.</li>
       </ul>
