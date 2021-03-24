@@ -36,9 +36,7 @@ $(() => {
           Using <code>https://cyber-dojo.org</code> in a commercial organization requires a licence.
         </li>
         <li>
-          Non-commercial use is free, but please donate
-          <%= erb :'shared/donate_gbp_button' %>
-          <%= erb :'shared/donate_usd_button' %>
+          Non-commercial use is free, but please donate.
         </li>
         <li>
           100% of the licence fees and donations
@@ -49,8 +47,10 @@ $(() => {
           The
           <a href="http://blog.cyber-dojo.org/2015/08/cyber-dojo-foundation.html"
             target="_blank">cyber-dojo Foundation</a>
-            is a Scottish Charitable Incorporated Organisation.
-        </li>
+            is a Scottish Charitable Incorporated Organisation.<br/>
+            <%= erb :'shared/donate_gbp_button' %>
+            <%= erb :'shared/donate_usd_button' %>			
+		</li>
       </ul>
     </div>
 
@@ -92,9 +92,7 @@ $(() => {
         <a href="mailto:license@cyber-dojo.org?subject=I'd like to buy a cyber-dojo license please&body=...">license@cyber-dojo.org</a>
         with much you would like to pay, and how often, and we will raise an invoice.
         </li>
-        <li>Smaller businesses and individuals may prefer to pay directly via PayPal<br/>
-          <%= erb :'shared/donate_gbp_button' %>
-          <%= erb :'shared/donate_usd_button' %>
+        <li>Smaller businesses and individuals may prefer to pay directly via PayPal. See above.
         </li>
         <li>Thank you.</li>
       </ul>
