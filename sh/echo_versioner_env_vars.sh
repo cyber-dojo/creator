@@ -15,7 +15,7 @@ echo_versioner_env_vars()
   echo CYBER_DOJO_CREATOR_SERVER_USER=nobody
   #
   echo CYBER_DOJO_CREATOR_CLIENT_CONTAINER_NAME=test_creator_client
-  echo CYBER_DOJO_CREATOR_SERVER_CONTAINER_NAME=test_creator_server  
+  echo CYBER_DOJO_CREATOR_SERVER_CONTAINER_NAME=test_creator_server
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
