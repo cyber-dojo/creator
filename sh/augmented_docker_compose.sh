@@ -7,7 +7,11 @@
 # the current working directory is taken as the dir for
 # relative pathnames (eg in volume-mounts) when the
 # yml is received from stdin (--file -).
-
+#
+# runner is needed as a service because when a kata
+# is created the runner(s) are told its docker image
+# name so they can ensure it is pulled onto the nodes.
+ 
 augmented_docker_compose()
 {
   cd "${ROOT_DIR}" && cat "./docker-compose.yml" \
