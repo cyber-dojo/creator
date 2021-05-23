@@ -56,7 +56,7 @@ class Creator
   #- - - - - - - - - - - - - - - - - -
 
   def create_group(manifest, options)
-    id = model.group_create([manifest], options)
+    id = saver.group_create([manifest], options)
     pull_image_onto_nodes(id, manifest['image_name'])
     id
   end
@@ -64,7 +64,7 @@ class Creator
   #- - - - - - - - - - - - - - - - - -
 
   def create_kata(manifest, options)
-    id = model.kata_create(manifest, options)
+    id = saver.kata_create(manifest, options)
     pull_image_onto_nodes(id, manifest['image_name'])
     id
   end
@@ -114,12 +114,12 @@ class Creator
 
   #- - - - - - - - - - - - - - - - - -
 
-  def model
-    @externals.model
-  end
-
   def runner
     @externals.runner
+  end
+
+  def saver
+    @externals.saver
   end
 
 end

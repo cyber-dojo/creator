@@ -119,7 +119,7 @@ class App < AppBase
     respond_to { |wants|
       wants.json {
         group_id = json_args[:id]
-        kata_id = model.group_join(group_id)
+        kata_id = saver.group_join(group_id)
         if kata_id.nil?
           route = "/creator/full?id=#{group_id}"
         else
@@ -134,7 +134,7 @@ class App < AppBase
     respond_to { |wants|
       wants.html {
         @kata_id = params['id']
-        manifest = model.kata_manifest(@kata_id)
+        manifest = saver.kata_manifest(@kata_id)
         @avatar_index = manifest['group_index'].to_i
         erb :avatar
       }
@@ -154,7 +154,7 @@ class App < AppBase
     respond_to { |wants|
       wants.html {
         @group_id = params['id']
-        @avatars = model.group_joined(@group_id)
+        @avatars = saver.group_joined(@group_id)
                         .map{ |group_index,v| [group_index.to_i, v["id"]] }
                         .to_h
         erb :reenter
@@ -184,14 +184,14 @@ class App < AppBase
 
   post '/fork_group' do
     json = fork { |manifest|
-      model.group_create([manifest], default_options)
+      saver.group_create([manifest], default_options)
     }
     respond_to_forked(json)
   end
 
   post '/fork_individual' do
     json = fork { |manifest|
-      model.kata_create(manifest, default_options)
+      saver.kata_create(manifest, default_options)
     }
     respond_to_forked(json)
   end
@@ -251,8 +251,8 @@ class App < AppBase
   def manifest_at_index
     id = params['id']
     index = params['index'].to_i
-    manifest = model.kata_manifest(id)
-    files = model.kata_event(id, index)['files']
+    manifest = saver.kata_manifest(id)
+    files = saver.kata_event(id, index)['files']
     manifest.merge!({ 'visible_files' => files })
     # Kata we are forking from may have been in a group
     # but leave no trace of that in the manifest.
@@ -288,8 +288,8 @@ class App < AppBase
     {}
   end
 
-  def model
-    externals.model
+  def saver
+    externals.saver
   end
 
 end

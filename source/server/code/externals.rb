@@ -3,8 +3,8 @@ require_relative 'external_custom_start_points'
 require_relative 'external_exercises_start_points'
 require_relative 'external_languages_start_points'
 require_relative 'external_http'
-require_relative 'external_model'
 require_relative 'external_runner'
+require_relative 'external_saver'
 
 class Externals
 
@@ -31,20 +31,20 @@ class Externals
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def model
-    @model ||= ExternalModel.new(model_http)
-  end
-  def model_http
-    @model_http ||= ExternalHttp.new
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
   def runner
     @runner ||= ExternalRunner.new(runner_http)
   end
   def runner_http
     @runner_http ||= ExternalHttp.new
+  end
+
+  # - - - - - - - - - - - - - - - - - - -
+
+  def saver
+    @saver ||= ExternalSaver.new(saver_http)
+  end
+  def saver_http
+    @saver_http ||= ExternalHttp.new
   end
 
 end

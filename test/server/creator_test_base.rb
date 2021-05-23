@@ -107,8 +107,8 @@ class CreatorTestBase < Id58TestBase
     externals.languages_start_points
   end
 
-  def model
-    externals.model
+  def saver
+    externals.saver
   end
 
   # - - - - - - - - - - - - - - -
@@ -152,25 +152,25 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - -
 
   def group_exists?(id)
-    model.group_exists?(id)
+    saver.group_exists?(id)
   end
 
   def group_manifest(id)
-    model.group_manifest(id)
+    saver.group_manifest(id)
   end
 
   # - - - - - - - - - - - - - - -
 
   def kata_exists?(id)
-    model.kata_exists?(id)
+    saver.kata_exists?(id)
   end
 
   def kata_manifest(id)
-    model.kata_manifest(id)
+    saver.kata_manifest(id)
   end
 
   def kata_event(id, index)
-    model.kata_event(id, index)
+    saver.kata_event(id, index)
   end
 
   # - - - - - - - - - - - - - - -

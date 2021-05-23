@@ -54,7 +54,7 @@ services:
       - exercises-start-points
       - languages-start-points
       - runner
-      - model
+      - saver
     read_only: true
     restart: "no"
     tmpfs: /tmp

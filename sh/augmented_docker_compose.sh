@@ -11,7 +11,7 @@
 # runner is needed as a service because when a kata
 # is created the runner(s) are told its docker image
 # name so they can ensure it is pulled onto the nodes.
- 
+
 augmented_docker_compose()
 {
   cd "${ROOT_DIR}" && cat "./docker-compose.yml" \
@@ -20,7 +20,6 @@ augmented_docker_compose()
       exercises-start-points \
       languages-start-points \
                       runner \
-                       model \
                        saver \
                     selenium \
     | tee /tmp/augmented-docker-compose.creator.peek.yml \

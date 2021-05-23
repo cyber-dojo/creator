@@ -100,13 +100,13 @@ class RouteProbesTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest F15: %w(
-  |when model http-proxy is not ready
+  |when saver http-proxy is not ready
   |GET/ready?
   |has status 200
   |returns false
   |and nothing else
   ) do
-    externals.instance_exec { @model=STUB_READY_FALSE }
+    externals.instance_exec { @saver=STUB_READY_FALSE }
     assert_get_200_json(path='ready?') do |response|
       assert_equal [path], response.keys, "keys:#{last_response.body}:"
       assert false?(response[path]), "false?:#{last_response.body}:"

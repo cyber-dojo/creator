@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 require_relative 'http_json_hash/service'
 
-class ExternalModel
+class ExternalSaver
 
   def initialize(http)
-    service = 'model'
-    port = ENV['CYBER_DOJO_MODEL_PORT'].to_i
+    service = 'saver'
+    port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
     @http = HttpJsonHash::service(self.class.name, http, service, port)
   end
 

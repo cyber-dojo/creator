@@ -15,7 +15,7 @@ class RouteBadResponseTest < CreatorTestBase
   |returns non-JSON in its response.body
   |it logs the exeption to stdout
   ) do
-    stub_model_http('xxxx')
+    stub_saver_http('xxxx')
     logs_exception_to_stdout('/ready?')
   end
 
@@ -27,7 +27,7 @@ class RouteBadResponseTest < CreatorTestBase
   |which contains the key "exception"
   |it logs the exception to stdout
   ) do
-    stub_model_http(response='{"exception":42}')
+    stub_saver_http(response='{"exception":42}')
     logs_exception_to_stdout('/ready?')
   end
 
@@ -40,11 +40,11 @@ class RouteBadResponseTest < CreatorTestBase
   |it returns the JSON
   ) do
     http = HttpAdapterStub.new('{"wibble":42}')
-    hostname = 'model'
-    port = ENV['CYBER_DOJO_MODEL_PORT'].to_i
+    hostname = 'saver'
+    port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
     requester = ::HttpJsonHash::Requester.new(http, hostname, port)
-    model = ::HttpJsonHash::Unpacker.new('model', requester)
-    json = model.get('/ready?', {})
+    saver = ::HttpJsonHash::Unpacker.new('saver', requester)
+    json = saver.get('/ready?', {})
     assert_equal({"wibble"=>42}, json)
   end
 
@@ -79,8 +79,8 @@ class RouteBadResponseTest < CreatorTestBase
     externals.instance_exec { @exercises_start_points_http = HttpAdapterStub.new(body) }
   end
 
-  def stub_model_http(body)
-    externals.instance_exec { @model_http = HttpAdapterStub.new(body) }
+  def stub_saver_http(body)
+    externals.instance_exec { @saver_http = HttpAdapterStub.new(body) }
   end
 
   class HttpAdapterStub

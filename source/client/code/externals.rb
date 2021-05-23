@@ -2,7 +2,7 @@
 require_relative 'external_creator'
 require_relative 'external_custom_start_points'
 require_relative 'external_http'
-require_relative 'external_model'
+require_relative 'external_saver'
 
 class Externals
 
@@ -20,11 +20,11 @@ class Externals
     @custom_start_points_http ||= ExternalHttp.new
   end
 
-  def model
-    @model ||= ExternalModel.new(model_http)
+  def saver
+    @saver ||= ExternalSaver.new(saver_http)
   end
-  def model_http
-    @model_http ||= ExternalHttp.new
+  def saver_http
+    @saver_http ||= ExternalHttp.new
   end
 
 end

@@ -8,9 +8,9 @@ class IdTyper
 
   def id_type(args)
     id = args['id']
-    if model.group_exists?(id)
+    if saver.group_exists?(id)
       'group'
-    elsif model.kata_exists?(id)
+    elsif saver.kata_exists?(id)
       'single'
     else
       nil
@@ -19,8 +19,8 @@ class IdTyper
 
   private
 
-  def model
-    @externals.model
+  def saver
+    @externals.saver
   end
 
 end
