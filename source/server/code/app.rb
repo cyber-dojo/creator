@@ -81,12 +81,6 @@ class App < AppBase
   # - - - - - - - - - - - - - - - - - - - - -
   # Step 3 : submit
 
-  get '/confirm', provides:[:html] do
-    respond_to { |wants|
-      wants.html { erb :confirm }
-    }
-  end
-
   post '/create.json', provides:[:json] do
     respond_to { |wants|
       wants.json {

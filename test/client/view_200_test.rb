@@ -41,11 +41,6 @@ class View200Test < CreatorTestBase
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
 
-  qtest d19: %w( confirm ) do
-    visit('/creator/confirm?type=group&exercise_name=Diversion&language_name=Python%2C pytest')
-    assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
-  end
-
   qtest d20: %w( enter ) do
     visit('/creator/enter?id=chy6BJ')
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render

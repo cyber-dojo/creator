@@ -37,7 +37,6 @@ api_demo()
   curl_200 choose_problem        'Content-Type: text/html'
   curl_200 choose_ltf            'Content-Type: text/html'
   curl_200 choose_custom_problem 'Content-Type: text/html'
-  curl_200 confirm               'Content-Type: text/html'
 
   curl_200 enter          'Content-Type: text/html'
   #curl_200 avatar?id=ID   'Content-Type: text/html'
