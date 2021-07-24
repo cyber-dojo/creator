@@ -15,6 +15,11 @@ export $(echo_versioner_env_vars)
 
 readonly IP_ADDRESS=$(ip_address)
 
+if [ "${1:-}" == '--stop' ]; then
+  containers_down
+  exit 0
+fi
+
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 api_demo()
 {
