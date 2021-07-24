@@ -86,3 +86,24 @@ cd.setupHomeIcon = () => {
   $homeIcon().show().click(() => cd.goto('/'));
   cd.setupHoverTips($homeIcon());
 };
+
+cd.toJSON = (s) => {                               // "x=1&y=2&z=3"
+  const args = s.split('&');                          // [ "x=1", "y=2", "z=3" ]
+  const elements = args.map((arg) => arg.split('=')); // [ ["x","1"],["y","2"],["z","3"]]
+  const obj = elements.reduce((m,a) => {
+        m[a[0]] = decodeURIComponent(a[1]);
+        return m;
+      },
+      {}
+  );                                 // { "x":"1", "y":"2", "z":"3" }
+  return JSON.stringify(obj);        // '{ "x":"1", "y":"2", "z":"3" }'
+};
+
+cd.windowOpen = (url) => {
+  const windowIsOpened = window.open(url, '_blank');
+  if (windowIsOpened) {
+    windowIsOpened.focus();
+  } else {
+    alert('Please, allow popups for this website.');
+  }
+}

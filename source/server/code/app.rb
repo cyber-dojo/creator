@@ -96,7 +96,7 @@ class App < AppBase
         else
           id = create_kata(json_args)
         end
-        json({'route':"/creator/enter?id=#{id}"})
+        json({'route':"/creator/enter?id=#{id}", 'id':"#{id}"})
       }
     }
   end

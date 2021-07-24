@@ -6,12 +6,13 @@ $(() => {
 
   $('.type').html(cd.urlParam('type'));
 
-  $('button.next').click(() => {
-    const name = cd.selectedDisplayName;
-    const param = encodeURIComponent(name);
-    cd.goto(`/creator/confirm?${cd.urlParams()}&display_name=${param}`);
+  $('button.ok' ).click(() => {
+      const name = encodeURIComponent(cd.selectedDisplayName);
+      const postArgs = cd.toJSON(`${cd.urlParams()}&display_name=${name}`)
+      $.post('/creator/create.json', postArgs, (response) => {
+          cd.windowOpen(`/kata/edit/${response.id}`);
+      });
   });
-
 });
 </script>
 
@@ -20,6 +21,6 @@ $(() => {
     <div class="title">create a new <span class="type"></span> exercise</div>
     <div class="sub-title">choose a custom problem</div>
     <%= erb :'shared/display_names' %>
-    <button type="button" class="large next">next</button>
+    <button type="button" class="large ok">ok</button>
   </div>
 <div>
