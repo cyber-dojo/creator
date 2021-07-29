@@ -40,10 +40,6 @@ class Views200Test < CreatorTestBase
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-  qtest AC1: %w( GET /creator/confirm 200 ) do
-    assert_get_200_html('/creator/confirm', type:'group', language_name:'D, unittest')
-  end
-
   qtest AC2: %w( GET /creator/enter 200 ) do
     assert_get_200_html('/creator/enter', id:group_id)
     assert_get_200_html('/creator/enter', id:kata_id)

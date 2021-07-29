@@ -76,7 +76,7 @@ $(() => {
   const $waitSpinner = $('.wait-spinner');
   const $phoneticId = $('.phonetic-id');
 
-  const $openSingleButton = $('button.enter.single');
+  const $openSingleButton = $('a.button.enter.single');
 
   const $enterGroupButton = $('button.enter.group');
   const $reenterGroupButton = $('button.reenter.group');
@@ -129,6 +129,8 @@ $(() => {
             }
             if (idType === 'single') {
               $openSingleButton.show();
+              $openSingleButton.attr('href', `/kata/edit/${urlId()}`);
+              $openSingleButton.attr('target', "_blank");
             }
           } else {
             $idInput.addClass('invalid');
@@ -160,7 +162,6 @@ $(() => {
 
   $reenterGroupButton.click (() => cd.goto(`/creator/reenter?id=${urlId()}`));
   $openDashboardButton.click(() => cd.goto(`/dashboard/show/${urlId()}`));
-  $openSingleButton.click   (() => cd.goto(`/kata/edit/${urlId()}`));
 
   setButtonStates();
 
@@ -177,6 +178,6 @@ $(() => {
     <button type="button" class="large enter group" style="display:none;">enter group exercise as <u>new</u> avatar</button>
     <button type="button" class="medium reenter group"  style="display:none;">join group exercise as <u>existing</u> avatar</button>
     <button type="button" class="medium open dashboard" style="display:none;">open group dashboard</button>
-    <button type="button" class="large enter single"   style="display:none;">enter the exercise</button>
+    <a href="javascript:void(0)" class="button large enter single" style="display:none;">enter the exercise</a>
   </div>
 </div>

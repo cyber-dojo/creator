@@ -7,7 +7,12 @@ $(() => {
   const groupId = "<%= @group_id %>";
 
   const setupColourAvatar = ($div, avatarIndex, avatarName, kataId) => {
-    $div.click(() => cd.goto(`/kata/edit/${kataId}`));
+    $div.click(() => {
+        const $reenterButton = $('a.button.reenter');
+        $reenterButton.attr('href', `/kata/edit/${kataId}`);
+        $reenterButton.attr('target', "_blank");
+        $reenterButton[0].click();
+    });
     $div.attr('data-tip', avatarName);
     cd.setupHoverTips($div);
     const $colourImage = $('<img>', {
@@ -67,5 +72,6 @@ $(() => {
       </tr><% end %>
     </table>
     <button type="button" class="large ok" style="display:none;">ok</button>
+    <a href="javascript:void(0)" class="button large reenter" style="display:none;"></a>
   </div>
 </div>

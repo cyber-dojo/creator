@@ -18,7 +18,8 @@ $(() => {
     $('.avatar-name').html(`the ${avatarName}`);
   });
 
-  $('button.ok').click(() => cd.goto(`/kata/edit/${kataId}`));
+  $('a.confirm.ok').attr('href', `/kata/edit/${kataId}`);
+  $('a.confirm.ok').attr('target', "_blank");
 
 });
 </script>
@@ -33,6 +34,6 @@ $(() => {
       </tr><% end %>
     </table>
     <div class="avatar-name"></div>
-    <button type="button" class="large ok">ok</button>
+    <a href="javascript:void(0)" class="button large confirm ok">ok</a>
   </div>
 </div>

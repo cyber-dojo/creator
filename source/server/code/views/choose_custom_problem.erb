@@ -6,13 +6,15 @@ $(() => {
 
   $('.type').html(cd.urlParam('type'));
 
-  $('button.next').click(() => {
+});
+
+function updateConfirm() {
     const name = cd.selectedDisplayName;
     const param = encodeURIComponent(name);
-    cd.goto(`/creator/confirm?${cd.urlParams()}&display_name=${param}`);
-  });
+    $('a.confirm.ok').attr('href', `/creator/confirm?${cd.urlParams()}&display_name=${param}`);
+    $('a.confirm.ok').attr('target', "_blank");
+}
 
-});
 </script>
 
 <div id="choose-custom-problem-page">
@@ -20,6 +22,7 @@ $(() => {
     <div class="title">create a new <span class="type"></span> exercise</div>
     <div class="sub-title">choose a custom problem</div>
     <%= erb :'shared/display_names' %>
-    <button type="button" class="large next">next</button>
+    <a href="javascript:void(0)" class="button large confirm ok">ok</a>
+    <a href="javascript:updateConfirm(); javascript:void(0)" class="update confirm" style="visibility: hidden"></a>
   </div>
 <div>
