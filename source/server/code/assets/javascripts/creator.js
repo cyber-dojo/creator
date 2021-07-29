@@ -16,6 +16,8 @@ cd.setupDisplayNamesClickHandlers = () => {
     const index = $element.data('index');
     const content = $(`#contents_${index}`).val();
     $displayContent.val(content);
+    const $updateConfirm = $('a.update.confirm');
+    if ($updateConfirm.length) { $updateConfirm.get(0).click(); }
   });
   $displayNames.random().click().scrollIntoView();
 };
@@ -86,3 +88,12 @@ cd.setupHomeIcon = () => {
   $homeIcon().show().click(() => cd.goto('/'));
   cd.setupHoverTips($homeIcon());
 };
+
+cd.windowOpen = (url) => {
+  const windowIsOpened = window.open(url, '_blank');
+  if (windowIsOpened) {
+    windowIsOpened.focus();
+  } else {
+    alert('Please, allow popups for this website.');
+  }
+}

@@ -82,20 +82,16 @@ class App < AppBase
   # Step 3 : submit
 
   get '/confirm', provides:[:html] do
+    id = createByType(**symbolized(params))
     respond_to { |wants|
-      wants.html { erb :confirm }
+      wants.html { redirect "/kata/edit?id=#{id}"}
     }
   end
 
   post '/create.json', provides:[:json] do
     respond_to { |wants|
       wants.json {
-        type = json_args.delete(:type)
-        if type === 'group'
-          id = create_group(json_args)
-        else
-          id = create_kata(json_args)
-        end
+        id = createByType(json_args)
         json({'route':"/creator/enter?id=#{id}"})
       }
     }
@@ -234,6 +230,16 @@ class App < AppBase
       args[:exercise_name] ||= nil
       creator.kata_create(**args)
     end
+  end
+
+  def createByType(json)
+    type = json.delete(:type)
+    if type === 'group'
+      id = create_group(json)
+    else
+      id = create_kata(json)
+    end
+    id
   end
 
   # - - - - - - - - - - - - - - - - - - - - -

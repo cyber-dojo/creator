@@ -6,12 +6,13 @@ $(() => {
 
   $('.type').html(cd.urlParam('type'));
 
-  $('button.next').click(() => {
-    const name = encodeURIComponent(cd.selectedDisplayName);
-    cd.goto(`/creator/confirm?${cd.urlParams()}&language_name=${name}`);
-  });
-
 });
+
+function updateConfirm() {
+    const name = encodeURIComponent(cd.selectedDisplayName);
+    $('a.confirm.ok').attr('href', `/creator/confirm?${cd.urlParams()}&language_name=${name}`);
+    $('a.confirm.ok').attr('target', `target="_blank"`);
+}
 </script>
 
 <div id="choose-ltf-page">
@@ -19,6 +20,7 @@ $(() => {
     <div class="title">create a new <span class="type"></span> exercise</div>
     <div class="sub-title">choose a language &amp; test-framework</div>
     <%= erb :'shared/display_names' %>
-    <button type="button" class="large next">next</button>
+    <a href="javascript:void(0)" class="button large confirm ok">ok</a>
+    <a href="javascript:updateConfirm(); javascript:void(0)" class="update confirm" style="visibility: hidden"></a>
   </div>
 <div>
