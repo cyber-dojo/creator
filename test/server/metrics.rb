@@ -1,7 +1,7 @@
 
 MIN = {
   test_count:1,
-  app_coverage:100,
+  app_coverage:99,
   test_coverage:100,
   line_ratio:1.4,
   hits_ratio:4.0
@@ -16,4 +16,4 @@ MAX = {
 }
 
 # Typical duration on local laptop is <20s
-# but can be double that on CI 
+# but can be double that on CI
