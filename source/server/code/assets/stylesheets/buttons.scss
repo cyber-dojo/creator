@@ -1,4 +1,3 @@
-
 button.large  { font-size:40px; }
 button.medium { font-size:25px; }
 button.small  { font-size:20px; }
@@ -15,3 +14,9 @@ button.switch, button.skip
 #group-page  button { width:580px; }
 #enter-page  button { width:660px; }
 #enter-page  button.single { width:340px; }
+
+a.button.large {
+  @extend button;
+  font-size:40px;
+  color:Black;
+}
