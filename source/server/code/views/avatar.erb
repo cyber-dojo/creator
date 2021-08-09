@@ -18,7 +18,10 @@ $(() => {
     $('.avatar-name').html(`the ${avatarName}`);
   });
 
-  $('button.ok').click(() => cd.goto(`/kata/edit/${kataId}`));
+  $('button.ok').click(() => {
+      cd.windowOpen(`/kata/edit/${kataId}`);
+      $('.home-icon').trigger("click");
+  });
 
 });
 </script>

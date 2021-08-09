@@ -6,12 +6,25 @@ $(() => {
 
   $('.type').html(cd.urlParam('type'));
 
-  $('button.next').click(() => {
-    const name = encodeURIComponent(cd.selectedDisplayName);
-    cd.goto(`/creator/confirm?${cd.urlParams()}&language_name=${name}`);
+  $('button.ok').click(() => {
+      const name = encodeURIComponent(cd.selectedDisplayName);
+      $.ajax({
+          type: 'POST',
+          url: `/creator/confirm?${cd.urlParams()}&language_name=${name}`,
+          dataType: 'json',
+          async: false,
+          success: (response) => {
+              if (cd.urlParam('type') === 'group') {
+                  cd.goto(response.route);
+              } else {
+                  cd.windowOpen(response.route);
+                  $('.home-icon').trigger("click");
+              }
+          }
+      });
   });
-
 });
+
 </script>
 
 <div id="choose-ltf-page">
@@ -19,6 +32,6 @@ $(() => {
     <div class="title">create a new <span class="type"></span> exercise</div>
     <div class="sub-title">choose a language &amp; test-framework</div>
     <%= erb :'shared/display_names' %>
-    <button type="button" class="large next">next</button>
+    <button type="button" class="large ok">ok</button>
   </div>
 <div>
