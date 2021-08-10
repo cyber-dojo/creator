@@ -86,3 +86,12 @@ cd.setupHomeIcon = () => {
   $homeIcon().show().click(() => cd.goto('/'));
   cd.setupHoverTips($homeIcon());
 };
+
+cd.windowOpen = (url) => {
+  const windowIsOpened = window.open(url, '_blank');
+  if (windowIsOpened) {
+    windowIsOpened.focus();
+  } else {
+    alert('Please, allow popups for this website.');
+  }
+}

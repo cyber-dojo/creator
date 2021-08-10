@@ -81,21 +81,19 @@ class App < AppBase
   # - - - - - - - - - - - - - - - - - - - - -
   # Step 3 : submit
 
-  get '/confirm', provides:[:html] do
+  post '/confirm', provides:[:json] do
+    id, route = createByType(**symbolized(params))
     respond_to { |wants|
-      wants.html { erb :confirm }
+      wants.json {
+        json({'id':"#{id}",'route':route})
+      }
     }
   end
 
   post '/create.json', provides:[:json] do
     respond_to { |wants|
       wants.json {
-        type = json_args.delete(:type)
-        if type === 'group'
-          id = create_group(json_args)
-        else
-          id = create_kata(json_args)
-        end
+        id, _ = createByType(json_args)
         json({'route':"/creator/enter?id=#{id}"})
       }
     }
@@ -234,6 +232,18 @@ class App < AppBase
       args[:exercise_name] ||= nil
       creator.kata_create(**args)
     end
+  end
+
+  def createByType(json)
+    type = json.delete(:type)
+    if type === 'group'
+      id = create_group(json)
+      url = "/creator/enter?id=#{id}"
+    else
+      id = create_kata(json)
+      url = "/kata/edit?id=#{id}"
+    end
+    [ id, url ]
   end
 
   # - - - - - - - - - - - - - - - - - - - - -

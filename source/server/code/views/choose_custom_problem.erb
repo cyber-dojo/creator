@@ -6,10 +6,22 @@ $(() => {
 
   $('.type').html(cd.urlParam('type'));
 
-  $('button.next').click(() => {
-    const name = cd.selectedDisplayName;
-    const param = encodeURIComponent(name);
-    cd.goto(`/creator/confirm?${cd.urlParams()}&display_name=${param}`);
+  $('button.ok').click(() => {
+      const name = encodeURIComponent(cd.selectedDisplayName);
+      $.ajax({
+          type: 'POST',
+          url: `/creator/confirm?${cd.urlParams()}&display_name=${name}`,
+          dataType: 'json',
+          async: true,
+          success: (response) => {
+              if (cd.urlParam('type') === 'group') {
+                  cd.goto(response.route);
+              } else {
+                  cd.windowOpen(response.route);
+                  $('.home-icon').trigger("click");
+              }
+          }
+      });
   });
 
 });
@@ -20,6 +32,6 @@ $(() => {
     <div class="title">create a new <span class="type"></span> exercise</div>
     <div class="sub-title">choose a custom problem</div>
     <%= erb :'shared/display_names' %>
-    <button type="button" class="large next">next</button>
+    <button type="button" class="large ok">ok</button>
   </div>
 <div>
