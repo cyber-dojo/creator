@@ -81,10 +81,12 @@ class App < AppBase
   # - - - - - - - - - - - - - - - - - - - - -
   # Step 3 : submit
 
-  get '/confirm', provides:[:html] do
-    _, url = createByType(**symbolized(params))
+  post '/confirm', provides:[:json] do
+    id, route = createByType(**symbolized(params))
     respond_to { |wants|
-      wants.html { redirect url}
+      wants.json {
+        json({'id':"#{id}",'route':route})
+      }
     }
   end
 

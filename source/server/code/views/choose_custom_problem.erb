@@ -6,16 +6,23 @@ $(() => {
 
   $('.type').html(cd.urlParam('type'));
 
-  $('a.confirm.ok').on('click', cd.goHomeAfterNavigate);
-
-});
-
-function updateConfirm() {
-    const name = cd.selectedDisplayName;
-    const param = encodeURIComponent(name);
-    $('a.confirm.ok').attr('href', `/creator/confirm?${cd.urlParams()}&display_name=${param}`);
-    $('a.confirm.ok').attr('target', "_blank");
-}
+  $('button.ok').click(() => {
+      const name = encodeURIComponent(cd.selectedDisplayName);
+      $.ajax({
+          type: 'POST',
+          url: `/creator/confirm?${cd.urlParams()}&display_name=${name}`,
+          dataType: 'json',
+          async: true,
+          success: (response) => {
+              if (cd.urlParam('type') === 'group') {
+                  cd.goto(response.route);
+              } else {
+                  cd.windowOpen(response.route);
+                  $('.home-icon').trigger("click");
+              }
+          }
+      });
+  });
 
 </script>
 
@@ -24,7 +31,6 @@ function updateConfirm() {
     <div class="title">create a new <span class="type"></span> exercise</div>
     <div class="sub-title">choose a custom problem</div>
     <%= erb :'shared/display_names' %>
-    <a href="javascript:void(0)" class="button large confirm ok">ok</a>
-    <a href="javascript:updateConfirm(); javascript:void(0)" class="update confirm" style="visibility: hidden"></a>
+    <button type="button" class="large ok">ok</button>
   </div>
 <div>

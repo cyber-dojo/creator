@@ -7,12 +7,10 @@ $(() => {
   const groupId = "<%= @group_id %>";
 
   const setupColourAvatar = ($div, avatarIndex, avatarName, kataId) => {
-    const $editKataInNewWindow = (kataId) => {
-      const $reenterButton = $('a.button.reenter');
-      $reenterButton.attr('href', `/kata/edit/${kataId}`).attr('target', "_blank");
-      $reenterButton[0].click();
-    }
-    $div.click(() => $editKataInNewWindow(kataId));
+    $div.click(() => {
+        cd.windowOpen(`/kata/edit/${kataId}`);
+        $('.home-icon').click();
+    });
     $div.attr('data-tip', avatarName);
     cd.setupHoverTips($div);
     const $colourImage = $('<img>', {

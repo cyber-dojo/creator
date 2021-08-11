@@ -97,7 +97,3 @@ cd.windowOpen = (url) => {
     alert('Please, allow popups for this website.');
   }
 }
-
-cd.goHomeAfterNavigate = () => {
-  $('.home-icon').trigger("click");
-}

@@ -18,9 +18,10 @@ $(() => {
     $('.avatar-name').html(`the ${avatarName}`);
   });
 
-  $('a.confirm.ok').attr('href', `/kata/edit/${kataId}`);
-  $('a.confirm.ok').attr('target', "_blank");
-  $('a.confirm.ok').on('click', cd.goHomeAfterNavigate);
+  $('button.ok').click(() => {
+      cd.windowOpen(`/kata/edit/${kataId}`);
+      $('.home-icon').click();
+  });
 
 });
 </script>
