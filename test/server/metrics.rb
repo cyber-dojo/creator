@@ -1,19 +1,38 @@
 
-MIN = {
-  test_count:1,
-  app_coverage:99,
-  test_coverage:100,
-  line_ratio:1.4,
-  hits_ratio:4.0
-}
+
+# max values used by cyberdojo/check-test-results image
+# which is called from sh/test_in_containers.sh
+
+# Typical duration on local laptop is <20s
+# but can be double that on CI
 
 MAX = {
   failures:0,
   errors:0,
   warnings:0,
   skips:0,
-  duration:40,
-}
 
-# Typical duration on local laptop is <20s
-# but can be double that on CI
+  duration:40,
+
+  app: {
+    lines: {
+       total:484,
+      missed:4,
+    },
+    branches: {
+       total:28,
+      missed:1,
+    }
+  },
+
+  test: {
+    lines: {
+       total:0,
+      missed:0,
+    },
+    branches: {
+       total:0,
+      missed:0,
+    }
+  }
+}

@@ -1,16 +1,35 @@
 
-MIN = {
-  test_count:1,
-  app_coverage:99,
-  test_coverage:100,
-  line_ratio:1.2,
-  hits_ratio:0.5
-}
+
+# max values used by cyberdojo/check-test-results image
+# which is called from sh/test_in_containers.sh
 
 MAX = {
   failures:0,
   errors:0,
-  warnings:2,
+  warnings:0,
   skips:0,
+
   duration:120,
+
+  app: {
+    lines: {
+       total:128,
+      missed:1,
+    },
+    branches: {
+       total:6,
+      missed:1,
+    }
+  },
+
+  test: {
+    lines: {
+       total:0,
+      missed:0,
+    },
+    branches: {
+       total:0,
+      missed:0,
+    }
+  }
 }

@@ -80,10 +80,10 @@ clean_top_6()
 {
   # 1st 6 lines on Puma
   local -r L1="Puma starting in single mode..."
-  local -r L2="* Version 4.3.5 (ruby 2.7.1-p83), codename: Mysterious Traveller"
-  local -r L3="* Min threads: 0, max threads: 16"
+  local -r L2="* Version 5.0.4 (ruby 2.7.2-p137), codename: Spoony Bard"
+  local -r L3="* Min threads: 0, max threads: 5"
   local -r L4="* Environment: production"
-  local -r L5="* Listening on tcp://0.0.0.0:${CONTAINER_PORT}"
+  local -r L5="* Listening on http://0.0.0.0:${CONTAINER_PORT}"
   local -r L6="Use Ctrl-C to stop"
   #
   local -r top6="$(printf "%s\n%s\n%s\n%s\n%s\n%s" "${L1}" "${L2}" "${L3}" "${L4}" "${L5}" "${L6}")"
