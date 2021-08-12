@@ -46,7 +46,6 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 1 : choose a problem or custom-problem
 
   get '/choose_problem', provides:[:html] do
     respond_to { |wants|
@@ -67,25 +66,12 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 2 : choose a language + test-framework (not for custom-problem)
 
   get '/choose_ltf', provides:[:html] do
     respond_to { |wants|
       wants.html {
         set_view_data(externals.languages_start_points)
         erb :choose_ltf
-      }
-    }
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-  # Step 3 : submit
-
-  post '/confirm', provides:[:json] do
-    id, route = createByType(**symbolized(params))
-    respond_to { |wants|
-      wants.json {
-        json({'id':"#{id}",'route':route})
       }
     }
   end
@@ -100,7 +86,6 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
-  # Step 4 : enter
 
   get '/enter', provides:[:html] do
     respond_to { |wants|
