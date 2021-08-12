@@ -88,9 +88,9 @@ cd.setupHomeIcon = () => {
 };
 
 cd.windowOpen = (url) => {
-  const windowIsOpened = window.open(url, '_blank');
-  if (windowIsOpened) {
-    windowIsOpened.focus();
+  const opened = window.open(url, '_blank');
+  if (opened) {
+    opened.focus();
   } else {
     alert('Please, allow popups for this website.');
   }
