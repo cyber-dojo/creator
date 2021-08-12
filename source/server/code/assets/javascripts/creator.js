@@ -16,8 +16,6 @@ cd.setupDisplayNamesClickHandlers = () => {
     const index = $element.data('index');
     const content = $(`#contents_${index}`).val();
     $displayContent.val(content);
-    const $updateConfirm = $('a.update.confirm');
-    if ($updateConfirm.length) { $updateConfirm.get(0).click(); }
   });
   $displayNames.random().click().scrollIntoView();
 };
