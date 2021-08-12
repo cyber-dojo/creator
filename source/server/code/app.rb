@@ -165,22 +165,6 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  post '/fork_group' do
-    json = fork { |manifest|
-      saver.group_create([manifest], default_options)
-    }
-    respond_to_forked(json)
-  end
-
-  post '/fork_individual' do
-    json = fork { |manifest|
-      saver.kata_create(manifest, default_options)
-    }
-    respond_to_forked(json)
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
   def self.deprecated_post_json(name)
     post "/#{name}", provides:[:json] do
       respond_to { |wants|
@@ -229,38 +213,6 @@ class App < AppBase
       url = "/kata/edit?id=#{id}"
     end
     [ id, url ]
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  def fork
-    {     id: yield(manifest_at_index),
-      forked: true
-    }
-  rescue => caught
-    { message: caught.message,
-       forked: false,
-    }
-  end
-
-  def manifest_at_index
-    id = params['id']
-    index = params['index'].to_i
-    manifest = saver.kata_manifest(id)
-    files = saver.kata_event(id, index)['files']
-    manifest.merge!({ 'visible_files' => files })
-    # Kata we are forking from may have been in a group
-    # but leave no trace of that in the manifest.
-    manifest.delete('group_id')
-    manifest.delete('group_index')
-    manifest
-  end
-
-  def respond_to_forked(json)
-    respond_to do |wants|
-      wants.html { redirect "/creator/enter?id=#{json[:id]}" }
-      wants.json { json(json) }
-    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
