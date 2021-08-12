@@ -36,7 +36,7 @@ services:
     read_only: true
     restart: "no"
     tmpfs: /tmp
-    volumes: [ "./test:/test/:ro" ]
+    volumes: [ "./test:/app/test/:ro" ]
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -58,4 +58,4 @@ services:
     read_only: true
     restart: "no"
     tmpfs: /tmp
-    volumes: [ "./test:/test/:ro" ]
+    volumes: [ "./test:/app/test/:ro" ]

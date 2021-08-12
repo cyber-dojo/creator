@@ -59,7 +59,7 @@ run_tests()
     --env COVERAGE_TEST_TAB_NAME=${COVERAGE_TEST_TAB_NAME} \
     --user "${USER}" \
     "${CONTAINER_NAME}" \
-      sh -c "/test/run.sh ${CONTAINER_COVERAGE_DIR} ${TEST_LOG} ${TYPE} ${*:4}"
+      sh -c "/app/test/run.sh ${CONTAINER_COVERAGE_DIR} ${TEST_LOG} ${TYPE} ${*:4}"
   set -e
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

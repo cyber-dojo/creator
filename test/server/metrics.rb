@@ -16,7 +16,7 @@ MAX = {
 
   app: {
     lines: {
-       total:455,
+       total:453,
       missed:1,
     },
     branches: {
@@ -27,7 +27,7 @@ MAX = {
 
   test: {
     lines: {
-       total:0,
+       total:439,
       missed:0,
     },
     branches: {

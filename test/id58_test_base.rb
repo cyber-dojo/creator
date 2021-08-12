@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'rack/test'
 
 def require_source(required)
-  require_relative "../app/code/#{required}"
+  require_relative "../code/#{required}"
 end
 
 class Id58TestBase < MiniTest::Test
@@ -57,7 +57,7 @@ class Id58TestBase < MiniTest::Test
     if s.length > 80
       # :nocov:
       s[0..80] + '...'
-      # :nocov:      
+      # :nocov:
     else
       s
     end
