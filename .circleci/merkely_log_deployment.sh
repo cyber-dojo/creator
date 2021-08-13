@@ -2,9 +2,9 @@
 
 MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-MERKELY_CHANGE=merkely/change:latest
-MERKELY_OWNER=cyber-dojo
-MERKELY_PIPELINE=creator
+readonly MERKELY_CHANGE=merkely/change:latest
+readonly MERKELY_OWNER=cyber-dojo
+readonly MERKELY_PIPELINE=creator
 
 # - - - - - - - - - - - - - - - - - - -
 merkely_fingerprint()
@@ -35,7 +35,7 @@ merkely_log_deployment()
 
 VERSIONER_URL=https://raw.githubusercontent.com/cyber-dojo/versioner/master
 export $(curl "${VERSIONER_URL}/app/.env")
-export CYBER_DOJO_DIFFER_TAG="${CIRCLE_SHA1:0:7}"
+export CYBER_DOJO_CREATOR_TAG="${CIRCLE_SHA1:0:7}"
 docker pull ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
 
 readonly ENVIRONMENT="${1}"
