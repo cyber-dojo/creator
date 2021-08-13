@@ -38,5 +38,6 @@ export $(curl "${VERSIONER_URL}/app/.env")
 export CYBER_DOJO_DIFFER_TAG="${CIRCLE_SHA1:0:7}"
 docker pull ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
 
-merkely_log_deployment "${1}" https://staging.app.merkely.com
-merkely_log_deployment "${1}" https://app.merkely.com
+readonly ENVIRONMENT="${1}"
+merkely_log_deployment "${ENVIRONMENT}" https://staging.app.merkely.com
+merkely_log_deployment "${ENVIRONMENT}" https://app.merkely.com
