@@ -28,17 +28,6 @@ merkely_declare_pipeline()
 		  ${MERKELY_CHANGE}
 }
 
-
-# - - - - - - - - - - - - - - - - - - -
-on_ci_merkely_declare_pipeline()
-{
-  if ! on_ci ; then
-    return
-  fi
-  merkely_declare_pipeline https://staging.app.merkely.com
-  merkely_declare_pipeline https://app.merkely.com
-}
-
 # - - - - - - - - - - - - - - - - - - -
 merkely_log_artifact()
 {
@@ -59,16 +48,6 @@ merkely_log_artifact()
     --rm \
     --volume /var/run/docker.sock:/var/run/docker.sock \
       ${MERKELY_CHANGE}
-}
-
-# - - - - - - - - - - - - - - - - - - -
-on_ci_merkely_log_artifact()
-{
-  if ! on_ci ; then
-    return
-  fi
-  merkely_log_artifact https://staging.app.merkely.com
-  merkely_log_artifact https://app.merkely.com
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -95,17 +74,6 @@ merkely_log_evidence()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-on_ci_merkely_log_evidence()
-{
-  if ! on_ci ; then
-    return
-  fi
-  write_evidence_json
-  merkely_log_evidence https://staging.app.merkely.com
-  merkely_log_evidence https://app.merkely.com
-}
-
-# - - - - - - - - - - - - - - - - - - -
 write_evidence_json()
 {
   echo '{ "server": ' > "$(evidence_json_path)"
@@ -126,3 +94,37 @@ on_ci()
 {
   [ -n "${CIRCLECI:-}" ]
 }
+
+# - - - - - - - - - - - - - - - - - - -
+on_ci_merkely_declare_pipeline()
+{
+  if ! on_ci ; then
+    return
+  fi
+  merkely_declare_pipeline https://staging.app.merkely.com
+  merkely_declare_pipeline https://app.merkely.com
+}
+
+# - - - - - - - - - - - - - - - - - - -
+on_ci_merkely_log_artifact()
+{
+  if ! on_ci ; then
+    return
+  fi
+  merkely_log_artifact https://staging.app.merkely.com
+  merkely_log_artifact https://app.merkely.com
+}
+
+# - - - - - - - - - - - - - - - - - - -
+on_ci_merkely_log_evidence()
+{
+  if ! on_ci ; then
+    return
+  fi
+  write_evidence_json
+  merkely_log_evidence https://staging.app.merkely.com
+  merkely_log_evidence https://app.merkely.com
+}
+
+
+
