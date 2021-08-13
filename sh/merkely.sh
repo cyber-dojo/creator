@@ -2,9 +2,9 @@
 
 # ROOT_DIR must be set
 
-MERKELY_CHANGE=merkely/change:latest
-MERKELY_OWNER=cyber-dojo
-MERKELY_PIPELINE=creator
+readonly MERKELY_CHANGE=merkely/change:latest
+readonly MERKELY_OWNER=cyber-dojo
+readonly MERKELY_PIPELINE=creator
 
 # - - - - - - - - - - - - - - - - - - -
 merkely_fingerprint()
@@ -77,16 +77,16 @@ merkely_log_evidence()
 write_evidence_json()
 {
   echo '{ "server": ' > "$(evidence_json_path)"
-  cat "${ROOT_DIR}/test/reports/coverage.json" >> "$(evidence_json_path)"
+  cat "${ROOT_DIR}/test/server/reports/coverage.json" >> "$(evidence_json_path)"
   echo ', "client": ' >> "$(evidence_json_path)"
-  cat "${ROOT_DIR}/client/test/reports/coverage.json" >> "$(evidence_json_path)"
+  cat "${ROOT_DIR}/test/client/reports/coverage.json" >> "$(evidence_json_path)"
   echo '}' >> "$(evidence_json_path)"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 evidence_json_path()
 {
-  echo "${ROOT_DIR}/test/reports/evidence.json"
+  echo "${ROOT_DIR}/test/evidence.json"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
