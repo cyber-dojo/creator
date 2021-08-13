@@ -65,8 +65,6 @@ class App < AppBase
     }
   end
 
-  # - - - - - - - - - - - - - - - - - - - - -
-
   get '/choose_ltf', provides:[:html] do
     respond_to { |wants|
       wants.html {
@@ -79,8 +77,8 @@ class App < AppBase
   post '/create.json', provides:[:json] do
     respond_to { |wants|
       wants.json {
-        id, _ = createByType(json_args)
-        json({'route':"/creator/enter?id=#{id}"})
+        _id, url = createByType(json_args)
+        json({'route' => url})
       }
     }
   end
