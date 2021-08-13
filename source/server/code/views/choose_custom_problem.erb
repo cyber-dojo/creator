@@ -23,8 +23,9 @@ $(() => {
           }
       });
   });
-});
 
+  $('button.switch').click(() => cd.goto(`/creator/choose_problem?${cd.urlParams()}`));
+});
 </script>
 
 <div id="choose-custom-problem-page">
@@ -33,5 +34,6 @@ $(() => {
     <div class="sub-title">choose a custom problem</div>
     <%= erb :'shared/display_names' %>
     <button type="button" class="large ok">ok</button>
+    <button type="button" class="small switch">switch to problemos</button>
   </div>
 <div>
