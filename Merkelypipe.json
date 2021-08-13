@@ -1,7 +1,7 @@
 {
     "owner": "cyber-dojo",
     "name": "creator",
-    "description": "Pipeline Controls for Merkely",
+    "description": "Microservice for Kata creation UX",
     "visibility": "public",
     "template": [
         "artifact",
