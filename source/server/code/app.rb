@@ -142,24 +142,6 @@ class App < AppBase
     }
   end
 
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  get '/build_manifest', provides:[:json] do
-    respond_to { |wants|
-      wants.json {
-        json(creator.build_manifest(**symbolized(params)))
-      }
-    }
-  end
-
-  get '/build_custom_manifest', provides:[:json] do
-    respond_to { |wants|
-      wants.json {
-        json(creator.build_custom_manifest(**symbolized(params)))
-      }
-    }
-  end
-
   private
 
   include EscapeHtmlHelper
@@ -207,10 +189,6 @@ class App < AppBase
   end
 
   # - - - - - - - - - - - - - - - -
-
-  def default_options
-    {}
-  end
 
   def saver
     externals.saver

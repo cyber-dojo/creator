@@ -27,26 +27,6 @@ class Creator
     create_kata(manifest(exercise_name, language_name), options)
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def build_custom_manifest(display_name:)
-    custom_manifest(display_name)
-  end
-
-  def build_manifest(exercise_name:, language_name:)
-    manifest(exercise_name, language_name);
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def deprecated_group_create_custom(display_name:)
-    create_group(custom_manifest(display_name), default_options)
-  end
-
-  def deprecated_kata_create_custom(display_name:)
-    create_kata(custom_manifest(display_name), default_options)
-  end
-
   private
 
   def default_options

@@ -13,10 +13,5 @@ button.switch, button.skip
 #single-page button { width:580px; }
 #group-page  button { width:580px; }
 #enter-page  button { width:660px; }
-#enter-page  button.single { width:340px; }
+#enter-page  button.single { width:80px; }
 
-a.button.large {
-  @extend button;
-  font-size:40px;
-  color:Black;
-}

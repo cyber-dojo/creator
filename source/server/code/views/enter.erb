@@ -76,7 +76,7 @@ $(() => {
   const $waitSpinner = $('.wait-spinner');
   const $phoneticId = $('.phonetic-id');
 
-  const $openSingleButton = $('a.button.enter.single');
+  const $openSingleButton = $('button.enter.single');
 
   const $enterGroupButton = $('button.enter.group');
   const $reenterGroupButton = $('button.reenter.group');
@@ -171,8 +171,6 @@ $(() => {
 
   setButtonStates();
 
-  $('a.button.enter').on('click', cd.goHomeAfterNavigate);
-
 });
 </script>
 
@@ -186,6 +184,6 @@ $(() => {
     <button type="button" class="large enter group" style="display:none;">enter group exercise as <u>new</u> avatar</button>
     <button type="button" class="medium reenter group"  style="display:none;">join group exercise as <u>existing</u> avatar</button>
     <button type="button" class="medium open dashboard" style="display:none;">open group dashboard</button>
-    <a href="javascript:void(0)" class="button large enter single" style="display:none;">enter the exercise</a>
+    <button type="button" class="large enter single"    style="display:none;">ok</button>
   </div>
 </div>
