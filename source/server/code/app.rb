@@ -160,23 +160,6 @@ class App < AppBase
     }
   end
 
-  # - - - - - - - - - - - - - - - - - - - - -
-
-  def self.deprecated_post_json(name)
-    post "/#{name}", provides:[:json] do
-      respond_to { |wants|
-        wants.json {
-          result = creator.public_send(name, **json_args)
-          backwards_compatible = { id:result }
-          json backwards_compatible.merge({ name => result })
-        }
-      }
-    end
-  end
-
-  deprecated_post_json(:deprecated_group_create_custom)
-  deprecated_post_json(:deprecated_kata_create_custom)
-
   private
 
   include EscapeHtmlHelper
