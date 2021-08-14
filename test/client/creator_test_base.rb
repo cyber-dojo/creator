@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require_relative '../id58_test_base'
 require 'capybara/minitest'
 require_source 'externals'

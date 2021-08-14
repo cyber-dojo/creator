@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require_relative 'app_base'
 require_relative 'creator'
 require_relative 'escape_html_helper'

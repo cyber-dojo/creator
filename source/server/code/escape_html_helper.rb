@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 module EscapeHtmlHelper
 
   def escape_html(text)

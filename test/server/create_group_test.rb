@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 require_relative 'creator_test_base'
 require 'json'
 
@@ -39,7 +38,7 @@ class CreateGroupTest < CreatorTestBase
   qtest w9B: %w(
   |POST /create.json
   |with [type=group,language_name] URL params
-  |generates json route /creator/enter?id=ID 
+  |generates json route /creator/enter?id=ID
   |and a group-exercise with ID exists
   ) do
     json_post_create({

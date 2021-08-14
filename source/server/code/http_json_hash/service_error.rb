@@ -1,4 +1,3 @@
-# frozen_string_literal: true
 
 module HttpJsonHash
 
@@ -15,5 +14,5 @@ module HttpJsonHash
     attr_reader :path, :args, :name, :body
 
   end
-  
+
 end
