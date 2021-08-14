@@ -1,5 +1,4 @@
 
-
 # max values used by cyberdojo/check-test-results image
 # which is called from sh/test_in_containers.sh
 
@@ -16,18 +15,18 @@ MAX = {
 
   app: {
     lines: {
-       total:453,
-      missed:1,
+       total:423,
+      missed:3,
     },
     branches: {
        total:28,
-      missed:1,
+      missed:3,
     }
   },
 
   test: {
     lines: {
-       total:439,
+       total:368,
       missed:0,
     },
     branches: {

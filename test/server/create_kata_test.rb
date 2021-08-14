@@ -74,8 +74,8 @@ class CreateKataTest < CreatorTestBase
 
   def json_post_create(args)
     json_post '/create.json', args
-    route = json_response['route'] # eg "/kata/edit?id=xCSKgZ"
-    assert %r"/kata/edit\?id=(?<id>.*)" =~ route, route
+    route = json_response['route'] # eg "/creator/enter?id=xCSKgZ"
+    assert %r"/creator/enter\?id=(?<id>.*)" =~ route, route
     assert kata_exists?(id), "id:#{id}:" # eg "xCSKgZ"
     yield kata_manifest(id)
   end
