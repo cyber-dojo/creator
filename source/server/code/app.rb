@@ -76,10 +76,9 @@ class App < AppBase
 
   post '/create.json', provides:[:json] do
     respond_to { |wants|
-      wants.json {
-        _id, url = createByType(json_args)
-        json({'route' => url})
-      }
+      id = createByType(json_args)
+      url = "/creator/enter?id=#{id}"
+      wants.json { json({'route' => url, 'id' => id}) }
     }
   end
 
@@ -183,6 +182,15 @@ class App < AppBase
   include EscapeHtmlHelper
   include SelectedHelper
 
+  def createByType(json)
+    type = json.delete(:type)
+    if type === 'group'
+      create_group(json)
+    else
+      create_kata(json)
+    end
+  end
+
   def create_group(args)
     if args.has_key?(:display_name)
       creator.group_create_custom(**args)
@@ -199,18 +207,6 @@ class App < AppBase
       args[:exercise_name] ||= nil
       creator.kata_create(**args)
     end
-  end
-
-  def createByType(json)
-    type = json.delete(:type)
-    if type === 'group'
-      id = create_group(json)
-      url = "/creator/enter?id=#{id}"
-    else
-      id = create_kata(json)
-      url = "/kata/edit?id=#{id}"
-    end
-    [ id, url ]
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
