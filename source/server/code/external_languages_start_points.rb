@@ -19,9 +19,5 @@ class ExternalLanguagesStartPoints
   def manifests
     @http.get(:manifests, {})
   end
-  
-  def manifest(display_name)
-    @http.get(__method__, { name:display_name })
-  end
 
 end
