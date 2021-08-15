@@ -16,7 +16,7 @@ class Creator
   end
 
   def group_create(language_name:, exercise_name:)
-    id = saver.group_create2(language_name, exercise_name)
+    id = saver.group_create(language_name, exercise_name)
     manifest = saver.group_manifest(id)
     pull_image_onto_nodes(id, manifest['image_name'])
     id
@@ -32,7 +32,7 @@ class Creator
   end
 
   def kata_create(language_name:, exercise_name:)
-    id = saver.kata_create2(language_name, exercise_name)
+    id = saver.kata_create(language_name, exercise_name)
     manifest = saver.kata_manifest(id)
     pull_image_onto_nodes(id, manifest['image_name'])
     id
