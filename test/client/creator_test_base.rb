@@ -58,7 +58,7 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - - - - - -
 
   def any_custom_start_points_display_name
-    custom_start_points.display_names.sample
+    custom_start_points.names.sample
   end
 
   # - - - - - - - - - - - - - - - - - - -

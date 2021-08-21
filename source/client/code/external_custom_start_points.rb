@@ -8,8 +8,8 @@ class ExternalCustomStartPoints
     @http = HttpJsonHash::service(self.class.name, http, service, port)
   end
 
-  def display_names
-    @http.get(:names, {})
+  def names
+    @http.get(__method__, {})
   end
 
 end

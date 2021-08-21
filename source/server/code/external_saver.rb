@@ -14,6 +14,10 @@ class ExternalSaver
 
   # - - - - - - - - - - - - - - - - - - -
 
+  def group_create2(manifest)
+    @http.post(__method__, { manifest:manifest })
+  end
+
   def group_create_custom(display_name)
     @http.post(__method__, {
       version: CURRENT_VERSION,
@@ -46,6 +50,10 @@ class ExternalSaver
   end
 
   # - - - - - - - - - - - - - - - - - - -
+
+  def kata_create2(manifest)
+    @http.post(__method__, { manifest:manifest })
+  end
 
   def kata_create_custom(display_name)
     @http.post(__method__, {

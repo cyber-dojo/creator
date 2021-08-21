@@ -8,9 +8,9 @@ class CreateGroupTest < CreatorTestBase
   end
 
   def id58_setup
-    @exercise_name = exercises_start_points.display_names.sample
-    @display_name = custom_start_points.display_names.sample
-    @language_name = languages_start_points.display_names.sample
+    @display_name = custom_start_points.names.sample
+    @language_name = languages_start_points.names.sample
+    @exercise_name = exercises_start_points.names.sample
   end
 
   attr_reader :exercise_name, :display_name, :language_name

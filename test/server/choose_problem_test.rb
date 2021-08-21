@@ -10,13 +10,13 @@ class ChooseProblemTest < CreatorTestBase
 
   qtest w18w: %w(
   |GET/choose_problem
-  |offers all exercise_start_point display_names
+  |offers all exercise_start_point names
   ) do
     get '/choose_problem'
     assert status?(200), status
     html = last_response.body
-    exercises_start_points.display_names.each do |exercise_name|
-      assert html =~ display_name_div(exercise_name), exercise_name
+    exercises_start_points.names.each do |name|
+      assert html =~ display_name_div(name), name
     end
   end
 

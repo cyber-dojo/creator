@@ -8,25 +8,25 @@ class CreateKataTest < CreatorTestBase
   end
 
   def id58_setup
-    @exercise_name = exercises_start_points.display_names.sample
-    @display_name = custom_start_points.display_names.sample
-    @language_name = languages_start_points.display_names.sample
+    @display_name = custom_start_points.names.sample
+    @language_name = languages_start_points.names.sample
+    @exercise_name = exercises_start_points.names.sample
   end
 
-  attr_reader :exercise_name, :display_name, :language_name
+  attr_reader :display_name, :language_name, :exercise_name
 
   # - - - - - - - - - - - - - - - - -
 
   qtest w9A: %w(
   |POST /create.json
-  |with [type=single,exercise_name,language_name] URL params
+  |with [type=single,language_name,exercise_name] URL params
   |generates json route /creator/enter?id=ID
   |and a kata-exercise with ID exists
   ) do
     json_post_create({
       type:'single',
-      exercise_name:exercise_name,
-      language_name:language_name
+      language_name:language_name,
+      exercise_name:exercise_name
     }) do |manifest|
       assert_equal language_name, manifest['display_name'], manifest
       assert_equal exercise_name, manifest['exercise'], manifest

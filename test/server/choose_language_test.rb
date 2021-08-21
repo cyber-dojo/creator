@@ -10,13 +10,13 @@ class ChooseLanguageTest < CreatorTestBase
 
   qtest w18: %w(
   |GET/choose_ltf
-  |offers all languages-start-points display_names
+  |offers all languages-start-points names
   ) do
     get '/choose_ltf'
     assert status?(200), status
     html = last_response.body
-    languages_start_points.display_names.each do |language_name|
-      assert html =~ display_name_div(language_name), language_name
+    languages_start_points.names.each do |name|
+      assert html =~ display_name_div(name), name
     end
   end
 
