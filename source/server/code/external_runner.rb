@@ -2,7 +2,7 @@ require_relative 'http_json_hash/service'
 
 class ExternalRunner
 
-  def initialize(_http)
+  def initialize(http)
     service = 'runner'
     port = ENV['CYBER_DOJO_RUNNER_PORT'].to_i
     @http = HttpJsonHash::service(self.class.name, http, service, port)
