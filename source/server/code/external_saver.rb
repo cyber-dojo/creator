@@ -14,23 +14,8 @@ class ExternalSaver
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def group_create2(manifest)
+  def group_create(manifest)
     @http.post(__method__, { manifest:manifest })
-  end
-
-  def group_create_custom(display_name)
-    @http.post(__method__, {
-      version: CURRENT_VERSION,
-      display_name: display_name
-    })
-  end
-
-  def group_create(ltf_name, exercise_name)
-    @http.post(__method__, {
-      version: CURRENT_VERSION,
-      ltf_name: ltf_name,
-      exercise_name: exercise_name
-    })
   end
 
   def group_exists?(id)
@@ -51,23 +36,8 @@ class ExternalSaver
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def kata_create2(manifest)
+  def kata_create(manifest)
     @http.post(__method__, { manifest:manifest })
-  end
-
-  def kata_create_custom(display_name)
-    @http.post(__method__, {
-      version: CURRENT_VERSION,
-      display_name: display_name
-    })
-  end
-
-  def kata_create(ltf_name, exercise_name)
-    @http.post(__method__, {
-      version: CURRENT_VERSION,
-      ltf_name: ltf_name,
-      exercise_name: exercise_name
-    })
   end
 
   def kata_exists?(id)

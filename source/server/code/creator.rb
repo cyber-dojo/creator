@@ -29,13 +29,13 @@ class Creator
   private
 
   def create_group(manifest)
-    id = saver.group_create2(manifest)
+    id = saver.group_create(manifest)
     pull_image_onto_nodes(id, manifest['image_name'])
     id
   end
 
   def create_kata(manifest)
-    id = saver.kata_create2(manifest)
+    id = saver.kata_create(manifest)
     pull_image_onto_nodes(id, manifest['image_name'])
     id
   end
