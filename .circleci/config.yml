@@ -2,7 +2,7 @@ version: 2
 
 jobs:
 
-  build-image:
+  build-test-publish:
     machine:
       image: ubuntu-2004:202008-01
     steps:
@@ -25,7 +25,7 @@ jobs:
           command: |
             ./.circleci/deploy_to_namespace.sh beta
 
-  merkely-log-deployment-to-beta-env:
+  log-beta-deployment-to-merkely:
     machine:
       image: ubuntu-2004:202008-01
     steps:
@@ -45,7 +45,7 @@ jobs:
           command: |
             ./.circleci/deploy_to_namespace.sh prod
 
-  merkely-log-deployment-to-prod-env:
+  log-prod-deployment-to-merkely:
     machine:
       image: ubuntu-2004:202008-01
     steps:
@@ -62,7 +62,8 @@ workflows:
 
   build:
     jobs:
-      - build-image:
+
+      - build-test-publish:
           context: cyberdojo-context
           filters:
             branches:
@@ -70,21 +71,21 @@ workflows:
 
       - deploy-to-beta-env:
           context: cyberdojo-context
-          requires: [ build-image ]
+          requires: [ build-test-publish ]
 
-      - merkely-log-deployment-to-beta-env:
+      - log-beta-deployment-to-merkely:
           context: cyberdojo-context
           requires: [ deploy-to-beta-env ]
 
       - approve-to-prod-env:
           type: approval
-          requires: [ deploy-to-beta-env ]
+          requires: [ log-beta-deployment-to-merkely ]
 
       - deploy-to-prod-env:
           context: cyberdojo-context
           requires: [ approve-to-prod-env ]
 
-      - merkely-log-deployment-to-prod-env:
+      - log-prod-deployment-to-merkely:
           context: cyberdojo-context
           requires: [ deploy-to-prod-env ]
 

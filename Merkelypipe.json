@@ -1,7 +1,7 @@
 {
     "owner": "cyber-dojo",
     "name": "creator",
-    "description": "Microservice for Kata creation UX",
+    "description": "UX for Group/Kata creation",
     "visibility": "public",
     "template": [
         "artifact",
