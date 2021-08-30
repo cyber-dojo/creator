@@ -32,18 +32,6 @@ class App < AppBase
     }
   end
 
-  get '/group', provides:[:html] do
-    respond_to { |wants|
-      wants.html { erb :group }
-    }
-  end
-
-  get '/single', provides:[:html] do
-    respond_to { |wants|
-      wants.html { erb :single }
-    }
-  end
-
   # - - - - - - - - - - - - - - - - - - - - -
 
   get '/choose_problem', provides:[:html] do
@@ -64,6 +52,8 @@ class App < AppBase
     }
   end
 
+  # - - - - - - - - - - - - - - - - - - - - -
+
   get '/choose_ltf', provides:[:html] do
     respond_to { |wants|
       wants.html {
@@ -72,6 +62,18 @@ class App < AppBase
       }
     }
   end
+
+  # - - - - - - - - - - - - - - - - - - - - -
+
+  get '/choose_type', provides:[:html] do
+    respond_to { |wants|
+      wants.html {
+        erb :choose_type
+      }
+    }
+  end
+
+  # - - - - - - - - - - - - - - - - - - - - -
 
   post '/create.json', provides:[:json] do
     respond_to { |wants|
@@ -148,7 +150,7 @@ class App < AppBase
 
   def createByType(json)
     type = json.delete(:type)
-    if type === 'group'
+    if type === 'classroom'
       create_group(json)
     else
       create_kata(json)

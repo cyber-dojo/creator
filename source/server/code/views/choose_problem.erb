@@ -4,25 +4,21 @@ $(() => {
 
   cd.setupHomeIcon();
 
-  $('.type').html(cd.urlParam('type'));
-
   $('button.next').click(() => {
-    const name = cd.selectedDisplayName;
-    const params = `exercise_name=${encodeURIComponent(name)}`;
-    cd.goto(`/creator/choose_ltf?${cd.urlParams()}&${params}`);
+    const name = encodeURIComponent(cd.selectedDisplayName);
+    cd.goto(`/creator/choose_ltf?exercise_name=${name}`);
   });
 
-  $('button.skip').click(() => cd.goto(`/creator/choose_ltf?${cd.urlParams()}`));
-
-  $('button.switch').click(() => cd.goto(`/creator/choose_custom_problem?${cd.urlParams()}`));
+  $('button.skip').click(() => cd.goto(`/creator/choose_ltf`));
+  $('button.switch').click(() => cd.goto(`/creator/choose_custom_problem`));
 
 });
 </script>
 
 <div id="choose-problem-page">
   <div class="edged-panel">
-    <div class="title">create a new <span class="type"></span> exercise</div>
-    <div class="sub-title">choose a problem</div>
+    <div class="title">create a new practice</div>
+    <div class="sub-title">choose your problem</div>
     <%= erb :'shared/display_names' %>
     <button type="button" class="large next">next</button>
     <button type="button" class="small skip">skip</button>

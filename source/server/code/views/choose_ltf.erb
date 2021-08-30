@@ -4,14 +4,9 @@ $(() => {
 
   cd.setupHomeIcon();
 
-  $('.type').html(cd.urlParam('type'));
-
   $('button.next').click(() => {
     const name = encodeURIComponent(cd.selectedDisplayName);
-    const params = cd.urlParams() + `&language_name=${name}`;
-    $.post('/creator/create.json', cd.toJSON(params), (response) => {
-      cd.goto(response.route);
-    });
+    cd.goto(`/creator/choose_type?${cd.urlParams()}&language_name=${name}`);
   });
 
 });
@@ -19,8 +14,8 @@ $(() => {
 
 <div id="choose-ltf-page">
   <div class="edged-panel">
-    <div class="title">create a new <span class="type"></span> exercise</div>
-    <div class="sub-title">choose a language &amp; test-framework</div>
+    <div class="title">create a new practice</div>
+    <div class="sub-title">choose your language &amp; test-framework</div>
     <%= erb :'shared/display_names' %>
     <button type="button" class="large next">next</button>
   </div>

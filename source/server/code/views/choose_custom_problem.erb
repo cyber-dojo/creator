@@ -4,14 +4,9 @@ $(() => {
 
   cd.setupHomeIcon();
 
-  $('.type').html(cd.urlParam('type'));
-
   $('button.next').click(() => {
     const name = encodeURIComponent(cd.selectedDisplayName);
-    const params = cd.urlParams() + `&display_name=${name}`;
-    $.post('/creator/create.json', cd.toJSON(params), (response) => {
-      cd.goto(response.route);
-    });
+    cd.goto(`/creator/choose_type?{cd.urlParams()}&display_name=${name}`);
   });
 
   $('button.switch').click(() => cd.goto(`/creator/choose_problem?${cd.urlParams()}`));
@@ -20,8 +15,8 @@ $(() => {
 
 <div id="choose-custom-problem-page">
   <div class="edged-panel">
-    <div class="title">create a new <span class="type"></span> exercise</div>
-    <div class="sub-title">choose a custom problem</div>
+    <div class="title">create a new practice</div>
+    <div class="sub-title">choose your custom problem</div>
     <%= erb :'shared/display_names' %>
     <button type="button" class="large next">next</button>
     <button type="button" class="small switch">switch to problems</button>

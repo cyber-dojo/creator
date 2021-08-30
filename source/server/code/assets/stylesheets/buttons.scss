@@ -10,8 +10,13 @@ button.switch, button.skip
   top:-393px;
 }
 
-#single-page button { width:580px; }
-#group-page  button { width:580px; }
-#enter-page  button { width:660px; }
-#enter-page  button.single { width:80px; }
+button.ensemble,
+button.classroom,
+button.solo
+{
+  width: 215px;
+}
+
+enter-page  button { width:660px; }
+enter-page  button.single { width:80px; }
 

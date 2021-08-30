@@ -60,11 +60,7 @@
   .buttons
   {
     padding-top:10px;
-    button.group, button.single
-    {
-      width:305px;
-    }
-    button.single { margin-right:10px; }
+    button.create, button.enter { width:425px; }
   }
 
   .questions

@@ -1,0 +1,44 @@
+<script>
+'use strict';
+$(() => {
+
+  cd.setupHomeIcon();
+  
+  const setTypeButtonHandler = (type) => {
+	  $(`button.${type}`).click(() => {
+	    const params = cd.urlParams() + `&type=${type}`;
+	    $.post('/creator/create.json', cd.toJSON(params), (response) => {
+	      cd.goto(response.route);
+	    });
+	  });
+  };
+  
+  setTypeButtonHandler('solo');
+  setTypeButtonHandler('ensemble');
+  setTypeButtonHandler('classroom');
+ 
+});
+</script>
+
+<div id="choose-type-page">
+  <div class="edged-panel">
+    <div class="title">create a new practice</div>
+    <div class="sub-title">choose your practice type</div>
+	  
+	<table>
+		<tr>
+			<td><button type="button" class="large ensemble">ensemble</button></td>
+			<td>We'll practice together, all taking turns on the <em>same</em> files</td>
+		</tr>
+		<tr>
+			<td><button type="button" class="large classroom">classroom</button></td>
+			<td>We'll practice separately, each using our <em>own</em> files</td>
+		</tr>
+		<tr>
+			<td><button type="button" class="large solo">solo</button></td>
+			<td>I'm working on my own</td>
+		</tr>
+	</table>
+			
+  </div>
+</div>

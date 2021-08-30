@@ -2,8 +2,8 @@
 'use strict';
 $(() => {
 
-  $('button.single').click(() => cd.goto('/creator/single'));
-  $('button.group' ).click(() => cd.goto('/creator/group'));
+  $('button.create').click(() => cd.goto('/creator/choose_problem'));
+  $('button.enter' ).click(() => cd.goto('/creator/enter'));
 
 });
 </script>
@@ -21,8 +21,8 @@ $(() => {
     </div>
   </div>
   <div class="edged-panel buttons">
-    <button type="button" class="large single">i'm on my own</button>
-    <button type="button" class="large group">we're in a group</button>
+    <button type="button" class="large create">create a new practice</button>
+    <button type="button" class="medium enter">enter an existing practice</button>
   </div>
 
   <div class="edged-panel questions">
