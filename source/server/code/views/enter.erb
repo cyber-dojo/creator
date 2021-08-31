@@ -3,7 +3,16 @@
 $(() => {
 
   cd.setupHomeIcon();
-
+	
+  const $title = $('.title');
+  const type = cd.urlParam('type');
+  
+  if (type != undefined) {
+	$title.text(`created a new ${type} practice`);
+  } else {
+	$title.text('enter an existing practice');
+  }
+  
   const phonetic = {
     '0' : 'zero',
     '1' : 'one',
@@ -176,7 +185,7 @@ $(() => {
 
 <div id="enter-page">
   <div class="edged-panel">
-    <div class="title">enter an existing practice</div>
+    <div class="title"></div>
     <div class="sub-title">the ID of the practice is...</div>
     <input type="text" id="id" placeholder="??????" value="<%= @id %>"></input>
     <img class="wait-spinner" src="/images/rotate-cyber-dojo.gif">

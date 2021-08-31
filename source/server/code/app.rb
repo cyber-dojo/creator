@@ -77,8 +77,10 @@ class App < AppBase
 
   post '/create.json', provides:[:json] do
     respond_to { |wants|
-      id = createByType(json_args)
-      url = "/creator/enter?id=#{id}"
+      args = json_args
+      type = args.delete(:type)      
+      id = create(type, args)
+      url = "/creator/enter?id=#{id}&type=#{type}"
       wants.json { json({'route' => url, 'id' => id}) }
     }
   end
@@ -148,12 +150,11 @@ class App < AppBase
   include EscapeHtmlHelper
   include SelectedHelper
 
-  def createByType(json)
-    type = json.delete(:type)
+  def create(type, args)
     if type === 'classroom'
-      create_group(json)
+      create_group(args)
     else
-      create_kata(json)
+      create_kata(args)
     end
   end
 
