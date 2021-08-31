@@ -134,7 +134,7 @@ $(() => {
             $idInput.removeClass('invalid');
             showPhoneticId();
             if (idType === 'group') {
-              $allGroupButtons.show();
+              $allGroupButtons.show().css('display', 'block');
             }
             if (idType === 'single') {
               $openSingleButton.show();
@@ -186,7 +186,7 @@ $(() => {
 <div id="enter-page">
   <div class="edged-panel">
     <div class="title"></div>
-    <div class="sub-title">the ID of the practice is...</div>
+    <div class="sub-title">the ID of your practice is...</div>
     <input type="text" id="id" placeholder="??????" value="<%= @id %>"></input>
     <img class="wait-spinner" src="/images/rotate-cyber-dojo.gif">
     <div class="phonetic-id"></div>
