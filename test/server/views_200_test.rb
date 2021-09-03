@@ -12,29 +12,24 @@ class Views200Test < CreatorTestBase
     assert_get_200_html('/creator/home')
   end
 
-  qtest AB1: %w( GET /creator/group 200 ) do
-    assert_get_200_html('/creator/group')
-  end
-
-  qtest AB2: %w( GET /creator/single 200 ) do
-    assert_get_200_html('/creator/single')
-  end
-
-  #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-
   qtest AA0: %w( GET /creator/choose_problem 200 ) do
-    assert_get_200_html('/creator/choose_problem', type:'group')
-    assert_get_200_html('/creator/choose_problem', type:'single')
+    assert_get_200_html('/creator/choose_problem')
   end
 
   qtest AA1: %w( GET /creator/choose_custom_problem 200 ) do
-    assert_get_200_html('/creator/choose_custom_problem', type:'group')
-    assert_get_200_html('/creator/choose_custom_problem', type:'single')
+    assert_get_200_html('/creator/choose_custom_problem')
   end
 
   qtest AA2: %w( GET /creator/choose_ltf 200 ) do
-    assert_get_200_html('/creator/choose_ltf', type:'group', exercise_name:'Anagrams')
-    assert_get_200_html('/creator/choose_ltf', type:'single', exercise_name:'Anagrams')
+    exercise_name = exercises_start_points.names.sample    
+    assert_get_200_html('/creator/choose_ltf', exercise_name:exercise_name)
+  end
+
+  qtest AA3: %w( GET /creator/choose_type 200 ) do
+    exercise_name = exercises_start_points.names.sample
+    language_name = languages_start_points.names.sample
+    assert_get_200_html('/creator/choose_type', exercise_name:exercise_name, language_name:language_name)
+    assert_get_200_html('/creator/choose_type', exercise_name:exercise_name, language_name:language_name)
   end
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - -

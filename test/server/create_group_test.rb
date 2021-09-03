@@ -24,7 +24,6 @@ class CreateGroupTest < CreatorTestBase
   |and a group-exercise with ID exists
   ) do
     json_post_create({
-      type:'group',
       exercise_name:exercise_name,
       language_name:language_name
     }) do |manifest|
@@ -42,7 +41,6 @@ class CreateGroupTest < CreatorTestBase
   |and a group-exercise with ID exists
   ) do
     json_post_create({
-      type:'group',
       language_name:language_name
     }) do |manifest|
       assert_equal language_name, manifest['display_name'], manifest
@@ -60,7 +58,6 @@ class CreateGroupTest < CreatorTestBase
   |and a group-exercise with ID exists
   ) do
     json_post_create({
-      type:'group',
       display_name:display_name
     }) do |manifest|
       assert_equal display_name, manifest['display_name'], manifest
@@ -72,9 +69,9 @@ class CreateGroupTest < CreatorTestBase
   private
 
   def json_post_create(args)
+    args[:type] = 'classroom'
     json_post '/create.json', args
-    route = json_response['route'] # eg "/creator/enter?id=xCSKgZ"
-    assert %r"/creator/enter\?id=(?<id>.*)" =~ route, route
+    id = json_response['id']
     assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
     yield group_manifest(id)
   end

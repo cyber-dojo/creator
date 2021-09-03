@@ -3,7 +3,7 @@
 #- - - - - - - - - - - - - - - - - - - - - -
 exit_zero_if_show_help()
 {
-  local -r MY_NAME=$(basename "${BASH_SOURCE[0]}")
+  local -r MY_NAME=build_test_publish.sh
   if [ "${1:-}" == '-h' ] || [ "${1:-}" == '--help' ]; then
     echo
     echo "Use: ${MY_NAME} [client|server] [ID...]"
