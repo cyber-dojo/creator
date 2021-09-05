@@ -61,6 +61,14 @@ class CreatorTestBase < Id58TestBase
     custom_start_points.names.sample
   end
 
+  def any_exercises_start_points_display_name
+    exercises_start_points.names.sample
+  end
+
+  def any_languages_start_points_display_name
+    languages_start_points.names.sample
+  end
+
   # - - - - - - - - - - - - - - - - - - -
 
   def creator
@@ -69,6 +77,14 @@ class CreatorTestBase < Id58TestBase
 
   def custom_start_points
     externals.custom_start_points
+  end
+
+  def exercises_start_points
+    externals.exercises_start_points
+  end
+
+  def languages_start_points
+    externals.languages_start_points
   end
 
   def saver

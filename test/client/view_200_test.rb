@@ -15,28 +15,26 @@ class View200Test < CreatorTestBase
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
 
-  qtest d14: %w( group ) do
-    visit('/creator/group')
-    assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
-  end
-
-  qtest d15: %w( single ) do
-    visit('/creator/single')
-    assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
-  end
-
   qtest d16: %w( choose_problem ) do
-    visit('/creator/choose_problem?type=group')
+    visit('/creator/choose_problem')
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
 
   qtest d17: %w( choose_custom_problem ) do
-    visit('/creator/choose_custom_problem?type=group')
+    visit('/creator/choose_custom_problem')
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
 
   qtest d18: %w( choose_ltf ) do
-    visit('/creator/choose_ltf?type=group&exercise_name=Diversion')
+    exercise_name = any_exercises_start_points_display_name
+    visit("/creator/choose_ltf?exercise_name=#{exercise_name}")
+    assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
+  end
+
+  qtest d19: %w( choose_type ) do
+    exercise_name = any_exercises_start_points_display_name
+    language_name = any_languages_start_points_display_name
+    visit("/creator/choose_type?exercise_name=#{exercise_name}&language_name=#{language_name}")
     assert page.html.include?('<title>cyber-dojo</title>'), :failed_to_render
   end
 
