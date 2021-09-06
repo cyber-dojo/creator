@@ -37,10 +37,12 @@ class CreateGroupTest < CreatorTestBase
   qtest w9B: %w(
   |POST /create.json
   |with [type=group,language_name] URL params
+  |and empty exercise_name (skipped)  
   |generates json route /creator/enter?id=ID
   |and a group-exercise with ID exists
   ) do
     json_post_create({
+      exercise_name:"",      
       language_name:language_name
     }) do |manifest|
       assert_equal language_name, manifest['display_name'], manifest
