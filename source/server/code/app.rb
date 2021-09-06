@@ -162,7 +162,6 @@ class App < AppBase
     if args.has_key?(:display_name)
       creator.group_create_custom(**args)
     else
-      args[:exercise_name] ||= ""
       creator.group_create(**args)
     end
   end
@@ -171,7 +170,6 @@ class App < AppBase
     if args.has_key?(:display_name)
       creator.kata_create_custom(**args)
     else
-      args[:exercise_name] ||= ""
       creator.kata_create(**args)
     end
   end

@@ -9,9 +9,8 @@ $(() => {
     cd.goto(`/creator/choose_ltf?exercise_name=${name}`);
   });
 
-  //$('button.skip').click(() => cd.goto(`/creator/choose_ltf`));
-  $('button.skip').hide();
-  $('button.switch').click(() => cd.goto(`/creator/choose_custom_problem`));
+  $('button.skip').click(() => cd.goto('/creator/choose_ltf?exercise_name='));
+  $('button.switch').click(() => cd.goto('/creator/choose_custom_problem'));
 
 });
 </script>
