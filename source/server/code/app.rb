@@ -106,7 +106,10 @@ class App < AppBase
         if kata_id.nil?
           json("route" => "/creator/full?id=#{group_id}")
         else
-          json("route" => "/creator/avatar?id=#{kata_id}", "id" => kata_id)
+          group_index = saver.kata_manifest(kata_id)['group_index']
+          json("route" => "/creator/avatar?id=#{kata_id}", 
+                "id" => kata_id, 
+                "group_index" => group_index)
         end
       }
     }
