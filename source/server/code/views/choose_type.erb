@@ -4,8 +4,8 @@ $(() => {
 
   cd.setupHomeIcon();
   
-  const setTypeButtonHandler = (type) => {
-	  $(`button.${type}`).click(() => {
+  const setTypeButtonHandler = (name, type) => {
+	  $(`button.${name}`).click(() => {
 	    const params = cd.urlParams() + `&type=${type}`;
 	    $.post('/creator/create.json', cd.toJSON(params), (response) => {
 	      cd.goto(response.route);
@@ -13,9 +13,9 @@ $(() => {
 	  });
   };
   
-  setTypeButtonHandler('solo');
-  setTypeButtonHandler('ensemble');
-  setTypeButtonHandler('classroom');
+  setTypeButtonHandler('solo', 'kata');
+  setTypeButtonHandler('ensemble', 'kata');
+  setTypeButtonHandler('classroom', 'group');
  
 });
 </script>

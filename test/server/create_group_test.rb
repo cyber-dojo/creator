@@ -71,7 +71,7 @@ class CreateGroupTest < CreatorTestBase
   private
 
   def json_post_create(args)
-    args[:type] = 'classroom'
+    args[:type] = 'group'
     json_post '/create.json', args
     id = json_response['id']
     assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"

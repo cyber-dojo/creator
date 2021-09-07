@@ -23,7 +23,7 @@ class CreatorTestBase < Id58TestBase
     stdout,stderr = capture_io {
       get path_with_args(path,args)
     }
-    assert status?(200), status
+    assert_equal 200, status, stderr+stdout
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :sdout
@@ -34,7 +34,7 @@ class CreatorTestBase < Id58TestBase
     stdout,stderr = capture_io {
       get path_with_args(path, args)
     }
-    assert status?(200), status
+    assert_equal 200, status, stderr+stdout
     assert html_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :sdout
@@ -56,7 +56,7 @@ class CreatorTestBase < Id58TestBase
     stdout,stderr = capture_io {
       json_post '/'+path, args
     }
-    assert status?(200), status
+    assert_equal 200, status, stderr+stdout
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :stdout
@@ -70,7 +70,7 @@ class CreatorTestBase < Id58TestBase
   end
 
   def json_response
-    @json_response ||= JSON.parse(last_response.body)
+    JSON.parse(last_response.body)
   end
 
   JSON_REQUEST_HEADERS = {

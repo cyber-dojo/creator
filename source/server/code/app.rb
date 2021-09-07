@@ -80,7 +80,7 @@ class App < AppBase
       args = json_args
       type = args.delete(:type)      
       id = create(type, args)
-      url = "/creator/enter?id=#{id}&type=#{type}"
+      url = "/creator/enter?id=#{id}"
       wants.json { json({'route' => url, 'id' => id}) }
     }
   end
@@ -104,11 +104,10 @@ class App < AppBase
         group_id = json_args[:id]
         kata_id = saver.group_join(group_id)
         if kata_id.nil?
-          route = "/creator/full?id=#{group_id}"
+          json("route" => "/creator/full?id=#{group_id}")
         else
-          route = "/creator/avatar?id=#{kata_id}"
+          json("route" => "/creator/enter?id=#{kata_id}", "id" => kata_id)
         end
-        json({'route':route})
       }
     }
   end
@@ -151,7 +150,7 @@ class App < AppBase
   include SelectedHelper
 
   def create(type, args)
-    if type === 'classroom'
+    if type === 'group'
       create_group(args)
     else
       create_kata(args)
