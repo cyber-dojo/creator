@@ -20,24 +20,14 @@ class RouteEnterTest < CreatorTestBase
     }) do |manifest|      
       group_id = manifest['id']
       assert_post_200_json('enter.json', {id:group_id}) do |response|
-        # eg response == {"route"=>"/creator/enter?id=TEbR8E", "id"=>"TEbR8E"}
+        # eg response == {"route"=>"/creator/avatar?id=TEbR8E", "id"=>"TEbR8E"}
         assert response.has_key?('route'), response.keys
-        assert %r"/creator/enter\?id=(?<kata_id>.*)" =~ response['route'], response['route']
+        assert %r"/creator/avatar\?id=(?<kata_id>.*)" =~ response['route'], response['route']
         assert response.has_key?('id'), response.keys
         assert_equal kata_id, response['id'], :kata_id
         assert kata_exists?(kata_id), "kata_exists?(#{kata_id})"
       end
     end
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  def json_post_create_group(args)
-    args[:type] = 'group'
-    json_post '/create.json', args
-    id = json_response['id']
-    assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
-    yield group_manifest(id)
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -49,9 +39,9 @@ class RouteEnterTest < CreatorTestBase
   |returns JSON with id and route to avatar
   ) do
     assert_post_200_json('enter.json', {id:'chy6BJ'}) do |response|
-      # eg response == {"route"=>"/creator/enter?id=TEbR8E", "id"=>"TEbR8E"}
+      # eg response == {"route"=>"/creator/avatar?id=TEbR8E", "id"=>"TEbR8E"}
       assert response.has_key?('route'), response.keys
-      assert %r"/creator/enter\?id=(?<kata_id>.*)" =~ response['route'], response['route']
+      assert %r"/creator/avatar\?id=(?<kata_id>.*)" =~ response['route'], response['route']
       assert response.has_key?('id'), response.keys
       assert_equal kata_id, response['id']
       assert kata_exists?(kata_id), "kata_exists?(#{kata_id})"
@@ -79,6 +69,16 @@ class RouteEnterTest < CreatorTestBase
       assert %r"/creator/full\?id=(?<kata_id>.*)" =~ response['route'], response['route']
       assert_equal 'FxWwrr', kata_id, :kata_id
     end
+  end
+
+  private
+  
+  def json_post_create_group(args)
+    args[:type] = 'group'
+    json_post '/create.json', args
+    id = json_response['id']
+    assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
+    yield group_manifest(id)
   end
 
 end
