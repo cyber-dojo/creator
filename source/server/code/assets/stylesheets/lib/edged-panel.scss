@@ -1,6 +1,7 @@
 
 .edged-panel
 {
+  @include non-code-font();
   @include rounded-corner(5px);
   margin: { top:10px; bottom:7px; left:auto; right:auto; }
   padding:20px;
