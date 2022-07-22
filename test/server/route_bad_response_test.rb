@@ -39,7 +39,10 @@ class RouteBadResponseTest < CreatorTestBase
   |it returns the JSON
   ) do
     http = HttpAdapterStub.new('{"wibble":42}')
-    hostname = 'saver'
+    hostname = ENV['CYBER_DOJO_SAVER_HOSTNAME']
+    if hostname.nil?
+      hostname = 'saver'
+    end
     port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
     requester = ::HttpJsonHash::Requester.new(http, hostname, port)
     saver = ::HttpJsonHash::Unpacker.new('saver', requester)

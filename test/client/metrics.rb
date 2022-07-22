@@ -12,12 +12,12 @@ MAX = {
 
   app: {
     lines: {
-       total:154,
-      missed:16,
+       total:164,
+      missed:20,
     },
     branches: {
-       total:6,
-      missed:1,
+       total:16,
+      missed:8,
     }
   },
 

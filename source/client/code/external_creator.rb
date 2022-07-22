@@ -3,7 +3,10 @@ require_relative 'http_json_hash/service'
 class ExternalCreator
 
   def initialize(http)
-    name = 'creator'
+    name = ENV['CYBER_DOJO_CREATOR_HOSTNAME']
+    if name.nil?
+      name = 'creator'
+    end
     port = ENV['CYBER_DOJO_CREATOR_PORT'].to_i
     @http = HttpJsonHash::service(self.class.name, http, name, port)
   end
