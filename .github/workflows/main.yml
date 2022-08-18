@@ -53,6 +53,7 @@ jobs:
       cyber_dojo_env_name_aws: aws-beta
       kosli_staging_host: https://staging.app.merkely.com
       kosli_production_host: https://app.merkely.com
+      circle_sha1: ${{ github.sha }}
 
   deploy-prod:
     needs: [pre-build, build-test-push, deploy-staging]
@@ -68,3 +69,4 @@ jobs:
       cyber_dojo_env_name_aws: aws-prod
       kosli_staging_host: https://staging.app.merkely.com
       kosli_production_host: https://app.merkely.com
+      circle_sha1: ${{ github.sha }}
