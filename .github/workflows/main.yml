@@ -49,6 +49,10 @@ jobs:
       gh_actions_iam_role_name: gh_actions_services
       environment_url: https://beta.cyber-dojo.org
       environment_name: staging
+      cyber_dojo_env_name: beta
+      cyber_dojo_env_name_aws: aws-beta
+      kosli_staging_host: https://staging.app.merkely.com
+      kosli_production_host: https://app.merkely.com
 
   deploy-prod:
     needs: [pre-build, build-test-push, deploy-staging]
@@ -60,3 +64,7 @@ jobs:
       gh_actions_iam_role_name: gh_actions_services
       environment_url: https://prod.cyber-dojo.org
       environment_name: production
+      cyber_dojo_env_name: prod
+      cyber_dojo_env_name_aws: aws-prod
+      kosli_staging_host: https://staging.app.merkely.com
+      kosli_production_host: https://app.merkely.com
