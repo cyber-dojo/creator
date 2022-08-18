@@ -70,3 +70,4 @@ jobs:
       kosli_staging_host: https://staging.app.merkely.com
       kosli_production_host: https://app.merkely.com
       circle_sha1: ${{ github.sha }}
+      circle_build_url: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
