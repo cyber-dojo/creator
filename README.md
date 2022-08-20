@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/cyber-dojo/creator.svg?style=svg)](https://circleci.com/gh/cyber-dojo/creator)
+![Github Action (main)](https://github.com/cyber-dojo/creator/actions/workflows/main.yml/badge.svg)
 
 # cyberdojo/creator
 
