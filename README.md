@@ -1,6 +1,5 @@
-![Github Action (main)](https://github.com/cyber-dojo/creator/actions/workflows/main.yml/badge.svg)
+[![Github Action (main)](https://github.com/cyber-dojo/creator/actions/workflows/main.yml/badge.svg)](https://github.com/cyber-dojo/creator/actions)
 
-# cyberdojo/creator
 
 - The source for the [cyberdojo/creator](https://hub.docker.com/r/cyberdojo/creator/tags) Docker image.
 - A docker-containerized stateless micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
