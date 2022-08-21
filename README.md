@@ -1,6 +1,5 @@
 [![Github Action (main)](https://github.com/cyber-dojo/creator/actions/workflows/main.yml/badge.svg)](https://github.com/cyber-dojo/creator/actions)
 
-
 - The source for the [cyberdojo/creator](https://hub.docker.com/r/cyberdojo/creator/tags) Docker image.
 - A docker-containerized stateless micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
 - An http service for creating a new group-exercise or a new individual-exercise.
