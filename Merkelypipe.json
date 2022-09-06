@@ -4,6 +4,7 @@
     "description": "UX for Group/Kata creation",
     "visibility": "public",
     "template": [
-        "artifact"
+        "artifact",
+        "branch-coverage"
     ]
 }
