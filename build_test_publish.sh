@@ -33,5 +33,5 @@ copy_in_saver_test_data
 on_ci_publish_tagged_images
 on_ci_kosli_log_artifact
 # test_in_containers "$@"
-on_ci_kosli_log_evidence
+# on_ci_kosli_log_evidence
 containers_down
