@@ -27,7 +27,7 @@ class App < AppBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   get '/home', provides:[:html] do
-    respond_to { |wants|
+    responds_to { |wants|
       wants.html { erb :home }
     }
   end
