@@ -27,7 +27,7 @@ class App < AppBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   get '/home', provides:[:html] do
-    respond_to { |wants|
+    responds_to { |wants|
       wants.html { erb :home }
     }
   end
@@ -78,7 +78,7 @@ class App < AppBase
   post '/create.json', provides:[:json] do
     respond_to { |wants|
       args = json_args
-      type = args.delete(:type)      
+      type = args.delete(:type)
       id = create(type, args)
       url = "/creator/enter?id=#{id}"
       wants.json { json({'route' => url, 'id' => id}) }
@@ -107,8 +107,8 @@ class App < AppBase
           json("route" => "/creator/full?id=#{group_id}")
         else
           group_index = saver.kata_manifest(kata_id)['group_index']
-          json("route" => "/creator/avatar?id=#{kata_id}", 
-                "id" => kata_id, 
+          json("route" => "/creator/avatar?id=#{kata_id}",
+                "id" => kata_id,
                 "group_index" => group_index)
         end
       }
