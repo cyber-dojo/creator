@@ -9,6 +9,8 @@ readonly MERKELY_PIPELINE=creator
 export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
 export KOSLI_API_TOKEN=${MERKELY_API_TOKEN}
+export KOSLI_ARTIFACT_TYPE=docker
+export ARTIFACT_NAME=${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_fingerprint()
@@ -57,9 +59,8 @@ kosli_log_artifact()
   #   --rm \
   #   --volume /var/run/docker.sock:/var/run/docker.sock \
   #     ${MERKELY_CHANGE}
-  pwd
-  kosli pipeline artifact report creation ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
-    --artifact-type docker \
+  
+  kosli pipeline artifact report creation ${ARTIFACT_NAME} \
     --repo-root ../../.. \
     --host "${hostname}"
 }
@@ -69,22 +70,29 @@ kosli_log_evidence()
 {
   local -r hostname="${1}"
 
-	docker run \
-    --env MERKELY_COMMAND=log_evidence \
-    --env MERKELY_OWNER=${MERKELY_OWNER} \
-    --env MERKELY_PIPELINE=${MERKELY_PIPELINE} \
-    --env MERKELY_FINGERPRINT=$(kosli_fingerprint) \
-    --env MERKELY_EVIDENCE_TYPE=branch-coverage \
-    --env MERKELY_IS_COMPLIANT=TRUE \
-    --env MERKELY_DESCRIPTION="server & client branch-coverage reports" \
-    --env MERKELY_USER_DATA="$(evidence_json_path)" \
-    --env MERKELY_CI_BUILD_URL=${CIRCLE_BUILD_URL} \
-    --env MERKELY_API_TOKEN=${MERKELY_API_TOKEN} \
-    --env MERKELY_HOST="${hostname}" \
-    --rm \
-    --volume "$(evidence_json_path):$(evidence_json_path)" \
-    --volume /var/run/docker.sock:/var/run/docker.sock \
-      ${MERKELY_CHANGE}
+	# docker run \
+  #   --env MERKELY_COMMAND=log_evidence \
+  #   --env MERKELY_OWNER=${MERKELY_OWNER} \
+  #   --env MERKELY_PIPELINE=${MERKELY_PIPELINE} \
+  #   --env MERKELY_FINGERPRINT=$(kosli_fingerprint) \
+  #   --env MERKELY_EVIDENCE_TYPE=branch-coverage \
+  #   --env MERKELY_IS_COMPLIANT=TRUE \
+  #   --env MERKELY_DESCRIPTION="server & client branch-coverage reports" \
+  #   --env MERKELY_USER_DATA="$(evidence_json_path)" \
+  #   --env MERKELY_CI_BUILD_URL=${CIRCLE_BUILD_URL} \
+  #   --env MERKELY_API_TOKEN=${MERKELY_API_TOKEN} \
+  #   --env MERKELY_HOST="${hostname}" \
+  #   --rm \
+  #   --volume "$(evidence_json_path):$(evidence_json_path)" \
+  #   --volume /var/run/docker.sock:/var/run/docker.sock \
+  #     ${MERKELY_CHANGE}
+
+  kosli pipeline artifact report evidence generic ${ARTIFACT_NAME} \
+    --description "server & client branch-coverage reports" \
+    --evidence-type "branch-coverage" \
+    --user-data "$(evidence_json_path)" \
+    --host "${hostname}"
+
 }
 
 # - - - - - - - - - - - - - - - - - - -
