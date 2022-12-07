@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - update-kosli # delete before merge
 
 jobs:
   pre-build:
@@ -24,7 +23,7 @@ jobs:
 
   build-test-push:
     needs: [pre-build]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/build_test_push.yml@update-kosli # update to master before merge
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/build_test_push.yml@master
     secrets:
       MERKELY_API_TOKEN: ${{ secrets.MERKELY_API_TOKEN }}
       DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
