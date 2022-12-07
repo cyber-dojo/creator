@@ -6,6 +6,10 @@ readonly MERKELY_CHANGE=merkely/change:latest
 readonly MERKELY_OWNER=cyber-dojo
 readonly MERKELY_PIPELINE=creator
 
+readonly KOSLI_OWNER=cyber-dojo
+readonly KOSLI_PIPELINE=creator
+readonly KOSLI_API_TOKEN=${MERKELY_API_TOKEN}
+
 # - - - - - - - - - - - - - - - - - - -
 kosli_fingerprint()
 {
@@ -17,15 +21,20 @@ kosli_declare_pipeline()
 {
   local -r hostname="${1}"
 
-	docker run \
-		--env MERKELY_COMMAND=declare_pipeline \
-    --env MERKELY_OWNER=${MERKELY_OWNER} \
-    --env MERKELY_PIPELINE=${MERKELY_PIPELINE} \
-		--env MERKELY_API_TOKEN=${MERKELY_API_TOKEN} \
-    --env MERKELY_HOST="${hostname}" \
-		--rm \
-		--volume ${ROOT_DIR}/Merkelypipe.json:/data/Merkelypipe.json \
-		  ${MERKELY_CHANGE}
+	# docker run \
+	# 	--env MERKELY_COMMAND=declare_pipeline \
+  #   --env MERKELY_OWNER=${MERKELY_OWNER} \
+  #   --env MERKELY_PIPELINE=${MERKELY_PIPELINE} \
+	# 	--env MERKELY_API_TOKEN=${MERKELY_API_TOKEN} \
+  #   --env MERKELY_HOST="${hostname}" \
+	# 	--rm \
+	# 	--volume ${ROOT_DIR}/Merkelypipe.json:/data/Merkelypipe.json \
+	# 	  ${MERKELY_CHANGE}
+  kosli pipeline declare creator \
+    --description "UX for Group/Kata creation" \
+    --visibility public \
+    --template artifact,branch-coverage
+    --host "${hostname}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
