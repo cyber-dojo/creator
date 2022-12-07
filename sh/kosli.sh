@@ -10,7 +10,6 @@ export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
 export KOSLI_API_TOKEN=${MERKELY_API_TOKEN}
 export KOSLI_ARTIFACT_TYPE=docker
-export ARTIFACT_NAME=${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_fingerprint()
@@ -60,7 +59,7 @@ kosli_log_artifact()
   #   --volume /var/run/docker.sock:/var/run/docker.sock \
   #     ${MERKELY_CHANGE}
   
-  kosli pipeline artifact report creation ${ARTIFACT_NAME} \
+  kosli pipeline artifact report creation ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
     --repo-root ../../.. \
     --host "${hostname}"
 }
@@ -87,7 +86,7 @@ kosli_log_evidence()
   #   --volume /var/run/docker.sock:/var/run/docker.sock \
   #     ${MERKELY_CHANGE}
 
-  kosli pipeline artifact report evidence generic ${ARTIFACT_NAME} \
+  kosli pipeline artifact report evidence generic ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
     --description "server & client branch-coverage reports" \
     --evidence-type "branch-coverage" \
     --user-data "$(evidence_json_path)" \
