@@ -58,10 +58,9 @@ kosli_log_artifact()
   #   --volume /var/run/docker.sock:/var/run/docker.sock \
   #     ${MERKELY_CHANGE}
   pwd
-  ls -la
-  env
   kosli pipeline artifact report creation ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
     --artifact-type docker \
+    --repo-root ../../.. \
     --host "${hostname}"
 }
 
