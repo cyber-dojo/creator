@@ -2,10 +2,6 @@
 
 # ROOT_DIR must be set
 
-readonly MERKELY_CHANGE=merkely/change:latest
-readonly MERKELY_OWNER=cyber-dojo
-readonly MERKELY_PIPELINE=creator
-
 export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
 export KOSLI_API_TOKEN=${MERKELY_API_TOKEN}
@@ -33,7 +29,7 @@ kosli_declare_pipeline()
 kosli_log_artifact()
 {
   local -r hostname="${1}"
-  
+
   kosli pipeline artifact report creation ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
     --repo-root ../../.. \
     --host "${hostname}"
