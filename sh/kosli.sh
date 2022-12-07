@@ -30,10 +30,10 @@ kosli_declare_pipeline()
 	# 	--rm \
 	# 	--volume ${ROOT_DIR}/Merkelypipe.json:/data/Merkelypipe.json \
 	# 	  ${MERKELY_CHANGE}
-  kosli pipeline declare creator \
+  kosli pipeline declare \
     --description "UX for Group/Kata creation" \
     --visibility public \
-    --template artifact,branch-coverage
+    --template artifact,branch-coverage \
     --host "${hostname}"
 }
 
