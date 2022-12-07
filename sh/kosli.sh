@@ -6,9 +6,9 @@ readonly MERKELY_CHANGE=merkely/change:latest
 readonly MERKELY_OWNER=cyber-dojo
 readonly MERKELY_PIPELINE=creator
 
-readonly KOSLI_OWNER=cyber-dojo
-readonly KOSLI_PIPELINE=creator
-readonly KOSLI_API_TOKEN=${MERKELY_API_TOKEN}
+export KOSLI_OWNER=cyber-dojo
+export KOSLI_PIPELINE=creator
+export KOSLI_API_TOKEN=${MERKELY_API_TOKEN}
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_fingerprint()
