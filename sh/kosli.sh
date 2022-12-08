@@ -57,7 +57,7 @@ kosli_log_evidence()
 kosli_assert_artifact()
 {
   local -r hostname="${1}"
-
+  kosli version
   kosli assert artfifact \
     ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
       --artifact-type docker \

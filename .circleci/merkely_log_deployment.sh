@@ -36,9 +36,10 @@ kosli_log_deployment()
   #     ${MERKELY_CHANGE}
 
   kosli expect deployment ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
+    --artifact-type docker \
     --description "Deployed to ${environment} in Github Actions pipeline" \
     --environment ${environment} \
-    --host ${hostname} 
+    --host ${hostname}
 
 }
 
