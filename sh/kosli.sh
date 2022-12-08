@@ -33,7 +33,7 @@ kosli_log_artifact()
   local -r hostname="${1}"
 
   kosli pipeline artifact report creation \
-    "$(artifact_name)" \
+    ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
       --artifact-type docker \
       --repo-root ../../.. \
       --host "${hostname}"
@@ -45,7 +45,7 @@ kosli_log_evidence()
   local -r hostname="${1}"
 
   kosli pipeline artifact report evidence generic \
-    "$(artifact_name)" \
+    ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
       --artifact-type docker \
       --description "server & client branch-coverage reports" \
       --evidence-type "branch-coverage" \
@@ -59,7 +59,7 @@ kosli_assert_artifact()
   local -r hostname="${1}"
 
   kosli assert artfifact \
-    "$(artifact_name)" \
+    ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
       --artifact-type docker \
       --host "${hostname}"
 }
