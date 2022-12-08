@@ -28,7 +28,7 @@ kosli_declare_pipeline()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_log_artifact()
+kosli_log_artifact_creation()
 {
   local -r hostname="${1}"
 
@@ -40,7 +40,7 @@ kosli_log_artifact()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_log_evidence()
+kosli_log_coverage_evidence()
 {
   local -r hostname="${1}"
 
@@ -97,24 +97,24 @@ on_ci_kosli_declare_pipeline()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-on_ci_kosli_log_artifact()
+on_ci_kosli_log_artifact_creation()
 {
   if ! on_ci ; then
     return
   fi
-  kosli_log_artifact "${KOSLI_HOST_STAGING}"
-  kosli_log_artifact "${KOSLI_HOST_PROD}"
+  kosli_log_artifact_creation "${KOSLI_HOST_STAGING}"
+  kosli_log_artifact_creation "${KOSLI_HOST_PROD}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
-on_ci_kosli_log_evidence()
+on_ci_kosli_log_coverage_evidence()
 {
   if ! on_ci ; then
     return
   fi
   write_evidence_json
-  kosli_log_evidence "${KOSLI_HOST_STAGING}"
-  kosli_log_evidence "${KOSLI_HOST_PROD}"
+  kosli_log_coverage_evidence "${KOSLI_HOST_STAGING}"
+  kosli_log_coverage_evidence "${KOSLI_HOST_PROD}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
