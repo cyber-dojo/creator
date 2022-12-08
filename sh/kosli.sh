@@ -46,6 +46,7 @@ kosli_log_evidence()
 
   kosli pipeline artifact report evidence generic \
     "$(artifact_name)" \
+      --artifact-type docker \
       --description "server & client branch-coverage reports" \
       --evidence-type "branch-coverage" \
       --user-data "$(evidence_json_path)" \
@@ -58,7 +59,7 @@ kosli_assert_artifact()
   local -r hostname="${1}"
 
   kosli assert artfifact \
-    "$(artifact_name)" \    
+    "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}"
 }
