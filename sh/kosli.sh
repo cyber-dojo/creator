@@ -1,16 +1,13 @@
 #!/bin/bash -Eeu
-
-# ROOT_DIR must be set
+set -Eeu
 
 export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
 export KOSLI_API_TOKEN=${MERKELY_API_TOKEN}
-export KOSLI_ARTIFACT_TYPE=docker
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_fingerprint()
-{
-  echo "docker://${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
+artifact_name() {
+  echo "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -30,7 +27,7 @@ kosli_log_artifact()
 {
   local -r hostname="${1}"
 
-  kosli pipeline artifact report creation ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
+  kosli pipeline artifact report creation "$(artifact_name)" \
     --repo-root ../../.. \
     --host "${hostname}"
 }
@@ -40,12 +37,21 @@ kosli_log_evidence()
 {
   local -r hostname="${1}"
 
-  kosli pipeline artifact report evidence generic ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG} \
+  kosli pipeline artifact report evidence generic "$(artifact_name)" \
     --description "server & client branch-coverage reports" \
     --evidence-type "branch-coverage" \
     --user-data "$(evidence_json_path)" \
     --host "${hostname}"
+}
 
+# - - - - - - - - - - - - - - - - - - -
+kosli_assert_artifact()
+{
+  local -r hostname="${1}"
+
+  kosli assert artfifact "$(artifact_name)" \
+    --artifact-type docker \
+    --host "${hostname}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -99,6 +105,16 @@ on_ci_kosli_log_evidence()
   write_evidence_json
   kosli_log_evidence https://staging.app.kosli.com
   kosli_log_evidence https://app.kosli.com
+}
+
+# - - - - - - - - - - - - - - - - - - -
+on_ci_kosli_assert_artifact()
+{
+  if ! on_ci ; then
+    return
+  fi
+  kosli_assert_artifact https://staging.app.kosli.com
+  kosli_assert_artifact https://app.kosli.com
 }
 
 
