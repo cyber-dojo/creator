@@ -113,8 +113,8 @@ on_ci_kosli_log_evidence()
     return
   fi
   write_evidence_json
-  kosli_log_evidence "${KOSLI_HOST_STAGING}"
-  kosli_log_evidence "${KOSLI_HOST_PROD}"
+  # kosli_log_evidence "${KOSLI_HOST_STAGING}"
+  # kosli_log_evidence "${KOSLI_HOST_PROD}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
