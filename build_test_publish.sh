@@ -32,8 +32,8 @@ server_up_healthy_and_clean
 client_up_healthy_and_clean "$@"
 copy_in_saver_test_data
 on_ci_publish_tagged_images
-on_ci_kosli_log_artifact
+on_ci_kosli_log_artifact_creation
 test_in_containers "$@"
-on_ci_kosli_log_evidence
+on_ci_kosli_log_coverage_evidence
 containers_down
 on_ci_kosli_assert_artifact
