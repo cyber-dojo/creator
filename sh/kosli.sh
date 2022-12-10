@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -Eeu
 
-readonly MY_DIR=$(dirname $(readlink -f $0))
-
 export KOSLI_API_TOKEN=${KOSLI_API_TOKEN:-${MERKELY_API_TOKEN}}
 export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
@@ -12,9 +10,10 @@ readonly KOSLI_HOST_PROD=https://app.kosli.com
 
 # - - - - - - - - - - - - - - - - - - -
 artifact_name() {
+  # TODO: currently ROOT_DIR must be set
   unset CYBER_DOJO_CREATOR_IMAGE
   unset CYBER_DOJO_CREATOR_TAG
-  source "${MY_DIR}/echo_versioner_env_vars.sh"
+  source "${ROOT_DIR}/sh/echo_versioner_env_vars.sh"
   export $(echo_versioner_env_vars)
   echo "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
 }
