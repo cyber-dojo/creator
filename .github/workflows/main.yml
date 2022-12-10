@@ -41,7 +41,7 @@ jobs:
 
   deploy-staging:
     needs: [pre-build, build-test-push]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy_to_environment.yml@master
     secrets:
       MERKELY_API_TOKEN: ${{ secrets.MERKELY_API_TOKEN }}
     with:
@@ -54,12 +54,10 @@ jobs:
       cyber_dojo_env_name_aws: aws-beta
       kosli_staging_host: https://staging.app.kosli.com
       kosli_production_host: https://app.kosli.com
-      circle_sha1: ${{ github.sha }}
-      circle_build_url: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
 
   deploy-prod:
     needs: [pre-build, build-test-push, deploy-staging]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy.yml@master
+    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/deploy_to_environment.yml@master
     secrets:
       MERKELY_API_TOKEN: ${{ secrets.MERKELY_API_TOKEN }}
     with:
@@ -72,5 +70,3 @@ jobs:
       cyber_dojo_env_name_aws: aws-prod
       kosli_staging_host: https://staging.app.kosli.com
       kosli_production_host: https://app.kosli.com
-      circle_sha1: ${{ github.sha }}
-      circle_build_url: ${{github.server_url}}/${{github.repository}}/actions/runs/${{github.run_id}}
