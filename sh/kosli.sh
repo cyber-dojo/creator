@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -Eeu
 
+readonly MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 export KOSLI_API_TOKEN=${KOSLI_API_TOKEN:-${MERKELY_API_TOKEN}}
 export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
@@ -10,10 +12,9 @@ readonly KOSLI_HOST_PROD=https://app.kosli.com
 
 # - - - - - - - - - - - - - - - - - - -
 artifact_name() {
-  # TODO: currently ROOT_DIR must be set
   unset CYBER_DOJO_CREATOR_IMAGE
   unset CYBER_DOJO_CREATOR_TAG
-  source "${ROOT_DIR}/sh/echo_versioner_env_vars.sh"
+  source "$(root_dir)/sh/echo_versioner_env_vars.sh"
   export $(echo_versioner_env_vars)
   echo "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
 }
@@ -81,14 +82,21 @@ kosli_expect_deployment()
     --host "${hostname}"
 }
 
+
+# - - - - - - - - - - - - - - - - - - -
+root_dir()
+{
+  $(cd "${MY_DIR}/.." && pwd)
+}
+
 # - - - - - - - - - - - - - - - - - - -
 write_coverage_json()
 {
   {
     echo '{ "server": '
-    cat "${ROOT_DIR}/test/server/reports/coverage.json"
+    cat "$(root_dir)/test/server/reports/coverage.json"
     echo ', "client": '
-    cat "${ROOT_DIR}/test/client/reports/coverage.json"
+    cat "$(root_dir)/test/client/reports/coverage.json"
     echo '}'
   } > "$(coverage_json_path)"
 }
@@ -96,7 +104,7 @@ write_coverage_json()
 # - - - - - - - - - - - - - - - - - - -
 coverage_json_path()
 {
-  echo "${ROOT_DIR}/test/evidence.json"
+  echo "$(root_dir)/test/evidence.json"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
