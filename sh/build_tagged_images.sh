@@ -43,7 +43,7 @@ check_embedded_env_var()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 git_commit_sha()
 {
-  echo $(cd "${ROOT_DIR}" && git rev-parse HEAD)
+  echo $(cd "$(root_dir)" && git rev-parse HEAD)
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

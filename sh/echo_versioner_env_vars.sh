@@ -19,9 +19,15 @@ echo_versioner_env_vars()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
+root_dir()
+{
+  git rev-parse --show-toplevel
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - -
 get_image_sha()
 {
-  echo "$(cd "${ROOT_DIR}" && git rev-parse HEAD)"
+  echo "$(cd "$(root_dir)" && git rev-parse HEAD)"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -

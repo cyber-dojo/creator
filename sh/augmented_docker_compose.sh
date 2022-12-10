@@ -14,7 +14,7 @@
 
 augmented_docker_compose()
 {
-  cd "${ROOT_DIR}" && cat "./docker-compose.yml" \
+  cd "$(root_dir)" && cat "./docker-compose.yml" \
     | docker run --rm --interactive cyberdojo/service-yaml \
          custom-start-points \
       exercises-start-points \

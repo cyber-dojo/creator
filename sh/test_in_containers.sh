@@ -66,7 +66,7 @@ run_tests()
   # Extract test-run results and coverage data from the container.
   # You can't [docker cp] from a tmpfs, so tar-piping coverage out
 
-  local -r HOST_TEST_DIR="${ROOT_DIR}/test/${TYPE}"
+  local -r HOST_TEST_DIR="$(root_dir)/test/${TYPE}"
 
   docker exec \
     "${CONTAINER_NAME}" \
