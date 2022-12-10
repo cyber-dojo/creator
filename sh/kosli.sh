@@ -68,7 +68,7 @@ kosli_assert_artifact()
       --host "${hostname}"
 }
 
-- - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - -
 kosli_expect_deployment()
 {
   local -r environment="${1}"
