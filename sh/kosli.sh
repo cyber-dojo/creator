@@ -1,4 +1,4 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
 set -Eeu
 
 readonly MY_DIR=$(dirname $(readlink -f $0))
