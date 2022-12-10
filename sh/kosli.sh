@@ -86,9 +86,9 @@ kosli_expect_deployment()
 write_coverage_json()
 {
   echo '{ "server": ' > "$(coverage_json_path)"
-  cat "${MY_DIR}/../test/server/reports/coverage.json" >> "$(coverage_json_path)"
+  cat "${ROOT_DIR}/test/server/reports/coverage.json" >> "$(coverage_json_path)"
   echo ', "client": ' >> "$(coverage_json_path)"
-  cat "${MY_DIR}/../test/client/reports/coverage.json" >> "$(coverage_json_path)"
+  cat "${ROOT_DIR}/test/client/reports/coverage.json" >> "$(coverage_json_path)"
   echo '}' >> "$(coverage_json_path)"
 }
 
