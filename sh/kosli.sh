@@ -80,6 +80,7 @@ kosli_expect_deployment()
     --description "Deployed to ${environment} in Github Actions pipeline" \
     --environment "${environment}" \
     --host "${hostname}"
+}
 
 # - - - - - - - - - - - - - - - - - - -
 write_coverage_json()
