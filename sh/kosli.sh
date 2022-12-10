@@ -3,9 +3,9 @@ set -Eeu
 
 # Note: ROOT_DIR must be set
 
+export KOSLI_API_TOKEN=${MERKELY_API_TOKEN}
 export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
-export KOSLI_API_TOKEN=${MERKELY_API_TOKEN}
 
 readonly KOSLI_HOST_STAGING=https://staging.app.kosli.com
 readonly KOSLI_HOST_PROD=https://app.kosli.com
@@ -28,7 +28,7 @@ kosli_declare_pipeline()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_log_artifact_creation()
+kosli_report_artifact_creation()
 {
   local -r hostname="${1}"
 
@@ -40,7 +40,7 @@ kosli_log_artifact_creation()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_log_coverage_evidence()
+kosli_report_coverage_evidence()
 {
   local -r hostname="${1}"
 
@@ -49,7 +49,7 @@ kosli_log_coverage_evidence()
       --artifact-type docker \
       --description "server & client branch-coverage reports" \
       --evidence-type "branch-coverage" \
-      --user-data "$(evidence_json_path)" \
+      --user-data "$(coverage_json_path)" \
       --host "${hostname}"
 }
 
@@ -65,17 +65,17 @@ kosli_assert_artifact()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-write_evidence_json()
+write_coverage_json()
 {
-  echo '{ "server": ' > "$(evidence_json_path)"
-  cat "${ROOT_DIR}/test/server/reports/coverage.json" >> "$(evidence_json_path)"
-  echo ', "client": ' >> "$(evidence_json_path)"
-  cat "${ROOT_DIR}/test/client/reports/coverage.json" >> "$(evidence_json_path)"
-  echo '}' >> "$(evidence_json_path)"
+  echo '{ "server": ' > "$(coverage_json_path)"
+  cat "${ROOT_DIR}/test/server/reports/coverage.json" >> "$(coverage_json_path)"
+  echo ', "client": ' >> "$(coverage_json_path)"
+  cat "${ROOT_DIR}/test/client/reports/coverage.json" >> "$(coverage_json_path)"
+  echo '}' >> "$(coverage_json_path)"
 }
 
 # - - - - - - - - - - - - - - - - - - -
-evidence_json_path()
+coverage_json_path()
 {
   echo "${ROOT_DIR}/test/evidence.json"
 }
@@ -97,24 +97,24 @@ on_ci_kosli_declare_pipeline()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-on_ci_kosli_log_artifact_creation()
+on_ci_kosli_report_artifact_creation()
 {
   if ! on_ci ; then
     return
   fi
-  kosli_log_artifact_creation "${KOSLI_HOST_STAGING}"
-  kosli_log_artifact_creation "${KOSLI_HOST_PROD}"
+  kosli_report_artifact_creation "${KOSLI_HOST_STAGING}"
+  kosli_report_artifact_creation "${KOSLI_HOST_PROD}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
-on_ci_kosli_log_coverage_evidence()
+on_ci_kosli_report_coverage_evidence()
 {
   if ! on_ci ; then
     return
   fi
-  write_evidence_json
-  kosli_log_coverage_evidence "${KOSLI_HOST_STAGING}"
-  kosli_log_coverage_evidence "${KOSLI_HOST_PROD}"
+  write_coverage_json
+  kosli_report_coverage_evidence "${KOSLI_HOST_STAGING}"
+  kosli_report_coverage_evidence "${KOSLI_HOST_PROD}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
