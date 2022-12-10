@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 set -Eeu
 
-export MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-
 export KOSLI_API_TOKEN=${KOSLI_API_TOKEN:-${MERKELY_API_TOKEN}}
 export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
@@ -86,7 +84,7 @@ kosli_expect_deployment()
 # - - - - - - - - - - - - - - - - - - -
 root_dir()
 {
-  $(cd "${MY_DIR}/.." && pwd)
+  git rev-parse --show-toplevel
 }
 
 # - - - - - - - - - - - - - - - - - - -
