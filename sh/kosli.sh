@@ -74,6 +74,8 @@ kosli_expect_deployment()
   local -r environment="${1}"
   local -r hostname="${2}"
 
+  docker pull "$(artifact_name)"
+
   kosli expect deployment \
     "$(artifact_name)" \
     --artifact-type docker \
