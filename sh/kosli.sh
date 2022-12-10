@@ -1,7 +1,7 @@
 #!/bin/bash -Eeu
 set -Eeu
 
-readonly MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+readonly MY_DIR=$(dirname $(readlink -f $0))
 
 export KOSLI_API_TOKEN=${KOSLI_API_TOKEN:-${MERKELY_API_TOKEN}}
 export KOSLI_OWNER=cyber-dojo
@@ -69,17 +69,17 @@ kosli_assert_artifact()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_expect_deployment()
-{
-  local -r environment="${1}"
-  local -r hostname="${2}"
-
-  kosli expect deployment \
-    "$(artifact_name)" \
-    --artifact-type docker \
-    --description "Deployed to ${environment} in Github Actions pipeline" \
-    --environment "${environment}" \
-    --host "${hostname}"
+# kosli_expect_deployment()
+# {
+#   local -r environment="${1}"
+#   local -r hostname="${2}"
+#
+#   kosli expect deployment \
+#     "$(artifact_name)" \
+#     --artifact-type docker \
+#     --description "Deployed to ${environment} in Github Actions pipeline" \
+#     --environment "${environment}" \
+#     --host "${hostname}"
 
 # - - - - - - - - - - - - - - - - - - -
 write_coverage_json()
