@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeu
 
-readonly MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 export KOSLI_API_TOKEN=${KOSLI_API_TOKEN:-${MERKELY_API_TOKEN}}
 export KOSLI_OWNER=cyber-dojo
