@@ -68,34 +68,33 @@ kosli_assert_artifact()
       --host "${hostname}"
 }
 
-# - - - - - - - - - - - - - - - - - - -
-# kosli_expect_deployment()
-# {
-#   local -r environment="${1}"
-#   local -r hostname="${2}"
-#
-#   kosli expect deployment \
-#     "$(artifact_name)" \
-#     --artifact-type docker \
-#     --description "Deployed to ${environment} in Github Actions pipeline" \
-#     --environment "${environment}" \
-#     --host "${hostname}"
+- - - - - - - - - - - - - - - - - - -
+kosli_expect_deployment()
+{
+  local -r environment="${1}"
+  local -r hostname="${2}"
+
+  kosli expect deployment \
+    "$(artifact_name)" \
+    --artifact-type docker \
+    --description "Deployed to ${environment} in Github Actions pipeline" \
+    --environment "${environment}" \
+    --host "${hostname}"
 
 # - - - - - - - - - - - - - - - - - - -
 write_coverage_json()
 {
-  # Note: ROOT_DIR must be set
   echo '{ "server": ' > "$(coverage_json_path)"
-  cat "${ROOT_DIR}/test/server/reports/coverage.json" >> "$(coverage_json_path)"
+  cat "${MY_DIR}/../test/server/reports/coverage.json" >> "$(coverage_json_path)"
   echo ', "client": ' >> "$(coverage_json_path)"
-  cat "${ROOT_DIR}/test/client/reports/coverage.json" >> "$(coverage_json_path)"
+  cat "${MY_DIR}/../test/client/reports/coverage.json" >> "$(coverage_json_path)"
   echo '}' >> "$(coverage_json_path)"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 coverage_json_path()
 {
-  echo "${ROOT_DIR}/test/evidence.json"
+  echo "${MY_DIR}/../test/evidence.json"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
