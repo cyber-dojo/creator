@@ -67,7 +67,7 @@ jobs:
       AWS_ACCOUNT_ID: 274425519734
       AWS_REGION: eu-central-1
       gh_actions_iam_role_name: gh_actions_services
-      environment_url: https://prod.cyber-dojo.org
+      environment_url: https://cyber-dojo.org
       environment_name: production
       cyber_dojo_env_name_aws: aws-prod
       kosli_staging_host: https://staging.app.kosli.com
