@@ -95,7 +95,7 @@ write_coverage_json()
 # - - - - - - - - - - - - - - - - - - -
 coverage_json_path()
 {
-  echo "${MY_DIR}/../test/evidence.json"
+  echo "${ROOT_DIR}/test/evidence.json"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
