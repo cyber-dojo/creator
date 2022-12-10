@@ -12,7 +12,7 @@ readonly KOSLI_HOST_PROD=https://app.kosli.com
 
 # - - - - - - - - - - - - - - - - - - -
 artifact_name() {
-  unset CYBER_DOJO_CREATOR_IMAGE}
+  unset CYBER_DOJO_CREATOR_IMAGE
   unset CYBER_DOJO_CREATOR_TAG
   source "${MY_DIR}/echo_versioner_env_vars.sh"
   export $(echo_versioner_env_vars)
