@@ -18,8 +18,9 @@ jobs:
       id: prep
       run: |
         TAG=$(echo $GITHUB_SHA | head -c7)
-        echo "TAG=${TAG}" >> ${GITHUB_ENV}
-        echo ::set-output name=tag::${TAG}
+        # echo "TAG=${TAG}" >> ${GITHUB_ENV}
+        # echo ::set-output name=tag::${TAG}
+        echo "IMAGE_TAG=${TAG}" >> ${GITHUB_ENV}
 
   build-test-push:
     needs: [pre-build]
@@ -32,7 +33,7 @@ jobs:
       BUILD_COMMAND: build_test_publish.sh
       AWS_ACCOUNT_ID: 244531986313
       AWS_REGION: eu-central-1
-      tag: ${{ needs.pre-build.outputs.tag }}
+      tag: ${{ env.IMAGE_TAG }}
       ecr_registry: 244531986313.dkr.ecr.eu-central-1.amazonaws.com
       service_name: creator
       gh_actions_iam_role_name: gh_actions_services
@@ -51,7 +52,7 @@ jobs:
       gh_actions_iam_role_name: gh_actions_services
       kosli_host_production: https://app.kosli.com
       kosli_host_staging: https://staging.app.kosli.com
-      tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.tag }}
+      tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ env.IMAGE_TAG }}
 
   deploy-prod:
     needs: [pre-build, build-test-push]
@@ -67,4 +68,4 @@ jobs:
       gh_actions_iam_role_name: gh_actions_services
       kosli_host_production: https://app.kosli.com
       kosli_host_staging: https://staging.app.kosli.com
-      tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.tag }}
+      tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ env.IMAGE_TAG }}
