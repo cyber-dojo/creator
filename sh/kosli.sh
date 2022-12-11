@@ -1,23 +1,14 @@
 #!/usr/bin/env bash
 set -Eeu
 
-# if [ "${CI:-}" == true ]; then
-#   export KOSLI_API_TOKEN=${KOSLI_API_TOKEN}
-# fi
+if [ "${CI:-}" == true ]; then
+   export KOSLI_API_TOKEN=${KOSLI_API_TOKEN}
+fi
 export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
 
 readonly KOSLI_HOST_STAGING=https://staging.app.kosli.com
 readonly KOSLI_HOST_PROD=https://app.kosli.com
-
-# - - - - - - - - - - - - - - - - - - -
-artifact_name() {
-  #unset CYBER_DOJO_CREATOR_IMAGE
-  #unset CYBER_DOJO_CREATOR_TAG
-  source "$(root_dir)/sh/echo_versioner_env_vars.sh"
-  export $(echo_versioner_env_vars)
-  echo "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
-}
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_declare_pipeline()
@@ -74,6 +65,8 @@ kosli_expect_deployment()
   local -r environment="${1}"
   local -r hostname="${2}"
 
+  # In .github/workflows/main.yml deployment is its own job
+  # and the image must be present to get its sha256 fingerprint.
   docker pull "$(artifact_name)"
 
   kosli expect deployment \
@@ -84,6 +77,12 @@ kosli_expect_deployment()
     --host "${hostname}"
 }
 
+# - - - - - - - - - - - - - - - - - - -
+artifact_name() {
+  source "$(root_dir)/sh/echo_versioner_env_vars.sh"
+  export $(echo_versioner_env_vars)
+  echo "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
+}
 
 # - - - - - - - - - - - - - - - - - - -
 root_dir()
