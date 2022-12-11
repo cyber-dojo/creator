@@ -33,7 +33,7 @@ jobs:
       BUILD_COMMAND: build_test_publish.sh
       AWS_ACCOUNT_ID: 244531986313
       AWS_REGION: eu-central-1
-      tag: ${{ needs.pre-build.outputs.image_tag }}
+      tag: ${{ steps.prep.outputs.image_tag }}
       ecr_registry: 244531986313.dkr.ecr.eu-central-1.amazonaws.com
       service_name: creator
       gh_actions_iam_role_name: gh_actions_services
@@ -52,7 +52,7 @@ jobs:
       gh_actions_iam_role_name: gh_actions_services
       kosli_host_production: https://app.kosli.com
       kosli_host_staging: https://staging.app.kosli.com
-      tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.image_tag }}
+      tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ steps.prep.outputs.image_tag }}
 
   deploy-prod:
     needs: [pre-build, build-test-push]
@@ -68,4 +68,4 @@ jobs:
       gh_actions_iam_role_name: gh_actions_services
       kosli_host_production: https://app.kosli.com
       kosli_host_staging: https://staging.app.kosli.com
-      tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.image_tag }}
+      tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ steps.prep.outputs.image_tag }}
