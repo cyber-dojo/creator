@@ -130,7 +130,7 @@ on_ci_kosli_report_artifact_creation()
     return
   fi
   kosli_report_artifact_creation "${KOSLI_HOST_STAGING}"
-  kosli_report_artifact_creation "${KOSLI_HOST_PROD}"
+  kosli_report_artifact_creation "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -141,7 +141,7 @@ on_ci_kosli_report_coverage_evidence()
   fi
   write_coverage_json
   kosli_report_coverage_evidence "${KOSLI_HOST_STAGING}"
-  kosli_report_coverage_evidence "${KOSLI_HOST_PROD}"
+  kosli_report_coverage_evidence "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -151,7 +151,7 @@ on_ci_kosli_assert_artifact()
     return
   fi
   kosli_assert_artifact "${KOSLI_HOST_STAGING}"
-  kosli_assert_artifact "${KOSLI_HOST_PROD}"
+  kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}"
 }
 
 
