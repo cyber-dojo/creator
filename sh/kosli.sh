@@ -12,8 +12,8 @@ readonly KOSLI_HOST_PROD=https://app.kosli.com
 
 # - - - - - - - - - - - - - - - - - - -
 artifact_name() {
-  unset CYBER_DOJO_CREATOR_IMAGE
-  unset CYBER_DOJO_CREATOR_TAG
+  #unset CYBER_DOJO_CREATOR_IMAGE
+  #unset CYBER_DOJO_CREATOR_TAG
   source "$(root_dir)/sh/echo_versioner_env_vars.sh"
   export $(echo_versioner_env_vars)
   echo "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
@@ -88,8 +88,8 @@ kosli_expect_deployment()
 # - - - - - - - - - - - - - - - - - - -
 root_dir()
 {
-  # Functions in this file are called after sourcing this
-  # file so root_dir() cannot rely on the path of this script.
+  # Functions in this file are called after sourcing (not including)
+  # this file so root_dir() cannot use the path of this script.
   git rev-parse --show-toplevel
 }
 
@@ -114,7 +114,7 @@ coverage_json_path()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 on_ci()
 {
-  [ -n "${CI:-}" ]
+  [ "${CI:-}" == true ]
 }
 
 # - - - - - - - - - - - - - - - - - - -
