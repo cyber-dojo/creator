@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -Eeu
 
-if [ "${CI:-}" == true ]; then
-  export KOSLI_API_TOKEN=${KOSLI_API_TOKEN:-${MERKELY_API_TOKEN}}
-fi
+# if [ "${CI:-}" == true ]; then
+#   export KOSLI_API_TOKEN=${KOSLI_API_TOKEN}
+# fi
 export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
 
@@ -88,6 +88,8 @@ kosli_expect_deployment()
 # - - - - - - - - - - - - - - - - - - -
 root_dir()
 {
+  # Functions in this file are called after sourcing this
+  # file so root_dir() cannot rely on the path of this script.
   git rev-parse --show-toplevel
 }
 
@@ -95,9 +97,9 @@ root_dir()
 write_coverage_json()
 {
   {
-    echo '{ "server": '
+    echo '{ "server":'
     cat "$(root_dir)/test/server/reports/coverage.json"
-    echo ', "client": '
+    echo ', "client":'
     cat "$(root_dir)/test/client/reports/coverage.json"
     echo '}'
   } > "$(coverage_json_path)"
