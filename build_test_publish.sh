@@ -28,11 +28,10 @@ exit_non_zero_unless_installed docker
 exit_non_zero_unless_installed docker-compose
 remove_old_images
 
+on_ci_kosli_declare_pipeline
+
 # Build, publish and report image creation
 build_tagged_images
-on_ci_publish_tagged_images
-on_ci_kosli_declare_pipeline
-on_ci_kosli_report_artifact_creation
 
 exit_zero_if_build_only "$@"
 
@@ -40,6 +39,10 @@ exit_zero_if_build_only "$@"
 server_up_healthy_and_clean
 client_up_healthy_and_clean "$@"
 copy_in_saver_test_data
+
+on_ci_publish_tagged_images
+on_ci_kosli_report_artifact_creation
+
 test_in_containers "$@"
 on_ci_kosli_report_coverage_evidence
 containers_down
