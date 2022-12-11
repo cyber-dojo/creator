@@ -9,17 +9,13 @@ jobs:
   pre-build:
     runs-on: ubuntu-20.04
     outputs:
-      tag: ${{ steps.prep.outputs.image_tag }}
+      image_tag: ${{ steps.prep.outputs.image_tag }}
     steps:
-
     - uses: actions/checkout@v2
-
     - name: Prepare
       id: prep
       run: |
         TAG=$(echo $GITHUB_SHA | head -c7)
-        #echo "TAG=${TAG}" >> ${GITHUB_ENV}
-        #echo ::set-output name=tag::${TAG}
         echo "image_tag=${TAG}" >> ${GITHUB_OUTPUT}
 
   build-test-push:
@@ -33,7 +29,7 @@ jobs:
       BUILD_COMMAND: build_test_publish.sh
       AWS_ACCOUNT_ID: 244531986313
       AWS_REGION: eu-central-1
-      tag: ${{ needs.pre-build.outputs.tag }}
+      image_tag: ${{ needs.pre-build.outputs.image_tag }}
       ecr_registry: 244531986313.dkr.ecr.eu-central-1.amazonaws.com
       service_name: creator
       gh_actions_iam_role_name: gh_actions_services
@@ -52,7 +48,7 @@ jobs:
       gh_actions_iam_role_name: gh_actions_services
       kosli_host_production: https://app.kosli.com
       kosli_host_staging: https://staging.app.kosli.com
-      tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.tag }}
+      tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.image_tag }}
 
   deploy-prod:
     needs: [pre-build, build-test-push]
@@ -68,4 +64,4 @@ jobs:
       gh_actions_iam_role_name: gh_actions_services
       kosli_host_production: https://app.kosli.com
       kosli_host_staging: https://staging.app.kosli.com
-      tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.tag }}
+      tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.image_tag }}
