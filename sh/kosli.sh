@@ -5,7 +5,7 @@ export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
 
 readonly KOSLI_HOST_STAGING=https://staging.app.kosli.com
-readonly KOSLI_HOST_PROD=https://app.kosli.com
+readonly KOSLI_HOST_PRODUCTION=https://app.kosli.com
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_declare_pipeline()
@@ -120,7 +120,7 @@ on_ci_kosli_declare_pipeline()
     return
   fi
   kosli_declare_pipeline "${KOSLI_HOST_STAGING}"
-  kosli_declare_pipeline "${KOSLI_HOST_PROD}"
+  kosli_declare_pipeline "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
