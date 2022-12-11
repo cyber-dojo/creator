@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -Eeu
 
-if [ "${CI:-}" == true ]; then
-   export KOSLI_API_TOKEN=${KOSLI_API_TOKEN}
-fi
 export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
 
