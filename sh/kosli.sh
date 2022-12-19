@@ -36,13 +36,13 @@ kosli_report_coverage_evidence()
 {
   local -r hostname="${1}"
 
-  kosli pipeline artifact report evidence generic \
-    "$(artifact_name)" \
-      --artifact-type docker \
-      --description "server & client branch-coverage reports" \
-      --evidence-type "branch-coverage" \
-      --user-data "$(coverage_json_path)" \
-      --host "${hostname}"
+  # kosli pipeline artifact report evidence generic \
+  #   "$(artifact_name)" \
+  #     --artifact-type docker \
+  #     --description "server & client branch-coverage reports" \
+  #     --evidence-type "branch-coverage" \
+  #     --user-data "$(coverage_json_path)" \
+  #     --host "${hostname}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
