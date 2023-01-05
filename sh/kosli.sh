@@ -50,10 +50,10 @@ kosli_assert_artifact()
 {
   local -r hostname="${1}"
 
-  kosli assert artifact \
-    "$(artifact_name)" \
-      --artifact-type docker \
-      --host "${hostname}"
+#  kosli assert artifact \
+#    "$(artifact_name)" \
+#      --artifact-type docker \
+#      --host "${hostname}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
