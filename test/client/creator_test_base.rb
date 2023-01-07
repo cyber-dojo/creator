@@ -11,7 +11,7 @@ class CreatorTestBase < Id58TestBase
     Capybara::Selenium::Driver.new(app,
       browser: :remote,
       url: 'http://selenium:4444/wd/hub',
-      desired_capabilities: :firefox
+      capabilities: :firefox
     )
   end
 
