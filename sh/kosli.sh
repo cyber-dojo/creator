@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -Eeu
 
-export KOSLI_OWNER=cyber-dojo
 export KOSLI_PIPELINE=creator
-
-readonly KOSLI_HOST_STAGING=https://staging.app.kosli.com
-readonly KOSLI_HOST_PRODUCTION=https://app.kosli.com
+# KOSLI_OWNER is set in CI
+# KOSLI_API_TOKEN is set in CI
+# KOSLI_HOST_STAGING is set in CI
+# KOSLI_HOST_PRODUCTION is set in CI
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_declare_pipeline()
@@ -116,42 +116,38 @@ on_ci()
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_declare_pipeline()
 {
-  if ! on_ci ; then
-    return
+  if on_ci ; then
+    kosli_declare_pipeline "${KOSLI_HOST_STAGING}"
+    kosli_declare_pipeline "${KOSLI_HOST_PRODUCTION}"
   fi
-  kosli_declare_pipeline "${KOSLI_HOST_STAGING}"
-  kosli_declare_pipeline "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_report_artifact_creation()
 {
-  if ! on_ci ; then
-    return
+  if on_ci ; then
+    kosli_report_artifact_creation "${KOSLI_HOST_STAGING}"
+    kosli_report_artifact_creation "${KOSLI_HOST_PRODUCTION}"
   fi
-  kosli_report_artifact_creation "${KOSLI_HOST_STAGING}"
-  kosli_report_artifact_creation "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_report_coverage_evidence()
 {
-  if ! on_ci ; then
-    return
+  if on_ci ; then
+    write_coverage_json
+    kosli_report_coverage_evidence "${KOSLI_HOST_STAGING}"
+    kosli_report_coverage_evidence "${KOSLI_HOST_PRODUCTION}"
   fi
-  write_coverage_json
-  kosli_report_coverage_evidence "${KOSLI_HOST_STAGING}"
-  kosli_report_coverage_evidence "${KOSLI_HOST_PRODUCTION}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_assert_artifact()
 {
-  if ! on_ci ; then
-    return
+  if on_ci ; then
+    kosli_assert_artifact "${KOSLI_HOST_STAGING}"
+    kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}"
   fi
-  kosli_assert_artifact "${KOSLI_HOST_STAGING}"
-  kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}"
 }
 
 
