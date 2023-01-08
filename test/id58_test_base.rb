@@ -1,5 +1,8 @@
 require 'minitest/autorun'
+require 'minitest/ci'
 require 'rack/test'
+
+Minitest::Ci.report_dir = "#{ENV['COVERAGE_ROOT']}/junit"
 
 def require_source(required)
   require_relative "../code/#{required}"
