@@ -16,7 +16,7 @@ kosli_declare_pipeline()
   kosli pipeline declare \
     --description "UX for Group/Kata creation" \
     --visibility public \
-    --template artifact,branch-coverage,snyk-scan \
+    --template artifact,unit-test,branch-coverage,snyk-scan \
     --host "${hostname}"
 }
 
@@ -30,6 +30,19 @@ kosli_report_artifact_creation()
       --artifact-type docker \
       --repo-root ../../.. \
       --host "${hostname}"
+}
+
+# - - - - - - - - - - - - - - - - - - -
+kosli_report_junit_test_evidence()
+{
+  local -r hostname="${1}"
+
+  kosli pipeline artifact report evidence junit \
+    "$(artifact_name)" \
+      --artifact-type docker \
+      --host "${hostname}" \
+      --name unit-test \
+      --results-dir test/server/reports/junit
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -47,17 +60,6 @@ kosli_report_coverage_evidence()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_assert_artifact()
-{
-  local -r hostname="${1}"
-
-  kosli assert artifact \
-    "$(artifact_name)" \
-      --artifact-type docker \
-      --host "${hostname}"
-}
-
-# - - - - - - - - - - - - - - - - - - -
 kosli_report_snyk()
 {
   local -r hostname="${1}"
@@ -68,6 +70,17 @@ kosli_report_snyk()
       --host "${hostname}" \
       --name snyk-scan \
       --scan-results snyk.json
+}
+
+# - - - - - - - - - - - - - - - - - - -
+kosli_assert_artifact()
+{
+  local -r hostname="${1}"
+
+  kosli assert artifact \
+    "$(artifact_name)" \
+      --artifact-type docker \
+      --host "${hostname}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -130,7 +143,8 @@ on_ci()
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_declare_pipeline()
 {
-  if on_ci ; then
+  if on_ci
+  then
     kosli_declare_pipeline "${KOSLI_HOST_STAGING}"
     kosli_declare_pipeline "${KOSLI_HOST_PRODUCTION}"
   fi
@@ -139,42 +153,56 @@ on_ci_kosli_declare_pipeline()
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_report_artifact_creation()
 {
-  if on_ci ; then
+  if on_ci
+  then
     kosli_report_artifact_creation "${KOSLI_HOST_STAGING}"
     kosli_report_artifact_creation "${KOSLI_HOST_PRODUCTION}"
   fi
 }
 
 # - - - - - - - - - - - - - - - - - - -
-on_ci_kosli_report_coverage_evidence()
+on_ci_kosli_report_junit_test_evidence()
 {
-  if on_ci ; then
+  if on_ci
+  then
+    kosli_report_junit_test_evidence "${KOSLI_HOST_STAGING}"
+    kosli_report_junit_test_evidence "${KOSLI_HOST_PRODUCTION}"
+  fi
+}
+
+# - - - - - - - - - - - - - - - - - - -
+on_ci_kosli_report_test_coverage_evidence()
+{
+  if on_ci
+  then
     write_coverage_json
-    kosli_report_coverage_evidence "${KOSLI_HOST_STAGING}"
-    kosli_report_coverage_evidence "${KOSLI_HOST_PRODUCTION}"
+    kosli_report_test_coverage_evidence "${KOSLI_HOST_STAGING}"
+    kosli_report_test_coverage_evidence "${KOSLI_HOST_PRODUCTION}"
+  fi
+}
+
+# - - - - - - - - - - - - - - - - - - -
+on_ci_kosli_report_snyk_scan_evidence()
+{
+  if on_ci
+  then
+    set +x
+    #  --file=../source/server/Dockerfile does not work for some reason. So it is not used here.
+    snyk container test "$(artifact_name)" \
+      --json-file-output=snyk.json
+    set -x
+
+    kosli_report_snyk "${KOSLI_HOST_STAGING}"
+    kosli_report_snyk "${KOSLI_HOST_PRODUCTION}"
   fi
 }
 
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_assert_artifact()
 {
-  if on_ci ; then
+  if on_ci
+  then
     kosli_assert_artifact "${KOSLI_HOST_STAGING}"
     kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}"
   fi
 }
-
-on_ci_kosli_report_snyk_scan_evidence()
-{
-  if on_ci ; then
-    set +x
-    #  --file=../source/server/Dockerfile does not work for some reason. So it is not used here.
-    snyk container test "$(artifact_name)" \
-      --json-file-output=snyk.json
-    set -x
-    kosli_report_snyk "${KOSLI_HOST_STAGING}"
-    kosli_report_snyk "${KOSLI_HOST_PRODUCTION}"
-  fi
-}
-
-
