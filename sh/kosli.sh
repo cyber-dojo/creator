@@ -168,8 +168,8 @@ on_ci_kosli_report_snyk_scan_evidence()
 {
   if on_ci ; then
     snyk container test "$(artifact_name)"
-      --file=source/server/Dockerfile 
-      --json-file-output=snyk.json
+      --file="${ROOT_DIR}/source/server/Dockerfile" 
+      --json-file-output=snyk.json || true
     kosli_report_snyk "${KOSLI_HOST_STAGING}"
     kosli_report_snyk "${KOSLI_HOST_PRODUCTION}"
   fi
