@@ -46,7 +46,7 @@ on_ci_kosli_report_artifact_creation
 test_in_containers "$@"
 containers_down
 
-on_ci_kosli_report_junit_test_evidence
+#on_ci_kosli_report_junit_test_evidence
 on_ci_kosli_report_test_coverage_evidence
 on_ci_kosli_report_snyk_scan_evidence
 on_ci_kosli_assert_artifact
