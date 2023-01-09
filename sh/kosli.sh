@@ -168,8 +168,8 @@ on_ci_kosli_report_snyk_scan_evidence()
 {
   if on_ci ; then
     set +x
+    #  --file=../source/server/Dockerfile does not work for some reason. So it is not used here.
     snyk container test "$(artifact_name)"
-      --file=../source/server/Dockerfile
       --json-file-output=snyk.json
     set -x
     kosli_report_snyk "${KOSLI_HOST_STAGING}"
