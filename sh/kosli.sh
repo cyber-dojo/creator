@@ -167,6 +167,13 @@ on_ci_kosli_assert_artifact()
 on_ci_kosli_report_snyk_scan_evidence()
 {
   if on_ci ; then
+    echo ********************
+    pwd
+    echo ********************
+    ls -la ${ROOT_DIR}
+    ls -la ${ROOT_DIR}/source
+    ls -la ${ROOT_DIR}/source/server
+    echo ********************
     snyk container test "$(artifact_name)"
       --file="${ROOT_DIR}/source/server/Dockerfile" 
       --json-file-output=snyk.json || true
