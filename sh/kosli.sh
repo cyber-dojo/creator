@@ -46,7 +46,7 @@ kosli_report_junit_test_evidence()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_report_coverage_evidence()
+kosli_report_test_coverage_evidence()
 {
   local -r hostname="${1}"
 
