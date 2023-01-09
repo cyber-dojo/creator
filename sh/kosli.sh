@@ -6,6 +6,7 @@ export KOSLI_PIPELINE=creator
 # KOSLI_API_TOKEN is set in CI
 # KOSLI_HOST_STAGING is set in CI
 # KOSLI_HOST_PRODUCTION is set in CI
+# SNYK_TOKEN is set in CI
 
 # - - - - - - - - - - - - - - - - - - -
 kosli_declare_pipeline()
@@ -15,7 +16,7 @@ kosli_declare_pipeline()
   kosli pipeline declare \
     --description "UX for Group/Kata creation" \
     --visibility public \
-    --template artifact,branch-coverage \
+    --template artifact,branch-coverage,snyk-scan \
     --host "${hostname}"
 }
 
@@ -54,6 +55,19 @@ kosli_assert_artifact()
     "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}"
+}
+
+# - - - - - - - - - - - - - - - - - - -
+kosli_report_snyk()
+{
+  local -r hostname="${1}"
+
+  kosli pipeline artifact report evidence snyk \
+    "$(artifact_name)" \
+      --artifact-type docker \
+      --host "${hostname}" \
+      --name snyk-scan
+      --scan-results snyk.json
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -150,5 +164,15 @@ on_ci_kosli_assert_artifact()
   fi
 }
 
+on_ci_kosli_report_snyk_scan_evidence()
+{
+  if on_ci ; then
+    snyk container test "$(artifact_name)"
+      --file=source/server/Dockerfile 
+      --json-file-output=snyk.json
+    kosli_report_snyk "${KOSLI_HOST_STAGING}"
+    kosli_report_snyk "${KOSLI_HOST_PRODUCTION}"
+  fi
+}
 
 

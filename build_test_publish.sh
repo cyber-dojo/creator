@@ -47,5 +47,7 @@ test_in_containers "$@"
 on_ci_kosli_report_coverage_evidence
 containers_down
 
+on_ci_kosli_report_snyk_scan_evidence
+
 # Return non-zero for non-compliant artifact
 on_ci_kosli_assert_artifact
