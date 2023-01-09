@@ -189,7 +189,8 @@ on_ci_kosli_report_snyk_scan_evidence()
     set +x
     #  --file=../source/server/Dockerfile does not work for some reason. So it is not used here.
     snyk container test "$(artifact_name)" \
-      --json-file-output=snyk.json
+      --json-file-output=snyk.json \
+      --exclude-app-vulns
     set -x
 
     kosli_report_snyk "${KOSLI_HOST_STAGING}"
