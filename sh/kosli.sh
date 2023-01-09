@@ -66,7 +66,7 @@ kosli_report_snyk()
     "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}" \
-      --name snyk-scan
+      --name snyk-scan \
       --scan-results snyk.json
 }
 
