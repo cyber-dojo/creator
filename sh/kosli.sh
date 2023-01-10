@@ -16,7 +16,7 @@ kosli_declare_pipeline()
   kosli pipeline declare \
     --description "UX for Group/Kata creation" \
     --visibility public \
-    --template artifact,branch-coverage,snyk-scan \
+    --template artifact,unit-test,branch-coverage,snyk-scan \
     --host "${hostname}"
 }
 
