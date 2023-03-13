@@ -28,7 +28,7 @@ exit_non_zero_unless_installed docker
 exit_non_zero_unless_installed docker-compose
 remove_old_images
 
-on_ci_kosli_declare_pipeline
+on_ci_kosli_create_flow
 
 # Build, publish and report image creation
 build_tagged_images

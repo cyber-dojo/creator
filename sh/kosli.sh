@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeu
 
-export KOSLI_PIPELINE=creator
+export KOSLI_FLOW=creator
 # KOSLI_OWNER is set in CI
 # KOSLI_API_TOKEN is set in CI
 # KOSLI_HOST_STAGING is set in CI
@@ -9,15 +9,15 @@ export KOSLI_PIPELINE=creator
 # SNYK_TOKEN is set in CI
 
 # - - - - - - - - - - - - - - - - - - -
-kosli_declare_pipeline()
+kosli_create_flow()
 {
   local -r hostname="${1}"
 
-  kosli pipeline declare \
+  kosli create flow "${KOSLI_FLOW}" \
     --description "UX for Group/Kata creation" \
-    --visibility public \
+    --host "${hostname}" \
     --template artifact,unit-test,branch-coverage,snyk-scan \
-    --host "${hostname}"
+    --visibility public
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -25,11 +25,10 @@ kosli_report_artifact_creation()
 {
   local -r hostname="${1}"
 
-  kosli pipeline artifact report creation \
-    "$(artifact_name)" \
+  kosli report artifact "$(artifact_name)" \
       --artifact-type docker \
-      --repo-root ../../.. \
-      --host "${hostname}"
+      --host "${hostname}" \
+      --repo-root ../../..
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -37,8 +36,7 @@ kosli_report_junit_test_evidence()
 {
   local -r hostname="${1}"
 
-  kosli pipeline artifact report evidence junit \
-    "$(artifact_name)" \
+  kosli report evidence artifact junit "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}" \
       --name unit-test \
@@ -50,13 +48,12 @@ kosli_report_test_coverage_evidence()
 {
   local -r hostname="${1}"
 
-  kosli pipeline artifact report evidence generic \
-    "$(artifact_name)" \
+  kosli report evidence artifact generic "$(artifact_name)" \
       --artifact-type docker \
       --description "server & client branch-coverage reports" \
       --evidence-type "branch-coverage" \
-      --user-data "$(coverage_json_path)" \
-      --host "${hostname}"
+      --host "${hostname}" \
+      --user-data "$(coverage_json_path)"
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -64,8 +61,7 @@ kosli_report_snyk()
 {
   local -r hostname="${1}"
 
-  kosli pipeline artifact report evidence snyk \
-    "$(artifact_name)" \
+  kosli report evidence artifact snyk "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}" \
       --name snyk-scan \
@@ -77,8 +73,7 @@ kosli_assert_artifact()
 {
   local -r hostname="${1}"
 
-  kosli assert artifact \
-    "$(artifact_name)" \
+  kosli assert artifact "$(artifact_name)" \
       --artifact-type docker \
       --host "${hostname}"
 }
@@ -141,20 +136,18 @@ on_ci()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-on_ci_kosli_declare_pipeline()
+on_ci_kosli_create_flow()
 {
-  if on_ci
-  then
-    kosli_declare_pipeline "${KOSLI_HOST_STAGING}"
-    kosli_declare_pipeline "${KOSLI_HOST_PRODUCTION}"
+  if on_ci; then
+    kosli_create_flow "${KOSLI_HOST_STAGING}"
+    kosli_create_flow "${KOSLI_HOST_PRODUCTION}"
   fi
 }
 
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_report_artifact_creation()
 {
-  if on_ci
-  then
+  if on_ci; then
     kosli_report_artifact_creation "${KOSLI_HOST_STAGING}"
     kosli_report_artifact_creation "${KOSLI_HOST_PRODUCTION}"
   fi
@@ -163,8 +156,7 @@ on_ci_kosli_report_artifact_creation()
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_report_junit_test_evidence()
 {
-  if on_ci
-  then
+  if on_ci; then
     kosli_report_junit_test_evidence "${KOSLI_HOST_STAGING}"
     kosli_report_junit_test_evidence "${KOSLI_HOST_PRODUCTION}"
   fi
@@ -173,8 +165,7 @@ on_ci_kosli_report_junit_test_evidence()
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_report_test_coverage_evidence()
 {
-  if on_ci
-  then
+  if on_ci; then
     write_coverage_json
     kosli_report_test_coverage_evidence "${KOSLI_HOST_STAGING}"
     kosli_report_test_coverage_evidence "${KOSLI_HOST_PRODUCTION}"
@@ -184,8 +175,7 @@ on_ci_kosli_report_test_coverage_evidence()
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_report_snyk_scan_evidence()
 {
-  if on_ci
-  then
+  if on_ci; then
     set +x
     #  --file=../source/server/Dockerfile does not work for some reason. So it is not used here.
     snyk container test "$(artifact_name)" \
@@ -201,8 +191,7 @@ on_ci_kosli_report_snyk_scan_evidence()
 # - - - - - - - - - - - - - - - - - - -
 on_ci_kosli_assert_artifact()
 {
-  if on_ci
-  then
+  if on_ci; then
     kosli_assert_artifact "${KOSLI_HOST_STAGING}"
     kosli_assert_artifact "${KOSLI_HOST_PRODUCTION}"
   fi
