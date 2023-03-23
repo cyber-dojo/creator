@@ -2,7 +2,7 @@
 set -Eeu
 
 export KOSLI_FLOW=creator
-# KOSLI_OWNER is set in CI
+# KOSLI_ORG is set in CI
 # KOSLI_API_TOKEN is set in CI
 # KOSLI_HOST_STAGING is set in CI
 # KOSLI_HOST_PRODUCTION is set in CI
@@ -97,7 +97,8 @@ kosli_expect_deployment()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-artifact_name() {
+artifact_name()
+{
   source "$(root_dir)/sh/echo_versioner_env_vars.sh"
   export $(echo_versioner_env_vars)
   echo "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
