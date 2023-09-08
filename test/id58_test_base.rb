@@ -8,7 +8,7 @@ def require_source(required)
   require_relative "../code/#{required}"
 end
 
-class Id58TestBase < MiniTest::Test
+class Id58TestBase < Minitest::Test
 
   def initialize(arg)
     @id58 = nil
