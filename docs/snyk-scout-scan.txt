@@ -1,0 +1,207 @@
+
+Signed up at snyk for free account.
+Followed the installation instructions for CLI scanning.
+Impressive onboarding.
+After authenticating, the command to scan cyberdojo/creator:a9136e1
+is
+
+snyk container monitor cyberdojo/creator:a9136e1 --org=858e680b-5d28-4aef-83ca-e3f1465057b0
+
+Did not report any vulnerabilities.
+echo $? says 0
+So I assume the latest creator image is ok.
+
+Output of command also says...
+
+<quote>
+Explore this snapshot at https://app.snyk.io/org/jrbjagger/project/2fcf4bd0-5ba1-4831-8c55-89e3d8bb927e/history/12323ea7-689c-4cc3-87ba-3cac3c97a46d
+</quote>
+
+This is also an impressive dashboard.
+Base image: ruby:3.2.2-alpine3.17
+Target OS: alpine:3.17.4
+Image ID: 6e54832800bb
+Platform : linux/amd64
+
+Also says there are 9 vulnerabilities, 2 critical, related to nodejs/nodejs
+Do I even have that installed in that image?
+docker run --rm -it cyberdojo/creator:a9136e1 bash
+node
+Welcome to Node.js v18.16.1.
+Type ".help" for more information.
+>
+
+yes I do!
+
+
+<quote>
+Notifications about newly disclosed issues related to these dependencies will be emailed to you.
+</quote>
+
+Interesting...
+
+dashboard at https://app.snyk.io/org/jrbjagger
+Shows much more clearly that there are 2 critical vulnerabilities.
+
+Snyk Free Plan gives 100 container tests a month
+Open Source 200 tests per month.
+
+Team Plan: $52 Per contributing dev/month
+Open Source: unlimited tests per month
+
+This page
+https://support.snyk.io/hc/en-us/articles/360000925418-What-counts-as-a-test-?_gl=1*98graq*_ga*MTk5MjQ4NzAwNC4xNjkyNTEyMzY1*_ga_X9SH3KP7B4*MTY5NDE2NjU0MS40LjEuMTY5NDE2ODQ1Ni4wLjAuMA..
+says:
+A test is counted each time you run one of the following commands:
+  For Snyk Open Source: snyk test or snyk monitor
+  For Snyk Container: snyk container test or snyk container monitor
+
+The above command is 'snyk container monitor ...'
+
+Trying it as
+
+snyk monitor cyberdojo/creator:a9136e1 --org=858e680b-5d28-4aef-83ca-e3f1465057b0
+
+It says...
+"cyberdojo/creator:a9136e1" is not a valid path for "snyk monitor"
+
+Should I be thinking about
+'docker scan'
+command instead...?
+
+Says scan is removed and to use scout
+
+$ docker scout cves cyberdojo/creator:a9136e1
+
+
+INFO New version 0.24.1 available (installed version is 0.20.0)
+    ✓ SBOM of image already cached, 255 packages indexed
+    ✗ Detected 7 vulnerable packages with a total of 13 vulnerabilities
+
+   2C     1H     0M     0L  nodejs 18.16.1-r0
+pkg:apk/alpine/nodejs@18.16.1-r0?os_name=alpine&os_version=3.17
+
+    ✗ CRITICAL CVE-2023-32559
+      https://scout.docker.com/v/CVE-2023-32559
+      Affected range : <18.17.1-r0
+      Fixed version  : 18.17.1-r0
+
+    ✗ CRITICAL CVE-2023-32002
+      https://scout.docker.com/v/CVE-2023-32002
+      Affected range : <18.17.1-r0
+      Fixed version  : 18.17.1-r0
+
+    ✗ HIGH CVE-2023-32006
+      https://scout.docker.com/v/CVE-2023-32006
+      Affected range : <18.17.1-r0
+      Fixed version  : 18.17.1-r0
+
+
+   1C     0H     0M     1L  rest-client 1.6.7
+pkg:gem/rest-client@1.6.7
+
+    ✗ CRITICAL CVE-2015-1820 [Session Fixation]
+      https://scout.docker.com/v/CVE-2015-1820
+      Affected range : >=1.6.1.a
+                     : <1.8.0
+      Fixed version  : 1.8.0
+      CVSS Score     : 9.8
+      CVSS Vector    : CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+
+    ✗ LOW CVE-2015-3448 [Exposure of Sensitive Information to an Unauthorized Actor]
+      https://scout.docker.com/v/CVE-2015-3448
+      Affected range : <1.7.3
+      Fixed version  : 1.7.3
+
+
+   1C     0H     0M     0L  puma 6.3.0
+pkg:gem/puma@6.3.0
+
+    ✗ CRITICAL CVE-2023-40175 [Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')]
+      https://scout.docker.com/v/CVE-2023-40175
+      Affected range : >=6.0.0
+                     : <6.3.1
+      Fixed version  : 6.3.1
+      CVSS Score     : 9.8
+      CVSS Vector    : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H
+
+
+   0C     1H     1M     0L  postgresql15 15.3-r0
+pkg:apk/alpine/postgresql15@15.3-r0?os_name=alpine&os_version=3.17
+
+    ✗ HIGH CVE-2023-39417
+      https://scout.docker.com/v/CVE-2023-39417
+      Affected range : <15.4-r0
+      Fixed version  : 15.4-r0
+
+    ✗ MEDIUM CVE-2023-39418
+      https://scout.docker.com/v/CVE-2023-39418
+      Affected range : <15.4-r0
+      Fixed version  : 15.4-r0
+
+
+   0C     1H     0M     0L  nghttp2 1.51.0-r0
+pkg:apk/alpine/nghttp2@1.51.0-r0?os_name=alpine&os_version=3.17
+
+    ✗ HIGH CVE-2023-35945
+      https://scout.docker.com/v/CVE-2023-35945
+      Affected range : <1.51.0-r1
+      Fixed version  : 1.51.0-r1
+
+
+   0C     0H     3M     0L  openssl 3.0.9-r1
+pkg:apk/alpine/openssl@3.0.9-r1?os_name=alpine&os_version=3.17
+
+    ✗ MEDIUM CVE-2023-3817
+      https://scout.docker.com/v/CVE-2023-3817
+      Affected range : <3.0.10-r0
+      Fixed version  : 3.0.10-r0
+
+    ✗ MEDIUM CVE-2023-3446
+      https://scout.docker.com/v/CVE-2023-3446
+      Affected range : <3.0.9-r3
+      Fixed version  : 3.0.9-r3
+
+    ✗ MEDIUM CVE-2023-2975
+      https://scout.docker.com/v/CVE-2023-2975
+      Affected range : <3.0.9-r2
+      Fixed version  : 3.0.9-r2
+
+
+   0C     0H     1M     0L  uri 0.12.1
+pkg:gem/uri@0.12.1
+
+    ✗ MEDIUM CVE-2023-36617 [Inefficient Regular Expression Complexity]
+      https://scout.docker.com/v/CVE-2023-36617
+      Affected range : >=0.11.0
+                     : <0.12.2
+      Fixed version  : 0.12.2
+      CVSS Score     : 5.3
+      CVSS Vector    : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L
+
+
+
+13 vulnerabilities found in 7 packages
+  LOW       1
+  MEDIUM    5
+  HIGH      3
+  CRITICAL  4
+
+$ echo $?
+0
+
+$ docker scout cves cyberdojo/creator:a9136e1 --exit-code
+$ echo $?
+2
+
+INFO New version 0.24.1 available (installed version is 0.20.0)
+
+
+$ docker scout cves cyberdojo/creator:a9136e1 --exit-code --format sarif --output cves.json
+
+Produces a cves.json file that might be the same format as 'snyk'
+
+
+
+
+

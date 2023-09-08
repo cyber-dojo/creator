@@ -1,0 +1,588 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://json.schemastore.org/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "fullName": "Docker Scout",
+          "informationUri": "https://docker.com/products/docker-scout",
+          "name": "docker scout",
+          "rules": [
+            {
+              "id": "CVE-2015-3448",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2015-3448: Exposure of Sensitive Information to an Unauthorized Actor"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2015-3448",
+              "help": {
+                "text": "REST client for Ruby (aka rest-client) before 1.7.3 logs usernames and passwords, which allows local users to obtain sensitive information by reading the log.\n",
+                "markdown": "\u003e REST client for Ruby (aka rest-client) before 1.7.3 logs usernames and passwords, which allows local users to obtain sensitive information by reading the log.\n\n|                |                           |\n|----------------|---------------------------|\n| Package        | pkg:gem/rest-client@1.6.7 |\n| Affected range | \u003c1.7.3                    |\n| Fixed version  | 1.7.3                     |\n"
+              },
+              "properties": {
+                "affected_version": "\u003c1.7.3",
+                "cvssV3_severity": "LOW",
+                "fixed_version": "1.7.3",
+                "purl": "pkg:gem/rest-client@1.6.7",
+                "security-severity": "3.1",
+                "tags": [
+                  "LOW"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-39418",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-39418"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-39418",
+              "help": {
+                "text": "\n",
+                "markdown": "\u003e \n\n|                |                                                                    |\n|----------------|--------------------------------------------------------------------|\n| Package        | pkg:apk/alpine/postgresql15@15.3-r0?os_name=alpine\u0026os_version=3.17 |\n| Affected range | \u003c15.4-r0                                                           |\n| Fixed version  | 15.4-r0                                                            |\n"
+              },
+              "properties": {
+                "affected_version": "\u003c15.4-r0",
+                "cvssV3_severity": "MEDIUM",
+                "fixed_version": "15.4-r0",
+                "purl": "pkg:apk/alpine/postgresql15@15.3-r0?os_name=alpine\u0026os_version=3.17",
+                "security-severity": "4.3",
+                "tags": [
+                  "MEDIUM"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-2975",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-2975"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-2975",
+              "help": {
+                "text": "\n",
+                "markdown": "\u003e \n\n|                |                                                                |\n|----------------|----------------------------------------------------------------|\n| Package        | pkg:apk/alpine/openssl@3.0.9-r1?os_name=alpine\u0026os_version=3.17 |\n| Affected range | \u003c3.0.9-r2                                                      |\n| Fixed version  | 3.0.9-r2                                                       |\n"
+              },
+              "properties": {
+                "affected_version": "\u003c3.0.9-r2",
+                "cvssV3_severity": "MEDIUM",
+                "fixed_version": "3.0.9-r2",
+                "purl": "pkg:apk/alpine/openssl@3.0.9-r1?os_name=alpine\u0026os_version=3.17",
+                "security-severity": "5.3",
+                "tags": [
+                  "MEDIUM"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-3446",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-3446"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-3446",
+              "help": {
+                "text": "\n",
+                "markdown": "\u003e \n\n|                |                                                                |\n|----------------|----------------------------------------------------------------|\n| Package        | pkg:apk/alpine/openssl@3.0.9-r1?os_name=alpine\u0026os_version=3.17 |\n| Affected range | \u003c3.0.9-r3                                                      |\n| Fixed version  | 3.0.9-r3                                                       |\n"
+              },
+              "properties": {
+                "affected_version": "\u003c3.0.9-r3",
+                "cvssV3_severity": "MEDIUM",
+                "fixed_version": "3.0.9-r3",
+                "purl": "pkg:apk/alpine/openssl@3.0.9-r1?os_name=alpine\u0026os_version=3.17",
+                "security-severity": "5.3",
+                "tags": [
+                  "MEDIUM"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-36617",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-36617: Inefficient Regular Expression Complexity"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-36617",
+              "help": {
+                "text": "A ReDoS issue was discovered in the URI component before 0.12.2 for Ruby. The URI parser mishandles invalid URLs that have specific characters. There is an increase in execution time for parsing strings to URI objects with `rfc2396_parser.rb` and `rfc3986_parser.rb`.\n\nNOTE: this issue exists becuse of an incomplete fix for CVE-2023-28755. Version 0.10.3 is also a fixed version.\n\n[The Ruby advisory recommends](https://www.ruby-lang.org/en/news/2023/06/29/redos-in-uri-CVE-2023-36617/) updating the uri gem to 0.12.2. In order to ensure compatibility with the bundled version in older Ruby series, you may update as follows instead:\n- For Ruby 3.0: Update to uri 0.10.3\n- For Ruby 3.1 and 3.2: Update to uri 0.12.2.\n\nYou can use gem update uri to update it. If you are using bundler, please add gem `uri`, `\u003e= 0.12.2` (or other version mentioned above) to your Gemfile.\n",
+                "markdown": "\u003e A ReDoS issue was discovered in the URI component before 0.12.2 for Ruby. The URI parser mishandles invalid URLs that have specific characters. There is an increase in execution time for parsing strings to URI objects with `rfc2396_parser.rb` and `rfc3986_parser.rb`.\n\nNOTE: this issue exists becuse of an incomplete fix for CVE-2023-28755. Version 0.10.3 is also a fixed version.\n\n[The Ruby advisory recommends](https://www.ruby-lang.org/en/news/2023/06/29/redos-in-uri-CVE-2023-36617/) updating the uri gem to 0.12.2. In order to ensure compatibility with the bundled version in older Ruby series, you may update as follows instead:\n- For Ruby 3.0: Update to uri 0.10.3\n- For Ruby 3.1 and 3.2: Update to uri 0.12.2.\n\nYou can use gem update uri to update it. If you are using bundler, please add gem `uri`, `\u003e= 0.12.2` (or other version mentioned above) to your Gemfile.\n\n|                |                                              |\n|----------------|----------------------------------------------|\n| Package        | pkg:gem/uri@0.12.1                           |\n| Affected range | \u003e=0.11.0,\u003c0.12.2                             |\n| Fixed version  | 0.12.2                                       |\n| CVSS Score     |                                          5.3 |\n| CVSS Vector    | CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L |\n"
+              },
+              "properties": {
+                "affected_version": "\u003e=0.11.0,\u003c0.12.2",
+                "cvssV3": 5.3,
+                "cvssV3_severity": "MEDIUM",
+                "cvssV3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L",
+                "fixed_version": "0.12.2",
+                "purl": "pkg:gem/uri@0.12.1",
+                "security-severity": "5.3",
+                "tags": [
+                  "MEDIUM"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-3817",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-3817"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-3817",
+              "help": {
+                "text": "\n",
+                "markdown": "\u003e \n\n|                |                                                                |\n|----------------|----------------------------------------------------------------|\n| Package        | pkg:apk/alpine/openssl@3.0.9-r1?os_name=alpine\u0026os_version=3.17 |\n| Affected range | \u003c3.0.10-r0                                                     |\n| Fixed version  | 3.0.10-r0                                                      |\n"
+              },
+              "properties": {
+                "affected_version": "\u003c3.0.10-r0",
+                "cvssV3_severity": "MEDIUM",
+                "fixed_version": "3.0.10-r0",
+                "purl": "pkg:apk/alpine/openssl@3.0.9-r1?os_name=alpine\u0026os_version=3.17",
+                "security-severity": "5.3",
+                "tags": [
+                  "MEDIUM"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-35945",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-35945"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-35945",
+              "help": {
+                "text": "\n",
+                "markdown": "\u003e \n\n|                |                                                                 |\n|----------------|-----------------------------------------------------------------|\n| Package        | pkg:apk/alpine/nghttp2@1.51.0-r0?os_name=alpine\u0026os_version=3.17 |\n| Affected range | \u003c1.51.0-r1                                                      |\n| Fixed version  | 1.51.0-r1                                                       |\n"
+              },
+              "properties": {
+                "affected_version": "\u003c1.51.0-r1",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "1.51.0-r1",
+                "purl": "pkg:apk/alpine/nghttp2@1.51.0-r0?os_name=alpine\u0026os_version=3.17",
+                "security-severity": "7.5",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-32006",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-32006"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-32006",
+              "help": {
+                "text": "\n",
+                "markdown": "\u003e \n\n|                |                                                                 |\n|----------------|-----------------------------------------------------------------|\n| Package        | pkg:apk/alpine/nodejs@18.16.1-r0?os_name=alpine\u0026os_version=3.17 |\n| Affected range | \u003c18.17.1-r0                                                     |\n| Fixed version  | 18.17.1-r0                                                      |\n"
+              },
+              "properties": {
+                "affected_version": "\u003c18.17.1-r0",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "18.17.1-r0",
+                "purl": "pkg:apk/alpine/nodejs@18.16.1-r0?os_name=alpine\u0026os_version=3.17",
+                "security-severity": "8.8",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-39417",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-39417"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-39417",
+              "help": {
+                "text": "\n",
+                "markdown": "\u003e \n\n|                |                                                                    |\n|----------------|--------------------------------------------------------------------|\n| Package        | pkg:apk/alpine/postgresql15@15.3-r0?os_name=alpine\u0026os_version=3.17 |\n| Affected range | \u003c15.4-r0                                                           |\n| Fixed version  | 15.4-r0                                                            |\n"
+              },
+              "properties": {
+                "affected_version": "\u003c15.4-r0",
+                "cvssV3_severity": "HIGH",
+                "fixed_version": "15.4-r0",
+                "purl": "pkg:apk/alpine/postgresql15@15.3-r0?os_name=alpine\u0026os_version=3.17",
+                "security-severity": "8.8",
+                "tags": [
+                  "HIGH"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2015-1820",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2015-1820: Session Fixation"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2015-1820",
+              "help": {
+                "text": "REST client for Ruby (aka rest-client) versions 1.6.1.a until 1.8.0 allow remote attackers to conduct session fixation attacks or obtain sensitive cookie information by leveraging passage of cookies set in a response to a redirect.\n",
+                "markdown": "\u003e REST client for Ruby (aka rest-client) versions 1.6.1.a until 1.8.0 allow remote attackers to conduct session fixation attacks or obtain sensitive cookie information by leveraging passage of cookies set in a response to a redirect.\n\n|                |                                              |\n|----------------|----------------------------------------------|\n| Package        | pkg:gem/rest-client@1.6.7                    |\n| Affected range | \u003e=1.6.1.a,\u003c1.8.0                             |\n| Fixed version  | 1.8.0                                        |\n| CVSS Score     |                                          9.8 |\n| CVSS Vector    | CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H |\n"
+              },
+              "properties": {
+                "affected_version": "\u003e=1.6.1.a,\u003c1.8.0",
+                "cvssV3": 9.8,
+                "cvssV3_severity": "CRITICAL",
+                "cvssV3_vector": "CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                "fixed_version": "1.8.0",
+                "purl": "pkg:gem/rest-client@1.6.7",
+                "security-severity": "9.8",
+                "tags": [
+                  "CRITICAL"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-32002",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-32002"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-32002",
+              "help": {
+                "text": "\n",
+                "markdown": "\u003e \n\n|                |                                                                 |\n|----------------|-----------------------------------------------------------------|\n| Package        | pkg:apk/alpine/nodejs@18.16.1-r0?os_name=alpine\u0026os_version=3.17 |\n| Affected range | \u003c18.17.1-r0                                                     |\n| Fixed version  | 18.17.1-r0                                                      |\n"
+              },
+              "properties": {
+                "affected_version": "\u003c18.17.1-r0",
+                "cvssV3_severity": "CRITICAL",
+                "fixed_version": "18.17.1-r0",
+                "purl": "pkg:apk/alpine/nodejs@18.16.1-r0?os_name=alpine\u0026os_version=3.17",
+                "security-severity": "9.8",
+                "tags": [
+                  "CRITICAL"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-32559",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-32559"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-32559",
+              "help": {
+                "text": "\n",
+                "markdown": "\u003e \n\n|                |                                                                 |\n|----------------|-----------------------------------------------------------------|\n| Package        | pkg:apk/alpine/nodejs@18.16.1-r0?os_name=alpine\u0026os_version=3.17 |\n| Affected range | \u003c18.17.1-r0                                                     |\n| Fixed version  | 18.17.1-r0                                                      |\n"
+              },
+              "properties": {
+                "affected_version": "\u003c18.17.1-r0",
+                "cvssV3_severity": "CRITICAL",
+                "fixed_version": "18.17.1-r0",
+                "purl": "pkg:apk/alpine/nodejs@18.16.1-r0?os_name=alpine\u0026os_version=3.17",
+                "security-severity": "9.8",
+                "tags": [
+                  "CRITICAL"
+                ]
+              }
+            },
+            {
+              "id": "CVE-2023-40175",
+              "name": "OsPackageVulnerability",
+              "shortDescription": {
+                "text": "CVE-2023-40175: Inconsistent Interpretation of HTTP Requests ('HTTP Request/Response Smuggling')"
+              },
+              "helpUri": "https://scout.docker.com/v/CVE-2023-40175",
+              "help": {
+                "text": "### Impact\nPrior to version 6.3.1, puma exhibited incorrect behavior when parsing chunked transfer encoding bodies and zero-length Content-Length headers in a way that allowed HTTP request smuggling.\n\nThe following vulnerabilities are addressed by this advisory:\n\n* Incorrect parsing of trailing fields in chunked transfer encoding bodies\n* Parsing of blank/zero-length Content-Length headers\n\n### Patches\nThe vulnerability has been fixed in 6.3.1 and 5.6.7.\n\n### Workarounds\nNo known workarounds.\n\n### References\n[HTTP Request Smuggling](https://portswigger.net/web-security/request-smuggling)\n\n### For more information\nIf you have any questions or comments about this advisory:\n\nOpen an issue in [Puma](https://github.com/puma/puma)\nSee our [security policy](https://github.com/puma/puma/security/policy)\n\n",
+                "markdown": "\u003e ### Impact\nPrior to version 6.3.1, puma exhibited incorrect behavior when parsing chunked transfer encoding bodies and zero-length Content-Length headers in a way that allowed HTTP request smuggling.\n\nThe following vulnerabilities are addressed by this advisory:\n\n* Incorrect parsing of trailing fields in chunked transfer encoding bodies\n* Parsing of blank/zero-length Content-Length headers\n\n### Patches\nThe vulnerability has been fixed in 6.3.1 and 5.6.7.\n\n### Workarounds\nNo known workarounds.\n\n### References\n[HTTP Request Smuggling](https://portswigger.net/web-security/request-smuggling)\n\n### For more information\nIf you have any questions or comments about this advisory:\n\nOpen an issue in [Puma](https://github.com/puma/puma)\nSee our [security policy](https://github.com/puma/puma/security/policy)\n\n\n|                |                                              |\n|----------------|----------------------------------------------|\n| Package        | pkg:gem/puma@6.3.0                           |\n| Affected range | \u003e=6.0.0,\u003c6.3.1                               |\n| Fixed version  | 6.3.1                                        |\n| CVSS Score     |                                          9.8 |\n| CVSS Vector    | CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H |\n"
+              },
+              "properties": {
+                "affected_version": "\u003e=6.0.0,\u003c6.3.1",
+                "cvssV3": 9.8,
+                "cvssV3_severity": "CRITICAL",
+                "cvssV3_vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+                "fixed_version": "6.3.1",
+                "purl": "pkg:gem/puma@6.3.0",
+                "security-severity": "9.8",
+                "tags": [
+                  "CRITICAL"
+                ]
+              }
+            }
+          ],
+          "version": "0.20.0"
+        }
+      },
+      "results": [
+        {
+          "ruleId": "CVE-2015-3448",
+          "ruleIndex": 0,
+          "kind": "fail",
+          "level": "note",
+          "message": {
+            "text": "  Vulnerability  : CVE-2015-3448              \n  Severity       : LOW                        \n  Package        : pkg:gem/rest-client@1.6.7  \n  Affected range : \u003c1.7.3                     \n  Fixed version  : 1.7.3                      \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bundle/specifications/rest-client-1.6.7.gemspec"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-39418",
+          "ruleIndex": 1,
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-39418                                                      \n  Severity       : MEDIUM                                                              \n  Package        : pkg:apk/alpine/postgresql15@15.3-r0?os_name=alpine\u0026os_version=3.17  \n  Affected range : \u003c15.4-r0                                                            \n  Fixed version  : 15.4-r0                                                             \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-2975",
+          "ruleIndex": 2,
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-2975                                                   \n  Severity       : MEDIUM                                                          \n  Package        : pkg:apk/alpine/openssl@3.0.9-r1?os_name=alpine\u0026os_version=3.17  \n  Affected range : \u003c3.0.9-r2                                                       \n  Fixed version  : 3.0.9-r2                                                        \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-3446",
+          "ruleIndex": 3,
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-3446                                                   \n  Severity       : MEDIUM                                                          \n  Package        : pkg:apk/alpine/openssl@3.0.9-r1?os_name=alpine\u0026os_version=3.17  \n  Affected range : \u003c3.0.9-r3                                                       \n  Fixed version  : 3.0.9-r3                                                        \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-36617",
+          "ruleIndex": 4,
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-36617                                \n  Severity       : MEDIUM                                        \n  Package        : pkg:gem/uri@0.12.1                            \n  Affected range : \u003e=0.11.0,\u003c0.12.2                              \n  Fixed version  : 0.12.2                                        \n  CVSS Score     : 5.3                                           \n  CVSS Vector    : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/lib/ruby/gems/3.2.0/specifications/default/uri-0.12.1.gemspec"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-3817",
+          "ruleIndex": 5,
+          "kind": "fail",
+          "level": "warning",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-3817                                                   \n  Severity       : MEDIUM                                                          \n  Package        : pkg:apk/alpine/openssl@3.0.9-r1?os_name=alpine\u0026os_version=3.17  \n  Affected range : \u003c3.0.10-r0                                                      \n  Fixed version  : 3.0.10-r0                                                       \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-35945",
+          "ruleIndex": 6,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-35945                                                   \n  Severity       : HIGH                                                             \n  Package        : pkg:apk/alpine/nghttp2@1.51.0-r0?os_name=alpine\u0026os_version=3.17  \n  Affected range : \u003c1.51.0-r1                                                       \n  Fixed version  : 1.51.0-r1                                                        \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-32006",
+          "ruleIndex": 7,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-32006                                                   \n  Severity       : HIGH                                                             \n  Package        : pkg:apk/alpine/nodejs@18.16.1-r0?os_name=alpine\u0026os_version=3.17  \n  Affected range : \u003c18.17.1-r0                                                      \n  Fixed version  : 18.17.1-r0                                                       \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/bin/node"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/share/systemtap/tapset/node.stp"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-39417",
+          "ruleIndex": 8,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-39417                                                      \n  Severity       : HIGH                                                                \n  Package        : pkg:apk/alpine/postgresql15@15.3-r0?os_name=alpine\u0026os_version=3.17  \n  Affected range : \u003c15.4-r0                                                            \n  Fixed version  : 15.4-r0                                                             \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2015-1820",
+          "ruleIndex": 9,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "  Vulnerability  : CVE-2015-1820                                 \n  Severity       : CRITICAL                                      \n  Package        : pkg:gem/rest-client@1.6.7                     \n  Affected range : \u003e=1.6.1.a,\u003c1.8.0                              \n  Fixed version  : 1.8.0                                         \n  CVSS Score     : 9.8                                           \n  CVSS Vector    : CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bundle/specifications/rest-client-1.6.7.gemspec"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-32002",
+          "ruleIndex": 10,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-32002                                                   \n  Severity       : CRITICAL                                                         \n  Package        : pkg:apk/alpine/nodejs@18.16.1-r0?os_name=alpine\u0026os_version=3.17  \n  Affected range : \u003c18.17.1-r0                                                      \n  Fixed version  : 18.17.1-r0                                                       \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/bin/node"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/share/systemtap/tapset/node.stp"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-32559",
+          "ruleIndex": 11,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-32559                                                   \n  Severity       : CRITICAL                                                         \n  Package        : pkg:apk/alpine/nodejs@18.16.1-r0?os_name=alpine\u0026os_version=3.17  \n  Affected range : \u003c18.17.1-r0                                                      \n  Fixed version  : 18.17.1-r0                                                       \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/lib/apk/db/installed"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/bin/node"
+                }
+              }
+            },
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/share/systemtap/tapset/node.stp"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "ruleId": "CVE-2023-40175",
+          "ruleIndex": 12,
+          "kind": "fail",
+          "level": "error",
+          "message": {
+            "text": "  Vulnerability  : CVE-2023-40175                                \n  Severity       : CRITICAL                                      \n  Package        : pkg:gem/puma@6.3.0                            \n  Affected range : \u003e=6.0.0,\u003c6.3.1                                \n  Fixed version  : 6.3.1                                         \n  CVSS Score     : 9.8                                           \n  CVSS Vector    : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H  \n"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "/usr/local/bundle/specifications/puma-6.3.0.gemspec"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
