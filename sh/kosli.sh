@@ -177,12 +177,12 @@ on_ci_kosli_report_test_coverage_evidence()
 on_ci_kosli_report_snyk_scan_evidence()
 {
   if on_ci; then
-    set +x
+    set +e
     #  --file=../source/server/Dockerfile does not work for some reason. So it is not used here.
     snyk container test "$(artifact_name)" \
       --json-file-output=snyk.json \
       --exclude-app-vulns
-    set -x
+    set -e
 
     kosli_report_snyk "${KOSLI_HOST_STAGING}"
     kosli_report_snyk "${KOSLI_HOST_PRODUCTION}"
