@@ -2,6 +2,7 @@
 set -Eeu
 
 export KOSLI_FLOW=creator
+
 # KOSLI_ORG is set in CI
 # KOSLI_API_TOKEN is set in CI
 # KOSLI_HOST_STAGING is set in CI
@@ -178,11 +179,9 @@ on_ci_kosli_report_snyk_scan_evidence()
 {
   if on_ci; then
     set +e
-    #  --file=../source/server/Dockerfile does not work for some reason. So it is not used here.
     snyk container test "$(artifact_name)" \
       --json-file-output=snyk.json \
-      --exclude-app-vulns \
-      --severity-threshold=high
+      --policy-path=.snyk
     set -e
 
     kosli_report_snyk "${KOSLI_HOST_STAGING}"
