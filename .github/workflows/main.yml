@@ -5,6 +5,18 @@ on:
     branches:
       - main
 
+env:
+  KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+  DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
+  DOCKER_USER: ${{ secrets.DOCKER_USER }}
+  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+  KOSLI_HOST_STAGING: https://staging.app.kosli.com
+  KOSLI_HOST_PRODUCTION: https://app.kosli.com
+  KOSLI_ORG: cyber-dojo
+  KOSLI_FLOW: ${{ inputs.KOSLI_FLOW }}
+  AWS_ACCOUNT_ID: 244531986313
+  AWS_REGION: eu-central-1
+
 jobs:
   pre-build:
     runs-on: ubuntu-latest
@@ -20,55 +32,77 @@ jobs:
 
   build-test-push:
     needs: [pre-build]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_build_test_push.yml@v0.0.1
-    secrets:
-      KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
-      DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-      DOCKER_USER: ${{ secrets.DOCKER_USER }}
-      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-    with:
-      BUILD_COMMAND: build_test_publish.sh
-      AWS_ACCOUNT_ID: 244531986313
-      AWS_REGION: eu-central-1
-      image_tag: ${{ needs.pre-build.outputs.image_tag }}
-      ecr_registry: 244531986313.dkr.ecr.eu-central-1.amazonaws.com
-      service_name: creator
-      gh_actions_iam_role_name: gh_actions_services
-
-  deploy-staging:
-    needs: [pre-build, build-test-push]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.2
+    runs-on: ubuntu-22.04
     permissions:
       id-token: write
       contents: write
-    secrets:
-      KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
-    with:
-      AWS_ACCOUNT_ID: 244531986313
-      AWS_REGION: eu-central-1
-      cyber_dojo_env_name_aws: aws-beta
-      environment_name: staging
-      environment_url: https://beta.cyber-dojo.org
-      gh_actions_iam_role_name: gh_actions_services
-      kosli_host_production: https://app.kosli.com
-      kosli_host_staging: https://staging.app.kosli.com
-      tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.image_tag }}
+    steps:
+      - name: Setup Kosli CLI
+        uses: kosli-dev/setup-cli-action@v2
+        with:
+          version:
+            "2.6.8"
 
-  deploy-prod:
-    needs: [pre-build, build-test-push]
-    uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.2
-    permissions:
-      id-token: write
-      contents: write
-    secrets:
-      KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
-    with:
-      AWS_ACCOUNT_ID: 274425519734
-      AWS_REGION: eu-central-1
-      cyber_dojo_env_name_aws: aws-prod
-      environment_name: production
-      environment_url: https://cyber-dojo.org
-      gh_actions_iam_role_name: gh_actions_services
-      kosli_host_production: https://app.kosli.com
-      kosli_host_staging: https://staging.app.kosli.com
-      tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.image_tag }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1-node16
+        with:
+            role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/gh_actions_snyk_scans
+            aws-region: ${{ env.AWS_REGION }}
+            role-duration-seconds: 2400
+            role-session-name: ${{ github.event.repository.name }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+            
+      - name: Setup Snyk
+        uses: snyk/actions/setup@master
+
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          # Get full history for Kosli commit-interval harvesting
+          fetch-depth: 0
+
+      - name: Build Test Publish
+        run: 
+          ./build_test_publish.sh
+        
+
+  # deploy-staging:
+  #   needs: [pre-build, build-test-push]
+  #   #uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.2
+  #   permissions:
+  #     id-token: write
+  #     contents: write
+  #   secrets:
+  #     KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+  #   with:
+  #     AWS_ACCOUNT_ID: 244531986313
+  #     AWS_REGION: eu-central-1
+  #     cyber_dojo_env_name_aws: aws-beta
+  #     environment_name: staging
+  #     environment_url: https://beta.cyber-dojo.org
+  #     gh_actions_iam_role_name: gh_actions_services
+  #     kosli_host_production: https://app.kosli.com
+  #     kosli_host_staging: https://staging.app.kosli.com
+  #     tagged_image: 244531986313.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.image_tag }}
+
+  # deploy-prod:
+  #   needs: [pre-build, build-test-push]
+  #   uses: cyber-dojo/reusable-actions-workflows/.github/workflows/kosli_deploy.yml@v0.0.2
+  #   permissions:
+  #     id-token: write
+  #     contents: write
+  #   secrets:
+  #     KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
+  #   with:
+  #     AWS_ACCOUNT_ID: 274425519734
+  #     AWS_REGION: eu-central-1
+  #     cyber_dojo_env_name_aws: aws-prod
+  #     environment_name: production
+  #     environment_url: https://cyber-dojo.org
+  #     gh_actions_iam_role_name: gh_actions_services
+  #     kosli_host_production: https://app.kosli.com
+  #     kosli_host_staging: https://staging.app.kosli.com
+  #     tagged_image: 274425519734.dkr.ecr.eu-central-1.amazonaws.com/creator:${{ needs.pre-build.outputs.image_tag }}
