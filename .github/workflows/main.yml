@@ -5,18 +5,6 @@ on:
     branches:
       - main
 
-env:
-  KOSLI_API_TOKEN: ${{ secrets.KOSLI_API_TOKEN }}
-  DOCKER_PASS: ${{ secrets.DOCKER_PASS }}
-  DOCKER_USER: ${{ secrets.DOCKER_USER }}
-  SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-  KOSLI_HOST_STAGING: https://staging.app.kosli.com
-  KOSLI_HOST_PRODUCTION: https://app.kosli.com
-  KOSLI_ORG: cyber-dojo
-  KOSLI_FLOW: ${{ inputs.KOSLI_FLOW }}
-  AWS_ACCOUNT_ID: 244531986313
-  AWS_REGION: eu-central-1
-
 jobs:
   pre-build:
     runs-on: ubuntu-latest
