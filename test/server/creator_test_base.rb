@@ -7,9 +7,9 @@ require 'ostruct'
 
 class CreatorTestBase < Id58TestBase
 
-  include Rack::Test::Methods # [1]
+  include Rack::Test::Methods # [1]
 
-  def app # [1]
+  def app # [1]
     App.new(externals)
   end
 
