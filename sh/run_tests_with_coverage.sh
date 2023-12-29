@@ -29,7 +29,7 @@ run_tests_with_coverage()
   remove_old_images
 
   build_tagged_images
-  #exit_zero_if_build_only "$@"
+  exit_zero_if_build_only "$@"
   server_up_healthy_and_clean
   client_up_healthy_and_clean "$@"
   copy_in_saver_test_data
