@@ -39,5 +39,3 @@ run_tests_with_coverage()
   set -e
   return ${exit_status}
 }
-
-run_tests_with_coverage
