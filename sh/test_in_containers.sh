@@ -2,10 +2,10 @@
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 test_in_containers()
 {
-  if [ "${1:-}" == 'client' ]; then
+  if [ "${1:-}" = 'client' ]; then
     shift
     run_client_tests "${@:-}"
-  elif [ "${1:-}" == 'server' ]; then
+  elif [ "${1:-}" = 'server' ]; then
     shift
     run_server_tests "${@:-}"
   else

@@ -1,0 +1,261 @@
+# Edit this line to force a CI run: 166
+
+image: registry.gitlab.com/cyber-dojo/ci-runner:v1
+
+stages:
+  - kosli-start-trail-stage
+  - build-image-stage
+  - test-stage
+  - beta-deployment-stage
+  - prod-approval-stage
+  - sdlc-control-gate-stage
+  - prod-deployment-stage
+  - post-deployment-stage
+
+
+variables:
+  # KOSLI_DRY_RUN: true
+  KOSLI_ORG: cyber-dojo
+  KOSLI_FLOW: creator
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_CERT_PATH: "${DOCKER_TLS_CERTDIR}/client"
+
+
+kosli-start-trail:
+  stage: kosli-start-trail-stage
+  script:
+    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
+    - kosli_create_flow()
+      {
+        kosli create flow ${KOSLI_FLOW}
+          --description "UX for Group/Kata creation"
+          --template artifact,unit-test,branch-coverage,snyk-scan,pull-request  
+          "$@" ;
+      }
+    - kosli_create_flow || true
+    - kosli_create_flow --api-token=${KOSLI_API_TOKEN_STAGING} --host=${KOSLI_HOST_STAGING} || true
+
+
+build-image:
+  stage: build-image-stage
+  needs: [ kosli-start-trail ]
+  services: [ docker:24.0.5-dind ]
+  artifacts:
+    paths: [ kosli/ ]
+  script:
+    - source ./sh/echo_versioner_env_vars.sh
+    - export $(echo_versioner_env_vars)
+    - docker-compose build --build-arg COMMIT_SHA=${CI_COMMIT_SHA}
+    - IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}
+    - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+    - docker push ${IMAGE_NAME}
+
+    - mkdir kosli
+    - FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker)
+    - echo ${FINGERPRINT} > kosli/fingerprint
+    - echo ${IMAGE_NAME}  > kosli/image_name
+
+    - echo "FINGERPRINT=:${FINGERPRINT}:"
+    - echo "IMAGE_NAME=:${IMAGE_NAME}:"
+
+    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
+    - kosli_report_artifact()
+      {
+        kosli report artifact $(cat kosli/image_name)
+          --fingerprint=$(cat kosli/fingerprint)
+          "$@" ;      
+      }
+    - kosli_report_artifact || true
+    - kosli_report_artifact --api-token=${KOSLI_API_TOKEN_STAGING} --host=${KOSLI_HOST_STAGING} || true
+
+
+unit-test:
+  stage: test-stage
+  needs: [ build-image ]
+  services: [ docker:24.0.5-dind ]
+  artifacts:
+    paths: [ kosli/ ]
+  script:
+    - set +e
+    - source ./sh/run_tests_with_coverage.sh
+    - run_tests_with_coverage
+    - STATUS=$?
+    - set -e
+
+    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit ${STATUS} ; fi
+
+    - kosli_report_unit_test() 
+      {
+         kosli report evidence artifact junit $(cat kosli/image_name)
+           --fingerprint=$(cat kosli/fingerprint)
+           --name=unit-test
+           --results-dir=test/server/reports/junit
+           "$@" ;      
+         kosli report evidence artifact generic $(cat kosli/image_name)
+           --fingerprint=$(cat kosli/fingerprint)
+           --compliant=${KOSLI_COMPLIANT}
+           --description="server & client branch-coverage reports"
+           --name=branch-coverage
+           --user-data=./test/evidence.json 
+           "$@" ;
+      }
+    - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
+    - kosli_report_unit_test || true
+    - kosli_report_unit_test --api-token=${KOSLI_API_TOKEN_STAGING} --host=${KOSLI_HOST_STAGING} || true
+    - exit ${STATUS}
+
+
+security-scan:
+  stage: test-stage
+  needs: [ build-image ]
+  artifacts:
+    paths: [ kosli/ ]
+  script:
+    - set +e
+    - snyk container test $(cat kosli/image_name)
+        --file=Dockerfile
+        --json-file-output=snyk.json
+        --policy-path=.snyk
+    - STATUS=$?
+    - set -e
+
+    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit $STATUS ; fi
+
+    - kosli_report_snyk()
+      {
+         kosli report evidence artifact snyk $(cat kosli/image_name)
+           --fingerprint=$(cat kosli/fingerprint)
+           --name=snyk-scan
+           --scan-results=snyk.json
+           "$@" ;      
+      }
+    - kosli_report_snyk || true
+    - kosli_report_snyk --api-token=${KOSLI_API_TOKEN_STAGING} --host=${KOSLI_HOST_STAGING} || true
+    - exit ${STATUS}
+
+
+pull-request:
+  stage: test-stage
+  needs: [ build-image ]
+  artifacts:
+    paths: [ kosli/ ]
+  script:
+    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
+    - kosli_report_pull_request()
+      {
+         kosli report evidence artifact pullrequest gitlab $(cat kosli/image_name)
+           --fingerprint=$(cat kosli/fingerprint)           
+           --name=pull-request
+           --gitlab-token=${KOSLI_GITLAB_TOKEN} 
+           "$@" ;      
+      }
+    - kosli_report_pull_request
+    - kosli_report_pull_request --api-token=${KOSLI_API_TOKEN_STAGING} --host=${KOSLI_HOST_STAGING} 
+         --assert
+
+
+beta-deployment:
+  stage: beta-deployment-stage
+  needs: [ unit-test, security-scan, pull-request ]
+  services: [ docker:24.0.5-dind ]
+  artifacts:
+    paths: [ kosli/ ]
+  variables:
+    AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_BETA}
+    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_BETA}
+    KOSLI_ENVIRONMENT_NAME: aws-beta
+  script:
+    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
+    - kosli_expect_deployment()
+      {
+         kosli expect deployment $(cat kosli/image_name)
+           --fingerprint=$(cat kosli/fingerprint)
+           --description "Deployed to ${KOSLI_ENVIRONMENT_NAME} in Gitlab pipeline"
+           --environment ${KOSLI_ENVIRONMENT_NAME} 
+           "$@" ;            
+      }
+    - kosli_expect_deployment || true
+    - kosli_expect_deployment --api-token=${KOSLI_API_TOKEN_STAGING} --host=${KOSLI_HOST_STAGING} || true
+    - docker pull $(cat kosli/image_name)
+    - export ECR_BETA_REPO=244531986313.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_PROJECT_NAME}
+    - export TF_VAR_TAGGED_IMAGE=${ECR_BETA_REPO}:${CI_COMMIT_SHA:0:7}
+    - docker tag $(cat kosli/image_name) ${TF_VAR_TAGGED_IMAGE}
+    - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_BETA_REPO}
+    - docker push ${TF_VAR_TAGGED_IMAGE}
+    - cd deployment/terraform && tf.sh apply
+
+
+prod-approval:
+  stage: prod-approval-stage
+  needs: [ beta-deployment ]
+  artifacts:
+    paths: [ kosli/ ]
+  when: manual
+  allow_failure: false
+  script:
+    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
+    - kosli_report_approval()
+      {
+         kosli report approval $(cat kosli/image_name)
+           --fingerprint=$(cat kosli/fingerprint)
+           --description="Approved in Gitlab pipeline"
+           --environment=aws-prod
+           --approver="${GITLAB_USER_NAME} <${GITLAB_USER_EMAIL}>"
+           "$@" ;
+      }
+    - kosli_report_approval || true
+    - kosli_report_approval --api-token=${KOSLI_API_TOKEN_STAGING} --host=${KOSLI_HOST_STAGING} || true
+
+
+sdlc-control-gate:
+  stage: sdlc-control-gate-stage
+  needs: [ prod-approval ]
+  artifacts:
+    paths: [ kosli/ ]
+  script:
+    - kosli assert artifact $(cat kosli/image_name)
+        --fingerprint=$(cat kosli/fingerprint)
+
+
+prod-deployment:
+  stage: prod-deployment-stage
+  needs: [ sdlc-control-gate ]
+  services: [ docker:24.0.5-dind ]
+  artifacts:
+    paths: [ kosli/ ]
+  variables:
+    AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_PROD}
+    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_PROD}
+    KOSLI_ENVIRONMENT_NAME: aws-prod
+  script:
+    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
+    - kosli_expect_deployment()
+      {
+         kosli expect deployment $(cat kosli/image_name)
+           --fingerprint=$(cat kosli/fingerprint)
+           --description "Deployed to ${KOSLI_ENVIRONMENT_NAME} in Gitlab pipeline"
+           --environment ${KOSLI_ENVIRONMENT_NAME}
+           "$@" ;
+      }
+    - kosli_expect_deployment
+    - kosli_expect_deployment --api-token=${KOSLI_API_TOKEN_STAGING} --host=${KOSLI_HOST_STAGING}
+    - docker pull $(cat kosli/image_name)
+    - export ECR_PROD_REPO=274425519734.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_PROJECT_NAME}
+    - export TF_VAR_TAGGED_IMAGE=${ECR_PROD_REPO}:${CI_COMMIT_SHA:0:7}
+    - docker tag $(cat kosli/image_name) ${TF_VAR_TAGGED_IMAGE}
+    - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_PROD_REPO}
+    - docker push ${TF_VAR_TAGGED_IMAGE}
+    - cd deployment/terraform && tf.sh apply
+
+
+push-latest-image-to-public-registry:
+  stage: post-deployment-stage
+  needs: [ prod-deployment ]
+  services: [ docker:24.0.5-dind ]
+  script:
+    - docker pull $(cat kosli/image_name)
+    - docker tag $(cat kosli/image_name) cyberdojo/${CI_PROJECT_NAME}:latest
+    - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+    - docker push cyberdojo/${CI_PROJECT_NAME}:latest
