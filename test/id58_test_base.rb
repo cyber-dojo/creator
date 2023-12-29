@@ -5,7 +5,7 @@ require 'rack/test'
 Minitest::Ci.report_dir = "#{ENV['COVERAGE_ROOT']}/junit"
 
 def require_source(required)
-  require_relative "../code/#{required}"
+  require_relative "../../app/#{required}"
 end
 
 class Id58TestBase < Minitest::Test

@@ -50,7 +50,7 @@ run_tests()
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Run tests (with branch coverage) inside the container.
 
-  local -r CODE_DIR=code
+  local -r CODE_DIR=app
   local -r TEST_DIR=test
   local -r TEST_LOG=test.log
   local -r CONTAINER_REPORTS_DIR=/tmp/reports
