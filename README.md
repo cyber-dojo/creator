@@ -1,3 +1,5 @@
+[![Gitlab Action (main)](https://gitlab.com/username/userproject/badges/master/pipeline.svg)]
+(https://gitlab.com/cyber-dojo/creator/-/pipelines)
 
 - A [docker-containerized](https://registry.hub.docker.com/r/cyberdojo/creator) micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
 - The HTTP UI to configure and create (or re-enter) a group-exercise or an individual-exercise.
