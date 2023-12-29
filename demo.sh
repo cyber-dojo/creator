@@ -28,15 +28,19 @@ api_demo()
   echo
   curl_200 home   'Content-Type: text/html'
 
-  curl_200 choose_problem        'Content-Type: text/html'
+  curl_200 choose_problem 'Content-Type: text/html'
   curl_200 choose_custom_problem 'Content-Type: text/html'
-  curl_200 choose_ltf            'Content-Type: text/html'
-  curl_200 choose_type           'Content-Type: text/html'
+  curl_200 choose_ltf?exercise_name=Fizz%20Buzz 'Content-Type: text/html'
+  curl_200 choose_type?exercise_name=Fizz%20Buzz\&language_name=Bash%2C%20bats 'Content-Type: text/html'
 
-  curl_200 enter          'Content-Type: text/html'
+  # TODO: use curl_json_body_200() from sh/api_demo.sh
+  # POST enter.json {"exercise_name":"Fizz Buzz", "language_name":"Bash, bats", "type":"group"}
+  # POST enter.json {"exercise_name":"Fizz Buzz", "language_name":"Bash, bats", "type":"kata"}
+  curl_200 enter    'Content-Type: text/html'
   #curl_200 avatar?id=ID   'Content-Type: text/html'
   #curl_200 reenter?id=ID  'Content-Type: text/html'
   #curl_200 full?id=ID     'Content-Type: text/html'
+  curl_200 full     'Content-Type: text/html'
   echo
 }
 
@@ -79,59 +83,8 @@ curl_200()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-curl_params_302()
-{
-  local -r route="${1}"  # eg kata_create
-  local -r params="${2}" # eg "display_name=Java Countdown, Round 1"
-  curl  \
-    --data-urlencode "${params}" \
-    --fail \
-    --request GET \
-    --silent \
-    --verbose \
-      "http://${IP_ADDRESS}:$(port)/${route}" \
-      > "$(log_filename)" 2>&1
-
-  grep --quiet 302 "$(log_filename)" # eg HTTP/1.1 302 Moved Temporarily
-  local -r result=$(grep Location "$(log_filename)" | head -n 1)
-  echo "GET ${route} => 302 ...|${result}"
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-curl_url_params_302()
-{
-  local -r route="${1}"          # eg group_create
-  local -r exercise_param="${2}" # eg "exercise_name":"Fizz Buzz"
-  local -r language_param="${3}" # eg "languages_names":["Java, JUnit"]
-  curl  \
-    --data-urlencode "${exercise_param}" \
-    --data-urlencode "${language_param}" \
-    --fail \
-    --request GET \
-    --silent \
-    --verbose \
-      "http://${IP_ADDRESS}:$(port)/${route}" \
-      > "$(log_filename)" 2>&1
-
-  grep --quiet 302 "$(log_filename)" # eg HTTP/1.1 302 Moved Temporarily
-  local -r result=$(grep Location "$(log_filename)" | head -n 1)
-  echo "GET ${route} => 302 ...|${result}"
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
 port() { echo -n "${CYBER_DOJO_CREATOR_PORT}"; }
 log_filename() { echo -n /tmp/creator.log; }
-
-#url_custom_param() { url_param display_name "$(custom_name)"; }
-#custom_name() { echo -n 'Java Countdown, Round 1'; }
-
-#url_exercise_param()  { url_param exercise_name "$(exercise_name)"; }
-#exercise_name() { echo -n 'Fizz Buzz'; }
-
-#url_language_param()  { url_param language_name "$(language_name)"; }
-#language_name() { echo -n 'Java, JUnit'; }
-
-#url_param() { echo -n "${1}=${2}"; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 remove_old_images
