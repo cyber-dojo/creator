@@ -1,7 +1,4 @@
 
-# This is augmented with dependent services by
-# sh/augmented_docker_compose.sh
-
 version: '3.7'
 
 services:
@@ -35,8 +32,13 @@ services:
       - creator
     read_only: true
     restart: "no"
-    tmpfs: /tmp
-    volumes: [ "./test:/app/test/:ro" ]
+    volumes:
+      - "./test:/app/test/:ro"
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -57,8 +59,13 @@ services:
       - saver
     read_only: true
     restart: "no"
-    tmpfs: /tmp
-    volumes: [ "./test:/app/test/:ro" ]
+    volumes:
+      - "./test:/app/test/:ro"
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
 
   custom-start-points:
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
@@ -66,7 +73,12 @@ services:
     env_file: [ .env ]
     read_only: true
     restart: "no"
-    tmpfs: /tmp
+    volumes:
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
 
   exercises-start-points:
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
@@ -74,7 +86,12 @@ services:
     env_file: [ .env ]
     read_only: true
     restart: "no"
-    tmpfs: /tmp
+    volumes:
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
 
   languages-start-points:
     image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
@@ -82,7 +99,13 @@ services:
     env_file: [ .env ]
     read_only: true
     restart: "no"
-    tmpfs: /tmp
+    volumes:
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
+
 
   runner:
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
@@ -90,9 +113,13 @@ services:
     env_file: [ .env ]
     read_only: true
     restart: "no"
-    tmpfs: /tmp
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
 
   saver:
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
@@ -109,11 +136,3 @@ services:
   selenium:
     image: selenium/standalone-firefox
     ports: [ "4444:4444" ]
-
-
-#    volumes:
-#      - type: tmpfs
-#        target: /tmp
-#        tmpfs:
-#          mode: 01777
-#          size: 10485760  # 10MB
