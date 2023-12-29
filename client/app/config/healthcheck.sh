@@ -1,11 +1,12 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 # Default Alpine image has wget (but not curl)
 
 # Dockerfile has this
 # HEALTHCHECK \
 #    --interval=1s --timeout=1s --retries=5 --start-period=5s \
-#    CMD ./config/heathcheck.sh
+#    CMD /app/config/heathcheck.sh
 
 # --interval=S     time until 1st healthcheck
 # --timeout=S      fail if single healthcheck takes longer than this
