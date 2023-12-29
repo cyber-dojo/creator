@@ -2,15 +2,14 @@
 set -Eeu
 
 MY_DIR="$( cd "$(dirname "${BASH_SOURCE[0]}")" && pwd )"
-source "${MY_DIR}/ip_address.sh"
-source "${MY_DIR}/versioner_env_vars.sh"
-export $(versioner_env_vars)
-readonly IP_ADDRESS="$(ip_address)" # slow
+source "${MY_DIR}/echo_versioner_env_vars.sh"
+export $(echo_versioner_env_vars)
+readonly IP_ADDRESS=localhost
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 main()
 {
-  "${MY_DIR}/build_images.sh"
+  "${MY_DIR}/build_tagged_images.sh"
   "${MY_DIR}/containers_up.sh" api-demo
   echo
   demo

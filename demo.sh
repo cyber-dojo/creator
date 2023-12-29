@@ -9,16 +9,16 @@ source "${SH_DIR}/containers_down.sh"
 source "${SH_DIR}/containers_up_healthy_and_clean.sh"
 source "${SH_DIR}/copy_in_saver_test_data.sh"
 source "${SH_DIR}/echo_versioner_env_vars.sh"
-source "${SH_DIR}/ip_address.sh"
 source "${SH_DIR}/remove_old_images.sh"
 
 export $(echo_versioner_env_vars)
 
-readonly IP_ADDRESS=$(ip_address)
+readonly IP_ADDRESS=localhost
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 api_demo()
 {
+  echo
   curl_json_body_200 alive
   curl_json_body_200 ready
   curl_json_body_200 sha
@@ -141,8 +141,8 @@ server_up_healthy_and_clean
 client_up_healthy_and_clean "$@"
 copy_in_saver_test_data
 api_demo
-if [ "${1:-}" == '--no-browser' ]; then
+if [ "${1:-}" = '--no-browser' ]; then
   containers_down
 else
-  open "http://${IP_ADDRESS}:80/"
+  open "http://${IP_ADDRESS}"
 fi
