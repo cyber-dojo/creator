@@ -6,5 +6,5 @@
 - A [Kosli](https://www.kosli.com/) showcase for a [CI flow](https://app.kosli.com/cyber-dojo/flows/creator/artifacts/) and an [aws production environment](https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/)
 
 - - - -
-![choose-exercise](https://gitlab.com/cyber-dojo/creator/-/blob/main/docs/choose_exercise.png)
-![choose-language-and-test-framework](https://gitlab.com/cyber-dojo/creator/-/blob/main/docs/choose_language_and_test_framework.png)
+![choose-exercise](docs/choose_exercise.png)
+![choose-language-and-test-framework](docs/choose_language_and_test_framework.png)
