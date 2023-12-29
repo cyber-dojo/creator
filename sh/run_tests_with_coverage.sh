@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+set -Eeu
 
 repo_root() { git rev-parse --show-toplevel; }
 
@@ -37,3 +39,5 @@ run_tests_with_coverage()
   set -e
   return ${exit_status}
 }
+
+run_tests_with_coverage
