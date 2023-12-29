@@ -27,12 +27,11 @@ api_demo()
   curl_200 assets/app.js  'Content-Type: application/javascript'
   echo
   curl_200 home   'Content-Type: text/html'
-  curl_200 group  'Content-Type: text/html'
-  curl_200 single 'Content-Type: text/html'
 
   curl_200 choose_problem        'Content-Type: text/html'
-  curl_200 choose_ltf            'Content-Type: text/html'
   curl_200 choose_custom_problem 'Content-Type: text/html'
+  curl_200 choose_ltf            'Content-Type: text/html'
+  curl_200 choose_type           'Content-Type: text/html'
 
   curl_200 enter          'Content-Type: text/html'
   #curl_200 avatar?id=ID   'Content-Type: text/html'
