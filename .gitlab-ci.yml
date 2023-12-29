@@ -165,6 +165,7 @@ beta-deployment:
   variables:
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_BETA}
     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_BETA}
+    AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
     KOSLI_ENVIRONMENT_NAME: aws-beta
   script:
     - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
@@ -228,6 +229,7 @@ prod-deployment:
   variables:
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_PROD}
     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_PROD}
+    AWS_DEFAULT_REGION: ${AWS_DEFAULT_REGION}
     KOSLI_ENVIRONMENT_NAME: aws-prod
   script:
     - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
