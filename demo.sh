@@ -34,13 +34,11 @@ api_demo()
   curl_200 choose_custom_problem 'Content-Type: text/html'
   curl_200 choose_ltf?exercise_name=Fizz%20Buzz 'Content-Type: text/html'
   curl_200 choose_type?exercise_name=Fizz%20Buzz\&language_name=Bash%2C%20bats 'Content-Type: text/html'
-
+  echo
   curl_200 enter    'Content-Type: text/html'
-  #TODO: get IDs from copied-in-saver-data
-  #curl_200 avatar?id=ID   'Content-Type: text/html'
-  #curl_200 reenter?id=ID  'Content-Type: text/html'
-  #curl_200 full?id=ID     'Content-Type: text/html'
-  curl_200 full     'Content-Type: text/html'
+  curl_200 avatar?id=5rTJv5   'Content-Type: text/html'
+  curl_200 reenter?id=5U2J18  'Content-Type: text/html'
+  curl_200 full?id=k5ZTk0     'Content-Type: text/html'
   echo
 }
 
@@ -48,7 +46,7 @@ api_demo()
 remove_old_images
 build_tagged_images
 server_up_healthy_and_clean
-client_up_healthy_and_clean "$@"
+client_up_healthy_and_clean "$@"  # Brings up nginx
 copy_in_saver_test_data
 api_demo
 if [ "${1:-}" = '--no-browser' ]; then

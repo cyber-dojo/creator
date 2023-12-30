@@ -1,6 +1,6 @@
 {
   "server": {
-    "timestamp": 1703902055,
+    "timestamp": 1703928658,
     "command_name": "Minitest",
     "groups": {
       "app": {
@@ -30,7 +30,7 @@
     }
   },
   "client": {
-    "timestamp": 1703902096,
+    "timestamp": 1703928719,
     "command_name": "Minitest",
     "groups": {
       "app": {
