@@ -17,8 +17,6 @@ source "${SH_DIR}/remove_old_images.sh"
 # shellcheck disable=SC2046
 export $(echo_versioner_env_vars)
 
-readonly IP_ADDRESS=localhost
-
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 api_demo()
 {
@@ -62,7 +60,7 @@ curl_json_body_200()
     --request "${type}" \
     --silent \
     --verbose \
-      "http://${IP_ADDRESS}:$(port)/${route}" \
+      "http://localhost:$(port)/${route}" \
       > "${log}" 2>&1
 
   grep --quiet 200 "${log}"             # eg HTTP/1.1 200 OK
@@ -80,7 +78,7 @@ curl_200()
     --request GET \
     --silent \
     --verbose \
-      "http://${IP_ADDRESS}:$(port)/${route}" \
+      "http://localhost:$(port)/${route}" \
       > "$(log_filename)" 2>&1
 
   grep --quiet 200 "$(log_filename)" # eg HTTP/1.1 200 OK
@@ -103,5 +101,5 @@ api_demo
 if [ "${1:-}" = '--no-browser' ]; then
   containers_down
 else
-  open "http://${IP_ADDRESS}"
+  open "http://localhost"
 fi
