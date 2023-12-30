@@ -11,6 +11,7 @@ source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
 source "${SH_DIR}/containers_up_healthy_and_clean.sh"
 source "${SH_DIR}/copy_in_saver_test_data.sh"
+source "${SH_DIR}/curlers.sh"
 source "${SH_DIR}/echo_versioner_env_vars.sh"
 source "${SH_DIR}/remove_old_images.sh"
 
@@ -34,60 +35,14 @@ api_demo()
   curl_200 choose_ltf?exercise_name=Fizz%20Buzz 'Content-Type: text/html'
   curl_200 choose_type?exercise_name=Fizz%20Buzz\&language_name=Bash%2C%20bats 'Content-Type: text/html'
 
-  # curl_json_body_200 POST enter.json {"exercise_name":"Fizz Buzz", "language_name":"Bash, bats", "type":"group"}
-  # curl_json_body_200 POST enter.json {"exercise_name":"Fizz Buzz", "language_name":"Bash, bats", "type":"kata"}
   curl_200 enter    'Content-Type: text/html'
+  #TODO: get IDs from copied-in-saver-data
   #curl_200 avatar?id=ID   'Content-Type: text/html'
   #curl_200 reenter?id=ID  'Content-Type: text/html'
   #curl_200 full?id=ID     'Content-Type: text/html'
   curl_200 full     'Content-Type: text/html'
   echo
 }
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-curl_json_body_200()
-{
-  local -r type="${1}"   # eg GET|POST
-  local -r route="${2}"  # eg creator/ready
-  local -r json="${3:-}" # eg '{"display_name":"Java Countdown, Round 1"}'
-  curl  \
-    --data "${json}" \
-    --fail \
-    --header 'Content-type: application/json' \
-    --header 'Accept: application/json' \
-    --request "${type}" \
-    --silent \
-    --verbose \
-      "http://localhost:$(port)/${route}" \
-      > "$(log_filename)" 2>&1
-
-  grep --quiet 200 "$(log_filename)"             # eg HTTP/1.1 200 OK
-  local -r result=$(tail -n 1 "$(log_filename)") # eg {"sha":"78c19640aa43ea214da17d0bcb16abed420d7642"}
-  echo "$(tab)${type} ${route} => 200 ${result}"
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-curl_200()
-{
-  local -r route="${1}"   # eg kata_choose
-  local -r pattern="${2}" # eg exercise
-  curl  \
-    --fail \
-    --request GET \
-    --silent \
-    --verbose \
-      "http://localhost:$(port)/${route}" \
-      > "$(log_filename)" 2>&1
-
-  grep --quiet 200 "$(log_filename)" # eg HTTP/1.1 200 OK
-  local -r result=$(grep "${pattern}" "$(log_filename)" | head -n 1)
-  echo "$(tab)GET ${route} => 200 ...|${result}"
-}
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
-port() { echo -n "${CYBER_DOJO_CREATOR_PORT}"; }
-log_filename() { echo -n /tmp/creator.log; }
-tab() { printf '\t'; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 remove_old_images
