@@ -3,7 +3,9 @@ set -Eeu
 
 repo_root() { git rev-parse --show-toplevel; }
 
-export SH_DIR="$(repo_root)/sh"
+# SC2155 shellcheck says to not combine EXPORT and VAR assignment"
+SH_DIR="$(repo_root)/sh"
+export SH_DIR
 
 source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
@@ -16,6 +18,8 @@ source "${SH_DIR}/exit_zero_if_show_help.sh"
 source "${SH_DIR}/lib.sh"
 source "${SH_DIR}/remove_old_images.sh"
 source "${SH_DIR}/test_in_containers.sh"
+
+# shellcheck disable=SC2046
 export $(echo_versioner_env_vars)
 
 run_tests_with_coverage()
@@ -25,10 +29,11 @@ run_tests_with_coverage()
 
   exit_zero_if_show_help "$@"
   exit_non_zero_unless_installed docker docker-compose jq
-  remove_old_images
 
+  remove_old_images
   build_tagged_images
   exit_zero_if_build_only "$@"
+
   server_up_healthy_and_clean
   client_up_healthy_and_clean "$@"
   copy_in_saver_test_data
@@ -36,5 +41,6 @@ run_tests_with_coverage()
   containers_down
   write_test_evidence_json
   set -e
+  
   return ${exit_status}
 }
