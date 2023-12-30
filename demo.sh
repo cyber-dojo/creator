@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 set -Eeu
 
-export ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-export SH_DIR="${ROOT_DIR}/sh"
+repo_root() { git rev-parse --show-toplevel; }
+
+# SC2155 shellcheck says to not combine EXPORT and VAR assignment"
+SH_DIR="$(repo_root)/sh"
+export SH_DIR
 
 source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
@@ -11,6 +14,7 @@ source "${SH_DIR}/copy_in_saver_test_data.sh"
 source "${SH_DIR}/echo_versioner_env_vars.sh"
 source "${SH_DIR}/remove_old_images.sh"
 
+# shellcheck disable=SC2046
 export $(echo_versioner_env_vars)
 
 readonly IP_ADDRESS=localhost
