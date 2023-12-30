@@ -1,6 +1,6 @@
 # Edit this line to force a CI run: 167
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v1
+image: registry.gitlab.com/cyber-dojo/ci-runner:v2
 
 stages:
   - kosli-start-trail-stage
