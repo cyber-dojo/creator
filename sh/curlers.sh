@@ -1,10 +1,17 @@
 
-# TODO: add trap handler in curlers.sh to print curl-log on failure
-# TODO: make curl_json_body_200 print the json on success
-
-#- - - - - - - - - - - - - - - - - - - - - - - - - - -
+curl_tmpdir="$(mktemp -d)"
+curl_log_filename() { echo -n "${curl_tmpdir}/creator.log"; }
+curl_cleanup()
+{
+    local -r exit_code=$?
+    if [ "${exit_code}" != "0" ]; then
+      cat "$(curl_log_filename)" || true
+      rm "$(curl_log_filename)" || true
+    fi
+    rm -rf "${curl_tmpdir}"
+}
+trap "curl_cleanup" EXIT
 creator_port() { echo -n "${CYBER_DOJO_CREATOR_PORT}"; }
-curl_log_filename() { echo -n /tmp/creator.log; }
 tab() { printf '\t'; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -14,7 +21,8 @@ curl_json_body_200()
   local -r route="${2}"  # eg creator/ready
   local -r json="${3:-}" # eg '{"display_name":"Java Countdown, Round 1"}'
 
-  touch "$(curl_log_filename)" && rm "$(curl_log_filename)"
+  touch "$(curl_log_filename)"
+  rm "$(curl_log_filename)"
 
   curl  \
     --data "${json}" \
@@ -38,7 +46,8 @@ curl_200()
   local -r route="${1}"   # eg kata_choose
   local -r pattern="${2}" # eg exercise
 
-  touch "$(curl_log_filename)" && rm "$(curl_log_filename)"
+  touch "$(curl_log_filename)"
+  rm "$(curl_log_filename)"
 
   curl  \
     --fail \
