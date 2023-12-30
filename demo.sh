@@ -29,7 +29,6 @@ api_demo()
   curl_200 assets/app.js  'Content-Type: application/javascript'
   echo
   curl_200 home   'Content-Type: text/html'
-
   curl_200 choose_problem 'Content-Type: text/html'
   curl_200 choose_custom_problem 'Content-Type: text/html'
   curl_200 choose_ltf?exercise_name=Fizz%20Buzz 'Content-Type: text/html'
@@ -48,7 +47,6 @@ api_demo()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 curl_json_body_200()
 {
-  local -r log=/tmp/creator.log
   local -r type="${1}"   # eg GET|POST
   local -r route="${2}"  # eg creator/ready
   local -r json="${3:-}" # eg '{"display_name":"Java Countdown, Round 1"}'
@@ -61,10 +59,10 @@ curl_json_body_200()
     --silent \
     --verbose \
       "http://localhost:$(port)/${route}" \
-      > "${log}" 2>&1
+      > "$(log_filename)" 2>&1
 
-  grep --quiet 200 "${log}"             # eg HTTP/1.1 200 OK
-  local -r result=$(tail -n 1 "${log}") # eg {"sha":"78c19640aa43ea214da17d0bcb16abbd420d7642"}
+  grep --quiet 200 "$(log_filename)"             # eg HTTP/1.1 200 OK
+  local -r result=$(tail -n 1 "$(log_filename)") # eg {"sha":"78c19640aa43ea214da17d0bcb16abed420d7642"}
   echo "$(tab)${type} ${route} => 200 ${result}"
 }
 
