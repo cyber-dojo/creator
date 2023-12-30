@@ -28,7 +28,7 @@ exit_non_zero_unless_healthy()
 {
   echo
   local -r MAX_TRIES=50
-  printf "Waiting until ${SERVICE_NAME} is healthy"
+  printf "Waiting until %s is healthy" "${SERVICE_NAME}"
   for _ in $(seq ${MAX_TRIES})
   do
     if healthy; then
@@ -58,8 +58,8 @@ exit_non_zero_unless_started_cleanly()
   local DOCKER_LOG=$(docker logs "${CONTAINER_NAME}" 2>&1)
 
   # Handle known warnings (eg waiting on Gem upgrade)
-  #local -r SHADOW_WARNING="server.rb:(.*): warning: shadowing outer local variable - filename"
-  #DOCKER_LOG=$(strip_known_warning "${DOCKER_LOG}" "${SHADOW_WARNING}")
+  # local -r SHADOW_WARNING="server.rb:(.*): warning: shadowing outer local variable - filename"
+  # DOCKER_LOG=$(strip_known_warning "${DOCKER_LOG}" "${SHADOW_WARNING}")
 
   echo "Checking if ${SERVICE_NAME} started cleanly."
   local -r top5=$(echo "${DOCKER_LOG}" | head -5)
@@ -101,7 +101,7 @@ strip_known_warning()
 {
   local -r DOCKER_LOG="${1}"
   local -r KNOWN_WARNING="${2}"
-  local STRIPPED=$(echo -n "${DOCKER_LOG}" | grep --invert-match -E "${KNOWN_WARNING}")
+  local -r STRIPPED=$(echo -n "${DOCKER_LOG}" | grep --invert-match -E "${KNOWN_WARNING}")
   if [ "${DOCKER_LOG}" != "${STRIPPED}" ]; then
     echo "Known service start-up warning found: ${KNOWN_WARNING}"
   else

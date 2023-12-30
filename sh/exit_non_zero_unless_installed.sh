@@ -1,4 +1,4 @@
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 exit_non_zero_unless_installed()
 {
   for dependent in "$@"
@@ -13,7 +13,6 @@ exit_non_zero_unless_installed()
   done
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 installed()
 {
   local -r dependent="${1}"
@@ -24,7 +23,6 @@ installed()
   fi
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 stderr()
 {
   local -r message="${1}"

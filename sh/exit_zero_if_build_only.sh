@@ -1,7 +1,4 @@
-#!/usr/bin/env bash
-set -Eeu
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - -
 exit_zero_if_build_only()
 {
   if build_only_arg "${1:-}" ; then
@@ -9,7 +6,6 @@ exit_zero_if_build_only()
   fi
 }
 
-# - - - - - - - - - - - - - - - - - - - - - - - - - -
 build_only_arg()
 {
   [ "${1:-}" = '--build-only' ] || [ "${1:-}" = '-bo' ]

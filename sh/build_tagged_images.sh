@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-set -Eeu
 
 #- - - - - - - - - - - - - - - - - - - - - - - -
 build_tagged_images()
@@ -12,14 +10,14 @@ build_tagged_images()
 #- - - - - - - - - - - - - - - - - - - - - - - -
 build_images()
 {
-  docker-compose build --build-arg COMMIT_SHA=$(git_commit_sha)
+  docker-compose build --build-arg COMMIT_SHA="$(git_commit_sha)"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - -
 tag_images_to_latest()
 {
-  docker tag ${CYBER_DOJO_CREATOR_IMAGE}:$(image_tag)        ${CYBER_DOJO_CREATOR_IMAGE}:latest
-  docker tag ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:$(image_tag) ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:latest
+  docker tag "${CYBER_DOJO_CREATOR_IMAGE}:$(image_tag)"        "${CYBER_DOJO_CREATOR_IMAGE}:latest"
+  docker tag "${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:$(image_tag)" "${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:latest"
   echo
   echo "echo CYBER_DOJO_CREATOR_SHA=$(git_commit_sha)"
   echo "echo CYBER_DOJO_CREATOR_TAG=$(image_tag)"
@@ -35,12 +33,6 @@ check_embedded_env_var()
     echo "  actual: 'SHA=$(sha_in_image)'"
     exit 42
   fi
-}
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-git_commit_sha()
-{
-  echo $(cd "$(root_dir)" && git rev-parse HEAD)
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
@@ -64,5 +56,5 @@ image_tag()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 sha_in_image()
 {
-  docker run --rm $(image_name):$(image_tag) sh -c 'echo -n ${SHA}'
+  docker run --rm "$(image_name):$(image_tag)" sh -c 'echo -n ${SHA}'
 }

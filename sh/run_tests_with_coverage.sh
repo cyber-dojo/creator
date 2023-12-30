@@ -35,7 +35,7 @@ run_tests_with_coverage()
   copy_in_saver_test_data
   test_in_containers "$@" || exit_status=$?
   containers_down
-  write_test_evidence_json
+  write_test_evidence_json "$@"
   set -e
 
   return ${exit_status}

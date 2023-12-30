@@ -4,16 +4,18 @@ test_in_containers()
 {
   set +e
   status=0
-  if [ "${1:-}" = 'client' ]; then
-    shift
-    run_client_tests "${@:-}" || status=$?
-  elif [ "${1:-}" = 'server' ]; then
+
+  if [ "${1:-}" = 'server' ]; then
     shift
     run_server_tests "${@:-}" || status=$?
+  elif [ "${1:-}" = 'client' ]; then
+    shift
+    run_client_tests "${@:-}" || status=$?
   else
     run_server_tests "${@:-}" || status=$?
     run_client_tests "${@:-}" || status=$?
   fi
+
   set -e
   return $status
 }
@@ -68,7 +70,7 @@ run_tests()
   # Extract test-run results and coverage data from the container.
   # You can't [docker cp] from a tmpfs, so tar-piping coverage out
 
-  local -r HOST_TEST_DIR="$(root_dir)/test/${TYPE}"  # where to extract to. untar will create reports/ dir
+  local -r HOST_TEST_DIR="$(repo_root)/test/${TYPE}"   # where to extract to. untar will create reports/ dir
   local -r HOST_REPORTS_DIR="${HOST_TEST_DIR}/reports" # where files will be
 
   rm "${HOST_REPORTS_DIR}/${TEST_LOG}"   2> /dev/null || true
@@ -124,7 +126,7 @@ run_tests()
     echo
     docker logs "${CONTAINER_NAME}" 2>&1
   fi
-  return ${STATUS}
+  return "${STATUS}"
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -

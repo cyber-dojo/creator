@@ -2,17 +2,14 @@
 set -Eeu
 
 repo_root() { git rev-parse --show-toplevel; }
-
-# SC2155 shellcheck says to not combine EXPORT and VAR assignment"
 SH_DIR="$(repo_root)/sh"
-export SH_DIR
-
 source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
 source "${SH_DIR}/containers_up_healthy_and_clean.sh"
 source "${SH_DIR}/copy_in_saver_test_data.sh"
 source "${SH_DIR}/curlers.sh"
 source "${SH_DIR}/echo_versioner_env_vars.sh"
+source "${SH_DIR}/lib.sh"
 source "${SH_DIR}/remove_old_images.sh"
 
 # shellcheck disable=SC2046

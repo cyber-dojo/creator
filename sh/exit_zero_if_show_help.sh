@@ -1,10 +1,7 @@
-#!/usr/bin/env bash
-set -Eeu
 
-#- - - - - - - - - - - - - - - - - - - - - -
 exit_zero_if_show_help()
 {
-  local -r MY_NAME=build_test_publish.sh
+  local -r MY_NAME=build_test.sh
   if [ "${1:-}" = '-h' ] || [ "${1:-}" = '--help' ]; then
     echo
     echo "Use: ${MY_NAME} [client|server] [ID...]"

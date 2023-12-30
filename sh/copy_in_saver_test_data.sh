@@ -1,8 +1,7 @@
 
-# - - - - - - - - - - - - - - - - - - -
 copy_in_saver_test_data()
 {
-  local -r SRC_PATH=$(root_dir)/test/data
+  local -r SRC_PATH=$(repo_root)/test/data
   local -r SAVER_CID=$(docker ps --filter status=running --format '{{.Names}}' | grep "saver")
   local -r DEST_PATH=/cyber-dojo
 

@@ -1,6 +1,6 @@
 {
   "server": {
-    "timestamp": 1703928658,
+    "timestamp": 1703966168,
     "command_name": "Minitest",
     "groups": {
       "app": {
@@ -11,14 +11,14 @@
         },
         "branches": {
           "total": 59,
-          "covered": 42,
-          "missed": 17
+          "covered": 43,
+          "missed": 16
         }
       },
       "test": {
         "lines": {
-          "total": 381,
-          "covered": 381,
+          "total": 380,
+          "covered": 380,
           "missed": 0
         },
         "branches": {
@@ -30,7 +30,7 @@
     }
   },
   "client": {
-    "timestamp": 1703928719,
+    "timestamp": 1703966199,
     "command_name": "Minitest",
     "groups": {
       "app": {
