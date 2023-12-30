@@ -22,7 +22,7 @@ write_test_evidence_json()
     echo ', "client": '
     cat "$(repo_root)/test/client/reports/coverage.json"
     echo '}'
-  } > "$(test_evidence_json_path)"
+  } | jq . > "$(test_evidence_json_path)"
 }
 
 test_evidence_json_path()

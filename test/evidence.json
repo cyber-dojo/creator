@@ -1,61 +1,62 @@
-{ "server": 
 {
-  "timestamp": 1703883409,
-  "command_name": "Minitest",
-  "groups": {
-    "app": {
-      "lines": {
-        "total": 583,
-        "covered": 579,
-        "missed": 4
+  "server": {
+    "timestamp": 1703902055,
+    "command_name": "Minitest",
+    "groups": {
+      "app": {
+        "lines": {
+          "total": 583,
+          "covered": 579,
+          "missed": 4
+        },
+        "branches": {
+          "total": 59,
+          "covered": 42,
+          "missed": 17
+        }
       },
-      "branches": {
-        "total": 59,
-        "covered": 42,
-        "missed": 17
+      "test": {
+        "lines": {
+          "total": 381,
+          "covered": 381,
+          "missed": 0
+        },
+        "branches": {
+          "total": 2,
+          "covered": 1,
+          "missed": 1
+        }
       }
-    },
-    "test": {
-      "lines": {
-        "total": 381,
-        "covered": 381,
-        "missed": 0
+    }
+  },
+  "client": {
+    "timestamp": 1703902096,
+    "command_name": "Minitest",
+    "groups": {
+      "app": {
+        "lines": {
+          "total": 279,
+          "covered": 252,
+          "missed": 27
+        },
+        "branches": {
+          "total": 35,
+          "covered": 18,
+          "missed": 17
+        }
       },
-      "branches": {
-        "total": 2,
-        "covered": 1,
-        "missed": 1
+      "test": {
+        "lines": {
+          "total": 95,
+          "covered": 95,
+          "missed": 0
+        },
+        "branches": {
+          "total": 0,
+          "covered": 0,
+          "missed": 0
+        }
       }
     }
   }
-}, "client": 
-{
-  "timestamp": 1703883462,
-  "command_name": "Minitest",
-  "groups": {
-    "app": {
-      "lines": {
-        "total": 279,
-        "covered": 252,
-        "missed": 27
-      },
-      "branches": {
-        "total": 35,
-        "covered": 18,
-        "missed": 17
-      }
-    },
-    "test": {
-      "lines": {
-        "total": 95,
-        "covered": 95,
-        "missed": 0
-      },
-      "branches": {
-        "total": 0,
-        "covered": 0,
-        "missed": 0
-      }
-    }
-  }
-}}
+}
