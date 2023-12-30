@@ -41,6 +41,6 @@ run_tests_with_coverage()
   containers_down
   write_test_evidence_json
   set -e
-  
+
   return ${exit_status}
 }
