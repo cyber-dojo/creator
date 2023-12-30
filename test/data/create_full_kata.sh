@@ -20,9 +20,6 @@ export $(echo_versioner_env_vars)
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 create_full_kata()
 {
-  # TODO: add trap handler in curlers.sh to print curl-log
-  # TODO: make curl_json_body_200 print the json on success
-
   curl_json_body_200 POST create.json \
     '{"exercise_name":"Fizz Buzz", "language_name":"Bash, bats", "type":"group"}'
 

@@ -1,4 +1,6 @@
 
+# TODO: add trap handler in curlers.sh to print curl-log on failure
+# TODO: make curl_json_body_200 print the json on success
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 creator_port() { echo -n "${CYBER_DOJO_CREATOR_PORT}"; }
@@ -11,7 +13,9 @@ curl_json_body_200()
   local -r type="${1}"   # eg GET|POST
   local -r route="${2}"  # eg creator/ready
   local -r json="${3:-}" # eg '{"display_name":"Java Countdown, Round 1"}'
+
   touch "$(curl_log_filename)" && rm "$(curl_log_filename)"
+
   curl  \
     --data "${json}" \
     --fail \
@@ -33,7 +37,9 @@ curl_200()
 {
   local -r route="${1}"   # eg kata_choose
   local -r pattern="${2}" # eg exercise
+
   touch "$(curl_log_filename)" && rm "$(curl_log_filename)"
+
   curl  \
     --fail \
     --request GET \
