@@ -9,23 +9,23 @@
 
   "code": {
     "lines": {
-       "total":583,
-      "missed":4
+       "total":420,
+      "missed":3
     },
     "branches": {
-       "total":59,
-      "missed":17
+       "total":28,
+      "missed":3
     }
   },
 
   "test": {
     "lines": {
-       "total":381,
+       "total":459,
       "missed":0
     },
     "branches": {
        "total":2,
-      "missed":1
+      "missed":0
     }
   }
 }

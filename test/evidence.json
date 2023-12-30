@@ -1,55 +1,55 @@
 {
   "server": {
-    "timestamp": 1703966923,
+    "timestamp": 1703969258,
     "command_name": "Minitest",
     "groups": {
       "app": {
         "lines": {
-          "total": 583,
-          "covered": 579,
-          "missed": 4
+          "total": 420,
+          "covered": 417,
+          "missed": 3
         },
         "branches": {
-          "total": 59,
-          "covered": 42,
-          "missed": 17
+          "total": 28,
+          "covered": 25,
+          "missed": 3
         }
       },
       "test": {
         "lines": {
-          "total": 379,
-          "covered": 379,
+          "total": 459,
+          "covered": 459,
           "missed": 0
         },
         "branches": {
           "total": 2,
-          "covered": 1,
-          "missed": 1
+          "covered": 2,
+          "missed": 0
         }
       }
     }
   },
   "client": {
-    "timestamp": 1703966947,
+    "timestamp": 1703969304,
     "command_name": "Minitest",
     "groups": {
       "app": {
         "lines": {
-          "total": 279,
-          "covered": 252,
-          "missed": 27
+          "total": 154,
+          "covered": 138,
+          "missed": 16
         },
         "branches": {
-          "total": 35,
-          "covered": 18,
-          "missed": 17
+          "total": 6,
+          "covered": 5,
+          "missed": 1
         }
       },
       "test": {
         "lines": {
-          "total": 95,
-          "covered": 95,
-          "missed": 0
+          "total": 141,
+          "covered": 134,
+          "missed": 7
         },
         "branches": {
           "total": 0,

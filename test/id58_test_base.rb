@@ -1,3 +1,4 @@
+# :nocov:
 require 'minitest/autorun'
 require 'minitest/ci'
 require 'rack/test'
@@ -58,9 +59,7 @@ class Id58TestBase < Minitest::Test
 
   def trimmed(s)
     if s.length > 80
-      # :nocov:
       s[0..80] + '...'
-      # :nocov:
     else
       s
     end
@@ -68,7 +67,6 @@ class Id58TestBase < Minitest::Test
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  # :nocov:
   Minitest.after_run do
     slow = @@timings.select{ |_name,secs| secs > 0.000 }
     sorted = slow.sort_by{ |name,secs| -secs }.to_h
@@ -81,7 +79,6 @@ class Id58TestBase < Minitest::Test
     }
     puts
   end
-  # :nocov:
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
@@ -130,16 +127,13 @@ class Id58TestBase < Minitest::Test
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  # :nocov:
   def id58
     @id58
   end
-  # :nocov:
 
-  # :nocov:
   def name58
     @name58
   end
-  # :nocov:
 
 end
+# :nocov:

@@ -154,10 +154,6 @@ class CreatorTestBase < Id58TestBase
     saver.kata_manifest(id)
   end
 
-  def kata_event(id, index)
-    saver.kata_event(id, index)
-  end
-
   # - - - - - - - - - - - - - - -
 
   def display_name_div(display_name)
