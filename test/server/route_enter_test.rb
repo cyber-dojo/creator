@@ -64,16 +64,15 @@ class RouteEnterTest < CreatorTestBase
   |when group is full
   ) do
     path = 'enter.json'
-    data = {id:'FxWwrr'}
-    64.times do
-      post path, data.to_json, JSON_REQUEST_HEADERS
-    end
-
+    # Use pre-created full group
+    # See test/data/create_full_kata.sh
+    # See sh/copy_in_saver_test_data.sh
+    data = {id:'FD6ryx'}
     assert_post_200_json(path, data) do |response|
       # eg response == {"route"=>"/creator/full?id=FxWwrr"}
       assert response.has_key?('route'), response.keys
       assert %r"/creator/full\?id=(?<kata_id>.*)" =~ response['route'], response['route']
-      assert_equal 'FxWwrr', kata_id, :kata_id
+      assert_equal 'FD6ryx', kata_id, :kata_id
     end
   end
 

@@ -18,20 +18,36 @@ source "${SH_DIR}/remove_old_images.sh"
 export $(echo_versioner_env_vars)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
+reset_saver()
+{
+  local -r saver_cid="${1}"
+  docker exec "${saver_cid}" bash -c 'cd /cyber-dojo/groups && rm -rf *'
+  docker exec "${saver_cid}" bash -c 'cd /cyber-dojo/katas && rm -rf *'
+}
+
+#- - - - - - - - - - - - - - - - - - - - - - - - - - -
 create_full_kata()
 {
+  local -r saver_cid=$(docker ps --filter status=running --format '{{.Names}}' | grep "saver")
+
+  reset_saver "${saver_cid}"
   curl_json_body_200 POST create.json \
     '{"exercise_name":"Fizz Buzz", "language_name":"Bash, bats", "type":"group"}'
 
   local -r json=$(tail -n 1 "$(curl_log_filename)") # eg {"route":"/creator/enter?id=K4n72X","id":"K4n72X"}
-  local -r gid=$(jq ".id" <<< "${json}")       # eg "K4n72X"   Note: already quoted
-  echo "gid=${gid}"
+  local -r quoted_gid=$(jq ".id" <<< "${json}") # eg "K4n72X"
+  local -r gid="${quoted_gid:1:6}"              # eg K4n72X
 
   for _ in {1..64}; do
-    curl_json_body_200 POST enter.json "{\"id\":${gid}}"
+    curl_json_body_200 POST enter.json "{\"id\":${quoted_gid}}"
   done
   echo "gid=${gid}"
-  # TODO: tar pipe /cyber-dojo out of saver container
+
+  # Tar-pipe /cyber-dojo out of saver container
+  local -r filename="$(repo_root)/test/data/full-group-${gid}.tgz"
+  local -r src_dir="/cyber-dojo/"
+  docker exec "${saver_cid}" tar -cf - -C "$(dirname ${src_dir})" "$(basename ${src_dir})" \
+    | gzip > "${filename}"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
