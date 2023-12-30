@@ -1,22 +1,32 @@
-
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 exit_non_zero_unless_installed()
 {
-  printf "Checking ${1} is installed..."
-  if ! installed "${1}" ; then
-    stderr 'ERROR: ${1} is not installed!'
-    exit 42
-  else
-    echo It is
-  fi
+  for dependent in "$@"
+  do
+    printf "Checking %s is installed..." "${dependent}"
+    if ! installed "${dependent}" ; then
+      stderr "${dependent} is not installed"
+      exit 42
+    else
+      echo It is
+    fi
+  done
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 installed()
 {
-  if hash "${1}" 2> /dev/null; then
+  local -r dependent="${1}"
+  if hash "${dependent}" 2> /dev/null; then
     true
   else
     false
   fi
+}
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+stderr()
+{
+  local -r message="${1}"
+  >&2 echo "ERROR: ${message}"
 }
