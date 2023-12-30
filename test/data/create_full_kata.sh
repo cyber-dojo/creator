@@ -3,7 +3,7 @@ set -Eeu
 
 repo_root() { git rev-parse --show-toplevel; }
 
-# SC2155 shellcheck says to not combine EXPORT and VAR assignment"
+# SC2155 shellcheck says to not combine var-export and var-assignment"
 SH_DIR="$(repo_root)/sh"
 export SH_DIR
 
@@ -35,8 +35,8 @@ create_full_kata()
     '{"exercise_name":"Fizz Buzz", "language_name":"Bash, bats", "type":"group"}'
 
   local -r json=$(tail -n 1 "$(curl_log_filename)") # eg {"route":"/creator/enter?id=K4n72X","id":"K4n72X"}
-  local -r quoted_gid=$(jq ".id" <<< "${json}") # eg "K4n72X"
-  local -r gid="${quoted_gid:1:6}"              # eg K4n72X
+  local -r quoted_gid=$(jq ".id" <<< "${json}")     # eg "K4n72X"
+  local -r gid="${quoted_gid:1:6}"                  # eg K4n72X
 
   for _ in {1..64}; do
     curl_json_body_200 POST enter.json "{\"id\":${quoted_gid}}"
@@ -44,6 +44,8 @@ create_full_kata()
   echo "gid=${gid}"
 
   # Tar-pipe /cyber-dojo out of saver container
+  # tar-file compression is not done inside the container
+  # because `tar -z` fails in a read-only file-system
   local -r filename="$(repo_root)/test/data/full-group-${gid}.tgz"
   local -r src_dir="/cyber-dojo/"
   docker exec "${saver_cid}" tar -cf - -C "$(dirname ${src_dir})" "$(basename ${src_dir})" \
