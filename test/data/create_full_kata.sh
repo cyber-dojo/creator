@@ -23,10 +23,13 @@ create_full_kata()
     '{"exercise_name":"Fizz Buzz", "language_name":"Bash, bats", "type":"group"}'
 
   local -r json=$(tail -n 1 "$(log_filename)") # eg {"route":"/creator/enter?id=K4n72X","id":"K4n72X"}
-  local -r gid=$(jq ".id" <<< "${json}")       # eg "K4n72X"
+  local -r gid=$(jq ".id" <<< "${json}")       # eg "K4n72X"   Note: already quoted
   echo "gid=${gid}"
 
-  # TODO: enter 64 times
+  for _ in {1..64}; do
+    curl_json_body_200 POST enter.json "{\"id\":${gid}}"
+  done
+  echo "gid=${gid}"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -57,8 +60,8 @@ log_filename() { echo -n /tmp/creator.log; }
 tab() { printf '\t'; }
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
-#remove_old_images
-#build_tagged_images
-#server_up_healthy_and_clean
-#client_up_healthy_and_clean "$@"
+remove_old_images
+build_tagged_images
+server_up_healthy_and_clean
+client_up_healthy_and_clean "$@"
 create_full_kata
