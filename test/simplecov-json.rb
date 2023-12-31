@@ -11,19 +11,19 @@ class SimpleCov::Formatter::JSONFormatter
         lines: {
           total: file_list.lines_of_code,
           covered: file_list.covered_lines,
-          missed: file_list.missed_lines,
+          missed: file_list.missed_lines
         },
         branches: {
           total: file_list.total_branches,
           covered: file_list.covered_branches,
-          missed: file_list.missed_branches,
+          missed: file_list.missed_branches
         }
       }
     end
     data = {
       timestamp: result.created_at.to_i,
       command_name: result.command_name,
-      groups: groups,
+      groups: groups
     }
     File.open(output_filepath, 'w+') do |file|
       file.print(JSON.pretty_generate(data))
