@@ -13,5 +13,5 @@ SimpleCov.start do
 end
 
 formatters = [SimpleCov::Formatter::HTMLFormatter,
-              SimpleCov::Formatter::JSONFormatter,]
+              SimpleCov::Formatter::JSONFormatter]
 SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(formatters)
