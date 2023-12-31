@@ -5,3 +5,6 @@ Style/ClassAndModuleChildren:
 Lint/PercentStringArray:
   Enabled: false
 
+Style/CaseEquality:
+  Enabled: false
+
