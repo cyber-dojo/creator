@@ -10,3 +10,9 @@ trigger-main:
   trigger:
     include: .gitlab/workflows/main.yml
     strategy: depend
+
+trigger-staging:
+  stage: trigger
+  trigger:
+    include: .gitlab/workflows/report-to-staging.yml
+    strategy: depend

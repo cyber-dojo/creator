@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 set -Eu
 
-IMAGE_NAME="${1}"        # eg cyberdojo/creator:6d650d5
-KOSLI_HOST="${2}"        # eg https://app.kosli.com
-KOSLI_API_TOKEN="${3}"   # eg 7654y432er7132rwaefdgzfvdc (fake)
-KOSLI_ORG="${4}"         # eg cyber-dojo
-KOSLI_ENVIRONMENT="${5}" # eg aws-prod
+readonly IMAGE_NAME="${1}"        # eg cyberdojo/creator:6d650d5
+readonly KOSLI_HOST="${2}"        # eg https://app.kosli.com
+readonly KOSLI_API_TOKEN="${3}"   # eg 7654y432er7132rwaefdgzfvdc (fake)
+readonly KOSLI_ORG="${4}"         # eg cyber-dojo
+readonly KOSLI_ENVIRONMENT="${5}" # eg aws-prod
+
+readonly MAX_WAIT_TIME=8          # max time to wait for IMAGE_NAME to be deployed, in minutes
+readonly SLEEP_TIME=15            # wait time between deployment checks, in seconds
+readonly MAX_ATTEMPTS=$(( MAX_WAIT_TIME * 60 / SLEEP_TIME ))
 
 image_deployed()
 {
@@ -38,16 +42,12 @@ image_deployed()
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 docker pull "${IMAGE_NAME}"
-FINGERPRINT=$(kosli fingerprint "${IMAGE_NAME}" --artifact-type=docker)
-
-MAX_WAIT_TIME=$((8 * 60))  # max time to wait for image to be deployed
-SLEEP_TIME=15              # wait time between deployment checks
-MAX_ATTEMPTS=$(( MAX_WAIT_TIME / SLEEP_TIME ))
+readonly FINGERPRINT=$(kosli fingerprint "${IMAGE_NAME}" --artifact-type=docker)
 ATTEMPTS=1
 
 until image_deployed
 do
-  sleep 10
+  sleep ${SLEEP_TIME}
   [[ ${ATTEMPTS} -eq ${MAX_ATTEMPTS} ]] && echo "Failed!" && exit 1
   ((ATTEMPTS++))
   echo "Waiting for deployment of Artifact ${IMAGE_NAME} to Environment ${KOSLI_ENVIRONMENT}"
