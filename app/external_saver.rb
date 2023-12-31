@@ -3,7 +3,10 @@ require_relative 'http_json_hash/service'
 class ExternalSaver
 
   def initialize(http)
-    service = 'saver'
+    service = ENV['CYBER_DOJO_SAVER_HOSTNAME']
+    if service.nil?
+      service = 'saver'
+    end
     port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
     @http = HttpJsonHash::service(self.class.name, http, service, port)
   end
