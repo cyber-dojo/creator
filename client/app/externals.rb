@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require_relative 'external_creator'
 require_relative 'external_custom_start_points'
 require_relative 'external_exercises_start_points'

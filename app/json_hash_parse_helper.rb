@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module JsonHashParseHelper
   def json_hash_parse(body)
     json = (body === '') ? {} : JSON.parse!(body)

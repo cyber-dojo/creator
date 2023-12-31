@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class IdTyper
   def initialize(externals)
     @externals = externals

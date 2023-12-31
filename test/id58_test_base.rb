@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # :nocov:
 require 'minitest/autorun'
 require 'minitest/ci'
