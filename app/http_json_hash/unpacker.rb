@@ -30,10 +30,10 @@ module HttpJsonHash
 
     def unpacked(body, path, args)
       json = JSON.parse!(body)
-      if json.is_a?(Hash) && json.has_key?('exception')
+      if json.is_a?(Hash) && json.key?('exception')
         service_error(path, args, body, 'body has embedded exception')
       end
-      if json.is_a?(Hash) && json.has_key?(path)
+      if json.is_a?(Hash) && json.key?(path)
         json[path]
       else
         json

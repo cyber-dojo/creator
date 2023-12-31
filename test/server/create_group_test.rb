@@ -47,7 +47,7 @@ class CreateGroupTest < CreatorTestBase
                        language_name: language_name
                      }) do |manifest|
       assert_equal language_name, manifest['display_name'], manifest
-      assert manifest.has_key?('exercise')
+      assert manifest.key?('exercise')
       assert_equal '', manifest['exercise'], :polyfilled
     end
   end
@@ -64,7 +64,7 @@ class CreateGroupTest < CreatorTestBase
                        display_name: display_name
                      }) do |manifest|
       assert_equal display_name, manifest['display_name'], manifest
-      assert manifest.has_key?('exercise')
+      assert manifest.key?('exercise')
       assert_equal '', manifest['exercise'], :polyfilled
     end
   end

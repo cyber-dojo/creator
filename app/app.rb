@@ -162,7 +162,7 @@ class App < AppBase
   end
 
   def create_group(args)
-    if args.has_key?(:display_name)
+    if args.key?(:display_name)
       creator.group_create_custom(**args)
     else
       creator.group_create(**args)
@@ -170,7 +170,7 @@ class App < AppBase
   end
 
   def create_kata(args)
-    if args.has_key?(:display_name)
+    if args.key?(:display_name)
       creator.kata_create_custom(**args)
     else
       creator.kata_create(**args)

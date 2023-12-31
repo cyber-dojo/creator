@@ -2,7 +2,7 @@
 
 module SelectedHelper
   def selected(visible_files)
-    if visible_files.has_key?('readme.txt')
+    if visible_files.key?('readme.txt')
       return 'readme.txt'
     end
 

@@ -31,10 +31,10 @@ module HttpJsonHash
       unless json.instance_of?(Hash)
         service_error(path, args, body, 'body is not JSON Hash')
       end
-      if json.has_key?('exception')
+      if json.key?('exception')
         service_error(path, args, body, 'body has embedded exception')
       end
-      unless json.has_key?(path)
+      unless json.key?(path)
         service_error(path, args, body, 'body is missing :path key')
       end
       json[path]

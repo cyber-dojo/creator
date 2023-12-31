@@ -22,12 +22,12 @@ class RouteEnterTest < CreatorTestBase
       group_id = manifest['id']
       assert_post_200_json('enter.json', { id: group_id }) do |response|
         # eg response == {"route"=>"/creator/avatar?id=TEbR8E", "id"=>"TEbR8E", "group_index" => 51}
-        assert response.has_key?('route'), response.keys
+        assert response.key?('route'), response.keys
         assert %r{/creator/avatar\?id=(?<kata_id>.*)} =~ response['route'], response['route']
-        assert response.has_key?('id'), response.keys
+        assert response.key?('id'), response.keys
         assert_equal kata_id, response['id'], :kata_id
         assert kata_exists?(kata_id), "kata_exists?(#{kata_id})"
-        assert response.has_key?('group_index'), response.keys
+        assert response.key?('group_index'), response.keys
         group_index = response['group_index']
         assert group_index >= 0 && group_index < 64
       end
@@ -44,12 +44,12 @@ class RouteEnterTest < CreatorTestBase
   ] do
     assert_post_200_json('enter.json', { id: 'chy6BJ' }) do |response|
       # eg response == {"route"=>"/creator/avatar?id=TEbR8E", "id"=>"TEbR8E", "group_index" => 51}
-      assert response.has_key?('route'), response.keys
+      assert response.key?('route'), response.keys
       assert %r{/creator/avatar\?id=(?<kata_id>.*)} =~ response['route'], response['route']
-      assert response.has_key?('id'), response.keys
+      assert response.key?('id'), response.keys
       assert_equal kata_id, response['id']
       assert kata_exists?(kata_id), "kata_exists?(#{kata_id})"
-      assert response.has_key?('group_index'), response.keys
+      assert response.key?('group_index'), response.keys
       group_index = response['group_index']
       assert group_index >= 0 && group_index < 64
     end
@@ -71,7 +71,7 @@ class RouteEnterTest < CreatorTestBase
     data = { id: 'FD6ryx' }
     assert_post_200_json(path, data) do |response|
       # eg response == {"route"=>"/creator/full?id=FxWwrr"}
-      assert response.has_key?('route'), response.keys
+      assert response.key?('route'), response.keys
       assert %r{/creator/full\?id=(?<kata_id>.*)} =~ response['route'], response['route']
       assert_equal 'FD6ryx', kata_id, :kata_id
     end
