@@ -37,6 +37,7 @@ class Id58TestBase < Minitest::Test
     source_line = source[1].to_s
     id58 = checked_id58(id58_suffix.to_s, lines)
     return unless @@args === [] || @@args.any? { |arg| id58.include?(arg) }
+
     space = ' '
     name58 = lines.join(space)
     execute_around = lambda {
