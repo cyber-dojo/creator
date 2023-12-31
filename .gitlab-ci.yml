@@ -8,5 +8,5 @@ stages:
 trigger-main:
   stage: trigger
   trigger:
-    include: ./.gitlab/workflows/main.yml
+    include: .gitlab/workflows/main.yml
     strategy: depend
