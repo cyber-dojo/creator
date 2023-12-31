@@ -143,7 +143,7 @@ class RouteProbesTest < CreatorTestBase
 
   private
 
-  STUB_READY_FALSE = OpenStruct.new(:ready? => false)
+  STUB_READY_FALSE = OpenStruct.new(ready?: false)
 
   def true?(b)
     b.instance_of?(TrueClass)
