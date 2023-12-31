@@ -73,7 +73,7 @@ class CreatorTestBase < Id58TestBase
   JSON_REQUEST_HEADERS = {
     'CONTENT_TYPE' => 'application/json', # sent request
     'HTTP_ACCEPT' => 'application/json'   # received response
-  }
+  }.freeze
 
   private
 
