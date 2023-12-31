@@ -9,7 +9,7 @@ class ExternalRunner
       service = 'runner'
     end
     port = ENV['CYBER_DOJO_RUNNER_PORT'].to_i
-    @http = HttpJsonHash::service(self.class.name, http, service, port)
+    @http = HttpJsonHash.service(self.class.name, http, service, port)
   end
 
   attr_reader :http

@@ -9,7 +9,7 @@ class ExternalSaver
       service = 'saver'
     end
     port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
-    @http = HttpJsonHash::service(self.class.name, http, service, port)
+    @http = HttpJsonHash.service(self.class.name, http, service, port)
   end
 
   attr_reader :http

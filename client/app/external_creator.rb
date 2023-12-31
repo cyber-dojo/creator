@@ -6,7 +6,7 @@ class ExternalCreator
   def initialize(http)
     name = 'creator'
     port = ENV['CYBER_DOJO_CREATOR_PORT'].to_i
-    @http = HttpJsonHash::service(self.class.name, http, name, port)
+    @http = HttpJsonHash.service(self.class.name, http, name, port)
   end
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - -

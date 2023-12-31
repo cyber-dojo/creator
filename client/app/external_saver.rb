@@ -6,7 +6,7 @@ class ExternalSaver
   def initialize(http)
     service = 'saver'
     port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
-    @http = HttpJsonHash::service(self.class.name, http, service, port)
+    @http = HttpJsonHash.service(self.class.name, http, service, port)
   end
 
   def group_exists?(id)

@@ -9,7 +9,7 @@ class ExternalExercisesStartPoints
       name = 'exercises-start-points'
     end
     port = ENV['CYBER_DOJO_EXERCISES_START_POINTS_PORT'].to_i
-    @http = HttpJsonHash::service(self.class.name, http, name, port)
+    @http = HttpJsonHash.service(self.class.name, http, name, port)
   end
 
   attr_reader :http
