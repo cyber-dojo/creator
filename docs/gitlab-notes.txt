@@ -8,6 +8,16 @@ Click [Save changes] button.
 
 # - - - - - - - - - - - - - - - - - - - - - - - - -
 
+The Git strategy settings had to be altered from the default:
+(otherwise [kosli report approval] is likely to fail)
+
+From the Settings at the bottom on the lhs, select CI/CD
+Expand General pipelines
+Set the [Git strategy] radio-button to [git clone]
+Set the [Git shallow clone] text field to [0]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
 The unit-tests take ~3 mins to run.
 The vast majority of this is docker pulling.
 The actual test durations are:
