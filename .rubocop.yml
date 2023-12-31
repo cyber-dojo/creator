@@ -10,4 +10,6 @@ Style/CaseEquality:
 
 Style/EmptyMethod:
   Enabled: false
-  
+
+Style/Documentation:
+  Enabled: false
