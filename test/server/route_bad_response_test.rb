@@ -27,7 +27,8 @@ class RouteBadResponseTest < CreatorTestBase
     |which contains the key "exception"
     |it logs the exception to stdout
   ] do
-    stub_saver_http(response = '{"exception":42}')
+    response = '{"exception":42}'
+    stub_saver_http(response)
     logs_exception_to_stdout('/ready?')
   end
 
@@ -56,7 +57,8 @@ class RouteBadResponseTest < CreatorTestBase
     |you get the error.erb page
     |and the exception is logged to stdout
   ] do
-    stub_exercises_start_points(not_json = 'xxxx')
+    not_json = 'xxxx'
+    stub_exercises_start_points(not_json)
 
     stdout, stderr = capture_io do
       get '/choose_problem',
