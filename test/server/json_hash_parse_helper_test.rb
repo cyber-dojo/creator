@@ -41,9 +41,9 @@ class JsonHashParseTest < CreatorTestBase
     |raises RuntimeError
     |when body is not a hash
   ] do
-    raised = assert_raises(RuntimeError) {
+    raised = assert_raises(RuntimeError) do
       json_hash_parse('23')
-    }
+    end
     assert_equal 'body is not JSON Hash', raised.message
   end
 
@@ -54,9 +54,9 @@ class JsonHashParseTest < CreatorTestBase
     |raises RuntimeError
     |when body is not JSON
   ] do
-    raised = assert_raises(RuntimeError) {
+    raised = assert_raises(RuntimeError) do
       json_hash_parse('}{')
-    }
+    end
     assert_equal 'body is not JSON', raised.message
   end
 end

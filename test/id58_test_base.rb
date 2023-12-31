@@ -74,10 +74,10 @@ class Id58TestBase < Minitest::Test
     size = sorted.size < 5 ? sorted.size : 5
     puts
     puts "Slowest #{size} tests are..." if size != 0
-    sorted.each_with_index { |(name, secs), index|
+    sorted.each_with_index do |(name, secs), index|
       puts '%3.4f - %-72s' % [secs, name]
       break if index === size
-    }
+    end
     puts
   end
 

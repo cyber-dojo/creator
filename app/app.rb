@@ -28,80 +28,80 @@ class App < AppBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   get '/home', provides: [:html] do
-    respond_to { |wants|
+    respond_to do |wants|
       wants.html { erb :home }
-    }
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   get '/choose_problem', provides: [:html] do
-    respond_to { |wants|
-      wants.html {
+    respond_to do |wants|
+      wants.html do
         set_view_data(externals.exercises_start_points)
         erb :choose_problem
-      }
-    }
+      end
+    end
   end
 
   get '/choose_custom_problem', provides: [:html] do
-    respond_to { |wants|
-      wants.html {
+    respond_to do |wants|
+      wants.html do
         set_view_data(externals.custom_start_points)
         erb :choose_custom_problem
-      }
-    }
+      end
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   get '/choose_ltf', provides: [:html] do
-    respond_to { |wants|
-      wants.html {
+    respond_to do |wants|
+      wants.html do
         set_view_data(externals.languages_start_points)
         erb :choose_ltf
-      }
-    }
+      end
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   get '/choose_type', provides: [:html] do
-    respond_to { |wants|
-      wants.html {
+    respond_to do |wants|
+      wants.html do
         erb :choose_type
-      }
-    }
+      end
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   post '/create.json', provides: [:json] do
-    respond_to { |wants|
+    respond_to do |wants|
       args = json_args
       type = args.delete(:type)
       id = create(type, args)
       url = "/creator/enter?id=#{id}"
       wants.json { json({ 'route' => url, 'id' => id }) }
-    }
+    end
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   get '/enter', provides: [:html] do
-    respond_to { |wants|
-      wants.html {
+    respond_to do |wants|
+      wants.html do
         @id = params['id']
         erb :enter
-      }
-    }
+      end
+    end
   end
 
   get_delegate(IdTyper, :id_type)
 
   post '/enter.json', provides: [:json] do
-    respond_to { |wants|
-      wants.json {
+    respond_to do |wants|
+      wants.json do
         group_id = json_args[:id]
         kata_id = saver.group_join(group_id)
         if kata_id.nil?
@@ -112,40 +112,40 @@ class App < AppBase
                'id' => kata_id,
                'group_index' => group_index)
         end
-      }
-    }
+      end
+    end
   end
 
   get '/avatar', provides: [:html] do
-    respond_to { |wants|
-      wants.html {
+    respond_to do |wants|
+      wants.html do
         @kata_id = params['id']
         manifest = saver.kata_manifest(@kata_id)
         @avatar_index = manifest['group_index'].to_i
         erb :avatar
-      }
-    }
+      end
+    end
   end
 
   get '/full', provides: [:html] do
-    respond_to { |wants|
-      wants.html {
+    respond_to do |wants|
+      wants.html do
         @group_id = params['id']
         erb :full
-      }
-    }
+      end
+    end
   end
 
   get '/reenter', provides: [:html] do
-    respond_to { |wants|
-      wants.html {
+    respond_to do |wants|
+      wants.html do
         @group_id = params['id']
         @avatars = saver.group_joined(@group_id)
                         .map { |group_index, v| [group_index.to_i, v['id']] }
                         .to_h
         erb :reenter
-      }
-    }
+      end
+    end
   end
 
   private

@@ -58,10 +58,10 @@ class RouteBadResponseTest < CreatorTestBase
   ] do
     stub_exercises_start_points(not_json = 'xxxx')
 
-    stdout, stderr = capture_io {
+    stdout, stderr = capture_io do
       get '/choose_problem',
           { type: 'group' }.to_json
-    }
+    end
     assert status?(500), status
     assert html_content?, content_type
     assert last_response.body.include?('<div id="error-page">')

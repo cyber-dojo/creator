@@ -11,15 +11,15 @@ class BadRequestTest < CreatorTestBase
 
   qtest e45:
   %w(group_create_custom([unknown_display_name]) raises exception) do
-    _error = assert_raises(HttpJsonHash::ServiceError) {
+    _error = assert_raises(HttpJsonHash::ServiceError) do
       creator.deprecated_group_create_custom(['xxx'])
-    }
+    end
   end
 
   qtest a45:
   %w(kata_create_custom(unknown_display_name) raises exception) do
-    _error = assert_raises(HttpJsonHash::ServiceError) {
+    _error = assert_raises(HttpJsonHash::ServiceError) do
       creator.deprecated_kata_create_custom('xxx')
-    }
+    end
   end
 end

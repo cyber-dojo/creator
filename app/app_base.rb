@@ -52,11 +52,11 @@ class AppBase < Sinatra::Base
   def self.get_delegate(klass, name)
     get "/#{name}", provides: [:json] do
       respond_to do |format|
-        format.json {
+        format.json do
           target = klass.new(@externals)
           result = target.public_send(name, params)
           json({ name => result })
-        }
+        end
       end
     end
   end

@@ -18,9 +18,9 @@ class ScopedEnvVarTest < CreatorTestBase
     name = 'BERTY_BASSET'
     value = 'sweets42'
     assert_nil ENV[name]
-    scoped_env_var(name, value) {
+    scoped_env_var(name, value) do
       assert_equal value, ENV[name]
-    }
+    end
     assert_nil ENV[name]
   end
 
@@ -32,13 +32,13 @@ class ScopedEnvVarTest < CreatorTestBase
     name = 'FRED_BASSET'
     value = 'dog42'
     assert_nil ENV[name]
-    scoped_env_var(name, value) {
+    scoped_env_var(name, value) do
       assert_equal value, ENV[name]
-      scoped_env_var("#{name}X", "#{value}X") {
+      scoped_env_var("#{name}X", "#{value}X") do
         assert_equal "#{value}X", ENV["#{name}X"]
-      }
+      end
       assert_equal value, ENV[name]
-    }
+    end
     assert_nil ENV[name]
   end
 end

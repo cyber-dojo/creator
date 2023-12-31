@@ -25,10 +25,10 @@ class ExternalHostnameTest < CreatorTestBase
   ] do
     name = 'CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME'
     value = 'custom-start-points.cyber-dojo.eu-central-1'
-    scoped_env_var(name, value) {
+    scoped_env_var(name, value) do
       lsp = ExternalCustomStartPoints.new(nil)
       assert_equal value, lsp.http.requester.hostname
-    }
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -41,10 +41,10 @@ class ExternalHostnameTest < CreatorTestBase
   ] do
     name = 'CYBER_DOJO_EXERCISES_START_POINTS_HOSTNAME'
     value = 'exercises-start-points.cyber-dojo.eu-central-1'
-    scoped_env_var(name, value) {
+    scoped_env_var(name, value) do
       lsp = ExternalExercisesStartPoints.new(nil)
       assert_equal value, lsp.http.requester.hostname
-    }
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -57,10 +57,10 @@ class ExternalHostnameTest < CreatorTestBase
   ] do
     name = 'CYBER_DOJO_LANGUAGES_START_POINTS_HOSTNAME'
     value = 'languages-start-points.cyber-dojo.eu-central-1'
-    scoped_env_var(name, value) {
+    scoped_env_var(name, value) do
       lsp = ExternalLanguagesStartPoints.new(nil)
       assert_equal value, lsp.http.requester.hostname
-    }
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -73,10 +73,10 @@ class ExternalHostnameTest < CreatorTestBase
   ] do
     name = 'CYBER_DOJO_RUNNER_HOSTNAME'
     value = 'runner.cyber-dojo.eu-central-1'
-    scoped_env_var(name, value) {
+    scoped_env_var(name, value) do
       lsp = ExternalRunner.new(nil)
       assert_equal value, lsp.http.requester.hostname
-    }
+    end
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -89,9 +89,9 @@ class ExternalHostnameTest < CreatorTestBase
   ] do
     name = 'CYBER_DOJO_SAVER_HOSTNAME'
     value = 'saver.cyber-dojo.eu-central-1'
-    scoped_env_var(name, value) {
+    scoped_env_var(name, value) do
       lsp = ExternalSaver.new(nil)
       assert_equal value, lsp.http.requester.hostname
-    }
+    end
   end
 end

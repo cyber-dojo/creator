@@ -21,9 +21,9 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - - -
 
   def assert_get_200_json(path, args = {}, &block)
-    stdout, stderr = capture_io {
+    stdout, stderr = capture_io do
       get path_with_args(path, args)
-    }
+    end
     assert_equal 200, status, stderr + stdout
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
@@ -32,9 +32,9 @@ class CreatorTestBase < Id58TestBase
   end
 
   def assert_get_200_html(path, args = {})
-    stdout, stderr = capture_io {
+    stdout, stderr = capture_io do
       get path_with_args(path, args)
-    }
+    end
     assert_equal 200, status, stderr + stdout
     assert html_content?, content_type
     assert_equal '', stderr, :stderr
@@ -42,17 +42,17 @@ class CreatorTestBase < Id58TestBase
   end
 
   def path_with_args(path, args)
-    '/' + path + '?' + args.map { |name, value|
+    '/' + path + '?' + args.map do |name, value|
       "#{name.to_s}=#{CGI::escape(value)}"
-    }.join('&')
+    end.join('&')
   end
 
   # - - - - - - - - - - - - - - - -
 
   def assert_post_200_json(path, args, &block)
-    stdout, stderr = capture_io {
+    stdout, stderr = capture_io do
       json_post "/#{path}", args
-    }
+    end
     assert_equal 200, status, stderr + stdout
     assert json_content?, content_type
     assert_equal '', stderr, :stderr

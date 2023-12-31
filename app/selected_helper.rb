@@ -12,8 +12,8 @@ module SelectedHelper
         return file
       end
     end
-    visible_files.max { |(_, lhs), (_, rhs)|
+    visible_files.max do |(_, lhs), (_, rhs)|
       lhs['content'].size <=> rhs['content'].size
-    }[0]
+    end[0]
   end
 end
