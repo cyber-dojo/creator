@@ -17,6 +17,5 @@ class ExternalHttp
     end
   end
 
-
   KLASS = Net::HTTP
 end

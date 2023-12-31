@@ -61,7 +61,6 @@ class AppBase < Sinatra::Base
     Hash[payload.map { |key, value| [key.to_sym, value] }]
   end
 
-
   def json_hash_parse(body)
     json = (body === '') ? {} : JSON.parse!(body)
     raise 'body is not JSON Hash' unless json.instance_of?(Hash)
