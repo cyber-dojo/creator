@@ -37,26 +37,26 @@ class Id58TestBase < Minitest::Test
     source_line = source[1].to_s
     id58 = checked_id58(id58_suffix.to_s, lines)
     return unless @@args === [] || @@args.any? { |arg| id58.include?(arg) }
-      space = ' '
-      name58 = lines.join(space)
-      execute_around = lambda {
-        ENV['ID58'] = id58
-        @id58 = id58
-        @name58 = name58
-        id58_setup
-        begin
-          t1 = Time.now
-          instance_exec(&test_block)
-          t2 = Time.now
-          stripped = trimmed(name58.split("\n").join)
-          @@timings["#{id58}:#{source_file}:#{source_line}:#{stripped}"] = (t2 - t1)
-        ensure
-          puts $ERROR_INFO.message unless $ERROR_INFO.nil?
-          id58_teardown
-        end
-      }
-      name = "#{id58_suffix}:#{name58}"
-      define_method("test_\n\n#{name}".to_sym, &execute_around)
+    space = ' '
+    name58 = lines.join(space)
+    execute_around = lambda {
+      ENV['ID58'] = id58
+      @id58 = id58
+      @name58 = name58
+      id58_setup
+      begin
+        t1 = Time.now
+        instance_exec(&test_block)
+        t2 = Time.now
+        stripped = trimmed(name58.split("\n").join)
+        @@timings["#{id58}:#{source_file}:#{source_line}:#{stripped}"] = (t2 - t1)
+      ensure
+        puts $ERROR_INFO.message unless $ERROR_INFO.nil?
+        id58_teardown
+      end
+    }
+    name = "#{id58_suffix}:#{name58}"
+    define_method("test_\n\n#{name}".to_sym, &execute_around)
 
   end
 
