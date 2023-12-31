@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # :nocov:
+require 'English'
 require 'minitest/autorun'
 require 'minitest/ci'
 require 'rack/test'
@@ -50,7 +51,7 @@ class Id58TestBase < Minitest::Test
           stripped = trimmed(name58.split("\n").join)
           @@timings["#{id58}:#{source_file}:#{source_line}:#{stripped}"] = (t2 - t1)
         ensure
-          puts $!.message unless $!.nil?
+          puts $ERROR_INFO.message unless $ERROR_INFO.nil?
           id58_teardown
         end
       }

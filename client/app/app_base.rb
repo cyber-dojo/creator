@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'English'
 require_relative 'silently'
 require 'json'
 require 'sinatra/base'
@@ -60,7 +61,7 @@ class AppBase < Sinatra::Base
   set :show_exceptions, false
 
   error do
-    error = $!
+    error = $ERROR_INFO
     status(500)
     content_type('application/json')
     info = { exception: error.message }

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'English'
 require_relative 'silently'
 require 'sinatra/base'
 silently { require 'sinatra/contrib' } # N x "warning: method redefined"
@@ -82,7 +83,7 @@ class AppBase < Sinatra::Base
   set :show_exceptions, false
 
   error do
-    error = $!
+    error = $ERROR_INFO
     info = {
       exception: {
         request: {
