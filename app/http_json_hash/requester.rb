@@ -10,6 +10,8 @@ module HttpJsonHash
       @port = port
     end
 
+    attr_reader :http, :hostname, :port
+
     def get(path, args)
       request(path, args) do |uri|
         @http.get(uri)

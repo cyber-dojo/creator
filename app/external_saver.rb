@@ -11,6 +11,8 @@ class ExternalSaver
     @http = HttpJsonHash::service(self.class.name, http, service, port)
   end
 
+  attr_reader :http
+
   def ready?
     @http.get(__method__, {})
   end
