@@ -69,7 +69,7 @@ class AppBase < Sinatra::Base
   end
 
   def symbolized(h) # named-args require symbolization
-    h.transform_keys { |key| key.to_sym }
+    h.transform_keys(&:to_sym)
   end
 
   def json_payload
