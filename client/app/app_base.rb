@@ -58,7 +58,7 @@ class AppBase < Sinatra::Base
 
   def args
     payload = json_hash_parse(request.body.read)
-    Hash[payload.map { |key, value| [key.to_sym, value] }]
+    payload.transform_keys { |key| key.to_sym }
   end
 
   def json_hash_parse(body)
