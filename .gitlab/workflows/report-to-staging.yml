@@ -3,12 +3,12 @@ image: registry.gitlab.com/cyber-dojo/ci-runner:v2
 
 stages:
   - kosli-start-trail-stage
-  - build-image-stage
+  - wait-for-image-stage
   - test-stage
-  - beta-deployment-stage
+  - wait-for-beta-deployment-stage
   - prod-approval-stage
   - sdlc-control-gate-stage
-  - prod-deployment-stage
+  - wait-for-prod-deployment-stage
   - post-deployment-stage
 
 
@@ -34,8 +34,8 @@ kosli-start-trail:
         --api-token=${KOSLI_API_TOKEN_STAGING}
 
 
-build-image:
-  stage: build-image-stage
+wait-for-image:
+  stage: wait-for-image-stage
   needs: [ kosli-start-trail ]
   services: [ docker:24.0.5-dind ]
   artifacts:
@@ -59,7 +59,7 @@ build-image:
 
 unit-test:
   stage: test-stage
-  needs: [ build-image ]
+  needs: [ wait-for-image ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
@@ -136,8 +136,8 @@ pull-request:
         --assert
 
 
-beta-deployment:
-  stage: beta-deployment-stage
+wait-for-beta-deployment:
+  stage: wait-for-beta-deployment-stage
   needs: [ unit-test, security-scan, pull-request ]
   services: [ docker:24.0.5-dind ]
   artifacts:
@@ -166,7 +166,7 @@ beta-deployment:
 
 prod-approval:
   stage: prod-approval-stage
-  needs: [ beta-deployment ]
+  needs: [ wait-for-beta-deployment ]
   artifacts:
     paths: [ kosli/ ]
   script:
@@ -193,8 +193,8 @@ sdlc-control-gate:
         --api-token=${KOSLI_API_TOKEN_STAGING}
 
 
-prod-deployment:
-  stage: prod-deployment-stage
+wait-for-prod-deployment:
+  stage: wait-for-prod-deployment-stage
   needs: [ sdlc-control-gate ]
   services: [ docker:24.0.5-dind ]
   artifacts:
@@ -223,7 +223,7 @@ prod-deployment:
 
 push-latest-image-to-public-registry:
   stage: post-deployment-stage
-  needs: [ prod-deployment ]
+  needs: [ wait-for-prod-deployment ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
