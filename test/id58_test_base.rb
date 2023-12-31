@@ -99,7 +99,7 @@ class Id58TestBase < Minitest::Test
   def self.checked_id58(id58_suffix, lines)
     method = 'def self.id58_prefix'
     pointer = "#{' ' * method.index('.')}!"
-    pointee = (['', pointer, method, '', '']).join("\n")
+    pointee = ['', pointer, method, '', ''].join("\n")
     pointer.prepend("\n\n")
     raise "#{pointer}missing#{pointee}" unless respond_to?(:id58_prefix)
 
