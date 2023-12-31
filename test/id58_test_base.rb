@@ -46,7 +46,7 @@ class Id58TestBase < Minitest::Test
         id58_setup
         begin
           t1 = Time.now
-          self.instance_exec(&test_block)
+          instance_exec(&test_block)
           t2 = Time.now
           stripped = trimmed(name58.split("\n").join)
           @@timings["#{id58}:#{source_file}:#{source_line}:#{stripped}"] = (t2 - t1)
