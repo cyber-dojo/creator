@@ -134,12 +134,8 @@ class Id58TestBase < Minitest::Test
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def id58
-    @id58
-  end
+  attr_reader :id58
 
-  def name58
-    @name58
-  end
+  attr_reader :name58
 end
 # :nocov:
