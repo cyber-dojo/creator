@@ -9,8 +9,8 @@
 
   "code": {
     "lines": {
-       "total":154,
-      "missed":16
+       "total":150,
+      "missed":15
     },
     "branches": {
        "total":6,
