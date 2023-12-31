@@ -124,6 +124,7 @@ pull-request:
         --fingerprint=$(cat kosli/fingerprint)           
         --name=pull-request
         --gitlab-token=${KOSLI_GITLAB_TOKEN} 
+        --assert
 
 
 beta-deployment:
