@@ -28,15 +28,9 @@ module HttpJsonHash
 
     def unpacked(body, path, args)
       json = JSON.parse!(body)
-      unless json.instance_of?(Hash)
-        service_error(path, args, body, 'body is not JSON Hash')
-      end
-      if json.key?('exception')
-        service_error(path, args, body, 'body has embedded exception')
-      end
-      unless json.key?(path)
-        service_error(path, args, body, 'body is missing :path key')
-      end
+      service_error(path, args, body, 'body is not JSON Hash') unless json.instance_of?(Hash)
+      service_error(path, args, body, 'body has embedded exception') if json.key?('exception')
+      service_error(path, args, body, 'body is missing :path key') unless json.key?(path)
       json[path]
     rescue JSON::ParserError
       service_error(path, args, body, 'body is not JSON')

@@ -92,9 +92,7 @@ class AppBase < Sinatra::Base
 
   def json_hash_parse(body)
     json = (body === '') ? {} : JSON.parse!(body)
-    unless json.instance_of?(Hash)
-      raise 'body is not JSON Hash'
-    end
+    raise 'body is not JSON Hash' unless json.instance_of?(Hash)
 
     json
   rescue JSON::ParserError
