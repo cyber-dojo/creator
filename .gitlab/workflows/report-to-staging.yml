@@ -42,7 +42,7 @@ wait-for-image:
     paths: [ kosli/ ]
   script:
     - IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}
-    - ./sh/wait_for_image.sh "${IMAGE_NAME}
+    - ./sh/wait_for_image.sh ${IMAGE_NAME}
 
     - mkdir kosli
     - FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker)
