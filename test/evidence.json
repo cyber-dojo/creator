@@ -1,24 +1,24 @@
 {
   "server": {
-    "timestamp": 1704000590,
+    "timestamp": 1704003562,
     "command_name": "Minitest",
     "groups": {
       "app": {
         "lines": {
-          "total": 420,
-          "covered": 417,
-          "missed": 3
+          "total": 423,
+          "covered": 422,
+          "missed": 1
         },
         "branches": {
           "total": 28,
-          "covered": 25,
-          "missed": 3
+          "covered": 27,
+          "missed": 1
         }
       },
       "test": {
         "lines": {
-          "total": 459,
-          "covered": 459,
+          "total": 481,
+          "covered": 481,
           "missed": 0
         },
         "branches": {
@@ -30,7 +30,7 @@
     }
   },
   "client": {
-    "timestamp": 1704000614,
+    "timestamp": 1704003587,
     "command_name": "Minitest",
     "groups": {
       "app": {

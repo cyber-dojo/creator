@@ -2,6 +2,7 @@ require_relative 'silently'
 require 'sinatra/base'
 silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require_relative 'http_json_hash/service'
+require_relative 'json_hash_parse_helper'
 require 'json'
 require 'sprockets'
 require 'uglifier'
@@ -73,15 +74,7 @@ class AppBase < Sinatra::Base
     json_hash_parse(request.body.read)
   end
 
-  def json_hash_parse(body)
-    json = (body === '') ? {} : JSON.parse!(body)
-    unless json.instance_of?(Hash)
-      fail 'body is not JSON Hash'
-    end
-    json
-  rescue JSON::ParserError
-    fail 'body is not JSON'
-  end
+  include JsonHashParseHelper
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
