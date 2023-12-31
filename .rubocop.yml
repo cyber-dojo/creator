@@ -2,3 +2,6 @@
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Lint/PercentStringArray:
+  Enabled: false
+
