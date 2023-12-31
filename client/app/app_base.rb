@@ -30,34 +30,6 @@ class AppBase < Sinatra::Base
     end
   end
 
-# - - - - - - - - - - - - - - - - - - - - - -
-=begin
-  def self.get_json(name)
-    get "/#{name}", provides:[:json] do
-      respond_to do |format|
-        format.json {
-          result = instance_exec {
-            target.public_send(name, **args)
-          }
-          json({ name => result })
-        }
-      end
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
-
-  def self.probe(name)
-    get "/#{name}" do
-      result = instance_exec {
-        target.public_send(name)
-      }
-      json({ name => result })
-    end
-  end
-=end
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   set :show_exceptions, false
 
   error do
