@@ -43,7 +43,7 @@ class CreatorTestBase < Id58TestBase
 
   def path_with_args(path, args)
     '/' + path + '?' + args.map do |name, value|
-      "#{name.to_s}=#{CGI::escape(value)}"
+      "#{name}=#{CGI::escape(value)}"
     end.join('&')
   end
 
