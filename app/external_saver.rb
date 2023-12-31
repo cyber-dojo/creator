@@ -54,7 +54,6 @@ class ExternalSaver
     @http.get(__method__, { id: id })
   end
 
-  private
 
   CURRENT_VERSION = 2
 end

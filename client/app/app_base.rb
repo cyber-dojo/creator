@@ -89,7 +89,6 @@ class AppBase < Sinatra::Base
     Hash[payload.map { |key, value| [key.to_sym, value] }]
   end
 
-  private
 
   def json_hash_parse(body)
     json = (body === '') ? {} : JSON.parse!(body)
