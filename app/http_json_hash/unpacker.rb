@@ -9,6 +9,8 @@ module HttpJsonHash
       @requester = requester
     end
 
+    attr_reader :name, :requester
+
     # - - - - - - - - - - - - - - - - - - - - -
 
     def get(path, args)

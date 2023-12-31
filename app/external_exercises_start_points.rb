@@ -11,6 +11,8 @@ class ExternalExercisesStartPoints
     @http = HttpJsonHash::service(self.class.name, http, name, port)
   end
 
+  attr_reader :http
+
   def ready?
     @http.get(__method__, {})
   end
