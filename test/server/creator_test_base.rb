@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative '../id58_test_base'
 require_source 'app'
 require_source 'externals'

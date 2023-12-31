@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'silently'
 require 'sinatra/base'
 silently { require 'sinatra/contrib' } # N x "warning: method redefined"

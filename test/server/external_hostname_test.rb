@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'creator_test_base'
 require_source 'scoped_env_var_helper'
 require_source 'external_custom_start_points'

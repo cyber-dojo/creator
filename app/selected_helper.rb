@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module SelectedHelper
   def selected(visible_files)
     if visible_files.has_key?('readme.txt')
