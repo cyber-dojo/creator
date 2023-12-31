@@ -93,7 +93,7 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def true?(b)
-    b.is_a?(TrueClass)
+  def true?(obj)
+    obj.is_a?(TrueClass)
   end
 end

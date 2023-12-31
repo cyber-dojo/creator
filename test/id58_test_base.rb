@@ -60,11 +60,11 @@ class Id58TestBase < Minitest::Test
     define_method("test_\n\n#{name}".to_sym, &execute_around)
   end
 
-  def trimmed(s)
-    if s.length > 80
-      "#{s[0..80]}..."
+  def trimmed(str)
+    if str.length > 80
+      "#{str[0..80]}..."
     else
-      s
+      str
     end
   end
 
@@ -92,9 +92,9 @@ class Id58TestBase < Minitest::Test
     a b c d e f g h j k l m n p q r s t u v w x y z
   ].join.freeze
 
-  def self.id58?(s)
-    s.instance_of?(String) &&
-      s.chars.all? { |ch| ID58_ALPHABET.include?(ch) }
+  def self.id58?(obj)
+    obj.instance_of?(String) &&
+      obj.chars.all? { |ch| ID58_ALPHABET.include?(ch) }
   end
 
   def self.checked_id58(id58_suffix, lines)

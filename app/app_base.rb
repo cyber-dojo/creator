@@ -68,8 +68,9 @@ class AppBase < Sinatra::Base
     @json_args ||= symbolized(json_payload)
   end
 
-  def symbolized(h) # named-args require symbolization
-    h.transform_keys(&:to_sym)
+  def symbolized(hash)
+    # named-args require symbolization
+    hash.transform_keys(&:to_sym)
   end
 
   def json_payload
