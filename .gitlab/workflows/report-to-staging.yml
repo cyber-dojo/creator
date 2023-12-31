@@ -95,7 +95,7 @@ unit-test:
 
 security-scan:
   stage: test-stage
-  needs: [ build-image ]
+  needs: [ wait-for-image ]
   artifacts:
     paths: [ kosli/ ]
   script:
@@ -121,7 +121,7 @@ security-scan:
 
 pull-request:
   stage: test-stage
-  needs: [ build-image ]
+  needs: [ wait-for-image ]
   artifacts:
     paths: [ kosli/ ]
   script:
