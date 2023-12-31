@@ -41,13 +41,9 @@ class CreatorTestBase < Id58TestBase
   end
 
   def path_with_args(path, args)
-    route = '/' + path
-    unless args.empty?
-      route += '?' + args.map{|name,value|
-        "#{name.to_s}=#{CGI::escape(value)}"
-      }.join('&')
-    end
-    route
+    '/' + path + '?' + args.map{ |name,value|
+      "#{name.to_s}=#{CGI::escape(value)}"
+    }.join('&')
   end
 
   # - - - - - - - - - - - - - - - -
