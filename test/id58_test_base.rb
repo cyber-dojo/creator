@@ -36,7 +36,7 @@ class Id58TestBase < Minitest::Test
     source_file = File.basename(source[0])
     source_line = source[1].to_s
     id58 = checked_id58(id58_suffix.to_s, lines)
-    if @@args === [] || @@args.any? { |arg| id58.include?(arg) }
+    return unless @@args === [] || @@args.any? { |arg| id58.include?(arg) }
       space = ' '
       name58 = lines.join(space)
       execute_around = lambda {
@@ -57,7 +57,7 @@ class Id58TestBase < Minitest::Test
       }
       name = "#{id58_suffix}:#{name58}"
       define_method("test_\n\n#{name}".to_sym, &execute_around)
-    end
+    
   end
 
   def trimmed(s)
