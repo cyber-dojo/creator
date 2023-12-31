@@ -19,10 +19,10 @@ class ShaTest < CreatorTestBase
   def git_sha?(s)
     s.is_a?(String) &&
       s.size === 40 &&
-      s.each_char.all? { |ch| is_lo_hex?(ch) }
+      s.each_char.all? { |ch| lo_hex?(ch) }
   end
 
-  def is_lo_hex?(ch)
+  def lo_hex?(ch)
     '0123456789abcdef'.include?(ch)
   end
 end
