@@ -27,10 +27,10 @@ class RouteShaTest < CreatorTestBase
   def git_sha?(s)
     s.instance_of?(String) &&
       s.size === 40 &&
-      s.chars.all? { |ch| is_lo_hex?(ch) }
+      s.chars.all? { |ch| lo_hex?(ch) }
   end
 
-  def is_lo_hex?(ch)
+  def lo_hex?(ch)
     '0123456789abcdef'.include?(ch)
   end
 end
