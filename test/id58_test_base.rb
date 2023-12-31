@@ -58,7 +58,6 @@ class Id58TestBase < Minitest::Test
     }
     name = "#{id58_suffix}:#{name58}"
     define_method("test_\n\n#{name}".to_sym, &execute_around)
-
   end
 
   def trimmed(s)
