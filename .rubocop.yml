@@ -8,3 +8,6 @@ Lint/PercentStringArray:
 Style/CaseEquality:
   Enabled: false
 
+Style/EmptyMethod:
+  Enabled: false
+  
