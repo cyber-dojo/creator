@@ -51,7 +51,7 @@ class CreatorTestBase < Id58TestBase
 
   def assert_post_200_json(path, args, &block)
     stdout, stderr = capture_io {
-      json_post '/' + path, args
+      json_post "/#{path}", args
     }
     assert_equal 200, status, stderr + stdout
     assert json_content?, content_type

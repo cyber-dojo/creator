@@ -27,7 +27,7 @@ class Id58TestBase < Minitest::Test
   def self.qtest(hash, &test_block)
     id58_suffix = hash.keys[0]
     lines = hash[id58_suffix].join(' ').split('|').join("\n|")
-    test(id58_suffix, lines + "\n\n", &test_block)
+    test(id58_suffix, "#{lines}\n\n", &test_block)
   end
 
   def self.test(id58_suffix, *lines, &test_block)
@@ -47,7 +47,7 @@ class Id58TestBase < Minitest::Test
           self.instance_exec(&test_block)
           t2 = Time.now
           stripped = trimmed(name58.split("\n").join)
-          @@timings[id58 + ':' + source_file + ':' + source_line + ':' + stripped] = (t2 - t1)
+          @@timings["#{id58}:#{source_file}:#{source_line}:#{stripped}"] = (t2 - t1)
         ensure
           puts $!.message unless $!.nil?
           id58_teardown
@@ -60,7 +60,7 @@ class Id58TestBase < Minitest::Test
 
   def trimmed(s)
     if s.length > 80
-      s[0..80] + '...'
+      "#{s[0..80]}..."
     else
       s
     end
@@ -97,7 +97,7 @@ class Id58TestBase < Minitest::Test
 
   def self.checked_id58(id58_suffix, lines)
     method = 'def self.id58_prefix'
-    pointer = ' ' * method.index('.') + '!'
+    pointer = "#{' ' * method.index('.')}!"
     pointee = (['', pointer, method, '', '']).join("\n")
     pointer.prepend("\n\n")
     raise "#{pointer}missing#{pointee}" unless respond_to?(:id58_prefix)
@@ -107,7 +107,7 @@ class Id58TestBase < Minitest::Test
     raise "#{pointer}not id58#{pointee}" unless id58?(prefix)
 
     method = "test '#{id58_suffix}',"
-    pointer = ' ' * method.index("'") + '!'
+    pointer = "#{' ' * method.index("'")}!"
     proposition = lines.join(space = ' ')
     pointee = ['', pointer, method, "'#{proposition}'", '', ''].join("\n")
     id58 = prefix + id58_suffix

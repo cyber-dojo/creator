@@ -34,8 +34,8 @@ class ScopedEnvVarTest < CreatorTestBase
     assert_nil ENV[name]
     scoped_env_var(name, value) {
       assert_equal value, ENV[name]
-      scoped_env_var(name + 'X', value + 'X') {
-        assert_equal value + 'X', ENV[name + 'X']
+      scoped_env_var("#{name}X", "#{value}X") {
+        assert_equal "#{value}X", ENV["#{name}X"]
       }
       assert_equal value, ENV[name]
     }
