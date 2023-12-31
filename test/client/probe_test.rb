@@ -7,11 +7,11 @@ class ProbeTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest d15: %w(its alive) do
+  qtest d15: %w[its alive] do
     assert true?(creator.alive?)
   end
 
-  qtest d16: %w(its ready) do
+  qtest d16: %w[its ready] do
     assert true?(creator.ready?)
   end
 end

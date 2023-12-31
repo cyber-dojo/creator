@@ -8,35 +8,35 @@ class RouteBadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest QN4: %w(
+  qtest QN4: %w[
     |when an http-proxy
     |returns non-JSON in its response.body
     |it logs the exeption to stdout
-  ) do
+  ] do
     stub_saver_http('xxxx')
     logs_exception_to_stdout('/ready?')
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest QN6: %w(
+  qtest QN6: %w[
     |when an http-proxy
     |returns JSON-Hash in its response.body
     |which contains the key "exception"
     |it logs the exception to stdout
-  ) do
+  ] do
     stub_saver_http(response = '{"exception":42}')
     logs_exception_to_stdout('/ready?')
   end
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest QN7: %w(
+  qtest QN7: %w[
     |when an http-proxy
     |returns JSON-Hash in its response.body
     |which does not contain the requested method's key
     |it returns the JSON
-  ) do
+  ] do
     http = HttpAdapterStub.new('{"wibble":42}')
     hostname = 'saver'
     port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
@@ -48,12 +48,12 @@ class RouteBadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest QN8: %w(
+  qtest QN8: %w[
     |when an http-proxy
     |has a 500 error
     |you get the error.erb page
     |and the exception is logged to stdout
-  ) do
+  ] do
     stub_exercises_start_points(not_json = 'xxxx')
 
     stdout, stderr = capture_io {

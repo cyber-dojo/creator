@@ -7,12 +7,12 @@ class RouteEnterTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest j3K: %w(
+  qtest j3K: %w[
     |POST /enter.json
     |for a version=2 group
     |has status 200
     |returns JSON with id,group_index and route to avatar page
-  ) do
+  ] do
     json_post_create_group({
                              language_name: languages_start_points.names.sample,
                              exercise_name: exercises_start_points.names.sample
@@ -21,7 +21,7 @@ class RouteEnterTest < CreatorTestBase
       assert_post_200_json('enter.json', { id: group_id }) do |response|
         # eg response == {"route"=>"/creator/avatar?id=TEbR8E", "id"=>"TEbR8E", "group_index" => 51}
         assert response.has_key?('route'), response.keys
-        assert %r"/creator/avatar\?id=(?<kata_id>.*)" =~ response['route'], response['route']
+        assert %r{/creator/avatar\?id=(?<kata_id>.*)} =~ response['route'], response['route']
         assert response.has_key?('id'), response.keys
         assert_equal kata_id, response['id'], :kata_id
         assert kata_exists?(kata_id), "kata_exists?(#{kata_id})"
@@ -34,16 +34,16 @@ class RouteEnterTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest x23: %w(
+  qtest x23: %w[
     |POST /enter.json
     |for a version=0 group
     |has status 200
     |returns JSON with id,group_index and route to avatar page
-  ) do
+  ] do
     assert_post_200_json('enter.json', { id: 'chy6BJ' }) do |response|
       # eg response == {"route"=>"/creator/avatar?id=TEbR8E", "id"=>"TEbR8E", "group_index" => 51}
       assert response.has_key?('route'), response.keys
-      assert %r"/creator/avatar\?id=(?<kata_id>.*)" =~ response['route'], response['route']
+      assert %r{/creator/avatar\?id=(?<kata_id>.*)} =~ response['route'], response['route']
       assert response.has_key?('id'), response.keys
       assert_equal kata_id, response['id']
       assert kata_exists?(kata_id), "kata_exists?(#{kata_id})"
@@ -55,13 +55,13 @@ class RouteEnterTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest x24: %w(
+  qtest x24: %w[
     |POST /enter.json
     |for a version=0 group
     |has status 200
     |returns JSON with route to full page
     |when group is full
-  ) do
+  ] do
     path = 'enter.json'
     # Use pre-created full group
     # See test/data/create_full_kata.sh
@@ -70,7 +70,7 @@ class RouteEnterTest < CreatorTestBase
     assert_post_200_json(path, data) do |response|
       # eg response == {"route"=>"/creator/full?id=FxWwrr"}
       assert response.has_key?('route'), response.keys
-      assert %r"/creator/full\?id=(?<kata_id>.*)" =~ response['route'], response['route']
+      assert %r{/creator/full\?id=(?<kata_id>.*)} =~ response['route'], response['route']
       assert_equal 'FD6ryx', kata_id, :kata_id
     end
   end

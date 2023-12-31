@@ -10,11 +10,11 @@ class JsonHashParseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest u70: %w(
+  qtest u70: %w[
     |json_hash_parse
     |returns {}
     |when body is ''
-  ) do
+  ] do
     json = json_hash_parse('')
     expected = {}
     assert_equal expected, json
@@ -22,11 +22,11 @@ class JsonHashParseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest u71: %w(
+  qtest u71: %w[
     |json_hash_parse
     |returns hash
     |when body is a hash
-  ) do
+  ] do
     json = json_hash_parse('{"x":42}')
     expected = { 'x' => 42 }
     assert_equal expected, json
@@ -34,11 +34,11 @@ class JsonHashParseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest u72: %w(
+  qtest u72: %w[
     |json_hash_parse
     |raises RuntimeError
     |when body is not a hash
-  ) do
+  ] do
     raised = assert_raises(RuntimeError) {
       json_hash_parse('23')
     }
@@ -47,11 +47,11 @@ class JsonHashParseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest u73: %w(
+  qtest u73: %w[
     |json_hash_parse
     |raises RuntimeError
     |when body is not JSON
-  ) do
+  ] do
     raised = assert_raises(RuntimeError) {
       json_hash_parse('}{')
     }

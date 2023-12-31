@@ -7,7 +7,7 @@ class ShaTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest p23: %w(sha is 40-char git commit sha) do
+  qtest p23: %w[sha is 40-char git commit sha] do
     sha = creator.sha
     assert git_sha?(sha), sha
   end

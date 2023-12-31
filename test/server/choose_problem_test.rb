@@ -7,10 +7,10 @@ class ChooseProblemTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w18w: %w(
+  qtest w18w: %w[
     |GET/choose_problem
     |offers all exercise_start_point names
-  ) do
+  ] do
     get '/choose_problem'
     assert status?(200), status
     html = last_response.body

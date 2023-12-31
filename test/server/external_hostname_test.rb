@@ -15,12 +15,12 @@ class ExternalHostnameTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w10: %w(
+  qtest w10: %w[
     |ExternalCustomStartPoints
     |has hostname set from env-var
     |CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME
     |as required by nginx
-  ) do
+  ] do
     name = 'CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME'
     value = 'custom-start-points.cyber-dojo.eu-central-1'
     scoped_env_var(name, value) {
@@ -31,12 +31,12 @@ class ExternalHostnameTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w11: %w(
+  qtest w11: %w[
     |ExternalExercisesStartPoints
     |has hostname set from env-var
     |CYBER_DOJO_EXERCISES_START_POINTS_HOSTNAME
     |as required by nginx
-  ) do
+  ] do
     name = 'CYBER_DOJO_EXERCISES_START_POINTS_HOSTNAME'
     value = 'exercises-start-points.cyber-dojo.eu-central-1'
     scoped_env_var(name, value) {
@@ -47,12 +47,12 @@ class ExternalHostnameTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w12: %w(
+  qtest w12: %w[
     |ExternalLanguagesStartPoints
     |has hostname set from env-var
     |CYBER_DOJO_LANGUAGES_START_POINTS_HOSTNAME
     |as required by nginx
-  ) do
+  ] do
     name = 'CYBER_DOJO_LANGUAGES_START_POINTS_HOSTNAME'
     value = 'languages-start-points.cyber-dojo.eu-central-1'
     scoped_env_var(name, value) {
@@ -63,12 +63,12 @@ class ExternalHostnameTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w13: %w(
+  qtest w13: %w[
     |ExternalRunner
     |has hostname set from env-var
     |CYBER_DOJO_RUNNER_HOSTNAME
     |as required by nginx
-  ) do
+  ] do
     name = 'CYBER_DOJO_RUNNER_HOSTNAME'
     value = 'runner.cyber-dojo.eu-central-1'
     scoped_env_var(name, value) {
@@ -79,12 +79,12 @@ class ExternalHostnameTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w14: %w(
+  qtest w14: %w[
     |ExternalSaver
     |has hostname set from env-var
     |CYBER_DOJO_SAVER_HOSTNAME
     |as required by nginx
-  ) do
+  ] do
     name = 'CYBER_DOJO_SAVER_HOSTNAME'
     value = 'saver.cyber-dojo.eu-central-1'
     scoped_env_var(name, value) {

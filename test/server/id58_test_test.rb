@@ -47,11 +47,11 @@ class Id58TestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D31', %w(
+  test 'D31', %w[
     test-name can be long,
     and split over many lines with %w syntax,
     and will automatically be joined with spaces
-  ) do
+  ] do
     expected = [
       'test-name can be long,',
       'and split over many lines with %w syntax,',
@@ -62,12 +62,12 @@ class Id58TestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test 'E3A', %w(id digits can be hex uppercase) do
+  test 'E3A', %w[id digits can be hex uppercase] do
     assert_equal 'c89E3A', ENV['ID58']
     assert_equal 'c89E3A', id58
   end
 
-  test 'e3a', %w(id digits can be hex lowercase) do
+  test 'e3a', %w[id digits can be hex lowercase] do
     assert_equal 'c89e3a', ENV['ID58']
     assert_equal 'c89e3a', id58
   end

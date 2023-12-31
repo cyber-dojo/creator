@@ -7,10 +7,10 @@ class ChooseLanguageTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w18: %w(
+  qtest w18: %w[
     |GET/choose_ltf
     |offers all languages-start-points names
-  ) do
+  ] do
     get '/choose_ltf'
     assert status?(200), status
     html = last_response.body

@@ -7,9 +7,9 @@ class AssetsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '2Je', %w(
+  test '2Je', %w[
     |GET /assets/app.css is served
-  ) do
+  ] do
     get '/assets/app.css'
     assert status?(200), status
     assert css_content?, content_type
@@ -17,9 +17,9 @@ class AssetsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '3Je', %w(
+  test '3Je', %w[
     |GET /assets/app.js is served
-  ) do
+  ] do
     get '/assets/app.js'
     assert status?(200), status
     assert js_content?, content_type

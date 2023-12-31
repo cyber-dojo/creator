@@ -7,9 +7,9 @@ class HomeTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w18: %w(
+  qtest w18: %w[
     |GET/home is 200
-  ) do
+  ] do
     get '/home'
     assert status?(200), status
   end

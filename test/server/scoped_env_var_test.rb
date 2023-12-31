@@ -10,9 +10,9 @@ class ScopedEnvVarTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w9A: %w(
+  qtest w9A: %w[
     |Scoped env-var is present inside the scope only
-  ) do
+  ] do
     name = 'BERTY_BASSET'
     value = 'sweets42'
     assert_nil ENV[name]
@@ -24,9 +24,9 @@ class ScopedEnvVarTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w9B: %w(
+  qtest w9B: %w[
     |Scoped env-var resets to previous value at end of scope
-  ) do
+  ] do
     name = 'FRED_BASSET'
     value = 'dog42'
     assert_nil ENV[name]

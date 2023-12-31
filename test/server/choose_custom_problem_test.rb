@@ -7,10 +7,10 @@ class ChooseCustomProblemTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w18: %w(
+  qtest w18: %w[
     |GET/choose_custom_problem
     |offers all custom_start_points names
-  ) do
+  ] do
     get '/choose_custom_problem'
     assert status?(200), status
     html = last_response.body

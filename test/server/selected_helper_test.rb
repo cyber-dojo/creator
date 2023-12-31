@@ -10,10 +10,10 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '841', %w(
+  test '841', %w[
     select readme.txt content when readme.txt present
     even if not largest content
-  ) do
+  ] do
     expected = 'readme.txt'
     visible_files = {
       expected => { 'content' => 'x' * 34 },
@@ -24,9 +24,9 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '842', %w(
+  test '842', %w[
     selected filename when a single visible_file
-  ) do
+  ] do
     expected = 'instructions'
     visible_files = {
       expected => { 'content' => 'x' * 34 }
@@ -36,9 +36,9 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '843', %w(
+  test '843', %w[
     select filename containing the word 'test'
-  ) do
+  ] do
     expected = 'hiker.test.js' # javascript-jest
     visible_files = {
       expected => { 'content' => 'x' * 3 },
@@ -49,9 +49,9 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '844', %w(
+  test '844', %w[
     select filename containing the word 'spec'
-  ) do
+  ] do
     expected = 'hiker-spec.js' # javascript-jasmine
     visible_files = {
       expected => { 'content' => 'x' * 3 },
@@ -62,9 +62,9 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '845', %w(
+  test '845', %w[
     select filename containing the word 'feature'
-  ) do
+  ] do
     expected = 'hiker.feature' # javascript-cucumber
     visible_files = {
       expected => { 'content' => 'x' * 3 },
@@ -75,10 +75,10 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '943', %w(
+  test '943', %w[
     select filename with the largest content
     when more than one file and none are called readme.txt
-  ) do
+  ] do
     expected = 'larger.txt'
     visible_files = {
       'smaller' => { 'content' => 'y' * 33 },

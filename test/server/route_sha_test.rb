@@ -7,12 +7,12 @@ class RouteShaTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest p23: %w(
+  qtest p23: %w[
     |GET /sha
     |has status 200
     |returns the 40-char git commit sha used to create the image
     |and nothing else
-  ) do
+  ] do
     assert_get_200_json(key = 'sha') do |jr|
       assert_equal [key], jr.keys, last_response.body
       sha = jr[key]
