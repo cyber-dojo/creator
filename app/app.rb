@@ -103,12 +103,12 @@ class App < AppBase
         group_id = json_args[:id]
         kata_id = saver.group_join(group_id)
         if kata_id.nil?
-          json("route" => "/creator/full?id=#{group_id}")
+          json('route' => "/creator/full?id=#{group_id}")
         else
           group_index = saver.kata_manifest(kata_id)['group_index']
-          json("route" => "/creator/avatar?id=#{kata_id}",
-               "id" => kata_id,
-               "group_index" => group_index)
+          json('route' => "/creator/avatar?id=#{kata_id}",
+               'id' => kata_id,
+               'group_index' => group_index)
         end
       }
     }
@@ -139,7 +139,7 @@ class App < AppBase
       wants.html {
         @group_id = params['id']
         @avatars = saver.group_joined(@group_id)
-                        .map { |group_index, v| [group_index.to_i, v["id"]] }
+                        .map { |group_index, v| [group_index.to_i, v['id']] }
                         .to_h
         erb :reenter
       }

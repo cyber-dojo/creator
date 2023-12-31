@@ -28,7 +28,7 @@ class JsonHashParseTest < CreatorTestBase
     |when body is a hash
   ) do
     json = json_hash_parse('{"x":42}')
-    expected = { "x" => 42 }
+    expected = { 'x' => 42 }
     assert_equal expected, json
   end
 

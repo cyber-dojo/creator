@@ -41,7 +41,7 @@ class CreateKataTest < CreatorTestBase
     |and a kata-exercise with ID exists
   ) do
     json_post_create({
-                       exercise_name: "",
+                       exercise_name: '',
                        language_name: language_name
                      }) do |manifest|
       assert_equal language_name, manifest['display_name'], manifest

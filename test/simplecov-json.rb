@@ -25,7 +25,7 @@ class SimpleCov::Formatter::JSONFormatter
       command_name: result.command_name,
       groups: groups,
     }
-    File.open(output_filepath, "w+") do |file|
+    File.open(output_filepath, 'w+') do |file|
       file.print(JSON.pretty_generate(data))
     end
     puts output_message(result)

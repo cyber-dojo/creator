@@ -43,7 +43,7 @@ class RouteBadResponseTest < CreatorTestBase
     requester = ::HttpJsonHash::Requester.new(http, hostname, port)
     saver = ::HttpJsonHash::Unpacker.new('saver', requester)
     json = saver.get('/ready?', {})
-    assert_equal({ "wibble" => 42 }, json)
+    assert_equal({ 'wibble' => 42 }, json)
   end
 
   # - - - - - - - - - - - - - - - - -

@@ -47,7 +47,7 @@ class Creator
 
   def manifest(language_name, exercise_name)
     result = languages_start_points.manifest(language_name)
-    unless exercise_name === ""
+    unless exercise_name === ''
       exercise = exercises_start_points.manifest(exercise_name)
       result['visible_files'].merge!(exercise['visible_files'])
       result['exercise'] = exercise['display_name']
