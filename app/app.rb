@@ -6,7 +6,6 @@ require_relative 'prober'
 require_relative 'selected_helper'
 
 class App < AppBase
-
   def initialize(externals)
     super(externals)
     @externals = externals
@@ -26,7 +25,7 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  get '/home', provides:[:html] do
+  get '/home', provides: [:html] do
     respond_to { |wants|
       wants.html { erb :home }
     }
@@ -34,7 +33,7 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  get '/choose_problem', provides:[:html] do
+  get '/choose_problem', provides: [:html] do
     respond_to { |wants|
       wants.html {
         set_view_data(externals.exercises_start_points)
@@ -43,7 +42,7 @@ class App < AppBase
     }
   end
 
-  get '/choose_custom_problem', provides:[:html] do
+  get '/choose_custom_problem', provides: [:html] do
     respond_to { |wants|
       wants.html {
         set_view_data(externals.custom_start_points)
@@ -54,7 +53,7 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  get '/choose_ltf', provides:[:html] do
+  get '/choose_ltf', provides: [:html] do
     respond_to { |wants|
       wants.html {
         set_view_data(externals.languages_start_points)
@@ -65,7 +64,7 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  get '/choose_type', provides:[:html] do
+  get '/choose_type', provides: [:html] do
     respond_to { |wants|
       wants.html {
         erb :choose_type
@@ -75,19 +74,19 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  post '/create.json', provides:[:json] do
+  post '/create.json', provides: [:json] do
     respond_to { |wants|
       args = json_args
       type = args.delete(:type)
       id = create(type, args)
       url = "/creator/enter?id=#{id}"
-      wants.json { json({'route' => url, 'id' => id}) }
+      wants.json { json({ 'route' => url, 'id' => id }) }
     }
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  get '/enter', provides:[:html] do
+  get '/enter', provides: [:html] do
     respond_to { |wants|
       wants.html {
         @id = params['id']
@@ -98,7 +97,7 @@ class App < AppBase
 
   get_delegate(IdTyper, :id_type)
 
-  post '/enter.json', provides:[:json] do
+  post '/enter.json', provides: [:json] do
     respond_to { |wants|
       wants.json {
         group_id = json_args[:id]
@@ -108,14 +107,14 @@ class App < AppBase
         else
           group_index = saver.kata_manifest(kata_id)['group_index']
           json("route" => "/creator/avatar?id=#{kata_id}",
-                "id" => kata_id,
-                "group_index" => group_index)
+               "id" => kata_id,
+               "group_index" => group_index)
         end
       }
     }
   end
 
-  get '/avatar', provides:[:html] do
+  get '/avatar', provides: [:html] do
     respond_to { |wants|
       wants.html {
         @kata_id = params['id']
@@ -126,7 +125,7 @@ class App < AppBase
     }
   end
 
-  get '/full', provides:[:html] do
+  get '/full', provides: [:html] do
     respond_to { |wants|
       wants.html {
         @group_id = params['id']
@@ -135,12 +134,12 @@ class App < AppBase
     }
   end
 
-  get '/reenter', provides:[:html] do
+  get '/reenter', provides: [:html] do
     respond_to { |wants|
       wants.html {
         @group_id = params['id']
         @avatars = saver.group_joined(@group_id)
-                        .map{ |group_index,v| [group_index.to_i, v["id"]] }
+                        .map { |group_index, v| [group_index.to_i, v["id"]] }
                         .to_h
         erb :reenter
       }
@@ -195,5 +194,4 @@ class App < AppBase
   def saver
     externals.saver
   end
-
 end

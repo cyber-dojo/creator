@@ -1,7 +1,6 @@
 require 'net/http'
 
 class ExternalHttp
-
   def get(uri)
     KLASS::Get.new(uri)
   end
@@ -19,5 +18,4 @@ class ExternalHttp
   private
 
   KLASS = Net::HTTP
-
 end

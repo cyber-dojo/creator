@@ -6,17 +6,17 @@ class SimpleCov::Formatter::JSONFormatter
 
   def format(result)
     groups = {}
-    result.groups.each do |name,file_list|
+    result.groups.each do |name, file_list|
       groups[name] = {
         lines: {
-            total: file_list.lines_of_code,
+          total: file_list.lines_of_code,
           covered: file_list.covered_lines,
-           missed: file_list.missed_lines,
+          missed: file_list.missed_lines,
         },
         branches: {
-            total: file_list.total_branches,
+          total: file_list.total_branches,
           covered: file_list.covered_branches,
-           missed: file_list.missed_branches,
+          missed: file_list.missed_branches,
         }
       }
     end
@@ -45,7 +45,7 @@ class SimpleCov::Formatter::JSONFormatter
     "Coverage report generated for #{result.command_name} to #{output_filepath}. #{result.covered_lines} / #{result.total_lines} LOC (#{result.covered_percent.round(2)}%) covered."
   end
 
-private
+  private
 
   def output_path
     SimpleCov.coverage_path
@@ -54,5 +54,4 @@ private
   def version
     SimpleCov::VERSION
   end
-
 end

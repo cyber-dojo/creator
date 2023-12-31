@@ -5,7 +5,6 @@ silently { require 'sinatra/contrib' } # N x "warning: method redefined"
 require_relative 'http_json_hash/service'
 
 class AppBase < Sinatra::Base
-
   def initialize(externals)
     @externals = externals
     super(nil)
@@ -17,7 +16,7 @@ class AppBase < Sinatra::Base
   private
 
   def self.get_delegate(klass, name)
-    get "/#{name}", provides:[:json] do
+    get "/#{name}", provides: [:json] do
       respond_to do |format|
         format.json {
           target = klass.new(@externals)
@@ -28,7 +27,7 @@ class AppBase < Sinatra::Base
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - -
 =begin
   def self.get_json(name)
     get "/#{name}", provides:[:json] do
@@ -65,14 +64,14 @@ class AppBase < Sinatra::Base
     info = { exception: error.message }
     if error.instance_of?(::HttpJsonHash::ServiceError)
       info[:request] = {
-        path:request.path
-        #body:request.body.read,
+        path: request.path
+        # body:request.body.read,
       }
       info[:service] = {
-        path:error.path,
-        args:error.args,
-        name:error.name,
-        body:error.body
+        path: error.path,
+        args: error.args,
+        name: error.name,
+        body: error.body
       }
     end
     diagnostic = JSON.pretty_generate(info)
@@ -84,7 +83,7 @@ class AppBase < Sinatra::Base
 
   def args
     payload = json_hash_parse(request.body.read)
-    Hash[payload.map{ |key,value| [key.to_sym, value] }]
+    Hash[payload.map { |key, value| [key.to_sym, value] }]
   end
 
   private
@@ -94,9 +93,9 @@ class AppBase < Sinatra::Base
     unless json.instance_of?(Hash)
       fail 'body is not JSON Hash'
     end
+
     json
   rescue JSON::ParserError
     fail 'body is not JSON'
   end
-
 end

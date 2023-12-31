@@ -8,7 +8,6 @@ require 'sprockets'
 require 'uglifier'
 
 class AppBase < Sinatra::Base
-
   def initialize(externals)
     @externals = externals
     super(nil)
@@ -23,7 +22,7 @@ class AppBase < Sinatra::Base
   environment.append_path('/app/assets/stylesheets')
   environment.css_compressor = :sassc
 
-  get '/assets/app.css', provides:[:css] do
+  get '/assets/app.css', provides: [:css] do
     respond_to do |format|
       format.css do
         env['PATH_INFO'].sub!('/assets', '')
@@ -35,9 +34,9 @@ class AppBase < Sinatra::Base
   # - - - - - - - - - - - - - - - - - - - - - -
 
   environment.append_path('/app/assets/javascripts')
-  environment.js_compressor  = Uglifier.new(harmony: true)
+  environment.js_compressor = Uglifier.new(harmony: true)
 
-  get '/assets/app.js', provides:[:js] do
+  get '/assets/app.js', provides: [:js] do
     respond_to do |format|
       format.js do
         env['PATH_INFO'].sub!('/assets', '')
@@ -49,7 +48,7 @@ class AppBase < Sinatra::Base
   private
 
   def self.get_delegate(klass, name)
-    get "/#{name}", provides:[:json] do
+    get "/#{name}", provides: [:json] do
       respond_to do |format|
         format.json {
           target = klass.new(@externals)
@@ -67,7 +66,7 @@ class AppBase < Sinatra::Base
   end
 
   def symbolized(h) # named-args require symbolization
-    Hash[h.map{ |key,value| [key.to_sym, value] }]
+    Hash[h.map { |key, value| [key.to_sym, value] }]
   end
 
   def json_payload
@@ -85,8 +84,8 @@ class AppBase < Sinatra::Base
     info = {
       exception: {
         request: {
-          path:request.path,
-          body:request.body.read
+          path: request.path,
+          body: request.body.read
         },
         backtrace: error.backtrace
       }
@@ -94,11 +93,11 @@ class AppBase < Sinatra::Base
     exception = info[:exception]
     if error.instance_of?(::HttpJsonHash::ServiceError)
       exception[:http_service] = {
-        path:error.path,
-        args:error.args,
-        name:error.name,
-        body:error.body,
-        message:error.message
+        path: error.path,
+        args: error.args,
+        name: error.name,
+        body: error.body,
+        message: error.message
       }
     else
       exception[:message] = error.message
@@ -106,5 +105,4 @@ class AppBase < Sinatra::Base
     puts JSON.pretty_generate(info)
     halt erb :error
   end
-
 end

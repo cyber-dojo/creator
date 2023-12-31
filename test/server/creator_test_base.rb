@@ -6,7 +6,6 @@ require 'json'
 require 'ostruct'
 
 class CreatorTestBase < Id58TestBase
-
   include Rack::Test::Methods # [1]
 
   def app # [1]
@@ -19,29 +18,29 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_get_200_json(path, args={}, &block)
-    stdout,stderr = capture_io {
-      get path_with_args(path,args)
+  def assert_get_200_json(path, args = {}, &block)
+    stdout, stderr = capture_io {
+      get path_with_args(path, args)
     }
-    assert_equal 200, status, stderr+stdout
+    assert_equal 200, status, stderr + stdout
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :sdout
     block.call(json_response)
   end
 
-  def assert_get_200_html(path, args={})
-    stdout,stderr = capture_io {
+  def assert_get_200_html(path, args = {})
+    stdout, stderr = capture_io {
       get path_with_args(path, args)
     }
-    assert_equal 200, status, stderr+stdout
+    assert_equal 200, status, stderr + stdout
     assert html_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :sdout
   end
 
   def path_with_args(path, args)
-    '/' + path + '?' + args.map{ |name,value|
+    '/' + path + '?' + args.map { |name, value|
       "#{name.to_s}=#{CGI::escape(value)}"
     }.join('&')
   end
@@ -49,10 +48,10 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - - -
 
   def assert_post_200_json(path, args, &block)
-    stdout,stderr = capture_io {
-      json_post '/'+path, args
+    stdout, stderr = capture_io {
+      json_post '/' + path, args
     }
-    assert_equal 200, status, stderr+stdout
+    assert_equal 200, status, stderr + stdout
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :stdout
@@ -156,5 +155,4 @@ class CreatorTestBase < Id58TestBase
     name = Regexp.quote(escape_html(display_name))
     /<div class="display-name"\s*data-name=".*"\s*data-index=".*">\s*#{name}\s*<\/div>/
   end
-
 end

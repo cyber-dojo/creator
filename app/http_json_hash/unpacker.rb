@@ -3,7 +3,6 @@ require 'json'
 
 module HttpJsonHash
   class Unpacker
-
     def initialize(name, requester)
       @name = name
       @requester = requester
@@ -46,6 +45,5 @@ module HttpJsonHash
     def service_error(path, args, body, message)
       fail ::HttpJsonHash::ServiceError.new(path, args, @name, body, message)
     end
-
   end
 end

@@ -1,7 +1,6 @@
 require_relative 'http_json_hash/service'
 
 class ExternalRunner
-
   def initialize(http)
     service = ENV['CYBER_DOJO_RUNNER_HOSTNAME']
     if service.nil?
@@ -20,7 +19,6 @@ class ExternalRunner
   # - - - - - - - - - - - - - - - - - - -
 
   def pull_image(id, image_name)
-    @http.post(__method__, {id:id, image_name:image_name })
+    @http.post(__method__, { id: id, image_name: image_name })
   end
-
 end

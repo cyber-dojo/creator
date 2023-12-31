@@ -7,7 +7,6 @@ require_source 'external_runner'
 require_source 'external_saver'
 
 class ExternalHostnameTest < CreatorTestBase
-
   def self.id58_prefix
     :Qs8
   end
@@ -17,10 +16,10 @@ class ExternalHostnameTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w10: %w(
-  |ExternalCustomStartPoints
-  |has hostname set from env-var
-  |CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME
-  |as required by nginx
+    |ExternalCustomStartPoints
+    |has hostname set from env-var
+    |CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME
+    |as required by nginx
   ) do
     name = 'CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME'
     value = 'custom-start-points.cyber-dojo.eu-central-1'
@@ -33,10 +32,10 @@ class ExternalHostnameTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w11: %w(
-  |ExternalExercisesStartPoints
-  |has hostname set from env-var
-  |CYBER_DOJO_EXERCISES_START_POINTS_HOSTNAME
-  |as required by nginx
+    |ExternalExercisesStartPoints
+    |has hostname set from env-var
+    |CYBER_DOJO_EXERCISES_START_POINTS_HOSTNAME
+    |as required by nginx
   ) do
     name = 'CYBER_DOJO_EXERCISES_START_POINTS_HOSTNAME'
     value = 'exercises-start-points.cyber-dojo.eu-central-1'
@@ -49,10 +48,10 @@ class ExternalHostnameTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w12: %w(
-  |ExternalLanguagesStartPoints
-  |has hostname set from env-var
-  |CYBER_DOJO_LANGUAGES_START_POINTS_HOSTNAME
-  |as required by nginx
+    |ExternalLanguagesStartPoints
+    |has hostname set from env-var
+    |CYBER_DOJO_LANGUAGES_START_POINTS_HOSTNAME
+    |as required by nginx
   ) do
     name = 'CYBER_DOJO_LANGUAGES_START_POINTS_HOSTNAME'
     value = 'languages-start-points.cyber-dojo.eu-central-1'
@@ -65,10 +64,10 @@ class ExternalHostnameTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w13: %w(
-  |ExternalRunner
-  |has hostname set from env-var
-  |CYBER_DOJO_RUNNER_HOSTNAME
-  |as required by nginx
+    |ExternalRunner
+    |has hostname set from env-var
+    |CYBER_DOJO_RUNNER_HOSTNAME
+    |as required by nginx
   ) do
     name = 'CYBER_DOJO_RUNNER_HOSTNAME'
     value = 'runner.cyber-dojo.eu-central-1'
@@ -81,10 +80,10 @@ class ExternalHostnameTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w14: %w(
-  |ExternalSaver
-  |has hostname set from env-var
-  |CYBER_DOJO_SAVER_HOSTNAME
-  |as required by nginx
+    |ExternalSaver
+    |has hostname set from env-var
+    |CYBER_DOJO_SAVER_HOSTNAME
+    |as required by nginx
   ) do
     name = 'CYBER_DOJO_SAVER_HOSTNAME'
     value = 'saver.cyber-dojo.eu-central-1'
@@ -93,5 +92,4 @@ class ExternalHostnameTest < CreatorTestBase
       assert_equal value, lsp.http.requester.hostname
     }
   end
-
 end

@@ -1,6 +1,4 @@
-
 class IdTyper
-
   def initialize(externals)
     @externals = externals
   end
@@ -21,5 +19,4 @@ class IdTyper
   def saver
     @externals.saver
   end
-
 end

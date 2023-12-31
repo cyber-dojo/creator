@@ -1,7 +1,6 @@
 require_relative 'creator_test_base'
 
 class ChooseCustomProblemTest < CreatorTestBase
-
   def self.id58_prefix
     :A73
   end
@@ -9,8 +8,8 @@ class ChooseCustomProblemTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w18: %w(
-  |GET/choose_custom_problem
-  |offers all custom_start_points names
+    |GET/choose_custom_problem
+    |offers all custom_start_points names
   ) do
     get '/choose_custom_problem'
     assert status?(200), status
@@ -19,5 +18,4 @@ class ChooseCustomProblemTest < CreatorTestBase
       assert html =~ display_name_div(name), name
     end
   end
-
 end

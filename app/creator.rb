@@ -1,7 +1,6 @@
 require 'json'
 
 class Creator
-
   def initialize(externals)
     @externals = externals
   end
@@ -69,7 +68,7 @@ class Creator
     16.times { runner.pull_image(id, image_name) }
   end
 
-  #- - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - -
 
   def custom_start_points
     @externals.custom_start_points
@@ -83,7 +82,7 @@ class Creator
     @externals.languages_start_points
   end
 
-  #- - - - - - - - - - - - - - - - - -
+  # - - - - - - - - - - - - - - - - - -
 
   def runner
     @externals.runner
@@ -92,5 +91,4 @@ class Creator
   def saver
     @externals.saver
   end
-
 end

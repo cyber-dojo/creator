@@ -1,21 +1,19 @@
-
 class Prober
-
   def initialize(externals)
     @externals = externals
   end
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  def alive?(_args=nil)
+  def alive?(_args = nil)
     creator.alive?
   end
 
-  def ready?(_args=nil)
+  def ready?(_args = nil)
     creator.ready?
   end
 
-  def sha(_args=nil)
+  def sha(_args = nil)
     creator.sha
   end
 
@@ -24,5 +22,4 @@ class Prober
   def creator
     @externals.creator
   end
-
 end

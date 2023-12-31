@@ -1,7 +1,6 @@
 require_relative 'http_json_hash/service'
 
 class ExternalCreator
-
   def initialize(http)
     name = 'creator'
     port = ENV['CYBER_DOJO_CREATOR_PORT'].to_i
@@ -25,11 +24,10 @@ class ExternalCreator
   # - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   def deprecated_group_create_custom(display_name)
-    @http.post(__method__, {display_name:display_name})
+    @http.post(__method__, { display_name: display_name })
   end
 
   def deprecated_kata_create_custom(display_name)
-    @http.post(__method__, {display_name:display_name})
+    @http.post(__method__, { display_name: display_name })
   end
-
 end

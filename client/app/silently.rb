@@ -1,4 +1,3 @@
-
 def silently
   old_stderr = $stderr
   $stderr = StringIO.new

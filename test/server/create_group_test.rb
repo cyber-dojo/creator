@@ -2,7 +2,6 @@ require_relative 'creator_test_base'
 require 'json'
 
 class CreateGroupTest < CreatorTestBase
-
   def self.id58_prefix
     :p42
   end
@@ -18,15 +17,15 @@ class CreateGroupTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w9A: %w(
-  |POST /create.json
-  |with [type=group,exercise_name,language_name] URL params
-  |generates json route /creator/enter?id=ID
-  |and a group-exercise with ID exists
+    |POST /create.json
+    |with [type=group,exercise_name,language_name] URL params
+    |generates json route /creator/enter?id=ID
+    |and a group-exercise with ID exists
   ) do
     json_post_create({
-      exercise_name:exercise_name,
-      language_name:language_name
-    }) do |manifest|
+                       exercise_name: exercise_name,
+                       language_name: language_name
+                     }) do |manifest|
       assert_equal language_name, manifest['display_name'], manifest
       assert_equal exercise_name, manifest['exercise'], manifest
     end
@@ -35,16 +34,16 @@ class CreateGroupTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w9B: %w(
-  |POST /create.json
-  |with [type=group,language_name] URL params
-  |and empty exercise_name (skipped)  
-  |generates json route /creator/enter?id=ID
-  |and a group-exercise with ID exists
+    |POST /create.json
+    |with [type=group,language_name] URL params
+    |and empty exercise_name (skipped)
+    |generates json route /creator/enter?id=ID
+    |and a group-exercise with ID exists
   ) do
     json_post_create({
-      exercise_name:"",      
-      language_name:language_name
-    }) do |manifest|
+                       exercise_name: "",
+                       language_name: language_name
+                     }) do |manifest|
       assert_equal language_name, manifest['display_name'], manifest
       assert manifest.has_key?('exercise')
       assert_equal '', manifest['exercise'], :polyfilled
@@ -54,14 +53,14 @@ class CreateGroupTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest w9C: %w(
-  |POST /create.json
-  |with [type=group,display_name] URL params
-  |generates json route /creator/enter?id=ID
-  |and a group-exercise with ID exists
+    |POST /create.json
+    |with [type=group,display_name] URL params
+    |generates json route /creator/enter?id=ID
+    |and a group-exercise with ID exists
   ) do
     json_post_create({
-      display_name:display_name
-    }) do |manifest|
+                       display_name: display_name
+                     }) do |manifest|
       assert_equal display_name, manifest['display_name'], manifest
       assert manifest.has_key?('exercise')
       assert_equal '', manifest['exercise'], :polyfilled
@@ -77,5 +76,4 @@ class CreateGroupTest < CreatorTestBase
     assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
     yield group_manifest(id)
   end
-
 end

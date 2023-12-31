@@ -3,16 +3,14 @@ require 'capybara/minitest'
 require_source 'externals'
 
 class CreatorTestBase < Id58TestBase
-
   include Capybara::DSL
   include Capybara::Minitest::Assertions
 
   Capybara.register_driver :selenium do |app|
     Capybara::Selenium::Driver.new(app,
-      browser: :remote,
-      url: 'http://selenium:4444/wd/hub',
-      capabilities: :firefox
-    )
+                                   browser: :remote,
+                                   url: 'http://selenium:4444/wd/hub',
+                                   capabilities: :firefox)
   end
 
   def setup
@@ -96,5 +94,4 @@ class CreatorTestBase < Id58TestBase
   def true?(b)
     b.is_a?(TrueClass)
   end
-
 end

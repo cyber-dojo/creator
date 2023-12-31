@@ -1,7 +1,6 @@
 require_relative 'http_json_hash/service'
 
 class ExternalLanguagesStartPoints
-
   def initialize(http)
     name = ENV['CYBER_DOJO_LANGUAGES_START_POINTS_HOSTNAME']
     if name.nil?
@@ -26,7 +25,6 @@ class ExternalLanguagesStartPoints
   end
 
   def manifest(name)
-    @http.get(__method__, { name:name})
+    @http.get(__method__, { name: name })
   end
-
 end

@@ -1,4 +1,3 @@
-
 module HttpJsonHash
   class ServiceError < RuntimeError
     def initialize(path, args, name, body, message)

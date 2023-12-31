@@ -1,7 +1,6 @@
 require_relative 'http_json_hash/service'
 
 class ExternalCustomStartPoints
-
   def initialize(http)
     name = ENV['CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME']
     if name.nil?
@@ -26,7 +25,6 @@ class ExternalCustomStartPoints
   end
 
   def manifest(name)
-    @http.get(__method__, { name:name})
+    @http.get(__method__, { name: name })
   end
-
 end
