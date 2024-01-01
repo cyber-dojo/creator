@@ -107,7 +107,7 @@ unit-test:
         --compliant=${KOSLI_COMPLIANT}
         --description="server & client branch-coverage reports"
         --name=branch-coverage
-        --evidence-paths=./test/evidence.json,./test/server/report,./test/client/report
+        --evidence-paths=./test/evidence.json,./test/server/reports,./test/client/reports
 
     - exit ${STATUS}
 
