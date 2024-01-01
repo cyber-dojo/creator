@@ -1,8 +1,9 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v2
+image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 
 stages:
   - kosli-start-trail-stage
+  - lint-stage
   - wait-for-image-stage
   - test-stage
   - wait-for-beta-deployment-stage
@@ -29,14 +30,39 @@ kosli-start-trail:
 
     - kosli create flow ${KOSLI_FLOW}
         --description "UX for Group/Kata creation"
-        --template artifact,unit-test,branch-coverage,snyk-scan,pull-request  
+        --template artifact,lint,unit-test,branch-coverage,snyk-scan,pull-request  
         --host=${KOSLI_HOST_STAGING}
         --api-token=${KOSLI_API_TOKEN_STAGING}
 
 
+lint:
+  stage: lint-stage
+  needs: [ kosli-start-trail ]
+  script:
+    - export LINT_EVIDENCE_DIR=/tmp/evidence/lint
+    - mkdir -p "${LINT_EVIDENCE_DIR}"
+    - set +e
+    - rubocop . | tee "${LINT_EVIDENCE_DIR}"/rubocop.log
+    - STATUS=$?
+    - set -e
+
+    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
+
+    - KOSLI_LINT_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
+
+    - kosli report evidence commit generic
+        --compliant="${KOSLI_LINT_COMPLIANT}"
+        --evidence-paths="${LINT_EVIDENCE_DIR}"
+        --name=lint
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_STAGING}
+
+    - exit ${STATUS}
+
+
 wait-for-image:
   stage: wait-for-image-stage
-  needs: [ kosli-start-trail ]
+  needs: [ lint ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
