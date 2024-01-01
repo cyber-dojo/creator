@@ -76,8 +76,8 @@ class Id58TestBase < Minitest::Test
     size = sorted.size < 5 ? sorted.size : 5
     puts
     puts "Slowest #{size} tests are..." if size != 0
-    sorted.each_with_index do |(name, secs), index|
-      puts '%3.4f - %-72s' % [secs, name]
+    sorted.each_with_index do |(name, seconds), index|
+      puts format('%3.4f - %-72s', seconds, name)
       break if index === size
     end
     puts
@@ -85,7 +85,7 @@ class Id58TestBase < Minitest::Test
 
   # - - - - - - - - - - - - - - - - - - - - - -
 
-  # Note: does not include i I o O
+  # NOTE: does not include i I o O
   ID58_ALPHABET = %w[
     0 1 2 3 4 5 6 7 8 9
     A B C D E F G H J K L M N P Q R S T U V W X Y Z

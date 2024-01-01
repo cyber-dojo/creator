@@ -38,7 +38,7 @@ class App < AppBase
   get '/choose_problem', provides: [:html] do
     respond_to do |wants|
       wants.html do
-        set_view_data(externals.exercises_start_points)
+        self.data_source = externals.exercises_start_points
         erb :choose_problem
       end
     end
@@ -47,7 +47,7 @@ class App < AppBase
   get '/choose_custom_problem', provides: [:html] do
     respond_to do |wants|
       wants.html do
-        set_view_data(externals.custom_start_points)
+        self.data_source = externals.custom_start_points
         erb :choose_custom_problem
       end
     end
@@ -58,7 +58,7 @@ class App < AppBase
   get '/choose_ltf', provides: [:html] do
     respond_to do |wants|
       wants.html do
-        set_view_data(externals.languages_start_points)
+        self.data_source = externals.languages_start_points
         erb :choose_ltf
       end
     end
@@ -179,7 +179,7 @@ class App < AppBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  def set_view_data(start_points)
+  def data_source=(start_points)
     manifests = start_points.manifests
     @display_names = manifests.keys.sort
     @display_contents = []

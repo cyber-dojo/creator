@@ -16,7 +16,7 @@ class AppBase < Sinatra::Base
   silently { register Sinatra::Contrib }
   set :port, ENV['PORT']
 
-  private
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def self.get_delegate(klass, name)
     get "/#{name}", provides: [:json] do
@@ -29,6 +29,10 @@ class AppBase < Sinatra::Base
       end
     end
   end
+
+  private_class_method :get_delegate
+
+  private
 
   set :show_exceptions, false
 

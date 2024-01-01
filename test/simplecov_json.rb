@@ -44,7 +44,8 @@ class SimpleCov::Formatter::JSONFormatter
   end
 
   def output_message(result)
-    "Coverage report generated for #{result.command_name} to #{output_filepath}. #{result.covered_lines} / #{result.total_lines} LOC (#{result.covered_percent.round(2)}%) covered."
+    stats = "#{result.covered_lines} / #{result.total_lines} LOC (#{result.covered_percent.round(2)}%) covered."
+    "Coverage report generated for #{result.command_name} to #{output_filepath}. #{stats}"
   end
 
   private

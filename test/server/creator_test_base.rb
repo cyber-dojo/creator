@@ -8,9 +8,9 @@ require 'json'
 require 'ostruct'
 
 class CreatorTestBase < Id58TestBase
-  include Rack::Test::Methods # [1]
+  include Rack::Test::Methods
 
-  def app # [1]
+  def app
     App.new(externals)
   end
 
@@ -27,7 +27,7 @@ class CreatorTestBase < Id58TestBase
     assert_equal 200, status, stderr + stdout
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
-    assert_equal '', stdout, :sdout
+    assert_equal '', stdout, :stdout
     block.call(json_response)
   end
 
@@ -42,9 +42,8 @@ class CreatorTestBase < Id58TestBase
   end
 
   def path_with_args(path, args)
-    '/' + path + '?' + args.map do |name, value|
-      "#{name}=#{CGI.escape(value)}"
-    end.join('&')
+    arg_pairs = args.map { |name, value| "#{name}=#{CGI.escape(value)}" }.join('&')
+    "/#{path}?#{arg_pairs}"
   end
 
   # - - - - - - - - - - - - - - - -
