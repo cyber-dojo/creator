@@ -41,7 +41,6 @@ lint:
   script:
     - export LINT_EVIDENCE_DIR=/tmp/evidence/lint
     - mkdir -p "${LINT_EVIDENCE_DIR}"
-    - cp .rubocop.yml ${LINT_EVIDENCE_DIR}
     - set +e
     - rubocop . | tee "${LINT_EVIDENCE_DIR}"/rubocop.log
     - STATUS=$?
@@ -50,7 +49,7 @@ lint:
     - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit ${STATUS} ; fi
 
     - KOSLI_LINT_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
-
+    - cp .rubocop.yml ${LINT_EVIDENCE_DIR}
     - kosli report evidence commit generic
         --compliant="${KOSLI_LINT_COMPLIANT}"
         --evidence-paths="${LINT_EVIDENCE_DIR}"
@@ -113,7 +112,7 @@ unit-test:
         --compliant=${KOSLI_COMPLIANT}
         --description="server & client branch-coverage reports"
         --name=branch-coverage
-        --user-data=./test/evidence.json 
+        --evidence-paths=./test/evidence.json,./test/server/report,./test/client/report      
         --host=${KOSLI_HOST_STAGING}
         --api-token=${KOSLI_API_TOKEN_STAGING}
 
