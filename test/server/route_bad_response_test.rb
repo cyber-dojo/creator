@@ -75,6 +75,30 @@ class RouteBadResponseTest < CreatorTestBase
     refute_nil ex['backtrace'], stdout
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  qtest QN9: %w[
+  |when an http-proxy
+  |has a 500 error
+  |and the original exception is not ::HttpJsonHash::ServiceError
+  |the exception message is logged to stdout
+  ] do
+    class HttpRaiserStub
+      def get(_uri)
+        raise '42'
+      end
+    end
+    http = HttpRaiserStub.new()
+    esp = ExternalExercisesStartPoints.new(http)
+    externals.instance_exec { @exercises_start_points = esp }
+    stdout, _stderr = capture_io do
+      get '/choose_problem', { type: 'group' }.to_json
+    end
+    json = JSON.parse(stdout)
+    ex = json['exception']
+    assert_equal '42', ex['message']
+  end
+
   private
 
   def stub_exercises_start_points(body)
