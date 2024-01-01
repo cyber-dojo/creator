@@ -9,12 +9,6 @@ Style/ClassAndModuleChildren:
 Lint/PercentStringArray:
   Enabled: false
 
-Style/CaseEquality:
-  Enabled: false
-
-Style/EmptyMethod:
-  Enabled: false
-
 Style/Documentation:
   Enabled: false
 
