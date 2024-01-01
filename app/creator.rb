@@ -7,8 +7,6 @@ class Creator
     @externals = externals
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   def group_create_custom(display_name:)
     create_group(custom_manifest(display_name))
   end
@@ -16,8 +14,6 @@ class Creator
   def kata_create_custom(display_name:)
     create_kata(custom_manifest(display_name))
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
 
   def group_create(language_name:, exercise_name:)
     create_group(manifest(language_name, exercise_name))
@@ -49,7 +45,7 @@ class Creator
 
   def manifest(language_name, exercise_name)
     result = languages_start_points.manifest(language_name)
-    unless exercise_name === ''
+    unless exercise_name == ''
       exercise = exercises_start_points.manifest(exercise_name)
       result['visible_files'].merge!(exercise['visible_files'])
       result['exercise'] = exercise['display_name']
@@ -83,8 +79,6 @@ class Creator
   def languages_start_points
     @externals.languages_start_points
   end
-
-  # - - - - - - - - - - - - - - - - - -
 
   def runner
     @externals.runner

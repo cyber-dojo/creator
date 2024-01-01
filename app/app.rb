@@ -154,7 +154,7 @@ class App < AppBase
   include SelectedHelper
 
   def create(type, args)
-    if type === 'group'
+    if type == 'group'
       create_group(args)
     else
       create_kata(args)

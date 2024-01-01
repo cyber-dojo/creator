@@ -38,7 +38,7 @@ class CreatorTestBase < Id58TestBase
     assert_equal 200, status, stderr + stdout
     assert html_content?, content_type
     assert_equal '', stderr, :stderr
-    assert_equal '', stdout, :sdout
+    assert_equal '', stdout, :stdout
   end
 
   def path_with_args(path, args)
@@ -95,7 +95,7 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - -
 
   def status?(expected)
-    status === expected
+    status == expected
   end
 
   def status
@@ -105,19 +105,19 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - -
 
   def html_content?
-    content_type === 'text/html;charset=utf-8'
+    content_type == 'text/html;charset=utf-8'
   end
 
   def css_content?
-    content_type === 'text/css; charset=utf-8'
+    content_type == 'text/css; charset=utf-8'
   end
 
   def json_content?
-    content_type === 'application/json'
+    content_type == 'application/json'
   end
 
   def js_content?
-    content_type === 'application/javascript'
+    content_type == 'application/javascript'
   end
 
   def content_type
@@ -139,8 +139,6 @@ class CreatorTestBase < Id58TestBase
   def group_manifest(id)
     saver.group_manifest(id)
   end
-
-  # - - - - - - - - - - - - - - -
 
   def kata_exists?(id)
     saver.kata_exists?(id)

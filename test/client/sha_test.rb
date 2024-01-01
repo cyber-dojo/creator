@@ -18,7 +18,7 @@ class ShaTest < CreatorTestBase
 
   def git_sha?(str)
     str.is_a?(String) &&
-      str.size === 40 &&
+      str.size == 40 &&
       str.each_char.all? { |ch| lo_hex?(ch) }
   end
 

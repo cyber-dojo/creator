@@ -3,7 +3,7 @@
 $stdout.sync = true
 $stderr.sync = true
 
-if ENV['CYBER_DOJO_PROMETHEUS'] === 'true'
+if ENV['CYBER_DOJO_PROMETHEUS'] == 'true'
   require 'prometheus/middleware/collector'
   require 'prometheus/middleware/exporter'
   use Prometheus::Middleware::Collector

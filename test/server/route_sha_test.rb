@@ -26,7 +26,7 @@ class RouteShaTest < CreatorTestBase
 
   def git_sha?(str)
     str.instance_of?(String) &&
-      str.size === 40 &&
+      str.size == 40 &&
       str.chars.all? { |ch| lo_hex?(ch) }
   end
 
