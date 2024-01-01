@@ -46,7 +46,7 @@ lint:
     - STATUS=$?
     - set -e
 
-    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
+    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit ${STATUS} ; fi
 
     - KOSLI_LINT_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
 
