@@ -48,7 +48,7 @@ class AppBase < Sinatra::Base
     end
   end
 
-  private
+  # - - - - - - - - - - - - - - - - - - - - - -
 
   def self.get_delegate(klass, name)
     get "/#{name}", provides: [:json] do
@@ -62,7 +62,9 @@ class AppBase < Sinatra::Base
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
+  private_class_method :get_delegate
+
+  private
 
   def json_args
     @json_args ||= symbolized(json_payload)

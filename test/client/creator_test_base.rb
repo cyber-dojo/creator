@@ -29,10 +29,6 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def initialize(arg)
-    super(arg)
-  end
-
   def externals
     @externals ||= Externals.new
   end

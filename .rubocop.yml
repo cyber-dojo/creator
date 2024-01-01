@@ -1,4 +1,8 @@
 
+AllCops:
+  Exclude:
+    - test/id58_test_base.rb
+
 Style/ClassAndModuleChildren:
   Enabled: false
 
@@ -13,3 +17,20 @@ Style/EmptyMethod:
 
 Style/Documentation:
   Enabled: false
+
+Style/EmptyElse:
+  Enabled: false
+
+Metrics/MethodLength:
+  Exclude:
+    - test/simplecov_json.rb
+
+Metrics/AbcSize:
+  Exclude:
+    - test/simplecov_json.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - app/app.rb
+    - test/server/creator_test_base.rb
+    - test/server/route_probes_test.rb
