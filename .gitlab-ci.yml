@@ -1,6 +1,6 @@
-# Edit this line to force a CI run: 171
+# Edit this line to force a CI run: 172
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v2
+image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 
 stages:
   - trigger
