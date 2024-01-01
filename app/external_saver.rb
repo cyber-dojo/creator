@@ -16,8 +16,6 @@ class ExternalSaver
     @http.get(__method__, {})
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-
   def group_create(manifest)
     @http.post(__method__, { manifest: manifest })
   end
@@ -38,8 +36,6 @@ class ExternalSaver
     @http.get(__method__, { id: id })
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-
   def kata_create(manifest)
     @http.post(__method__, { manifest: manifest })
   end
@@ -51,6 +47,4 @@ class ExternalSaver
   def kata_manifest(id)
     @http.get(__method__, { id: id })
   end
-
-  CURRENT_VERSION = 2
 end

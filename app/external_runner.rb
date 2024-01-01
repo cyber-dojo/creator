@@ -16,8 +16,6 @@ class ExternalRunner
     @http.get(__method__, {})
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-
   def pull_image(id, image_name)
     @http.post(__method__, { id: id, image_name: image_name })
   end
