@@ -3,17 +3,19 @@ AllCops:
   Exclude:
     - test/id58_test_base.rb
 
-Style/ClassAndModuleChildren:
-  Enabled: false
-
 Lint/PercentStringArray:
   Enabled: false
 
 Style/Documentation:
   Enabled: false
 
+Style/ClassAndModuleChildren:
+  Exclude:
+    - test/simplecov_json.rb
+
 Style/EmptyElse:
-  Enabled: false
+  Exclude:
+    - app/id_typer.rb
 
 Metrics/MethodLength:
   Exclude:

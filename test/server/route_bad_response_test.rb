@@ -78,17 +78,12 @@ class RouteBadResponseTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - -
 
   qtest QN9: %w[
-  |when an http-proxy
-  |has a 500 error
-  |and the original exception is not ::HttpJsonHash::ServiceError
-  |the exception message is logged to stdout
+    |when an http-proxy
+    |has a 500 error
+    |and the original exception is not ::HttpJsonHash::ServiceError
+    |the exception message is logged to stdout
   ] do
-    class HttpRaiserStub
-      def get(_uri)
-        raise '42'
-      end
-    end
-    http = HttpRaiserStub.new()
+    http = HttpRaiserStub.new
     esp = ExternalExercisesStartPoints.new(http)
     externals.instance_exec { @exercises_start_points = esp }
     stdout, _stderr = capture_io do
@@ -107,6 +102,12 @@ class RouteBadResponseTest < CreatorTestBase
 
   def stub_saver_http(body)
     externals.instance_exec { @saver_http = HttpAdapterStub.new(body) }
+  end
+
+  class HttpRaiserStub
+    def get(_uri)
+      raise '42'
+    end
   end
 
   class HttpAdapterStub
