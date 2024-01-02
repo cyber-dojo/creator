@@ -3,7 +3,7 @@ image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 
 workflow:
   rules:
-    - if: $CI_MERGE_REQUEST_IID
+    - if: '$CI_MERGE_REQUEST_IID && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
 stages:
   - kosli-start-trail-stage
@@ -28,7 +28,7 @@ variables:
 kosli-start-trail:
   stage: kosli-start-trail-stage
   script:
-    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
+    #- if [ "${CI_COMMIT_BRANCH:-}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
 
     - kosli create flow ${KOSLI_FLOW}
         --description "UX for Group/Kata creation"
@@ -46,7 +46,7 @@ lint:
     - STATUS=$?
     - set -e
 
-    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit ${STATUS} ; fi
+    #- if [ "${CI_COMMIT_BRANCH:-}" != "${CI_DEFAULT_BRANCH}" ] ; then exit ${STATUS} ; fi
 
     - KOSLI_LINT_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
     - cp .rubocop.yml ${LINT_EVIDENCE_DIR}
@@ -77,7 +77,7 @@ build-image:
     - echo ${FINGERPRINT} > kosli/fingerprint
     - echo ${IMAGE_NAME}  > kosli/image_name
 
-    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
+    #- if [ "${CI_COMMIT_BRANCH:-}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
 
     - kosli report artifact $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
@@ -90,17 +90,13 @@ unit-test:
   artifacts:
     paths: [ kosli/ ]
   script:
-    - printf %s\\n "$-"
-    - echo ":${CI_COMMIT_BRANCH:-}:"
-    - echo ":${CI_DEFAULT_BRANCH:-}:"
-
     - set +e
     - source ./sh/run_tests_with_coverage.sh
     - run_tests_with_coverage
     - STATUS=$?
     - set -e
 
-    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit ${STATUS} ; fi
+    #- if [ "${CI_COMMIT_BRANCH:-}" != "${CI_DEFAULT_BRANCH}" ] ; then exit ${STATUS} ; fi
 
     - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
 
@@ -125,10 +121,6 @@ security-scan:
   artifacts:
     paths: [ kosli/ ]
   script:
-    - printf %s\\n "$-"
-    - echo ":${CI_COMMIT_BRANCH:-}:"
-    - echo ":${CI_DEFAULT_BRANCH:-}:"
-
     - set +e
     - snyk container test $(cat kosli/image_name)
         --file=Dockerfile
@@ -137,7 +129,7 @@ security-scan:
     - STATUS=$?
     - set -e
 
-    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit ${STATUS} ; fi
+    #- if [ "${CI_COMMIT_BRANCH:-}" != "${CI_DEFAULT_BRANCH}" ] ; then exit ${STATUS} ; fi
 
     - kosli report evidence artifact snyk $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
@@ -153,7 +145,7 @@ pull-request:
   artifacts:
     paths: [ kosli/ ]
   script:
-    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
+    #- if [ "${CI_COMMIT_BRANCH:-}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 0 ; fi
 
     - kosli report evidence artifact pullrequest gitlab $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)           
@@ -173,7 +165,7 @@ beta-deployment:
     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_BETA}
     KOSLI_ENVIRONMENT_NAME: aws-beta
   script:
-    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
+    #- if [ "${CI_COMMIT_BRANCH:-}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
 
     - kosli expect deployment $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
@@ -197,7 +189,7 @@ prod-approval:
   when: manual
   allow_failure: false
   script:
-    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
+    #- if [ "${CI_COMMIT_BRANCH:-}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
 
     - kosli report approval $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
@@ -227,7 +219,7 @@ prod-deployment:
     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_PROD}
     KOSLI_ENVIRONMENT_NAME: aws-prod
   script:
-    - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
+    #- if [ "${CI_COMMIT_BRANCH:-}" != "${CI_DEFAULT_BRANCH}" ] ; then exit 42 ; fi
 
     - kosli expect deployment $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
