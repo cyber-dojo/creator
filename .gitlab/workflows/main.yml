@@ -3,7 +3,7 @@ image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 
 workflow:
   rules:
-    - when: always
+    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == 'main'
 
 stages:
   - kosli-start-trail-stage
