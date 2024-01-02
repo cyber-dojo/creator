@@ -7,12 +7,14 @@ stages:
 
 trigger-main:
   stage: trigger
+  only: [main, merge_requests]
   trigger:
     include: .gitlab/workflows/main.yml
     strategy: depend
 
 trigger-staging:
   stage: trigger
+  only: [main, merge_requests]
   trigger:
     include: .gitlab/workflows/report-to-staging.yml
     strategy: depend
