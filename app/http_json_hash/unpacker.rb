@@ -12,14 +12,10 @@ module HttpJsonHash
 
     attr_reader :name, :requester
 
-    # - - - - - - - - - - - - - - - - - - - - -
-
     def get(path, args)
       response = @requester.get(path, args)
       unpacked(response.body, path.to_s, args)
     end
-
-    # - - - - - - - - - - - - - - - - - - - - -
 
     def post(path, args)
       response = @requester.post(path, args)
@@ -39,8 +35,6 @@ module HttpJsonHash
     rescue JSON::ParserError
       service_error(path, args, body, 'body is not JSON')
     end
-
-    # - - - - - - - - - - - - - - - - - - - - -
 
     def service_error(path, args, body, message)
       raise ::HttpJsonHash::ServiceError.new(path, args, @name, body, message)
