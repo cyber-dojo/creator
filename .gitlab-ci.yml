@@ -6,6 +6,11 @@
 
 image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_COMMIT_BRANCH == 'main'
+
 stages:
   - trigger
 
@@ -14,15 +19,9 @@ trigger-main:
   trigger:
     include: .gitlab/workflows/main.yml
     strategy: depend
-  rules:
-    - if: $CI_COMMIT_TAG == null
-    - when: never
 
 trigger-staging:
   stage: trigger
   trigger:
     include: .gitlab/workflows/report-to-staging.yml
     strategy: depend
-  rules:
-    - if: $CI_COMMIT_TAG == null
-    - when: never
