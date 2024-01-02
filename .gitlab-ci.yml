@@ -15,6 +15,7 @@ stages:
 
 job1:
   stage: trigger
+  only: [ merge_requests ]
   script:
     - echo "CI_PIPELINE_SOURCE==:${CI_PIPELINE_SOURCE}:"
     - echo "CI_COMMIT_BRANCH==:${CI_COMMIT_BRANCH}:"
