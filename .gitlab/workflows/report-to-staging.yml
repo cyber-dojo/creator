@@ -6,7 +6,7 @@ workflow:
     - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
 
 stages:
-  - kosli-start-trail-stage
+  - pre-stage
   - lint-stage
   - wait-for-image-stage
   - test-stage
@@ -17,17 +17,17 @@ stages:
   - post-deployment-stage
 
 variables:
-  # KOSLI_DRY_RUN: true
-  KOSLI_ORG: cyber-dojo
-  KOSLI_FLOW: creator
+  # KOSLI_DRY_RUN: false      # set as Org env-var
+  # KOSLI_ORG: cyber-dojo     # set as Org env-var
+  # KOSLI_FLOW: creator       # set as Repo env-var
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
   DOCKER_CERT_PATH: "${DOCKER_TLS_CERTDIR}/client"
 
 
-kosli-start-trail:
-  stage: kosli-start-trail-stage
+pre:
+  stage: pre-stage
   script:
     - kosli create flow ${KOSLI_FLOW}
         --description "UX for Group/Kata creation"
@@ -38,7 +38,7 @@ kosli-start-trail:
 
 lint:
   stage: lint-stage
-  needs: [ kosli-start-trail ]
+  needs: [ pre ]
   script:
     - export LINT_EVIDENCE_DIR=/tmp/evidence/lint
     - mkdir -p "${LINT_EVIDENCE_DIR}"
