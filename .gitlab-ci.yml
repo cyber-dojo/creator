@@ -6,30 +6,32 @@
 
 image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 
-#workflow:
-#  rules:
-#    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_BRANCH == 'main'
+workflow:
+  rules:
+    - if: $CI_COMMIT_BRANCH == 'main'
 
 stages:
   - trigger
 
-job1:
+#job1:
+#  stage: trigger
+#  only: [ merge_requests ]
+#  script:
+#    - echo "CI_PIPELINE_SOURCE==:${CI_PIPELINE_SOURCE}:"
+#    - echo "CI_COMMIT_BRANCH==:${CI_COMMIT_BRANCH}:"
+#    - echo "CI_DEFAULT_BRANCH==:${CI_DEFAULT_BRANCH}:"
+
+
+trigger-main:
   stage: trigger
   only: [ merge_requests ]
-  script:
-    - echo "CI_PIPELINE_SOURCE==:${CI_PIPELINE_SOURCE}:"
-    - echo "CI_COMMIT_BRANCH==:${CI_COMMIT_BRANCH}:"
-    - echo "CI_DEFAULT_BRANCH==:${CI_DEFAULT_BRANCH}:"
+  trigger:
+    include: .gitlab/workflows/main.yml
+    strategy: depend
 
-
-#trigger-main:
-#  stage: trigger
-#  trigger:
-#    include: .gitlab/workflows/main.yml
-#    strategy: depend
-#
-#trigger-staging:
-#  stage: trigger
-#  trigger:
-#    include: .gitlab/workflows/report-to-staging.yml
-#    strategy: depend
+trigger-staging:
+  stage: trigger
+  only: [ merge_requests ]
+  trigger:
+    include: .gitlab/workflows/report-to-staging.yml
+    strategy: depend
