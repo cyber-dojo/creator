@@ -37,8 +37,6 @@ class Creator
     id
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   def custom_manifest(name)
     custom_start_points.manifest(name)
   end
@@ -53,8 +51,6 @@ class Creator
     result
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   def pull_image_onto_nodes(id, image_name)
     # runner is deployed as a kubernetes daemonSet which
     # means you cannot make http requests to individual runners.
@@ -65,8 +61,6 @@ class Creator
     # will result in an hour-glass icon.
     16.times { runner.pull_image(id, image_name) }
   end
-
-  # - - - - - - - - - - - - - - - - - -
 
   def custom_start_points
     @externals.custom_start_points

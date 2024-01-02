@@ -19,21 +19,15 @@ class App < AppBase
     Creator.new(externals)
   end
 
-  # - - - - - - - - - - - - - - - - - - - - -
-
   get_delegate(Prober, :sha)
   get_delegate(Prober, :alive?)
   get_delegate(Prober, :ready?)
-
-  # - - - - - - - - - - - - - - - - - - - - -
 
   get '/home', provides: [:html] do
     respond_to do |wants|
       wants.html { erb :home }
     end
   end
-
-  # - - - - - - - - - - - - - - - - - - - - -
 
   get '/choose_problem', provides: [:html] do
     respond_to do |wants|
@@ -53,8 +47,6 @@ class App < AppBase
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - -
-
   get '/choose_ltf', provides: [:html] do
     respond_to do |wants|
       wants.html do
@@ -64,8 +56,6 @@ class App < AppBase
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - -
-
   get '/choose_type', provides: [:html] do
     respond_to do |wants|
       wants.html do
@@ -73,8 +63,6 @@ class App < AppBase
       end
     end
   end
-
-  # - - - - - - - - - - - - - - - - - - - - -
 
   post '/create.json', provides: [:json] do
     respond_to do |wants|
@@ -85,8 +73,6 @@ class App < AppBase
       wants.json { json({ 'route' => url, 'id' => id }) }
     end
   end
-
-  # - - - - - - - - - - - - - - - - - - - - -
 
   get '/enter', provides: [:html] do
     respond_to do |wants|
@@ -177,8 +163,6 @@ class App < AppBase
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - -
-
   def data_source=(start_points)
     manifests = start_points.manifests
     @display_names = manifests.keys.sort
@@ -190,8 +174,6 @@ class App < AppBase
       @display_contents << content
     end
   end
-
-  # - - - - - - - - - - - - - - - -
 
   def saver
     externals.saver

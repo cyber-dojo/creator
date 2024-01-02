@@ -32,8 +32,6 @@ class Externals
     @languages_start_points_http ||= ExternalHttp.new
   end
 
-  # - - - - - - - - - - - - - - - - - - -
-
   def runner
     @runner ||= ExternalRunner.new(runner_http)
   end
@@ -41,8 +39,6 @@ class Externals
   def runner_http
     @runner_http ||= ExternalHttp.new
   end
-
-  # - - - - - - - - - - - - - - - - - - -
 
   def saver
     @saver ||= ExternalSaver.new(saver_http)

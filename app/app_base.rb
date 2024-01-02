@@ -20,8 +20,6 @@ class AppBase < Sinatra::Base
   set :port, ENV['PORT']
   set :environment, Sprockets::Environment.new
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   environment.append_path('/app/assets/stylesheets')
   environment.css_compressor = :sassc
 
@@ -34,8 +32,6 @@ class AppBase < Sinatra::Base
     end
   end
 
-  # - - - - - - - - - - - - - - - - - - - - - -
-
   environment.append_path('/app/assets/javascripts')
   environment.js_compressor = Uglifier.new(harmony: true)
 
@@ -47,8 +43,6 @@ class AppBase < Sinatra::Base
       end
     end
   end
-
-  # - - - - - - - - - - - - - - - - - - - - - -
 
   def self.get_delegate(klass, name)
     get "/#{name}", provides: [:json] do
@@ -80,8 +74,6 @@ class AppBase < Sinatra::Base
   end
 
   include JsonHashParseHelper
-
-  # - - - - - - - - - - - - - - - - - - - - - -
 
   set :show_exceptions, false
 
