@@ -1,5 +1,9 @@
 # Edit this line to force a CI run: 173
 
+# Remove the rules for the triggers, and specify the
+# rules inside the child pipelines instead. See
+# See https://gitlab.com/gitlab-org/gitlab/-/issues/222370
+
 image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 
 stages:
@@ -7,14 +11,18 @@ stages:
 
 trigger-main:
   stage: trigger
-  only: [main, merge_requests]
   trigger:
     include: .gitlab/workflows/main.yml
     strategy: depend
+  rules:
+    - if: $CI_COMMIT_TAG == null
+    - when: never
 
 trigger-staging:
   stage: trigger
-  only: [main, merge_requests]
   trigger:
     include: .gitlab/workflows/report-to-staging.yml
     strategy: depend
+  rules:
+    - if: $CI_COMMIT_TAG == null
+    - when: never

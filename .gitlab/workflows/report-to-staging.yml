@@ -1,6 +1,11 @@
 
 image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 
+workflow:
+  rules:
+    - if: $CI_MERGE_REQUEST_IID
+    - if: $CI_COMMIT_BRANCH
+
 stages:
   - kosli-start-trail-stage
   - lint-stage
@@ -11,7 +16,6 @@ stages:
   - sdlc-control-gate-stage
   - wait-for-prod-deployment-stage
   - post-deployment-stage
-
 
 variables:
   # KOSLI_DRY_RUN: true
