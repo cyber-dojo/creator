@@ -8,8 +8,7 @@ image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-    - if: $CI_COMMIT_BRANCH == 'main'
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_BRANCH == 'main'
 
 stages:
   - trigger
