@@ -90,13 +90,16 @@ unit-test:
   artifacts:
     paths: [ kosli/ ]
   script:
+    - printf %s\\n "$-"
+    - echo "$:{CI_COMMIT_BRANCH:-}:"
+    - echo "$:{CI_DEFAULT_BRANCH:-}:"
+
     - set +e
     - source ./sh/run_tests_with_coverage.sh
     - run_tests_with_coverage
     - STATUS=$?
     - set -e
 
-    - shopt | grep "on$"
     - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit ${STATUS} ; fi
 
     - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
@@ -122,6 +125,10 @@ security-scan:
   artifacts:
     paths: [ kosli/ ]
   script:
+    - printf %s\\n "$-"
+    - echo "$:{CI_COMMIT_BRANCH:-}:"
+    - echo "$:{CI_DEFAULT_BRANCH:-}:"
+
     - set +e
     - snyk container test $(cat kosli/image_name)
         --file=Dockerfile
@@ -130,7 +137,6 @@ security-scan:
     - STATUS=$?
     - set -e
 
-    - shopt | grep "on$"
     - if [ "${CI_COMMIT_BRANCH}" != "${CI_DEFAULT_BRANCH}" ] ; then exit $STATUS ; fi
 
     - kosli report evidence artifact snyk $(cat kosli/image_name)
