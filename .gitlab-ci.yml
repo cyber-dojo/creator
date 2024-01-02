@@ -1,7 +1,7 @@
 # Edit this line to force a CI run: 173
 
 # Remove the rules for the triggers, and specify the
-# rules inside the child pipelines instead. See
+# rules inside the child pipelines instead.
 # See https://gitlab.com/gitlab-org/gitlab/-/issues/222370
 
 image: registry.gitlab.com/cyber-dojo/ci-runner:v3
