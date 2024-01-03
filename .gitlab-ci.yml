@@ -9,20 +9,29 @@ image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 stages:
   - trigger
 
-trigger-main:
+trigger-test:
   stage: trigger
   rules:
     - if: $CI_COMMIT_TAG == null
     - when: never
   trigger:
-    include: .gitlab/workflows/main.yml
+    include: .gitlab/workflows/on_merge.yml
     strategy: depend
 
-trigger-staging:
-  stage: trigger
-  rules:
-    - if: $CI_COMMIT_TAG == null
-    - when: never
-  trigger:
-    include: .gitlab/workflows/report-to-staging.yml
-    strategy: depend
+#trigger-main:
+#  stage: trigger
+#  rules:
+#    - if: $CI_COMMIT_TAG == null
+#    - when: never
+#  trigger:
+#    include: .gitlab/workflows/main.yml
+#    strategy: depend
+#
+#trigger-staging:
+#  stage: trigger
+#  rules:
+#    - if: $CI_COMMIT_TAG == null
+#    - when: never
+#  trigger:
+#    include: .gitlab/workflows/report-to-staging.yml
+#    strategy: depend

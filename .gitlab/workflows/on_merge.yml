@@ -1,0 +1,23 @@
+image: registry.gitlab.com/cyber-dojo/ci-runner:v3
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /See merge request/
+
+stages:
+  - pre-stage
+
+variables:
+  # KOSLI_DRY_RUN: false      # set as Org env-var
+  # KOSLI_ORG: cyber-dojo     # set as Org env-var
+  # KOSLI_FLOW: creator       # set as Repo env-var
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_CERT_PATH: "${DOCKER_TLS_CERTDIR}/client"
+
+
+pre:
+  stage: pre-stage
+  script:
+    - Hello from a merged merge-request
