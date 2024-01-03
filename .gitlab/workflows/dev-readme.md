@@ -1,10 +1,9 @@
 
 # Branch protection is on for the main (default) branch
 
-# Specifying rules: for parent-child pipelines
+# Specifying parent-child pipeline rules:
 
-See https://gitlab.com/gitlab-org/gitlab/-/issues/222370
-
+See https://gitlab.com/gitlab-org/gitlab/-/issues/222370  
 The rules for the parent pipeline (.gitlab-ci.yml) are turned off;
 ```yml
 trigger-main:
@@ -32,14 +31,14 @@ Two child CI pipelines are triggered from .gitlab-ci.yml
 Note: report-to-staging.yml is very similar to main.yml, but...
 - it does _not_ rebuild the docker image (since the build is not binary reproducible)
   and we want the same artifact fingerprint in both Kosli URLs.  
-  Instead, it waits for the image to be built (in main.yml) using the script
-  sh/wait_for_image.sh
+  Instead, it waits for the image to be built (in main.yml) using 
+  [sh/wait_for_image.sh](sh/wait_for_image.sh)
 - it does _not_ deploy the image to aws-beta/aws-prod (since main.yml already does that).  
-  Instead, it waits for the image to be deployed (in main.yml) using the script
-  sh/wait_for_deployment.sh
+  Instead, it waits for the image to be deployed (in main.yml) using 
+  [sh/wait_for_deployment.sh](sh/wait_for_deployment.sh)
 
-Note: reporting-to-staging.yml _does_ re-run the test evidence.
-(This creates duplication but is done to keep main.yml canonical.)   
+Note: reporting-to-staging.yml _does_ re-run the tests.  
+This creates duplication but keeps main.yml canonical.   
 It is possible for:
 - main.yml to report a compliant Artifact and do deployments to aws-beta and aws-prod 
 - report-to-staging.yml to report the same Artifact as non-compliant 
