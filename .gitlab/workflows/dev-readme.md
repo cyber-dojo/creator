@@ -31,8 +31,7 @@ Two child CI pipelines are triggered from .gitlab-ci.yml
 Note: report-to-staging.yml is very similar to main.yml, but...
 - it does _not_ rebuild the docker image (since the build is not binary reproducible).  
   Instead, it waits for the image to be built (in main.yml) using [sh/wait_for_image.sh](sh/wait_for_image.sh)  
-  Having the same artifact fingerprint in both Kosli URLs means we can, for example,
-  compare snapshots across Environments.
+  Having the same artifact fingerprint enables snapshot comparison across Environments.
 - it does _not_ deploy the image to aws-beta/aws-prod (since main.yml already does that).  
   Instead, it waits for the image to be deployed (in main.yml) using [sh/wait_for_deployment.sh](sh/wait_for_deployment.sh)
 

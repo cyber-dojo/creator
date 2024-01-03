@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -Eu
 
+# See https://gitlab.com/cyber-dojo/creator/-/blob/main/.gitlab/workflows/dev-readme.md
+
 readonly IMAGE_NAME="${1}"        # eg cyberdojo/creator:6d650d5
 readonly KOSLI_HOST="${2}"        # eg https://app.kosli.com
 readonly KOSLI_API_TOKEN="${3}"   # eg 7654y432er7132rwaefdgzfvdc (fake)
@@ -15,7 +17,7 @@ image_deployed()
 {
     local -r snapshot_json_filename=snapshot.json
 
-    # Use Kosli CLI to get info on what artifacts are currently running
+    # Use Kosli CLI to find what artifacts are currently running
     # (docs/snapshot.json contains an example json file)
     kosli get snapshot "${KOSLI_ENVIRONMENT}" \
       --host="${KOSLI_HOST}" \
@@ -24,7 +26,7 @@ image_deployed()
       --output=json \
         > "${snapshot_json_filename}"
 
-    # Process info, one artifact at a time
+    # Process one artifact at a time
     local -r artifacts_length=$(jq '.artifacts | length' ${snapshot_json_filename})
     for i in $(seq 0 $(( artifacts_length - 1 )));
     do
