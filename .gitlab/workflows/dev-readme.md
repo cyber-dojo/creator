@@ -15,10 +15,13 @@ instead there are rules in the child pipelines (in .gitlab/workflows/) instead;
 ```yml
 workflow:
   rules:
-    - if: $CI_COMMIT_MESSAGE =~ /See merge request/
+    - if: $CI_COMMIT_MESSAGE =~ /See merge request/ && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 ```
 I can find no canonical way to run a pipeline _after_ a merge request.  
-See https://stackoverflow.com/questions/63893431/gitlab-run-a-pipeline-job-when-a-merge-request-is-merged
+See https://stackoverflow.com/questions/63893431/gitlab-run-a-pipeline-job-when-a-merge-request-is-merged  
+
+When you push a branch you will get a failed Pipeline run.  
+When a merge-request is merged into main, the Pipeline(s) will run.
 
 # report-to-staging.yml
 
