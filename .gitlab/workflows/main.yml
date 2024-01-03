@@ -3,7 +3,7 @@ image: registry.gitlab.com/cyber-dojo/ci-runner:v3
 
 workflow:
   rules:
-    - if: $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH
+    - if: $CI_COMMIT_MESSAGE =~ /See merge request/
 
 stages:
   - pre-stage
