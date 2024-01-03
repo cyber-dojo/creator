@@ -29,19 +29,18 @@ Two child CI pipelines are triggered from .gitlab-ci.yml
   This is for development purposes.
 
 Note: report-to-staging.yml is very similar to main.yml, but...
-- it does _not_ rebuild the docker image (since the build is not binary reproducible)
-  and we want the same artifact fingerprint in both Kosli URLs.  
-  Instead, it waits for the image to be built (in main.yml) using 
-  [sh/wait_for_image.sh](sh/wait_for_image.sh)
+- it does _not_ rebuild the docker image (since the build is not binary reproducible).  
+  Instead, it waits for the image to be built (in main.yml) using [sh/wait_for_image.sh](sh/wait_for_image.sh)  
+  Having the same artifact fingerprint in both Kosli URLs means we can, for example,
+  compare snapshots across Environments.
 - it does _not_ deploy the image to aws-beta/aws-prod (since main.yml already does that).  
-  Instead, it waits for the image to be deployed (in main.yml) using 
-  [sh/wait_for_deployment.sh](sh/wait_for_deployment.sh)
+  Instead, it waits for the image to be deployed (in main.yml) using [sh/wait_for_deployment.sh](sh/wait_for_deployment.sh)
 
 Note: reporting-to-staging.yml _does_ re-run the tests.  
 This creates duplication but keeps main.yml canonical.   
-It is possible for:
-- main.yml to report a compliant Artifact and do deployments to aws-beta and aws-prod 
-- report-to-staging.yml to report the same Artifact as non-compliant 
+This is possible:
+- main.yml reports a compliant Artifact and deploy to aws-beta/aws-prod 
+- report-to-staging.yml reports the same Artifact as non-compliant 
 - the Environment snapshot report for aws-beta on https://staging.app.kosli.com
-  will see the Artifact deployment from main.yml and so, the Artifact will be 
+  sees the Artifact deployment from main.yml and so, the Artifact will be 
   non-compliant in the snapshot.
