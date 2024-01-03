@@ -1,7 +1,8 @@
 
 - A [docker-containerized](https://registry.hub.docker.com/r/cyberdojo/creator) micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
 - The HTTP UI to configure and create (or re-enter) a group-exercise or an individual-exercise.
-- A [Kosli](https://www.kosli.com/) showcase for a [Gitlab CI flow](https://app.kosli.com/cyber-dojo/flows/creator/artifacts/) and an [aws production environment](https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/)
+- Demonstrates a [Kosli](https://www.kosli.com/) instrumented [Gitlab CI flow](https://app.kosli.com/cyber-dojo/flows/creator/artifacts/) 
+  deploying to [staging](https://app.kosli.com/cyber-dojo/environments/aws-beta/snapshots/) and [production](https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/) AWS environments.
 
 - - - -
 ![choose-exercise](docs/choose_exercise.png)
