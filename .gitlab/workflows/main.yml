@@ -61,6 +61,10 @@ build-image:
   artifacts:
     paths: [ kosli/ ]
   script:
+    - export DOCKER_HOST
+    - export DOCKER_TLS_CERTDIR
+    - export DOCKER_TLS_VERIFY
+    - export DOCKER_CERT_PATH
     - source ./sh/echo_versioner_env_vars.sh
     - export $(echo_versioner_env_vars)
     - docker-compose build --build-arg COMMIT_SHA=${CI_COMMIT_SHA}
