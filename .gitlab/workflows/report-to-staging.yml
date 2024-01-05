@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v5
+image: registry.gitlab.com/cyber-dojo/ci-runner:v6
 
 workflow:
   rules:
@@ -20,10 +20,10 @@ variables:
   # KOSLI_DRY_RUN: false      # Org env-var
   # KOSLI_ORG: cyber-dojo     # Org env-var
   # KOSLI_FLOW: creator       # Repo env-var
-  DOCKER_HOST: tcp://docker:2376
-  DOCKER_TLS_CERTDIR: "/certs"
-  DOCKER_TLS_VERIFY: 1
-  DOCKER_CERT_PATH: "${DOCKER_TLS_CERTDIR}/client"
+#  DOCKER_HOST: tcp://docker:2376
+#  DOCKER_TLS_CERTDIR: "/certs"
+#  DOCKER_TLS_VERIFY: 1
+#  DOCKER_CERT_PATH: "${DOCKER_TLS_CERTDIR}/client"
 
 
 pre:
