@@ -43,7 +43,7 @@ lint:
     - export LINT_EVIDENCE_DIR=/tmp/evidence/lint
     - mkdir -p "${LINT_EVIDENCE_DIR}"
     - set +e
-    - rubocop --raise-cop-error . | tee "${LINT_EVIDENCE_DIR}"/rubocop.log
+    - rubocop --raise-cop-error . > "${LINT_EVIDENCE_DIR}"/rubocop.log
     - STATUS=$?
     - set -e
 
