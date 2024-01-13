@@ -23,7 +23,7 @@ See https://stackoverflow.com/questions/63893431/gitlab-run-a-pipeline-job-when-
 When you push a branch you will get a failed Pipeline run.  
 When a merge-request is merged into main, the Pipeline(s) will run.
 
-# report-to-staging.yml
+# main_staging.yml
 
 Two child CI pipelines are triggered from .gitlab-ci.yml
 - main.yml reports to https://app.kosli.com  

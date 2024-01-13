@@ -1,4 +1,5 @@
 # See ./gitlab/workflows/readme.md
+# See ./gitlab/workflows/dev-readme.md
 
 image: registry.gitlab.com/cyber-dojo/ci-runner:v7
 
