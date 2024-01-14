@@ -4,6 +4,7 @@
 
 Suppose you have a structure like this:
 
+```yml
     job-1:
       script:
         - do-something
@@ -13,17 +14,19 @@ Suppose you have a structure like this:
       needs: [ job-1 ]
       script:
         - blah-blah
+```
 
 and you're worried about kosli-report command failure altering 
 the exit status of the job and needlessly affecting the pipeline.
 You might split off kosli-reporting into its own job, like this:
 
+```yml
     job-1:
       script:
         - do-something
 
     report-job-1:
-      needs; [ job-1 ]
+      needs: [ job-1 ]
       script:
         - report-it-to-kosli
 
@@ -31,6 +34,7 @@ You might split off kosli-reporting into its own job, like this:
       needs: [ job-1 ]
       script:
         - blah-blah
+```
 
 Note that `job-2` is `needs:[job-1]`, not `needs:[report-job-1]`
 A problem with this approach is that `job-2` could have a `kosli assert`
@@ -131,8 +135,8 @@ commands are not run. This means you only see a green or missing
           - set +e
           - snyk container test cyberdojo/web:2d3cd13
           - STATUS=$?
-          - kosli attest snyk ...
           - set -e
+          - kosli attest snyk ...
           - ...
           - exit $STATUS
 ```
