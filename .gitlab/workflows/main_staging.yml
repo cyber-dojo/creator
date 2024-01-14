@@ -30,7 +30,7 @@ pre:
   stage: pre-stage
   script:
     - kosli create flow ${KOSLI_FLOW}
-        --description "UX for Group/Kata creation"
+        --description="UX for Group/Kata creation"
         --template artifact,lint,unit-test,branch-coverage,snyk-scan,pull-request  
         --host=${KOSLI_HOST_STAGING}
         --api-token=${KOSLI_API_TOKEN_STAGING}
