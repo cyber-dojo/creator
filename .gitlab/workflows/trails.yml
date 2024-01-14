@@ -16,10 +16,11 @@ stages:
   - prod-deployment-stage
 
 variables:
-  # KOSLI_DRY_RUN: false               # Org env-var
-  # KOSLI_FLOW: creator                # Repo env-var
-  # KOSLI_HOST: https://app.kosli.com  # Org env-var
-  KOSLI_ORG: cyber-dojo-trails
+  # KOSLI_DRY_RUN: false                          # Org env-var
+  # KOSLI_FLOW: creator                           # Repo env-var
+  KOSLI_ORG: cyber-dojo-trails                    # Org env-var
+  KOSLI_HOST: ${KOSLI_HOST_PROD}                  # Org env-var
+  KOSLI_API_TOKEN: ${KOSLI_API_TOKEN_TRAILS_PROD} # Org env-var
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
@@ -32,10 +33,8 @@ pre:
     - kosli create flow ${{ env.KOSLI_FLOW }} 
        --description="UX for Group/Kata creation"
        --template-file=.kosli.yml
-       --api-token=${KOSLI_API_TOKEN_TRAILS}
 
     - kosli begin trail "${CI_COMMIT_SHA}"
-       --api-token=${KOSLI_API_TOKEN_TRAILS}
 
 
 lint:
@@ -56,7 +55,6 @@ lint:
         --evidence-paths="${LINT_EVIDENCE_DIR}"
         --trail="${CI_COMMIT_SHA}"
         --name=lint
-        --api-token=${KOSLI_API_TOKEN_TRAILS}
 
     - exit ${STATUS}
 
@@ -70,7 +68,6 @@ pull-request:
         --gitlab-token=${KOSLI_GITLAB_TOKEN} 
         --name=pull-request
         --trail="${CI_COMMIT_SHA}"
-        --api-token=${KOSLI_API_TOKEN_TRAILS}
 
 
 build-image:
@@ -92,7 +89,6 @@ build-image:
         --fingerprint=$(cat kosli/fingerprint)
         --name=creator
         --trail="${CI_COMMIT_SHA}"
-        --api-token=${KOSLI_API_TOKEN_TRAILS}
 
 
 unit-test:
@@ -115,7 +111,6 @@ unit-test:
         --name=creator.unit-test
         --results-dir=test/server/reports/junit
         --trail="${CI_COMMIT_SHA}"
-        --api-token=${KOSLI_API_TOKEN_TRAILS}
 
     - kosli attest generic $(cat kosli/image_name)
         --evidence-paths=./test/evidence.json,./test/server/reports,./test/client/reports
@@ -123,7 +118,6 @@ unit-test:
         --fingerprint=$(cat kosli/fingerprint)
         --name=creator.branch-coverage
         --trail="${CI_COMMIT_SHA}"
-        --api-token=${KOSLI_API_TOKEN_TRAILS}
 
     - exit ${STATUS}
 
@@ -147,7 +141,6 @@ security-scan:
         --name=creator.snyk-scan
         --scan-results=snyk.json
         --trail="${CI_COMMIT_SHA}"
-        --api-token=${KOSLI_API_TOKEN_TRAILS}
 
     - exit ${STATUS}
 
@@ -167,12 +160,11 @@ beta-deployment:
         --fingerprint=$(cat kosli/fingerprint)
         --description "Deployed to ${KOSLI_ENVIRONMENT_NAME} in Gitlab pipeline"
         --environment ${KOSLI_ENVIRONMENT_NAME}
-        --api-token=${KOSLI_API_TOKEN_TRAILS}
 
     - ./sh/wait_for_deployment.sh 
         $(cat kosli/image_name)
         ${KOSLI_HOST}
-        ${KOSLI_API_TOKEN_TRAILS}
+        ${KOSLI_API_TOKEN}
         ${KOSLI_ORG}
         ${KOSLI_ENVIRONMENT_NAME}
 
@@ -191,7 +183,6 @@ prod-approval:
         --description="Approved in Gitlab pipeline"
         --environment=aws-prod
         --approver="${GITLAB_USER_NAME} <${GITLAB_USER_EMAIL}>"
-        --api-token=${KOSLI_API_TOKEN_TRAILS}
 
 
 sdlc-control-gate:
@@ -202,7 +193,6 @@ sdlc-control-gate:
   script:
     - kosli assert artifact $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
-        --api-token=${KOSLI_API_TOKEN_TRAILS}
 
 
 prod-deployment:
@@ -220,11 +210,10 @@ prod-deployment:
         --fingerprint=$(cat kosli/fingerprint)
         --description "Deployed to ${KOSLI_ENVIRONMENT_NAME} in Gitlab pipeline"
         --environment ${KOSLI_ENVIRONMENT_NAME}
-        --api-token=${KOSLI_API_TOKEN_TRAILS}
 
     - ./sh/wait_for_deployment.sh 
         $(cat kosli/image_name)
-        ${KOSLI_HOST_STAGING}
-        ${KOSLI_API_TOKEN_TRAILS}
+        ${KOSLI_HOST}
+        ${KOSLI_API_TOKEN}
         ${KOSLI_ORG}
         ${KOSLI_ENVIRONMENT_NAME}

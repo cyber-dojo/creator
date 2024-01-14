@@ -16,10 +16,11 @@ stages:
   - prod-deployment-stage
 
 variables:
-  # KOSLI_DRY_RUN: false               # Org env-var
-  # KOSLI_ORG: cyber-dojo              # Org env-var
-  # KOSLI_HOST: https://app.kosli.com  # Org env-var
-  # KOSLI_FLOW: creator                # Repo env-var
+  # KOSLI_DRY_RUN: false                   # Org env-var
+  # KOSLI_ORG: cyber-dojo                  # Org env-var
+  # KOSLI_FLOW: creator                    # Repo env-var
+  KOSLI_HOST: ${KOSLI_HOST_PROD}           # Org env-var
+  KOSLI_API_TOKEN: ${KOSLI_API_TOKEN_PROD} # Org env-var
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
