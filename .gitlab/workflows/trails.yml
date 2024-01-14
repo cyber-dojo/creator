@@ -18,8 +18,8 @@ stages:
 variables:
   # KOSLI_DRY_RUN: false                          # Org env-var
   # KOSLI_FLOW: creator                           # Repo env-var
-  KOSLI_ORG: cyber-dojo-trails                    # Org env-var
-  KOSLI_HOST: ${KOSLI_HOST_PROD}                  # Org env-var
+  KOSLI_ORG: cyber-dojo-trails
+  KOSLI_HOST: ${KOSLI_HOST_PROD}                  # Org env-var https://app.kosli.com
   KOSLI_API_TOKEN: ${KOSLI_API_TOKEN_TRAILS_PROD} # Org env-var
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
@@ -163,9 +163,6 @@ beta-deployment:
 
     - ./sh/wait_for_deployment.sh 
         $(cat kosli/image_name)
-        ${KOSLI_HOST}
-        ${KOSLI_API_TOKEN}
-        ${KOSLI_ORG}
         ${KOSLI_ENVIRONMENT_NAME}
 
 
@@ -213,7 +210,4 @@ prod-deployment:
 
     - ./sh/wait_for_deployment.sh 
         $(cat kosli/image_name)
-        ${KOSLI_HOST}
-        ${KOSLI_API_TOKEN}
-        ${KOSLI_ORG}
         ${KOSLI_ENVIRONMENT_NAME}

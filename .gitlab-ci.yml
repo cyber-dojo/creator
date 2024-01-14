@@ -7,33 +7,23 @@ stages:
   - trigger
 
 
-trigger-test:
+trigger-main:
   stage: trigger
   rules:
     - if: $CI_COMMIT_TAG == null
     - when: never
   trigger:
-    include: .gitlab/workflows/test.yml
+    include: .gitlab/workflows/main.yml
     strategy: depend
 
-
-#trigger-main:
-#  stage: trigger
-#  rules:
-#    - if: $CI_COMMIT_TAG == null
-#    - when: never
-#  trigger:
-#    include: .gitlab/workflows/main.yml
-#    strategy: depend
-#
-#trigger-staging:
-#  stage: trigger
-#  rules:
-#    - if: $CI_COMMIT_TAG == null
-#    - when: never
-#  trigger:
-#    include: .gitlab/workflows/main_staging.yml
-#    strategy: depend
+trigger-staging:
+  stage: trigger
+  rules:
+    - if: $CI_COMMIT_TAG == null
+    - when: never
+  trigger:
+    include: .gitlab/workflows/main_staging.yml
+    strategy: depend
 
 #trigger-main-trails:
 #  stage: trigger
