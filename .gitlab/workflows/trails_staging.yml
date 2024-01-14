@@ -30,7 +30,7 @@ variables:
 pre:
   stage: pre-stage
   script:
-    - kosli create flow ${{ env.KOSLI_FLOW }} 
+    - kosli create flow ${KOSLI_FLOW} 
        --description="UX for Group/Kata creation"
        --template-file=.kosli.yml
 
