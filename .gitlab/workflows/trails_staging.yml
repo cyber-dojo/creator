@@ -16,10 +16,9 @@ stages:
   - prod-deployment-stage
 
 variables:
-  # KOSLI_DRY_RUN: false               # Org env-var
-  # KOSLI_ORG: cyber-dojo              # Org env-var
-  # KOSLI_HOST: https://app.kosli.com  # Org env-var
-  # KOSLI_FLOW: creator                # Repo env-var
+  # KOSLI_DRY_RUN: false        # Org env-var
+  # KOSLI_FLOW: creator         # Repo env-var
+  KOSLI_ORG: cyber-dojo-trails
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
@@ -29,9 +28,15 @@ variables:
 pre:
   stage: pre-stage
   script:
-    - kosli create flow ${KOSLI_FLOW}
-        --description="UX for Group/Kata creation"
-        --template artifact,lint,unit-test,branch-coverage,snyk-scan,pull-request
+    - kosli create flow ${{ env.KOSLI_FLOW }} 
+       --description="UX for Group/Kata creation"
+       --template-file=.kosli.yml
+       --host=${KOSLI_HOST_STAGING}
+       --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
+
+    - kosli begin trail "${CI_COMMIT_SHA}"
+       --host=${KOSLI_HOST_STAGING}
+       --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
 
 
 lint:
@@ -47,35 +52,51 @@ lint:
 
     - KOSLI_LINT_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
     - cp .rubocop.yml ${LINT_EVIDENCE_DIR}
-    - kosli report evidence commit generic
+    - kosli attest generic
         --compliant="${KOSLI_LINT_COMPLIANT}"
         --evidence-paths="${LINT_EVIDENCE_DIR}"
+        --trail="${CI_COMMIT_SHA}"
         --name=lint
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
 
     - exit ${STATUS}
 
 
+pull-request:
+  stage: test-stage
+  needs: [ pre ]
+  script:
+    - kosli attest pullrequest gitlab 
+        --assert
+        --gitlab-token=${KOSLI_GITLAB_TOKEN} 
+        --name=pull-request
+        --trail="${CI_COMMIT_SHA}"
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
+
+
 build-image:
   stage: build-image-stage
-  needs: [ lint ]
+  needs: [ pre ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
   script:
-    - source ./sh/echo_versioner_env_vars.sh
-    - export $(echo_versioner_env_vars)
-    - docker-compose build --build-arg COMMIT_SHA=${CI_COMMIT_SHA}
     - IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}
-    - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
-    - docker push ${IMAGE_NAME}
+    - ./sh/wait_for_image.sh ${IMAGE_NAME}
 
     - mkdir kosli
     - FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker)
     - echo ${FINGERPRINT} > kosli/fingerprint
     - echo ${IMAGE_NAME}  > kosli/image_name
 
-    - kosli report artifact $(cat kosli/image_name)
+    - kosli attest artifact $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
+        --name=creator
+        --trail="${CI_COMMIT_SHA}"
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
 
 
 unit-test:
@@ -93,17 +114,22 @@ unit-test:
 
     - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
 
-    - kosli report evidence artifact junit $(cat kosli/image_name)
+    - kosli attest junit $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
-        --name=unit-test
+        --name=creator.unit-test
         --results-dir=test/server/reports/junit
+        --trail="${CI_COMMIT_SHA}"
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
 
-    - kosli report evidence artifact generic $(cat kosli/image_name)
-        --fingerprint=$(cat kosli/fingerprint)
-        --compliant=${KOSLI_COMPLIANT}
-        --description="server & client branch-coverage reports"
-        --name=branch-coverage
+    - kosli attest generic $(cat kosli/image_name)
         --evidence-paths=./test/evidence.json,./test/server/reports,./test/client/reports
+        --compliant=${KOSLI_COMPLIANT}
+        --fingerprint=$(cat kosli/fingerprint)
+        --name=creator.branch-coverage
+        --trail="${CI_COMMIT_SHA}"
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
 
     - exit ${STATUS}
 
@@ -122,30 +148,20 @@ security-scan:
     - STATUS=$?
     - set -e
 
-    - kosli report evidence artifact snyk $(cat kosli/image_name)
+    - kosli attest snyk $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
-        --name=snyk-scan
+        --name=creator.snyk-scan
         --scan-results=snyk.json
+        --trail="${CI_COMMIT_SHA}"
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
 
     - exit ${STATUS}
 
 
-pull-request:
-  stage: test-stage
-  needs: [ build-image ]
-  artifacts:
-    paths: [ kosli/ ]
-  script:
-    - kosli report evidence artifact pullrequest gitlab $(cat kosli/image_name)
-        --fingerprint=$(cat kosli/fingerprint)           
-        --name=pull-request
-        --gitlab-token=${KOSLI_GITLAB_TOKEN} 
-        --assert
-
-
 beta-deployment:
   stage: beta-deployment-stage
-  needs: [ lint, unit-test, security-scan, pull-request ]
+  needs: [ lint, pull-request, unit-test, security-scan ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
@@ -158,14 +174,16 @@ beta-deployment:
         --fingerprint=$(cat kosli/fingerprint)
         --description "Deployed to ${KOSLI_ENVIRONMENT_NAME} in Gitlab pipeline"
         --environment ${KOSLI_ENVIRONMENT_NAME}
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
 
-    - docker pull $(cat kosli/image_name)
-    - export ECR_BETA_REPO=244531986313.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_PROJECT_NAME}
-    - export TF_VAR_TAGGED_IMAGE=${ECR_BETA_REPO}:${CI_COMMIT_SHA:0:7}
-    - docker tag $(cat kosli/image_name) ${TF_VAR_TAGGED_IMAGE}
-    - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_BETA_REPO}
-    - docker push ${TF_VAR_TAGGED_IMAGE}
-    - cd deployment/terraform && tf.sh apply
+    - ./sh/wait_for_deployment.sh 
+        $(cat kosli/image_name)
+        ${KOSLI_HOST_STAGING}
+        ${KOSLI_API_TOKEN_TRAILS_STAGING}
+        ${KOSLI_ORG}
+        ${KOSLI_ENVIRONMENT_NAME}
+
 
 
 prod-approval:
@@ -181,6 +199,8 @@ prod-approval:
         --description="Approved in Gitlab pipeline"
         --environment=aws-prod
         --approver="${GITLAB_USER_NAME} <${GITLAB_USER_EMAIL}>"
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
 
 
 sdlc-control-gate:
@@ -191,6 +211,8 @@ sdlc-control-gate:
   script:
     - kosli assert artifact $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
 
 
 prod-deployment:
@@ -208,11 +230,12 @@ prod-deployment:
         --fingerprint=$(cat kosli/fingerprint)
         --description "Deployed to ${KOSLI_ENVIRONMENT_NAME} in Gitlab pipeline"
         --environment ${KOSLI_ENVIRONMENT_NAME}
+        --host=${KOSLI_HOST_STAGING}
+        --api-token=${KOSLI_API_TOKEN_TRAILS_STAGING}
 
-    - docker pull $(cat kosli/image_name)
-    - export ECR_PROD_REPO=274425519734.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_PROJECT_NAME}
-    - export TF_VAR_TAGGED_IMAGE=${ECR_PROD_REPO}:${CI_COMMIT_SHA:0:7}
-    - docker tag $(cat kosli/image_name) ${TF_VAR_TAGGED_IMAGE}
-    - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_PROD_REPO}
-    - docker push ${TF_VAR_TAGGED_IMAGE}
-    - cd deployment/terraform && tf.sh apply
+    - ./sh/wait_for_deployment.sh 
+        $(cat kosli/image_name)
+        ${KOSLI_HOST_STAGING}
+        ${KOSLI_API_TOKEN_TRAILS_STAGING}
+        ${KOSLI_ORG}
+        ${KOSLI_ENVIRONMENT_NAME}
