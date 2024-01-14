@@ -4,10 +4,11 @@ set -Eu
 # See https://gitlab.com/cyber-dojo/creator/-/blob/main/.gitlab/workflows/dev-readme.md
 
 readonly IMAGE_NAME="${1}"        # eg cyberdojo/creator:6d650d5
-readonly KOSLI_HOST="${2}"        # eg https://app.kosli.com
-readonly KOSLI_API_TOKEN="${3}"   # eg 7654y432er7132rwaefdgzfvdc (fake)
-readonly KOSLI_ORG="${4}"         # eg cyber-dojo
-readonly KOSLI_ENVIRONMENT="${5}" # eg aws-prod
+readonly KOSLI_ENVIRONMENT="${2}" # eg aws-prod
+
+# KOSLI_HOST       set by CI eg https://app.kosli.com
+# KOSLI_API_TOKEN  set by CI eg 7654y432er7132rwaefdgzfvdc (fake)
+# KOSLI_ORG        set by CI eg cyber-dojo
 
 readonly MAX_WAIT_TIME=8          # max time to wait for IMAGE_NAME to be deployed, in minutes
 readonly SLEEP_TIME=15            # wait time between deployment checks, in seconds
@@ -20,9 +21,6 @@ image_deployed()
     # Use Kosli CLI to find what artifacts are currently running
     # (docs/snapshot.json contains an example json file)
     kosli get snapshot "${KOSLI_ENVIRONMENT}" \
-      --host="${KOSLI_HOST}" \
-      --api-token="${KOSLI_API_TOKEN}" \
-      --org="${KOSLI_ORG}" \
       --output=json \
         > "${snapshot_json_filename}"
 
