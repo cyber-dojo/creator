@@ -21,7 +21,7 @@ variables:
 
 pre:
   stage: pre-stage
-  variables:
-    GIT_STRATEGY: clone
   script:
+    - git status
+    - git checkout -b $CI_COMMIT_BRANCH
     - git status
