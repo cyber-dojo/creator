@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v7
+image: registry.gitlab.com/cyber-dojo/ci-runner:v8
 
 workflow:
   rules:
@@ -172,8 +172,6 @@ prod-approval:
   needs: [ beta-deployment ]
   artifacts:
     paths: [ kosli/ ]
-  when: manual
-  allow_failure: false
   script:
     - kosli report approval $(cat kosli/image_name)
         --fingerprint=$(cat kosli/fingerprint)
