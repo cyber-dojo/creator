@@ -21,5 +21,7 @@ variables:
 
 pre:
   stage: pre-stage
+  variables:
+    GIT_STRATEGY: clone
   script:
     - git status
