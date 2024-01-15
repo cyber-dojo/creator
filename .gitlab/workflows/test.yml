@@ -19,9 +19,16 @@ variables:
   DOCKER_CERT_PATH: "${DOCKER_TLS_CERTDIR}/client"
 
 
-pre:
+default:
+  before_script:
+    - git checkout -b $CI_COMMIT_BRANCH
+
+pre-1:
   stage: pre-stage
   script:
     - git status
-    - git checkout -b $CI_COMMIT_BRANCH
+
+pre-2:
+  stage: pre-stage
+  script:
     - git status
