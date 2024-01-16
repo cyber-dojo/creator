@@ -31,6 +31,11 @@ job-1:
       dotenv: build.env
   script:
     - echo "BUILD_VERSION=hello" >> build.env
+    - echo "BUILD_VERSION=:${BUILD_VERSION}:"
+    - cat build.env
+    - export $(cat build.env)
+    - echo "BUILD_VERSION=:${BUILD_VERSION}:"
+
 
 job-2:
   stage: test-stage

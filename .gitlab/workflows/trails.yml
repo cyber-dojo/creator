@@ -6,7 +6,7 @@ workflow:
     - if: $CI_COMMIT_MESSAGE =~ /See merge request/ && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 stages:
-  - begin-kosli-trail-stage
+  - kosli-trail-stage
   - pre-build-test-stage
   - build-image-stage
   - post-build-test-stage
@@ -32,19 +32,25 @@ default:
     - git checkout -b ${CI_COMMIT_BRANCH}
 
 
-begin-kosli-trail:
-  stage: begin-kosli-trail-stage
+kosli-trail:
+  stage: kosli-trail-stage
+  artifacts:
+    reports:
+      dotenv: kosli.env
   script:
     - kosli create flow ${KOSLI_FLOW} 
        --description="UX for Group/Kata creation"
        --template-file=.kosli.yml
 
+    - echo "KOSLI_TRAIL=${CI_COMMIT_SHA}" > kosli.env
     - kosli begin trail "${CI_COMMIT_SHA}"
 
 
 lint:
   stage: pre-build-test-stage
-  needs: [ begin-kosli-trail ]
+  needs:
+    - job: kosli-trail
+      artifacts: true
   script:
     - export LINT_EVIDENCE_DIR=/tmp/evidence/lint
     - mkdir -p "${LINT_EVIDENCE_DIR}"
@@ -58,7 +64,6 @@ lint:
     - kosli attest generic
         --compliant="${KOSLI_LINT_COMPLIANT}"
         --evidence-paths="${LINT_EVIDENCE_DIR}"
-        --trail="${CI_COMMIT_SHA}"
         --name=lint
 
     - exit ${STATUS}
@@ -66,34 +71,36 @@ lint:
 
 pull-request:
   stage: pre-build-test-stage
-  needs: [ begin-kosli-trail ]
+  needs:
+    - job: kosli-trail
+      artifacts: true
   script:
     - kosli attest pullrequest gitlab 
         --assert
         --gitlab-token=${KOSLI_GITLAB_TOKEN} 
         --name=pull-request
-        --trail="${CI_COMMIT_SHA}"
 
 
 build-image:
   stage: build-image-stage
-  needs: [ begin-kosli-trail ]
-  services: [ docker:24.0.5-dind ]
+  needs:
+    - job: kosli-trail
+      artifacts: true
   artifacts:
-    paths: [ kosli/ ]
+    reports:
+      dotenv: kosli.env
+  services: [ docker:24.0.5-dind ]
   script:
     - IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}
     - ./sh/wait_for_image.sh ${IMAGE_NAME}
 
-    - mkdir kosli
     - FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker)
-    - echo ${FINGERPRINT} > kosli/fingerprint
-    - echo ${IMAGE_NAME}  > kosli/image_name
+    - echo "KOSLI_FINGERPRINT=${FINGERPRINT}" > kosli.env
+    - echo "KOSLI_IMAGE_NAME=${IMAGE_NAME}" > kosli.env
 
-    - kosli attest artifact $(cat kosli/image_name)
-        --fingerprint=$(cat kosli/fingerprint)
+    - kosli attest artifact ${IMAGE_NAME}
+        --fingerprint=${FINGERPRINT}
         --name=creator
-        --trail="${CI_COMMIT_SHA}"
 
 
 unit-test:
