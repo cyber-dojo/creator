@@ -41,16 +41,14 @@ job-1:
 
 job-2:
   stage: test-stage
-  needs:
-    - job: job-1
+  needs: [ job-1 ]
   script:
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
 
 
 job-3:
   stage: test-stage
-  needs:
-    - job: job-1
+  needs: [ job-1 ]
   script:
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
     - echo "BUILD_VERSION=${BUILD_VERSION}" >> kosli.env
@@ -59,8 +57,7 @@ job-3:
 
 job-4:
   stage: test-stage
-  needs:
-    - job: job-3
+  needs: [ job-3 ]
   script:
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
     - echo "XYZ=:${XYZ}:"
