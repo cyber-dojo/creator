@@ -25,7 +25,12 @@ default:
   before_script:
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
-    - if [ ! -f kosli.env ]; then touch kosli.env; fi
+    - if [ ! -f kosli.env ]; then 
+        touch kosli.env
+      else
+        echo kosli.env Already present
+        cat kosli.env
+      fi
 
 
 job-1:
@@ -33,7 +38,6 @@ job-1:
   script:
     - echo "BUILD_VERSION=hello" >> kosli.env
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
-    - cat kosli.env
     - export $(cat kosli.env)
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
 
@@ -44,6 +48,7 @@ job-2:
     - job: job-1
       artifacts: true
   script:
+    - echo job-2
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
 
 
@@ -53,6 +58,7 @@ job-3:
     - job: job-1
       artifacts: true
   script:
+    - echo job-3
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
     - echo "XYZ=42" >> kosli.env
 
@@ -63,5 +69,6 @@ job-4:
     - job: job-3
       artifacts: true
   script:
+    - echo job-4
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
     - echo "XYZ=:${XYZ}:"
