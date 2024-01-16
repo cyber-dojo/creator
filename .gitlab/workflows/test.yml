@@ -19,6 +19,9 @@ variables:
   DOCKER_CERT_PATH: "${DOCKER_TLS_CERTDIR}/client"
 
 default:
+  artifacts:
+    reports:
+      dotenv: kosli.env
   before_script:
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
@@ -26,14 +29,11 @@ default:
 
 job-1:
   stage: test-stage
-  artifacts:
-    reports:
-      dotenv: build.env
   script:
-    - echo "BUILD_VERSION=hello" >> build.env
+    - echo "BUILD_VERSION=hello" >> kosli.env
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
-    - cat build.env
-    - export $(cat build.env)
+    - cat kosli.env
+    - export $(cat kosli.env)
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
 
 
