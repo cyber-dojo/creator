@@ -6,10 +6,10 @@ workflow:
     - if: $CI_COMMIT_MESSAGE =~ /See merge request/ && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 stages:
-  - pre-stage
-  - lint-stage
+  - begin-kosli-trail-stage
+  - pre-build-test-stage
   - build-image-stage
-  - test-stage
+  - post-build-test-stage
   - beta-deployment-stage
   - prod-approval-stage
   - sdlc-control-gate-stage
@@ -28,11 +28,12 @@ variables:
 
 default:
   before_script:
+    # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
 
 
-pre:
-  stage: pre-stage
+begin-kosli-trail:
+  stage: begin-kosli-trail-stage
   script:
     - kosli create flow ${KOSLI_FLOW} 
        --description="UX for Group/Kata creation"
@@ -42,8 +43,8 @@ pre:
 
 
 lint:
-  stage: lint-stage
-  needs: [ pre ]
+  stage: pre-build-test-stage
+  needs: [ begin-kosli-trail ]
   script:
     - export LINT_EVIDENCE_DIR=/tmp/evidence/lint
     - mkdir -p "${LINT_EVIDENCE_DIR}"
@@ -64,8 +65,8 @@ lint:
 
 
 pull-request:
-  stage: test-stage
-  needs: [ pre ]
+  stage: pre-build-test-stage
+  needs: [ begin-kosli-trail ]
   script:
     - kosli attest pullrequest gitlab 
         --assert
@@ -76,7 +77,7 @@ pull-request:
 
 build-image:
   stage: build-image-stage
-  needs: [ pre ]
+  needs: [ begin-kosli-trail ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
@@ -96,7 +97,7 @@ build-image:
 
 
 unit-test:
-  stage: test-stage
+  stage: post-build-test-stage
   needs: [ build-image ]
   services: [ docker:24.0.5-dind ]
   artifacts:
@@ -127,7 +128,7 @@ unit-test:
 
 
 security-scan:
-  stage: test-stage
+  stage: post-build-test-stage
   needs: [ build-image ]
   artifacts:
     paths: [ kosli/ ]
