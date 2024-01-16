@@ -43,7 +43,6 @@ job-2:
   stage: test-stage
   needs:
     - job: job-1
-      artifacts: true
   script:
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
 
@@ -52,7 +51,6 @@ job-3:
   stage: test-stage
   needs:
     - job: job-1
-      artifacts: true
   script:
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
     - echo "BUILD_VERSION=${BUILD_VERSION}" >> kosli.env
@@ -63,7 +61,6 @@ job-4:
   stage: test-stage
   needs:
     - job: job-3
-      artifacts: true
   script:
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
     - echo "XYZ=:${XYZ}:"
