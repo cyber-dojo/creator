@@ -26,23 +26,13 @@ default:
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
     - if [ ! -f kosli.env ] ; then
-        echo There is no kosli.env file ;
         touch kosli.env ;
-      else
-        echo kosli.env Already present ;
-        cat kosli.env ;
       fi
 
 
 job-1:
   stage: test-stage
   script:
-    - echo job-1
-    - if [ ! -f kosli.env ] ; then
-        echo There is no kosli.env file ;
-      else
-        cat kosli.env ;
-      fi
     - echo "BUILD_VERSION=hello" >> kosli.env
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
     - export $(cat kosli.env)
@@ -55,12 +45,6 @@ job-2:
     - job: job-1
       artifacts: true
   script:
-    - echo job-2
-    - if [ ! -f kosli.env ] ; then
-        echo There is no kosli.env file ;
-      else
-        cat kosli.env ;
-      fi
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
 
 
@@ -70,29 +54,16 @@ job-3:
     - job: job-1
       artifacts: true
   script:
-    - echo job-3
-    - if [ ! -f kosli.env ] ; then
-        echo There is no kosli.env file ;
-      else
-        cat kosli.env ;
-      fi
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
+    - echo "BUILD_VERSION=${BUILD_VERSION}" >> kosli.env
     - echo "XYZ=42" >> kosli.env
 
 
 job-4:
   stage: test-stage
   needs:
-    - job: job-1
-      artifacts: true
     - job: job-3
       artifacts: true
   script:
-    - echo job-4
-    - if [ ! -f kosli.env ] ; then
-        echo There is no kosli.env file ;
-      else
-        cat kosli.env ;
-      fi
     - echo "BUILD_VERSION=:${BUILD_VERSION}:"
     - echo "XYZ=:${XYZ}:"
