@@ -74,7 +74,6 @@ pull-request:
   stage: pre-build-test-stage
   needs: [ kosli-trail ]
   script:
-
     - kosli attest pullrequest gitlab 
         --assert
         --gitlab-token=${KOSLI_GITLAB_TOKEN} 
@@ -184,9 +183,6 @@ prod-approval:
 sdlc-control-gate:
   stage: sdlc-control-gate-stage
   needs: [ prod-approval, kosli-trail, kosli-fingerprint ]
-  artifacts:
-    reports:
-      dotenv: kosli.env
   script:
     - kosli assert artifact ${IMAGE_NAME}
 
