@@ -94,6 +94,7 @@ kosli-fingerprint:
   services: [ docker:24.0.5-dind ]
   script:
     - IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}
+    - docker pull ${IMAGE_NAME}
     - FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker)
     - echo "KOSLI_FINGERPRINT=${FINGERPRINT}" >> kosli.env
     - echo "IMAGE_NAME=${IMAGE_NAME}"         >> kosli.env
