@@ -83,6 +83,8 @@ job-3:
 job-4:
   stage: test-stage
   needs:
+    - job: job-1
+      artifacts: true
     - job: job-3
       artifacts: true
   script:
