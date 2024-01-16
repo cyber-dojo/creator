@@ -25,11 +25,11 @@ default:
   before_script:
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
-    - if [ ! -f kosli.env ]; then 
-        touch kosli.env
+    - if [ ! -f kosli.env ] ; then 
+        touch kosli.env ;
       else
-        echo kosli.env Already present
-        cat kosli.env
+        echo kosli.env Already present ;
+        cat kosli.env ;
       fi
 
 
