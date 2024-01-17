@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v9
+image: registry.gitlab.com/cyber-dojo/ci-runner:v10
 
 workflow:
   rules:
@@ -197,7 +197,6 @@ prod-deployment:
     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_PROD}
     KOSLI_ENVIRONMENT_NAME: aws-prod
   script:
-
     - kosli expect deployment ${IMAGE_NAME}
         --description "Deployed to ${KOSLI_ENVIRONMENT_NAME} in Gitlab pipeline"
         --environment ${KOSLI_ENVIRONMENT_NAME}
