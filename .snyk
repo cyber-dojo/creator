@@ -1,1 +1,10 @@
 # Do not delete this file - it is needed for the snyk_scans repo workflow
+version: v1.25.0
+# ignores vulnerabilities until expiry date; change duration by modifying expiry date
+ignore:
+  SNYK-ALPINE319-OPENSSL-6191693:
+    - '*':
+        reason: Waiting for base image upgrade
+        expires: 2024-03-01T12:46:34.671Z
+        created: 2024-01-26T12:46:34.673Z
+
