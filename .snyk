@@ -1,6 +1,10 @@
 # Do not delete this file - it is needed for the snyk_scans repo workflow
+
+# Note: cyberdojo/sinatra-base:486010d is an upgrade which fixes the 6191693 vulnerability.
+# All the other cyber-dojo microservices using sinatra-base have upgraded to it.
+# However, for a yet to be debugged reason, this upgrade breaks creator.
+
 version: v1.25.0
-# ignores vulnerabilities until expiry date; change duration by modifying expiry date
 ignore:
   SNYK-ALPINE319-OPENSSL-6191693:
     - '*':
