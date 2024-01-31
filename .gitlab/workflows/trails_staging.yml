@@ -18,6 +18,7 @@ stages:
 variables:
   # KOSLI_DRY_RUN: false                             # Org env-var
   # KOSLI_FLOW: creator                              # Repo env-var
+  # KOSLI_TRAIL: $CI_COMMIT_SHA                      # Repo env-var (Expanded)
   KOSLI_ORG: cyber-dojo-trails
   KOSLI_HOST: ${KOSLI_HOST_STAGING}                  # Org env-var https://staging.app.kosli.com
   KOSLI_API_TOKEN: ${KOSLI_API_TOKEN_TRAILS_STAGING} # Org env-var
@@ -34,17 +35,19 @@ default:
   before_script:
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
-    - if [ ! -f kosli.env ] ; then touch kosli.env ; fi
+    # Make dir for kosli auto-uploaded attachments
+    - echo "KOSLI_EVIDENCE_PATHS=/tmp/evidence" >> kosli.env
+    - export $(cat kosli.env)
+    - mkdir -p "${KOSLI_EVIDENCE_PATHS}"
 
 
 kosli-trail:
   stage: kosli-trail-stage
   script:
+    - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
     - kosli create flow ${KOSLI_FLOW} 
        --description="UX for Group/Kata creation"
        --template-file=.kosli.yml
-    - echo "KOSLI_TRAIL=${CI_COMMIT_SHA}" >> kosli.env
-    - export $(cat kosli.env)
     - kosli begin trail ${KOSLI_TRAIL}
 
 
@@ -52,18 +55,16 @@ lint:
   stage: pre-build-test-stage
   needs: [ kosli-trail ]
   script:
-    - export LINT_EVIDENCE_DIR=/tmp/evidence/lint
-    - mkdir -p "${LINT_EVIDENCE_DIR}"
     - set +e
-    - rubocop --raise-cop-error . > "${LINT_EVIDENCE_DIR}"/rubocop.log
-    - STATUS=$?
+    - rubocop --raise-cop-error . | tee "${KOSLI_EVIDENCE_PATHS}"/rubocop.log
+    - STATUS=${PIPESTATUS[0]}
     - set -e
 
-    - KOSLI_LINT_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
-    - cp .rubocop.yml ${LINT_EVIDENCE_DIR}
+    - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
+    - cp .rubocop.yml ${KOSLI_EVIDENCE_PATHS}
     - kosli attest generic
-        --compliant="${KOSLI_LINT_COMPLIANT}"
-        --evidence-paths="${LINT_EVIDENCE_DIR}"
+        --compliant="${KOSLI_COMPLIANT}"
+        --evidence-paths="${KOSLI_EVIDENCE_PATHS}"
         --name=creator.lint
 
     - exit ${STATUS}
@@ -84,28 +85,17 @@ build-image:
   needs: [ kosli-trail ]
   services: [ docker:24.0.5-dind ]
   script:
-    - IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}
     - ./sh/wait_for_image.sh ${IMAGE_NAME}
-
-
-kosli-fingerprint:
-  stage: build-image-stage
-  needs: [ build-image, kosli-trail ]
-  services: [ docker:24.0.5-dind ]
-  script:
-    - IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}
-    - docker pull ${IMAGE_NAME}
-    - FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker)
-    - echo "KOSLI_FINGERPRINT=${FINGERPRINT}" >> kosli.env
-    - echo "IMAGE_NAME=${IMAGE_NAME}"         >> kosli.env
-    - export $(cat kosli.env)
+    - KOSLI_FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker)
+    - echo "KOSLI_FINGERPRINT=${KOSLI_FINGERPRINT}" >> kosli.env
     - kosli attest artifact ${IMAGE_NAME}
+        --fingerprint=${KOSLI_FINGERPRINT}
         --name=creator
 
 
 unit-test:
   stage: post-build-test-stage
-  needs: [ build-image, kosli-trail, kosli-fingerprint ]
+  needs: [ build-image, kosli-trail ]
   services: [ docker:24.0.5-dind ]
   script:
     - set +e
@@ -131,7 +121,7 @@ unit-test:
 
 security-scan:
   stage: post-build-test-stage
-  needs: [ build-image, kosli-trail, kosli-fingerprint ]
+  needs: [ build-image, kosli-trail ]
   script:
     - set +e
     - snyk container test ${IMAGE_NAME}
@@ -150,7 +140,7 @@ security-scan:
 
 beta-deployment:
   stage: beta-deployment-stage
-  needs: [ lint, pull-request, unit-test, security-scan, kosli-trail, kosli-fingerprint ]
+  needs: [ lint, pull-request, unit-test, security-scan, kosli-trail ]
   services: [ docker:24.0.5-dind ]
   variables:
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_BETA}
@@ -169,7 +159,7 @@ beta-deployment:
 
 prod-approval:
   stage: prod-approval-stage
-  needs: [ beta-deployment, kosli-trail, kosli-fingerprint ]
+  needs: [ beta-deployment, kosli-trail ]
   script:
     - kosli report approval ${IMAGE_NAME}
         --description="Approved in Gitlab pipeline"
@@ -179,14 +169,14 @@ prod-approval:
 
 sdlc-control-gate:
   stage: sdlc-control-gate-stage
-  needs: [ prod-approval, kosli-trail, kosli-fingerprint ]
+  needs: [ prod-approval, kosli-trail ]
   script:
     - kosli assert artifact ${IMAGE_NAME}
 
 
 prod-deployment:
   stage: prod-deployment-stage
-  needs: [ sdlc-control-gate, kosli-trail, kosli-fingerprint ]
+  needs: [ sdlc-control-gate, kosli-trail ]
   services: [ docker:24.0.5-dind ]
   variables:
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_PROD}
