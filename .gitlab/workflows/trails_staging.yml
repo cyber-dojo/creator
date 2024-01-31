@@ -36,9 +36,9 @@ default:
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
     # Make dir for kosli auto-uploaded attachments
-    - echo "KOSLI_EVIDENCE_PATHS=/tmp/evidence" >> kosli.env
+    - echo "KOSLI_ATTACHMENTS=/tmp/kosli_attachments" >> kosli.env
     - export $(cat kosli.env)
-    - mkdir -p "${KOSLI_EVIDENCE_PATHS}"
+    - mkdir -p "${KOSLI_ATTACHMENTS}"
 
 
 kosli-trail:
@@ -64,7 +64,7 @@ lint:
     - cp .rubocop.yml ${KOSLI_EVIDENCE_PATHS}
     - kosli attest generic
         --compliant="${KOSLI_COMPLIANT}"
-        --evidence-paths="${KOSLI_EVIDENCE_PATHS}"
+        --attachments="${KOSLI_ATTACHMENTS}"      
         --name=creator.lint
 
     - exit ${STATUS}
@@ -110,9 +110,9 @@ unit-test:
 
     - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
     - kosli attest generic ${IMAGE_NAME}
-        --evidence-paths=./test/evidence.json
-        --evidence-paths=./test/server/reports
-        --evidence-paths=./test/client/reports
+        --attachments=./test/evidence.json
+        --attachments=./test/server/reports
+        --attachments=./test/client/reports
         --compliant=${KOSLI_COMPLIANT}
         --name=creator.branch-coverage
 
@@ -140,7 +140,7 @@ security-scan:
 
 beta-deployment:
   stage: beta-deployment-stage
-  needs: [ lint, pull-request, unit-test, security-scan, kosli-trail ]
+  needs: [ lint, pull-request, unit-test, security-scan, kosli-trail, build-image ]
   services: [ docker:24.0.5-dind ]
   variables:
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_BETA}
@@ -159,7 +159,7 @@ beta-deployment:
 
 prod-approval:
   stage: prod-approval-stage
-  needs: [ beta-deployment, kosli-trail ]
+  needs: [ beta-deployment, kosli-trail, build-image ]
   script:
     - kosli report approval ${IMAGE_NAME}
         --description="Approved in Gitlab pipeline"
@@ -169,14 +169,14 @@ prod-approval:
 
 sdlc-control-gate:
   stage: sdlc-control-gate-stage
-  needs: [ prod-approval, kosli-trail ]
+  needs: [ prod-approval, kosli-trail, build-image ]
   script:
     - kosli assert artifact ${IMAGE_NAME}
 
 
 prod-deployment:
   stage: prod-deployment-stage
-  needs: [ sdlc-control-gate, kosli-trail ]
+  needs: [ sdlc-control-gate, kosli-trail, build-image ]
   services: [ docker:24.0.5-dind ]
   variables:
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_PROD}
