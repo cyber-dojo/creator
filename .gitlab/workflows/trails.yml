@@ -37,7 +37,7 @@ default:
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
     # Make dir for kosli auto-uploaded attachments
-    - echo "KOSLI_ATTACHMENTS=/tmp/kosli_evidence" >> kosli.env
+    - echo "KOSLI_ATTACHMENTS=/tmp/kosli_attachments" >> kosli.env
     - export $(cat kosli.env)
     - mkdir -p "${KOSLI_ATTACHMENTS}"
 
@@ -45,11 +45,11 @@ default:
 kosli-trail:
   stage: kosli-trail-stage
   script:
+    - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
     - kosli create flow ${KOSLI_FLOW} 
        --description="UX for Group/Kata creation"
        --template-file=.kosli.yml
     - kosli begin trail ${KOSLI_TRAIL}
-    - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
 
 
 lint:
