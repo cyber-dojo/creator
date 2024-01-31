@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v10
+image: registry.gitlab.com/cyber-dojo/ci-runner:v11
 
 workflow:
   rules:
@@ -37,9 +37,9 @@ default:
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
     # Make dir for kosli auto-uploaded attachments
-    - echo "KOSLI_EVIDENCE_PATHS=/tmp/kosli_evidence" >> kosli.env
+    - echo "KOSLI_ATTACHMENTS=/tmp/kosli_evidence" >> kosli.env
     - export $(cat kosli.env)
-    - mkdir -p "${KOSLI_EVIDENCE_PATHS}"
+    - mkdir -p "${KOSLI_ATTACHMENTS}"
 
 
 kosli-trail:
@@ -57,15 +57,15 @@ lint:
   needs: [ kosli-trail ]
   script:
     - set +e
-    - rubocop --raise-cop-error . | tee "${KOSLI_EVIDENCE_PATHS}"/rubocop.log
+    - rubocop --raise-cop-error . | tee "${KOSLI_ATTACHMENTS}"/rubocop.log
     - STATUS=${PIPESTATUS[0]}
     - set -e
 
     - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
-    - cp .rubocop.yml ${KOSLI_EVIDENCE_PATHS}
+    - cp .rubocop.yml ${KOSLI_ATTACHMENTS}
     - kosli attest generic
         --compliant="${KOSLI_COMPLIANT}"
-        --evidence-paths="${KOSLI_EVIDENCE_PATHS}"
+        --attachments="${KOSLI_ATTACHMENTS}"
         --name=creator.lint
     - exit ${STATUS}
 
@@ -116,9 +116,9 @@ unit-test:
 
     - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
     - kosli attest generic ${IMAGE_NAME}
-        --evidence-paths=./test/evidence.json
-        --evidence-paths=./test/server/reports
-        --evidence-paths=./test/client/reports
+        --attachments=./test/evidence.json
+        --attachments=./test/server/reports
+        --attachments=./test/client/reports
         --compliant=${KOSLI_COMPLIANT}
         --name=creator.branch-coverage
 
