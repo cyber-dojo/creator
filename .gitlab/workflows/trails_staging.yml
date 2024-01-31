@@ -56,12 +56,12 @@ lint:
   needs: [ kosli-trail ]
   script:
     - set +e
-    - rubocop --raise-cop-error . | tee "${KOSLI_EVIDENCE_PATHS}"/rubocop.log
+    - rubocop --raise-cop-error . | tee "${KOSLI_ATTACHMENTS}"/rubocop.log
     - STATUS=${PIPESTATUS[0]}
     - set -e
 
     - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
-    - cp .rubocop.yml ${KOSLI_EVIDENCE_PATHS}
+    - cp .rubocop.yml ${KOSLI_ATTACHMENTS}
     - kosli attest generic
         --compliant="${KOSLI_COMPLIANT}"
         --attachments="${KOSLI_ATTACHMENTS}"      
