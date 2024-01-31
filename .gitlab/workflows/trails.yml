@@ -146,7 +146,7 @@ security-scan:
 
 beta-deployment:
   stage: beta-deployment-stage
-  needs: [ lint, pull-request, unit-test, security-scan, kosli-trail ]
+  needs: [ lint, pull-request, unit-test, security-scan, kosli-trail, build-image ]
   services: [ docker:24.0.5-dind ]
   variables:
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_BETA}
@@ -165,7 +165,7 @@ beta-deployment:
 
 prod-approval:
   stage: prod-approval-stage
-  needs: [ beta-deployment, kosli-trail ]
+  needs: [ beta-deployment, kosli-trail, build-image ]
   when: manual
   allow_failure: false
   script:
@@ -177,14 +177,14 @@ prod-approval:
 
 sdlc-control-gate:
   stage: sdlc-control-gate-stage
-  needs: [ prod-approval, kosli-trail ]
+  needs: [ prod-approval, kosli-trail, build-image ]
   script:
     - kosli assert artifact ${IMAGE_NAME}
 
 
 prod-deployment:
   stage: prod-deployment-stage
-  needs: [ sdlc-control-gate, kosli-trail ]
+  needs: [ sdlc-control-gate, kosli-trail, build-image ]
   services: [ docker:24.0.5-dind ]
   variables:
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_PROD}
