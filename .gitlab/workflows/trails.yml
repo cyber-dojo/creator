@@ -64,8 +64,8 @@ lint:
     - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
     - cp .rubocop.yml ${KOSLI_ATTACHMENTS}
     - kosli attest generic
-        --compliant="${KOSLI_COMPLIANT}"
         --attachments="${KOSLI_ATTACHMENTS}"
+        --compliant="${KOSLI_COMPLIANT}"
         --name=creator.lint
     - exit ${STATUS}
 
@@ -120,6 +120,7 @@ unit-test:
         --attachments=./test/server/reports
         --attachments=./test/client/reports
         --compliant=${KOSLI_COMPLIANT}
+        --description="server & client branch-coverage"      
         --name=creator.branch-coverage
 
     - exit ${STATUS}
