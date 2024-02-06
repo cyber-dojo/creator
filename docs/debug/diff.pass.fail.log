@@ -1,0 +1,56 @@
+7c7
+<     bigdecimal (3.1.5)
+---
+>     bigdecimal (3.1.6)
+41c41
+<     minitest (5.21.1)
+---
+>     minitest (5.21.2)
+68,69c68,69
+<     rack (2.2.8)
+<     rack-protection (3.2.0)
+---
+>     rack (3.0.8)
+>     rack-protection (4.0.0)
+71c71,73
+<       rack (~> 2.2, >= 2.2.4)
+---
+>       rack (>= 3.0.0, < 4)
+>     rack-session (2.0.0)
+>       rack (>= 3.0.0)
+94c96,97
+<     selenium-webdriver (4.16.0)
+---
+>     selenium-webdriver (4.17.0)
+>       base64 (~> 0.2)
+104c107
+<     sinatra (3.2.0)
+---
+>     sinatra (4.0.0)
+106,107c109,111
+<       rack (~> 2.2, >= 2.2.4)
+<       rack-protection (= 3.2.0)
+---
+>       rack (>= 3.0.0, < 4)
+>       rack-protection (= 4.0.0)
+>       rack-session (>= 2.0.0, < 3)
+109c113
+<     sinatra-contrib (3.2.0)
+---
+>     sinatra-contrib (4.0.0)
+112,113c116,117
+<       rack-protection (= 3.2.0)
+<       sinatra (= 3.2.0)
+---
+>       rack-protection (= 4.0.0)
+>       sinatra (= 4.0.0)
+121,124c125,128
+<     thin (1.8.2)
+<       daemons (~> 1.0, >= 1.0.9)
+<       eventmachine (~> 1.0, >= 1.0.4)
+<       rack (>= 1, < 3)
+---
+>     thin (1.6.2)
+>       daemons (>= 1.0.9)
+>       eventmachine (>= 1.0.0)
+>       rack (>= 1.0.0)
