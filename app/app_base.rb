@@ -70,6 +70,7 @@ class AppBase < Sinatra::Base
   end
 
   def json_payload
+    request.body.rewind  # Already been read in sinatra 4.0.0 !
     json_hash_parse(request.body.read)
   end
 
