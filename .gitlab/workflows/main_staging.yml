@@ -186,7 +186,7 @@ prod-deployment:
 
 
 push-latest-image-to-public-registry:
-  stage: post-deployment-stage
+  stage: prod-deployment-stage
   needs: [ prod-deployment, kosli-trail ]
   services: [ docker:24.0.5-dind ]
   artifacts:
