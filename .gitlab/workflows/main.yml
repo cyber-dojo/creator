@@ -18,9 +18,9 @@ stages:
 
 variables:
   # KOSLI_DRY_RUN: false                   # Org env-var
+  # KOSLI_FLOW: creator-ci                 # Repo env-var
   # KOSLI_TRAIL: $CI_COMMIT_SHA            # Repo env-var (Expanded)
   KOSLI_ORG: cyber-dojo
-  KOSLI_FLOW: creator-ci
   KOSLI_HOST: ${KOSLI_HOST_PROD}           # Org env-var https://app.kosli.com
   KOSLI_API_TOKEN: ${KOSLI_API_TOKEN_PROD} # Org env-var
   DOCKER_HOST: tcp://docker:2376
@@ -154,10 +154,10 @@ beta-deployment:
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_BETA}
     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_BETA}
   script:
-    - docker pull $(cat kosli/image_name)
+    - docker pull ${IMAGE_NAME}
     - export ECR_BETA_REPO=244531986313.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_PROJECT_NAME}
     - export TF_VAR_TAGGED_IMAGE=${ECR_BETA_REPO}:${CI_COMMIT_SHA:0:7}
-    - docker tag $(cat kosli/image_name) ${TF_VAR_TAGGED_IMAGE}
+    - docker tag ${IMAGE_NAME} ${TF_VAR_TAGGED_IMAGE}
     - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_BETA_REPO}
     - docker push ${TF_VAR_TAGGED_IMAGE}
     - cd deployment/terraform && tf.sh apply
@@ -192,10 +192,10 @@ prod-deployment:
     AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID_PROD}
     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_PROD}
   script:
-    - docker pull $(cat kosli/image_name)
+    - docker pull ${IMAGE_NAME}
     - export ECR_PROD_REPO=274425519734.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_PROJECT_NAME}
     - export TF_VAR_TAGGED_IMAGE=${ECR_PROD_REPO}:${CI_COMMIT_SHA:0:7}
-    - docker tag $(cat kosli/image_name) ${TF_VAR_TAGGED_IMAGE}
+    - docker tag ${IMAGE_NAME} ${TF_VAR_TAGGED_IMAGE}
     - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_PROD_REPO}
     - docker push ${TF_VAR_TAGGED_IMAGE}
     - cd deployment/terraform && tf.sh apply

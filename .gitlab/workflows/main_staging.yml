@@ -17,9 +17,9 @@ stages:
 
 variables:
   # KOSLI_DRY_RUN: false                      # Org env-var
+  # KOSLI_FLOW: creator-ci                    # Repo env-var
   # KOSLI_TRAIL: $CI_COMMIT_SHA               # Repo env-var (Expanded)
   KOSLI_ORG: cyber-dojo
-  KOSLI_FLOW: creator-ci
   KOSLI_HOST: ${KOSLI_HOST_STAGING}           # Org env-var https://staging.app.kosli.com
   KOSLI_API_TOKEN: ${KOSLI_API_TOKEN_STAGING} # Org env-var
   DOCKER_HOST: tcp://docker:2376
