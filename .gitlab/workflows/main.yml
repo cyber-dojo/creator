@@ -146,7 +146,7 @@ security-scan:
 
 beta-deployment:
   stage: beta-deployment-stage
-  needs: [ lint, unit-test, security-scan, pull-request ]
+  needs: [ lint, unit-test, security-scan, pull-request, kosli-trail ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
@@ -184,7 +184,7 @@ sdlc-control-gate:
 
 prod-deployment:
   stage: prod-deployment-stage
-  needs: [ sdlc-control-gate ]
+  needs: [ sdlc-control-gate, kosli-trail ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
