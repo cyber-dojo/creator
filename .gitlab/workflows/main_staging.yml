@@ -183,3 +183,16 @@ prod-deployment:
     - ./sh/wait_for_deployment.sh 
         ${IMAGE_NAME}
         ${KOSLI_ENVIRONMENT_NAME}
+
+
+push-latest-image-to-public-registry:
+  stage: post-deployment-stage
+  needs: [ prod-deployment, kosli-trail ]
+  services: [ docker:24.0.5-dind ]
+  artifacts:
+    paths: [ kosli/ ]
+  script:
+    - docker pull ${IMAGE_NAME}
+    - docker tag ${IMAGE_NAME} cyberdojo/${CI_PROJECT_NAME}:latest
+    - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+    - docker push cyberdojo/${CI_PROJECT_NAME}:latest
