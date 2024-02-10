@@ -53,7 +53,7 @@ Two child CI pipelines are triggered from .gitlab-ci.yml
 - main.yml reports to https://app.kosli.com  
   The intention is for this to be as canonical as possible.
 - main_staging.yml reports to https://staging.app.kosli.com  
-  This is for development purposes.
+  This is for Kosli development purposes.
 
 Note: main_staging.yml is very similar to main.yml, but...
 - it does _not_ rebuild the docker image (since the build is not binary reproducible).  
