@@ -133,6 +133,7 @@ security-scan:
     - set -e
 
     - kosli attest snyk ${IMAGE_NAME}
+        --attachments=.snyk      
         --name=creator.snyk-scan
         --scan-results=snyk.json
 
