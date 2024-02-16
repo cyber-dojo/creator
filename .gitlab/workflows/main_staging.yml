@@ -33,6 +33,7 @@ default:
     reports:
       dotenv: kosli.env
   before_script:
+    - deliberate failure here
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
     # Make dir for kosli auto-uploaded attachments
