@@ -34,9 +34,12 @@ default:
     reports:
       dotenv: kosli.env
   before_script:
+    - pwd
+    - ls -al
+    - ls -al .git/refs
+    - deliberate failure here
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
-
     # Make dir for kosli auto-uploaded attachments
     - echo "KOSLI_ATTACHMENTS=/tmp/kosli_attachments" >> kosli.env
     - export $(cat kosli.env)
