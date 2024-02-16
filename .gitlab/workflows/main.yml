@@ -37,6 +37,8 @@ default:
     - pwd
     - ls -al
     - ls -al .git/refs
+    - ls -al .git/refs/heads
+    - ls -al .git/refs/tags
     - deliberate failure here
     # See dev-readme.md : What is my branch?
     - git checkout -b ${CI_COMMIT_BRANCH}
