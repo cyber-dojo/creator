@@ -18,7 +18,7 @@ workflow:
     - if: $CI_COMMIT_MESSAGE =~ /See merge request/ && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 ```
 
-# A pipeline that runs only after_ a merge request
+# A pipeline that runs only _after_ a merge request
 
 I can find no canonical way to do this.  
 See https://stackoverflow.com/questions/63893431/gitlab-run-a-pipeline-job-when-a-merge-request-is-merged
