@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v13
+image: registry.gitlab.com/cyber-dojo/ci-runner:v14
 
 workflow:
   rules:
