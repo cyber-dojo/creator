@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v12
+image: registry.gitlab.com/cyber-dojo/ci-runner:v13
 
 workflow:
   rules:
@@ -127,8 +127,9 @@ security-scan:
     - set +e
     - snyk container test ${IMAGE_NAME}
         --file=Dockerfile
-        --json-file-output=snyk.json
         --policy-path=.snyk
+        --sarif
+        --sarif-file-output=snyk.json
     - STATUS=$?
     - set -e
 
