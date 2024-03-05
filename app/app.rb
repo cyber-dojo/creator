@@ -165,7 +165,7 @@ class App < AppBase
 
   def data_source=(start_points)
     manifests = start_points.manifests
-    @display_names = manifests.keys.sort_by { |name| name.downcase }
+    @display_names = manifests.keys.sort
     @display_contents = []
     @display_names.each do |name|
       visible_files = manifests[name]['visible_files']
