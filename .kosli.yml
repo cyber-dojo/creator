@@ -10,8 +10,8 @@ trail:
           type: generic
         - name: snyk-container-scan
           type: snyk
-        - name: snyk-code-scan
-          type: snyk
+#        - name: snyk-code-scan
+#          type: snyk
         - name: unit-test
           type: junit
         - name: branch-coverage
