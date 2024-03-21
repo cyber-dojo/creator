@@ -45,6 +45,8 @@ kosli-trail:
   stage: kosli-trail-stage
   script:
     - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
+    - kosli version
+    - echo "KOSLI_HOST=:${KOSLI_HOST}:"
     - kosli create flow ${KOSLI_FLOW} 
        --description="UX for Group/Kata creation"
        --template-file=.kosli.yml
