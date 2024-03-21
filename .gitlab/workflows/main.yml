@@ -19,9 +19,9 @@ variables:
   # KOSLI_DRY_RUN: false                   # Org env-var
   # KOSLI_FLOW: creator-ci                 # Repo env-var
   # KOSLI_TRAIL: $CI_COMMIT_SHA            # Repo env-var (Expanded)
+  # KOSLI_HOST: https://app.kosli.com      # Org env-var
+  # KOSLI_API_TOKEN: ...                   # Org env-var (Masked)
   KOSLI_ORG: cyber-dojo
-  KOSLI_HOST: ${KOSLI_HOST}                # Org env-var https://app.kosli.com
-  KOSLI_API_TOKEN: ${KOSLI_API_TOKEN}      # Org env-var
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
