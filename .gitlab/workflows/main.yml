@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v14
+image: registry.gitlab.com/cyber-dojo/ci-runner:v15
 
 workflow:
   rules:
@@ -20,8 +20,8 @@ variables:
   # KOSLI_FLOW: creator-ci                 # Repo env-var
   # KOSLI_TRAIL: $CI_COMMIT_SHA            # Repo env-var (Expanded)
   KOSLI_ORG: cyber-dojo
-  KOSLI_HOST: ${KOSLI_HOST_PROD}           # Org env-var https://app.kosli.com
-  KOSLI_API_TOKEN: ${KOSLI_API_TOKEN_PROD} # Org env-var
+  KOSLI_HOST: ${KOSLI_HOST}                # Org env-var https://app.kosli.com
+  KOSLI_API_TOKEN: ${KOSLI_API_TOKEN}      # Org env-var
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
@@ -60,7 +60,7 @@ pull-request:
     - kosli attest pullrequest gitlab 
         --assert
         --gitlab-token=${KOSLI_GITLAB_TOKEN} 
-        --name=creator.pull-request
+        --name=pull-request
 
 
 lint:
@@ -220,3 +220,16 @@ prod-deployment:
     - export ECR_PROD_REPO=244531986313.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_PROJECT_NAME}
     - export TF_VAR_TAGGED_IMAGE=${ECR_PROD_REPO}:${CI_COMMIT_SHA:0:7}
     - cd deployment/terraform && tf.sh apply
+
+
+push-latest-image-to-public-registry:
+  stage: prod-deployment-stage
+  needs: [ prod-deployment, kosli-trail ]
+  services: [ docker:24.0.5-dind ]
+  artifacts:
+    paths: [ kosli/ ]
+  script:
+    - docker pull ${IMAGE_NAME}
+    - docker tag ${IMAGE_NAME} cyberdojo/${CI_PROJECT_NAME}:latest
+    - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+    - docker push cyberdojo/${CI_PROJECT_NAME}:latest
