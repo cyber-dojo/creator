@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v15
+image: registry.gitlab.com/cyber-dojo/ci-runner:v16
 
 workflow:
   rules:
@@ -48,6 +48,9 @@ kosli-trail:
     - kosli create flow ${KOSLI_FLOW} 
        --description="UX for Group/Kata creation"
        --template-file=.kosli.yml
+
+    - kosli tag flow "${KOSLI_FLOW}"
+       --set repo_url=https://gitlab.com/cyber-dojo/creator
 
     - kosli begin trail ${KOSLI_TRAIL}
        --description="${CI_COMMIT_AUTHOR} - ${CI_COMMIT_MESSAGE}"
