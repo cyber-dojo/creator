@@ -5,7 +5,7 @@ server_up_healthy_and_clean()
   export SERVICE_NAME=creator
   export CONTAINER_NAME="${CYBER_DOJO_CREATOR_SERVER_CONTAINER_NAME}"
   export CONTAINER_PORT="${CYBER_DOJO_CREATOR_PORT}"
-  docker-compose up --detach "${SERVICE_NAME}"
+  docker compose up --detach "${SERVICE_NAME}"
   exit_non_zero_unless_healthy
   exit_non_zero_unless_started_cleanly
 }
@@ -17,7 +17,7 @@ client_up_healthy_and_clean()
     export SERVICE_NAME=client
     export CONTAINER_NAME="${CYBER_DOJO_CREATOR_CLIENT_CONTAINER_NAME}"
     export CONTAINER_PORT="${CYBER_DOJO_CREATOR_CLIENT_PORT}"
-    docker-compose up --detach nginx
+    docker compose up --detach nginx
     exit_non_zero_unless_healthy
     exit_non_zero_unless_started_cleanly
   fi
