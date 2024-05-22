@@ -10,7 +10,7 @@ build_tagged_images()
 #- - - - - - - - - - - - - - - - - - - - - - - -
 build_images()
 {
-  docker-compose build --build-arg COMMIT_SHA="$(git_commit_sha)"
+  docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)"
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - -

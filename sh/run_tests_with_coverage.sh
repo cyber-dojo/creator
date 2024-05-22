@@ -24,7 +24,7 @@ run_tests_with_coverage()
   exit_status=0
 
   exit_zero_if_show_help "$@"
-  exit_non_zero_unless_installed docker docker-compose jq
+  exit_non_zero_unless_installed docker jq
 
   remove_old_images
   build_tagged_images
