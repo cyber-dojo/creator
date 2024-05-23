@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v18
+image: registry.gitlab.com/cyber-dojo/ci-runner:v2.10.5
 
 workflow:
   rules:
@@ -93,7 +93,7 @@ build-image:
   script:
     - source ./sh/echo_versioner_env_vars.sh
     - export $(echo_versioner_env_vars)
-    - docker-compose build --build-arg COMMIT_SHA=${CI_COMMIT_SHA}
+    - docker compose build --build-arg COMMIT_SHA=${CI_COMMIT_SHA}
     - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
     - docker push ${IMAGE_NAME}
 
