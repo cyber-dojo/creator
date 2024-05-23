@@ -1,7 +1,7 @@
 # See ./gitlab/workflows/readme.md
 # See ./gitlab/workflows/dev-readme.md
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v18
+image: registry.gitlab.com/cyber-dojo/ci-runner:v2.10.5
 
 stages:
   - trigger
