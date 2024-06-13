@@ -71,7 +71,7 @@ class RouteBadResponseTest < CreatorTestBase
     json = JSON.parse(stdout)
     ex = json['exception']
     assert_equal '/choose_problem', ex['request']['path'], stdout
-    assert_equal '', ex['request']['body'], stdout
+    assert_nil ex['request']['body'], stdout
     refute_nil ex['backtrace'], stdout
   end
 

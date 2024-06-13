@@ -84,7 +84,7 @@ class AppBase < Sinatra::Base
       exception: {
         request: {
           path: request.path,
-          body: request.body.read
+          body: request.body ? request.body.read : nil
         },
         backtrace: error.backtrace
       }
