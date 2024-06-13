@@ -9,12 +9,12 @@
 
   "code": {
     "lines": {
-       "total":437,
+       "total":438,
       "missed":0
     },
     "branches": {
-       "total":38,
-      "missed":0
+       "total":40,
+      "missed":1
     }
   },
 
