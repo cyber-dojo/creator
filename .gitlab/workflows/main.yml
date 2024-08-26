@@ -6,6 +6,7 @@ workflow:
     - if: $CI_COMMIT_MESSAGE =~ /See merge request/ && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
 
 stages:
+  - setup-stage
   - pre-build-test-stage
   - build-image-stage
   - post-build-test-stage
@@ -40,8 +41,15 @@ default:
     - mkdir -p "${KOSLI_ATTACHMENTS}"
 
 
+setup:
+  stage: setup-stage
+  script:
+    - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
+
+
 pull-request:
   stage: pre-build-test-stage
+  needs: [ setup ]
   script:
     - kosli attest pullrequest gitlab 
         --assert
@@ -51,6 +59,7 @@ pull-request:
 
 lint:
   stage: pre-build-test-stage
+  needs: [ setup ]
   script:
     - set +e
     - rubocop --raise-cop-error . | tee "${KOSLI_ATTACHMENTS}"/rubocop.log
@@ -69,6 +78,7 @@ lint:
 
 build-image:
   stage: build-image-stage
+  needs: [ setup ]
   services: [ docker:24.0.5-dind ]
   script:
     - source ./sh/echo_versioner_env_vars.sh
@@ -86,7 +96,7 @@ build-image:
 
 unit-test:
   stage: post-build-test-stage
-  needs: [ build-image ]
+  needs: [ build-image, setup ]
   services: [ docker:24.0.5-dind ]
   script:
     - set +e
@@ -113,7 +123,7 @@ unit-test:
 
 security-scan:
   stage: post-build-test-stage
-  needs: [ build-image ]
+  needs: [ build-image, setup ]
   script:
     - set +e
     - snyk container test ${IMAGE_NAME}
@@ -134,7 +144,7 @@ security-scan:
 
 beta-deployment:
   stage: beta-deployment-stage
-  needs: [ pull-request, lint, unit-test, security-scan ]
+  needs: [ pull-request, lint, unit-test, security-scan, setup ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
@@ -153,7 +163,7 @@ beta-deployment:
 
 prod-approval:
   stage: prod-approval-stage
-  needs: [ beta-deployment, build-image ]
+  needs: [ beta-deployment, build-image, setup ]
   when: manual
   allow_failure: false
   script:
@@ -165,14 +175,14 @@ prod-approval:
 
 sdlc-control-gate:
   stage: sdlc-control-gate-stage
-  needs: [ prod-approval, build-image ]
+  needs: [ prod-approval, build-image, setup ]
   script:
     - kosli assert artifact ${IMAGE_NAME}
 
 
 prod-deployment:
   stage: prod-deployment-stage
-  needs: [ sdlc-control-gate ]
+  needs: [ sdlc-control-gate, setup ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
@@ -187,7 +197,7 @@ prod-deployment:
 
 push-latest-image-to-public-registry:
   stage: prod-deployment-stage
-  needs: [ prod-deployment ]
+  needs: [ prod-deployment, setup ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
