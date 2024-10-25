@@ -86,7 +86,7 @@ build-image:
     - docker compose build --build-arg COMMIT_SHA=${CI_COMMIT_SHA}
     - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
     - docker push ${IMAGE_NAME}
-
+    - export DOCKER_API_VERSION=1.43
     - KOSLI_FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker)
     - echo "KOSLI_FINGERPRINT=${KOSLI_FINGERPRINT}" >> kosli.env
     - kosli attest artifact ${IMAGE_NAME}
