@@ -156,6 +156,7 @@ beta-deployment:
     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_BETA}
   script:
     - docker pull ${IMAGE_NAME}
+    - export DOCKER_API_VERSION=1.43
     - export KOSLI_FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker --debug=false)
     - export ECR_BETA_REPO=244531986313.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_PROJECT_NAME}
     - export TF_VAR_TAGGED_IMAGE=${ECR_BETA_REPO}:${CI_COMMIT_SHA:0:7}@sha256:${KOSLI_FINGERPRINT}
@@ -195,6 +196,7 @@ prod-deployment:
     AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_PROD}
   script:
     - docker pull ${IMAGE_NAME}
+    - export DOCKER_API_VERSION=1.43
     - export KOSLI_FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker --debug=false)
     - export ECR_PROD_REPO=244531986313.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_PROJECT_NAME}
     - export TF_VAR_TAGGED_IMAGE=${ECR_PROD_REPO}:${CI_COMMIT_SHA:0:7}@sha256:${KOSLI_FINGERPRINT}
