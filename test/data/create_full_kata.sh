@@ -7,11 +7,11 @@ source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
 source "${SH_DIR}/containers_up_healthy_and_clean.sh"
 source "${SH_DIR}/curlers.sh"
-source "${SH_DIR}/echo_versioner_env_vars.sh"
+source "${SH_DIR}/echo_env_vars.sh"
 source "${SH_DIR}/remove_old_images.sh"
 
 # shellcheck disable=SC2046
-export $(echo_versioner_env_vars)
+export $(echo_env_vars)
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 reset_saver()

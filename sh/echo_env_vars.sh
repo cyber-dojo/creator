@@ -1,7 +1,7 @@
 
 repo_root() { git rev-parse --show-toplevel; }
 
-echo_versioner_env_vars()
+echo_env_vars()
 {
   local -r commit_sha="$(cd "$(repo_root)" && git rev-parse HEAD)"
   local -r image_tag="${commit_sha:0:7}"
