@@ -156,7 +156,7 @@ sdlc-control-gate:
 
 beta-approval:
   stage: beta-approval-stage
-  needs: [ setup, build-image, sdc-control-gate ]
+  needs: [ setup, build-image, sdlc-control-gate ]
   allow_failure: false
   script:
     - kosli report approval ${IMAGE_NAME}
