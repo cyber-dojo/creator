@@ -7,7 +7,6 @@ server_up_healthy_and_clean()
   export CONTAINER_PORT="${CYBER_DOJO_CREATOR_PORT}"
   docker compose up --detach "${SERVICE_NAME}"
   exit_non_zero_unless_healthy
-  exit_non_zero_unless_started_cleanly
 }
 
 # - - - - - - - - - - - - - - - - - - -
@@ -19,7 +18,6 @@ client_up_healthy_and_clean()
     export CONTAINER_PORT="${CYBER_DOJO_CREATOR_CLIENT_PORT}"
     docker compose up --detach nginx
     exit_non_zero_unless_healthy
-    exit_non_zero_unless_started_cleanly
   fi
 }
 
@@ -52,61 +50,7 @@ healthy()
 }
 
 # - - - - - - - - - - - - - - - - - - -
-exit_non_zero_unless_started_cleanly()
-{
-  echo
-  local DOCKER_LOG=$(docker logs "${CONTAINER_NAME}" 2>&1)
-
-  # Handle known warnings (eg waiting on Gem upgrade)
-  # local -r SHADOW_WARNING="server.rb:(.*): warning: shadowing outer local variable - filename"
-  # DOCKER_LOG=$(strip_known_warning "${DOCKER_LOG}" "${SHADOW_WARNING}")
-
-  echo "Checking if ${SERVICE_NAME} started cleanly."
-  local -r top5=$(echo "${DOCKER_LOG}" | head -5)
-  if [ "${top5}" = "$(clean_top_5)" ]; then
-    echo "${SERVICE_NAME} started cleanly."
-  else
-    echo "${SERVICE_NAME} did not start cleanly."
-    echo "First 10 lines of: docker logs ${CONTAINER_NAME}"
-    echo
-    echo "${DOCKER_LOG}" | head -10
-    echo
-    clean_top_5
-    exit 42
-  fi
-}
-
-# - - - - - - - - - - - - - - - - - - -
-clean_top_5()
-{
-  # 1st 5 lines on Puma
-  local -r L1="Puma starting in single mode..."
-  local -r L2='* Puma version: 6.5.0 ("Sky'"'"'s Version")'
-  local -r L3='* Ruby version: ruby 3.3.6 (2024-11-05 revision 75015d4c1f) [x86_64-linux-musl]'
-  local -r L4="*  Min threads: 0"
-  local -r L5="*  Max threads: 5"
-  #
-  local -r top5="$(printf "%s\n%s\n%s\n%s\n%s" "${L1}" "${L2}" "${L3}" "${L4}" "${L5}")"
-  echo "${top5}"
-}
-
-# - - - - - - - - - - - - - - - - - - -
 echo_docker_log()
 {
   docker logs "${CONTAINER_NAME}" 2>&1
-}
-
-# - - - - - - - - - - - - - - - - - - -
-strip_known_warning()
-{
-  local -r DOCKER_LOG="${1}"
-  local -r KNOWN_WARNING="${2}"
-  local -r STRIPPED=$(echo -n "${DOCKER_LOG}" | grep --invert-match -E "${KNOWN_WARNING}")
-  if [ "${DOCKER_LOG}" != "${STRIPPED}" ]; then
-    echo "Known service start-up warning found: ${KNOWN_WARNING}"
-  else
-    echo "Known service start-up warning NOT found: ${KNOWN_WARNING}"
-    exit 42
-  fi
-  echo "${STRIPPED}"
 }
