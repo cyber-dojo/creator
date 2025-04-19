@@ -109,15 +109,15 @@ class CreatorTestBase < Id58TestBase
   end
 
   def css_content?
-    content_type == 'text/css; charset=utf-8'
+    content_type == 'text/css;charset=utf-8'
+  end
+
+  def js_content?
+    content_type == 'text/javascript;charset=utf-8'
   end
 
   def json_content?
     content_type == 'application/json'
-  end
-
-  def js_content?
-    content_type == 'application/javascript'
   end
 
   def content_type

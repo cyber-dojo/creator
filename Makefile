@@ -4,7 +4,10 @@ IMAGE_NAME := cyberdojo/creator:${SHORT_SHA}
 
 .PHONY: image snyk-container
 
-image:
+assets:
+	@${PWD}/sh/build_assets.sh
+
+image: assets
 	${PWD}/build_test.sh --build-only
 
 snyk-container: image
