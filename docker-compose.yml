@@ -104,7 +104,6 @@ services:
           mode: 01777
           size: 10485760  # 10MB
 
-
   runner:
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
     user: root
@@ -134,3 +133,20 @@ services:
   selenium:
     image: selenium/standalone-firefox
     ports: [ "4444:4444" ]
+
+  asset_builder:
+    image: ${CYBER_DOJO_ASSET_BUILDER_IMAGE}:${CYBER_DOJO_ASSET_BUILDER_TAG}
+    user: nobody
+    container_name: ${CYBER_DOJO_ASSET_BUILDER_CONTAINER_NAME}
+    ports: [ "${CYBER_DOJO_ASSET_BUILDER_PORT}:${CYBER_DOJO_ASSET_BUILDER_PORT}" ]
+    env_file: [ .env.asset_builder ]
+    read_only: true
+    restart: no
+    volumes:
+      - ./app/assets/stylesheets:/app/app/assets/stylesheets:ro
+      - ./app/assets/javascripts:/app/app/assets/javascripts:ro
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
