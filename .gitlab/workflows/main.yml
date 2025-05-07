@@ -148,6 +148,7 @@ sdlc-control-gate:
   stage: sdlc-control-gate-stage
   needs: [ setup, build-image, pull-request, lint, unit-test, security-scan ]
   script:
+    - kosli get trail ${KOSLI_TRAIL}
     - kosli assert artifact ${IMAGE_NAME}
         --environment=${KOSLI_AWS_BETA}
 
