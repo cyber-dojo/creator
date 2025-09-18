@@ -205,11 +205,9 @@ process_dast_report:
   script:
     - echo "Processing DAST report..."
     - cat gl-dast-report.json
-  before_script: []
 
 get_branch_rules:
   stage: post-dast
   script:
     - bash ./sh/get-branch-rules.sh
     - kosli attest custom --type branch-protection --attestation-data=gitlab_branch_rules.json --name=branch-protection
-  before_script: []
