@@ -205,3 +205,4 @@ get_branch_rules:
   stage: post-dast
   script:
     - bash ./sh/get-branch-rules.sh
+    - kosli attest branch-protection --attachments=gitlab_branch_rules.json --name=branch-protection
