@@ -199,7 +199,6 @@ dast:
 
 process_dast_report:
   stage: post-dast
-  image: alpine:latest # Use a simple image for this example
   dependencies:
     - dast
   script:
@@ -210,4 +209,5 @@ get_branch_rules:
   stage: post-dast
   script:
     - bash ./sh/get-branch-rules.sh
+    - kosli create attestation-type branch-protection
     - kosli attest custom --type branch-protection --attestation-data=gitlab_branch_rules.json --name=branch-protection
