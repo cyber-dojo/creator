@@ -10,11 +10,16 @@ stages:
   - pre-build-test-stage
   - build-image-stage
   - post-build-test-stage
+  - dast
+  - post-dast
   - sdlc-control-gate-stage
   - beta-approval-stage
   - beta-deployment-stage
   - prod-approval-stage
   - prod-deployment-stage
+
+include:
+- template: Security/DAST.gitlab-ci.yml
 
 variables:
   # KOSLI_DRY_RUN: false                   # Org env-var
@@ -182,3 +187,21 @@ beta-deployment:
     - docker push ${TF_VAR_TAGGED_IMAGE}
     - export TF_VAR_TAGGED_IMAGE=${ECR_REPO}:${CI_COMMIT_SHA:0:7}@sha256:${KOSLI_FINGERPRINT}
     - cd deployment/terraform && tf.sh apply
+
+dast:
+  variables:
+    DAST_TARGET_URL: "https://beta.cyber-dojo.org/creator/home"
+    DAST_CRAWL_GRAPH: "true"
+
+process_dast_report:
+  stage: post-dast
+  image: alpine:latest # Use a simple image for this example
+  dependencies:
+    - dast
+  script:
+    - echo "Processing DAST report..."
+    - cat gl-dast-report.json
+get_branch_rules:
+  stage: post-dast
+  script:
+    - bash ./sh/get-branch-rules.sh
