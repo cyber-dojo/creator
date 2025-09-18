@@ -190,8 +190,11 @@ beta-deployment:
 
 dast:
   variables:
-    DAST_TARGET_URL: "https://beta.cyber-dojo.org/creator/home"
     DAST_CRAWL_GRAPH: "true"
+  dast_configuration:
+    site_profile: "Beta-site-testing"
+    scanner_profile: "beta creator home profile"
+
 
 process_dast_report:
   stage: post-dast
@@ -205,4 +208,4 @@ get_branch_rules:
   stage: post-dast
   script:
     - bash ./sh/get-branch-rules.sh
-    - kosli attest branch-protection --attachments=gitlab_branch_rules.json --name=branch-protection
+    - kosli attest custom branch-protection --attachments=gitlab_branch_rules.json --name=branch-protection
