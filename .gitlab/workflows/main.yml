@@ -194,6 +194,7 @@ dast:
   dast_configuration:
     site_profile: "Beta-site-testing"
     scanner_profile: "beta creator home profile"
+  before_script: []
 
 
 process_dast_report:
@@ -204,8 +205,11 @@ process_dast_report:
   script:
     - echo "Processing DAST report..."
     - cat gl-dast-report.json
+  before_script: []
+
 get_branch_rules:
   stage: post-dast
   script:
     - bash ./sh/get-branch-rules.sh
-    - kosli attest custom branch-protection --attachments=gitlab_branch_rules.json --name=branch-protection
+    - kosli attest custom --type branch-protection --attestation-data=gitlab_branch_rules.json --name=branch-protection
+  before_script: []
