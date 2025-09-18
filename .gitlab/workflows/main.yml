@@ -8,10 +8,10 @@ workflow:
 stages:
   - setup-stage
   - pre-build-test-stage
-  - build-image-stage
-  - post-build-test-stage
   - dast
   - post-dast
+  - build-image-stage
+  - post-build-test-stage
   - sdlc-control-gate-stage
   - beta-approval-stage
   - beta-deployment-stage
