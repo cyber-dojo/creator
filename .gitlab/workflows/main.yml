@@ -56,6 +56,17 @@ setup:
         --template-file=.kosli.yml
 
 
+branch-rules:
+  stage: pre-build-test-stage
+  needs: [ setup ]
+  script:
+    - bash ./sh/get-branch-rules.sh
+    - kosli create attestation-type branch-protection
+    - kosli attest custom --type branch-protection 
+        --attestation-data=gitlab_branch_rules.json 
+        --name=branch-protection
+
+
 pull-request:
   stage: pre-build-test-stage
   needs: [ setup ]
@@ -152,7 +163,7 @@ security-scan:
 
 sdlc-control-gate:
   stage: sdlc-control-gate-stage
-  needs: [ setup, build-image, pull-request, lint, unit-test, security-scan ]
+  needs: [ setup, build-image, branch-rules, pull-request, lint, unit-test, security-scan ]
   script:
     - kosli get trail ${KOSLI_TRAIL}
     - kosli assert artifact ${IMAGE_NAME}
@@ -199,20 +210,14 @@ dast:
   before_script: []
 
 
-process_dast_report:
+process-dast-report:
   stage: post-dast
   dependencies:
     - dast
   script:
     - echo "Processing DAST report..."
     - kosli create attestation-type dast-report
-    - kosli attest custom --type dast-report --attestation-data=gl-dast-report.json --name=dast-report
+    - kosli attest custom --type dast-report 
+        --attestation-data=gl-dast-report.json 
+        --name=dast-report
     - cat gl-dast-report.json
-
-
-get_branch_rules:
-  stage: post-dast
-  script:
-    - bash ./sh/get-branch-rules.sh
-    - kosli create attestation-type branch-protection
-    - kosli attest custom --type branch-protection --attestation-data=gitlab_branch_rules.json --name=branch-protection
