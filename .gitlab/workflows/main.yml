@@ -204,7 +204,7 @@ dast: #Dynamic Application Security Testing on the beta environment
 
 process_dast_report:
   stage: post-dast
-  needs:[ dast, setup ]
+  needs: [ dast, setup ]
   dependencies:
     - dast
   script:
