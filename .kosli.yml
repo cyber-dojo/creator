@@ -4,11 +4,11 @@ trail:
   attestations:
     - name: pull-request
       type: pull_request
+    - name: branch-protection
+      type: custom:branch-protection
   artifacts:
     - name: creator
       attestations:
-        - name: branch-protection
-          type: custom:branch-protection
         - name: lint
           type: generic
         - name: snyk-container-scan
