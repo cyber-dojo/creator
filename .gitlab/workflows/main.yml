@@ -22,6 +22,7 @@ include:
 - template: Security/DAST.gitlab-ci.yml
 
 variables:
+  # KOSLI_DEBUG: false                     # Org env-var
   # KOSLI_DRY_RUN: false                   # Org env-var
   # KOSLI_FLOW: creator-ci                 # Repo env-var
   # KOSLI_TRAIL: $CI_COMMIT_SHA            # Repo env-var (Expanded)
@@ -95,7 +96,7 @@ build-image:
     - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
     - docker push ${IMAGE_NAME}
     - export DOCKER_API_VERSION=1.43
-    - KOSLI_FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker)
+    - KOSLI_FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker --debug=false)
     - echo "KOSLI_FINGERPRINT=${KOSLI_FINGERPRINT}" >> kosli.env
     - kosli attest artifact ${IMAGE_NAME}
         --fingerprint=${KOSLI_FINGERPRINT}      
