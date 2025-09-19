@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v2.11.8
+image: registry.gitlab.com/cyber-dojo/ci-runner:v2.11.22
 
 workflow:
   rules:
@@ -15,13 +15,12 @@ stages:
   - beta-deployment-stage
   - dast
   - post-dast
-  - prod-approval-stage
-  - prod-deployment-stage
 
 include:
 - template: Security/DAST.gitlab-ci.yml
 
 variables:
+  # KOSLI_DEBUG: false                     # Org env-var
   # KOSLI_DRY_RUN: false                   # Org env-var
   # KOSLI_FLOW: creator-ci                 # Repo env-var
   # KOSLI_TRAIL: $CI_COMMIT_SHA            # Repo env-var (Expanded)
@@ -56,6 +55,17 @@ setup:
     - bash ./sh/get-branch-rules.sh
     - kosli create attestation-type branch-protection
     - kosli attest custom --type branch-protection --attestation-data=gitlab_branch_rules.json --name=branch-protection
+
+
+branch-rules:
+  stage: pre-build-test-stage
+  needs: [ setup ]
+  script:
+    - bash ./sh/get-branch-rules.sh
+    - kosli create attestation-type branch-protection
+    - kosli attest custom --type branch-protection 
+        --attestation-data=gitlab_branch_rules.json 
+        --name=branch-protection
 
 
 pull-request:
@@ -98,7 +108,7 @@ build-image:
     - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
     - docker push ${IMAGE_NAME}
     - export DOCKER_API_VERSION=1.43
-    - KOSLI_FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker)
+    - KOSLI_FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker --debug=false)
     - echo "KOSLI_FINGERPRINT=${KOSLI_FINGERPRINT}" >> kosli.env
     - kosli attest artifact ${IMAGE_NAME}
         --fingerprint=${KOSLI_FINGERPRINT}      
@@ -127,7 +137,7 @@ unit-test:
         --attachments=./test/client/reports
         --compliant=${KOSLI_COMPLIANT}
         --description="server & client branch-coverage"      
-        --name=creator.branch-coverage
+        --name=creator.test-branch-coverage
 
     - exit ${STATUS}
 
@@ -154,7 +164,7 @@ security-scan:
 
 sdlc-control-gate:
   stage: sdlc-control-gate-stage
-  needs: [ setup, build-image, pull-request, lint, unit-test, security-scan ]
+  needs: [ setup, build-image, branch-rules, pull-request, lint, unit-test, security-scan ]
   script:
     - kosli get trail ${KOSLI_TRAIL}
     - kosli assert artifact ${IMAGE_NAME}
@@ -191,7 +201,8 @@ beta-deployment:
     - export TF_VAR_TAGGED_IMAGE=${ECR_REPO}:${CI_COMMIT_SHA:0:7}@sha256:${KOSLI_FINGERPRINT}
     - cd deployment/terraform && tf.sh apply
 
-dast: #Dynamic Application Security Testing on the beta environment
+
+dast: # Dynamic Application Security Testing on the beta environment
   stage: dast
   needs: [ beta-deployment, setup ]
   variables:
@@ -202,7 +213,7 @@ dast: #Dynamic Application Security Testing on the beta environment
   before_script: []
 
 
-process_dast_report:
+process-dast-report:
   stage: post-dast
   needs: [ dast, setup ]
   dependencies:
@@ -210,5 +221,7 @@ process_dast_report:
   script:
     - echo "Processing DAST report..."
     - kosli create attestation-type dast-report
-    - kosli attest custom --type dast-report --attestation-data=gl-dast-report.json --name=dast-report
+    - kosli attest custom --type dast-report 
+        --attestation-data=gl-dast-report.json 
+        --name=dast-report
     - cat gl-dast-report.json

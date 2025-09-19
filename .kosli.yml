@@ -7,13 +7,13 @@ trail:
   artifacts:
     - name: creator
       attestations:
+        - name: branch-protection
+          type: custom:branch-protection
         - name: lint
           type: generic
         - name: snyk-container-scan
           type: snyk
-#        - name: snyk-code-scan
-#          type: snyk
         - name: unit-test
           type: junit
-        - name: branch-coverage
+        - name: test-branch-coverage
           type: generic
