@@ -8,13 +8,13 @@ workflow:
 stages:
   - setup-stage
   - pre-build-test-stage
-  - dast
-  - post-dast
   - build-image-stage
   - post-build-test-stage
   - sdlc-control-gate-stage
   - beta-approval-stage
   - beta-deployment-stage
+  - dast
+  - post-dast
   - prod-approval-stage
   - prod-deployment-stage
 
@@ -53,6 +53,9 @@ setup:
     - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
     - kosli begin trail "${KOSLI_TRAIL}"
         --template-file=.kosli.yml
+    - bash ./sh/get-branch-rules.sh
+    - kosli create attestation-type branch-protection
+    - kosli attest custom --type branch-protection --attestation-data=gitlab_branch_rules.json --name=branch-protection
 
 
 pull-request:
@@ -206,10 +209,3 @@ process_dast_report:
     - kosli create attestation-type dast-report
     - kosli attest custom --type dast-report --attestation-data=gl-dast-report.json --name=dast-report
     - cat gl-dast-report.json
-
-get_branch_rules:
-  stage: post-dast
-  script:
-    - bash ./sh/get-branch-rules.sh
-    - kosli create attestation-type branch-protection
-    - kosli attest custom --type branch-protection --attestation-data=gitlab_branch_rules.json --name=branch-protection
