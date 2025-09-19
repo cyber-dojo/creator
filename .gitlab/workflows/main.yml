@@ -15,8 +15,6 @@ stages:
   - beta-deployment-stage
   - dast
   - post-dast
-  - prod-approval-stage
-  - prod-deployment-stage
 
 include:
 - template: Security/DAST.gitlab-ci.yml
