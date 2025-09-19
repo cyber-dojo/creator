@@ -191,7 +191,9 @@ beta-deployment:
     - export TF_VAR_TAGGED_IMAGE=${ECR_REPO}:${CI_COMMIT_SHA:0:7}@sha256:${KOSLI_FINGERPRINT}
     - cd deployment/terraform && tf.sh apply
 
-dast:
+dast: #Dynamic Application Security Testing on the beta environment
+  stage: dast
+  needs: [ beta-deployment, setup ]
   variables:
     DAST_CRAWL_GRAPH: "true"
   dast_configuration:
@@ -202,6 +204,7 @@ dast:
 
 process_dast_report:
   stage: post-dast
+  needs:[ dast, setup ]
   dependencies:
     - dast
   script:
