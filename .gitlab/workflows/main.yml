@@ -8,13 +8,13 @@ workflow:
 stages:
   - setup-stage
   - pre-build-test-stage
-  - dast
-  - post-dast
   - build-image-stage
   - post-build-test-stage
   - sdlc-control-gate-stage
   - beta-approval-stage
   - beta-deployment-stage
+  - dast
+  - post-dast
   - prod-approval-stage
   - prod-deployment-stage
 
@@ -54,6 +54,9 @@ setup:
     - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
     - kosli begin trail "${KOSLI_TRAIL}"
         --template-file=.kosli.yml
+    - bash ./sh/get-branch-rules.sh
+    - kosli create attestation-type branch-protection
+    - kosli attest custom --type branch-protection --attestation-data=gitlab_branch_rules.json --name=branch-protection
 
 
 branch-rules:
@@ -201,7 +204,9 @@ beta-deployment:
     - cd deployment/terraform && tf.sh apply
 
 
-dast:
+dast: # Dynamic Application Security Testing on the beta environment
+  stage: dast
+  needs: [ beta-deployment, setup ]
   variables:
     DAST_CRAWL_GRAPH: "true"
   dast_configuration:
@@ -212,6 +217,7 @@ dast:
 
 process-dast-report:
   stage: post-dast
+  needs: [ dast, setup ]
   dependencies:
     - dast
   script:
