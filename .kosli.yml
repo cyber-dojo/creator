@@ -15,5 +15,5 @@ trail:
           type: snyk
         - name: unit-test
           type: junit
-        - name: branch-coverage
+        - name: test-branch-coverage
           type: generic

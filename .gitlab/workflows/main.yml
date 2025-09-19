@@ -136,7 +136,7 @@ unit-test:
         --attachments=./test/client/reports
         --compliant=${KOSLI_COMPLIANT}
         --description="server & client branch-coverage"      
-        --name=creator.branch-coverage
+        --name=creator.test-branch-coverage
 
     - exit ${STATUS}
 
