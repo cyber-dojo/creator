@@ -52,9 +52,6 @@ setup:
     - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
     - kosli begin trail "${KOSLI_TRAIL}"
         --template-file=.kosli.yml
-    - bash ./sh/get-branch-rules.sh
-    - kosli create attestation-type branch-protection
-    - kosli attest custom --type branch-protection --attestation-data=gitlab_branch_rules.json --name=branch-protection
 
 
 branch-rules:
