@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v2.11.8
+image: registry.gitlab.com/cyber-dojo/ci-runner:v2.11.22
 
 workflow:
   rules:
@@ -188,6 +188,7 @@ beta-deployment:
     - export TF_VAR_TAGGED_IMAGE=${ECR_REPO}:${CI_COMMIT_SHA:0:7}@sha256:${KOSLI_FINGERPRINT}
     - cd deployment/terraform && tf.sh apply
 
+
 dast:
   variables:
     DAST_CRAWL_GRAPH: "true"
@@ -206,6 +207,7 @@ process_dast_report:
     - kosli create attestation-type dast-report
     - kosli attest custom --type dast-report --attestation-data=gl-dast-report.json --name=dast-report
     - cat gl-dast-report.json
+
 
 get_branch_rules:
   stage: post-dast
