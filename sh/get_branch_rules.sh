@@ -6,7 +6,39 @@ GITLAB_URL="https://gitlab.com/api/graphql"
 PROJECT_PATH="cyber-dojo/creator"  # e.g., "namespace/project"
 
 # GraphQL query to get all branch rules for a project
-QUERY='{"query": "{ project(fullPath: \"'${PROJECT_PATH}'\") { branchRules { nodes { id name isProtected isDefault branchProtection { allowForcePush mergeAccessLevels { nodes { accessLevel accessLevelDescription group { name } user { name username } } } pushAccessLevels { nodes { accessLevel accessLevelDescription group { name } user { name username } } } } } } } }"}'
+QUERY=$(cat << EOF
+{"query": "{
+  project(fullPath: \"${PROJECT_PATH}\") {
+    branchRules {
+      nodes {
+        id name isProtected isDefault branchProtection {
+          allowForcePush mergeAccessLevels {
+            nodes {
+              accessLevel accessLevelDescription group {
+                name
+              }
+              user {
+                name username
+              }
+            }
+          }
+          pushAccessLevels {
+            nodes {
+              accessLevel accessLevelDescription group {
+                name
+              }
+              user {
+                name username
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}"}
+EOF
+)
 
 # Make the API call and save the output to a file
 curl --header "Authorization: Bearer $GITLAB_READ_TOKEN" \
