@@ -40,6 +40,9 @@ QUERY=$(cat << EOF
 EOF
 )
 
+# Strip whitespace from query
+QUERY="$(echo -n "${QUERY//[[:space:]]/}")"
+
 # Make the API call and save the output to a file
 curl --header "Authorization: Bearer $GITLAB_READ_TOKEN" \
      --header "Content-Type: application/json" \
