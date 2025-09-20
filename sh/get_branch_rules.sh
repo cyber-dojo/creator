@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -Eeu
 
 # Your GitLab details
 GITLAB_URL="https://gitlab.com/api/graphql"
