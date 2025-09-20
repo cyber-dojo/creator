@@ -5,8 +5,10 @@ set -Eeu
 GITLAB_URL="https://gitlab.com/api/graphql"
 PROJECT_PATH="cyber-dojo/creator"  # e.g., "namespace/project"
 
+# QUERY='{"query": "{ project(fullPath: \"'${PROJECT_PATH}'\") { branchRules { nodes { id name isProtected isDefault branchProtection { allowForcePush mergeAccessLevels { nodes { accessLevel accessLevelDescription group { name } user { name username } } } pushAccessLevels { nodes { accessLevel accessLevelDescription group { name } user { name username } } } } } } } }"}'
+
 # GraphQL query to get all branch rules for a project
-QUERY=$(cat << EOF
+QUERY=$(tr -d '\n' << EOF
 {"query": "{
   project(fullPath: \"${PROJECT_PATH}\") {
     branchRules {
@@ -39,9 +41,6 @@ QUERY=$(cat << EOF
 }"}
 EOF
 )
-
-# Strip whitespace from query
-QUERY="$(echo -n "${QUERY//[[:space:]]/}")"
 
 # Make the API call and save the output to a file
 curl --header "Authorization: Bearer $GITLAB_READ_TOKEN" \
