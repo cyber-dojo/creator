@@ -45,7 +45,7 @@ curl --header "Authorization: Bearer $GITLAB_READ_TOKEN" \
      --header "Content-Type: application/json" \
      --request POST \
      --data-raw "$QUERY" \
-     "$GITLAB_URL" > gitlab_branch_rules.json
+     "$GITLAB_URL" | jq . > gitlab_branch_rules.json
 
 echo "Saved all branch rules to gitlab_branch_rules.json"
 cat gitlab_branch_rules.json
