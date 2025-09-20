@@ -5,8 +5,6 @@ set -Eeu
 GITLAB_URL="https://gitlab.com/api/graphql"
 PROJECT_PATH="cyber-dojo/creator"  # e.g., "namespace/project"
 
-# QUERY='{"query": "{ project(fullPath: \"'${PROJECT_PATH}'\") { branchRules { nodes { id name isProtected isDefault branchProtection { allowForcePush mergeAccessLevels { nodes { accessLevel accessLevelDescription group { name } user { name username } } } pushAccessLevels { nodes { accessLevel accessLevelDescription group { name } user { name username } } } } } } } }"}'
-
 # GraphQL query to get all branch rules for a project
 QUERY=$(tr -d '\n' << EOF
 {"query": "{
