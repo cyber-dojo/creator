@@ -58,7 +58,7 @@ branch-rules:
   stage: pre-build-test-stage
   needs: [ setup ]
   script:
-    - bash ./sh/get-branch-rules.sh
+    - bash ./sh/get_branch_rules.sh
     - kosli create attestation-type branch-protection --jq ".data.project.branchRules.nodes[] | select(.branchProtection) | .branchProtection.allowForcePush == false"
     - kosli attest custom --type branch-protection 
         --attestation-data=gitlab_branch_rules.json 
