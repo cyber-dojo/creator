@@ -10,6 +10,9 @@ assets:
 image: assets
 	${PWD}/build_test.sh --build-only
 
+run-tests:
+	bash -c ". ${PWD}/sh/run_tests_with_coverage.sh && run_tests_with_coverage"
+
 snyk-container: image
 	snyk container test ${IMAGE_NAME} \
 		--file=Dockerfile \

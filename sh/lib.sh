@@ -6,7 +6,7 @@ exit_non_zero_unless_installed()
     printf "Checking %s is installed..." "${dependent}"
     if ! installed "${dependent}" ; then
       stderr "${dependent} is not installed"
-      exit 42
+      exit_non_zero
     else
       echo It is
     fi
@@ -27,6 +27,11 @@ stderr()
 {
   local -r message="${1}"
   >&2 echo "ERROR: ${message}"
+}
+
+exit_non_zero()
+{
+  exit 42
 }
 
 repo_root()

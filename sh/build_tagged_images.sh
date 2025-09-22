@@ -10,7 +10,15 @@ build_tagged_images()
 #- - - - - - - - - - - - - - - - - - - - - - - -
 build_images()
 {
-  docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)"
+  if ! on_ci ; then
+    echo "Not on CI so building all"
+    docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)" \
+      creator client nginx
+  else
+    echo "On CI so building all except creator"
+    docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)" \
+      client nginx
+  fi
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - -
@@ -28,10 +36,10 @@ tag_images_to_latest()
 check_embedded_env_var()
 {
   if [ "$(git_commit_sha)" != "$(sha_in_image)" ]; then
-    echo "ERROR: unexpected env-var inside image $(image_name):$(image_tag)"
-    echo "expected: 'SHA=$(git_commit_sha)'"
-    echo "  actual: 'SHA=$(sha_in_image)'"
-    exit 42
+    stderr "unexpected env-var inside image $(image_name):$(image_tag)"
+    stderr "expected: 'SHA=$(git_commit_sha)'"
+    stderr "  actual: 'SHA=$(sha_in_image)'"
+    exit_non_zero
   fi
 }
 

@@ -40,7 +40,7 @@ exit_non_zero_unless_healthy()
   echo; echo "${SERVICE_NAME} not healthy after ${MAX_TRIES} tries."
   echo_docker_log
   echo
-  exit 42
+  exit_non_zero
 }
 
 # - - - - - - - - - - - - - - - - - - -
