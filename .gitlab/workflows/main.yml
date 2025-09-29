@@ -50,6 +50,8 @@ setup:
   stage: setup-stage
   script:
     - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
+    - kosli create flow "${KOSLI_FLOW}"
+        --description="UX for Group/Kata creation"
     - kosli begin trail "${KOSLI_TRAIL}"
         --template-file=.kosli.yml
 
