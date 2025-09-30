@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v2.11.22
+image: registry.gitlab.com/cyber-dojo/ci-runner:v2.11.23
 
 workflow:
   rules:
@@ -20,13 +20,13 @@ include:
 - template: Security/DAST.gitlab-ci.yml
 
 variables:
-  # KOSLI_DEBUG: false                     # Org env-var
-  # KOSLI_DRY_RUN: false                   # Org env-var
-  # KOSLI_FLOW: creator-ci                 # Repo env-var
-  # KOSLI_TRAIL: $CI_COMMIT_SHA            # Repo env-var (Expanded)
+  # KOSLI_ORG: cyber-dojo                  # Org env-var
   # KOSLI_HOST: https://app.kosli.com      # Org env-var
   # KOSLI_API_TOKEN: ...                   # Org env-var (Masked)
-  KOSLI_ORG: cyber-dojo
+  # KOSLI_FLOW: creator-ci                 # Repo env-var
+  # KOSLI_TRAIL: $CI_COMMIT_SHA            # Repo env-var (Expanded)
+  # KOSLI_DEBUG: false                     # Org env-var
+  # KOSLI_DRY_RUN: false                   # Org env-var
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
