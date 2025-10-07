@@ -12,14 +12,15 @@ exit_non_zero_unless_installed docker curl
 export $(echo_env_vars)
 
 docker compose --progress=plain up --detach --no-build --wait --wait-timeout=10 asset_builder
-docker ps -a
 
 readonly assets_dir="${my_dir}/../app/assets"
+readonly url="http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}"
 
 # Inside a GitLab CI run, you cannot do a 'curl http://localhost:....'
 # See https://stackoverflow.com/questions/78908814/gitlab-ci-fails-with-failed-to-connect-to-localhost
-docker exec asset_builder curl http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.css \
+
+docker exec asset_builder curl "${url}/assets/app.css" \
   > "${assets_dir}/stylesheets/pre-built-app.css"
 
-docker exec asset_builder curl http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.js  \
+docker exec asset_builder curl "${url}/assets/app.js"  \
   > "${assets_dir}/javascripts/pre-built-app.js"

@@ -1,7 +1,17 @@
+#!/usr/bin/env bash
+set -Eeu
+
+readonly my_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "${my_dir}/lib.sh"
+source "${my_dir}/remove_old_images.sh"
+source "${my_dir}/echo_env_vars.sh"
+exit_non_zero_unless_installed docker
+export $(echo_env_vars)
 
 #- - - - - - - - - - - - - - - - - - - - - - - -
 build_tagged_images()
 {
+  remove_old_images
   build_images
   tag_images_to_latest
   check_embedded_env_var
@@ -10,15 +20,8 @@ build_tagged_images()
 #- - - - - - - - - - - - - - - - - - - - - - - -
 build_images()
 {
-  if ! on_ci ; then
-    echo "Not on CI so building all"
-    docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)" \
-      creator client nginx
-  else
-    echo "On CI so building all except creator"
-    docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)" \
-      client nginx
-  fi
+  docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)" \
+    creator client nginx
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - -
@@ -66,3 +69,4 @@ sha_in_image()
 {
   docker run --rm "$(image_name):$(image_tag)" sh -c 'echo -n ${SHA}'
 }
+

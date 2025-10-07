@@ -8,7 +8,7 @@ assets:
 	@${PWD}/sh/build_assets.sh
 
 image: assets
-	${PWD}/build_test.sh --build-only
+	bash -c ". ${PWD}/sh/build_tagged_images.sh && build_tagged_images"
 
 run-tests:
 	bash -c ". ${PWD}/sh/run_tests_with_coverage.sh && run_tests_with_coverage"
@@ -19,3 +19,6 @@ snyk-container: image
 		--policy-path=.snyk \
 		--sarif \
 		--sarif-file-output=snyk.container.scan.json
+
+demo:
+	@${PWD}/sh/demo.sh
