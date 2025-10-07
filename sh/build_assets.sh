@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -Eeu
-set -x
+
 readonly my_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 readonly tmp_dir=$(mktemp -d "/tmp/asset_builder.XXX")
 remove_tmp_dir() { rm -rf "${tmp_dir}" > /dev/null; }
@@ -16,8 +16,5 @@ docker ps -a
 
 readonly assets_dir="${my_dir}/../app/assets"
 
-curl --verbose http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.css
-curl --verbose http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.js
-
-#curl http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.css > "${assets_dir}/stylesheets/pre-built-app.css"
-#curl http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.js  > "${assets_dir}/javascripts/pre-built-app.js"
+curl http://0.0.0.0:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.css > "${assets_dir}/stylesheets/pre-built-app.css"
+curl http://0.0.0.0:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.js  > "${assets_dir}/javascripts/pre-built-app.js"
