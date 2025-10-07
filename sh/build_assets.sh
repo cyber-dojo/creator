@@ -16,5 +16,10 @@ docker ps -a
 
 readonly assets_dir="${my_dir}/../app/assets"
 
-curl http://0.0.0.0:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.css > "${assets_dir}/stylesheets/pre-built-app.css"
-curl http://0.0.0.0:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.js  > "${assets_dir}/javascripts/pre-built-app.js"
+# Inside a GitLab CI run, you cannot do a 'curl http://localhost:....'
+# See https://stackoverflow.com/questions/78908814/gitlab-ci-fails-with-failed-to-connect-to-localhost
+docker exec asset_builder curl http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.css \
+  > "${assets_dir}/stylesheets/pre-built-app.css"
+
+docker exec asset_builder curl http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}/assets/app.js  \
+  > "${assets_dir}/javascripts/pre-built-app.js"
