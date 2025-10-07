@@ -118,7 +118,6 @@ unit-test:
   needs: [ build-image, setup ]
   services: [ docker:24.0.5-dind ]
   script:
-    - docker pull "${IMAGE_NAME}
     - set +e
     - make run-tests
     - STATUS=$?
