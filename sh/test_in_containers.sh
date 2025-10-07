@@ -134,7 +134,7 @@ exit_non_zero_unless_file_exists()
 {
   local -r filename="${1}"
   if [ ! -f "${filename}" ]; then
-    echo "ERROR: ${filename} does not exist"
-    exit 42
+    stderr "${filename} does not exist"
+    exit_non_zero
   fi
 }

@@ -102,9 +102,7 @@ build-image:
   needs: [ setup ]
   services: [ docker:24.0.5-dind ]
   script:
-    - source ./sh/echo_env_vars.sh
-    - export $(echo_env_vars)
-    - docker compose build --build-arg COMMIT_SHA=${CI_COMMIT_SHA}
+    - make image
     - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
     - docker push ${IMAGE_NAME}
     - export DOCKER_API_VERSION=1.43
@@ -120,9 +118,9 @@ unit-test:
   needs: [ build-image, setup ]
   services: [ docker:24.0.5-dind ]
   script:
+    - docker pull "${IMAGE_NAME}
     - set +e
-    - source ./sh/run_tests_with_coverage.sh
-    - run_tests_with_coverage
+    - make run-tests
     - STATUS=$?
     - set -e
 
