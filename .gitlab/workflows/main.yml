@@ -1,5 +1,5 @@
 
-image: registry.gitlab.com/cyber-dojo/ci-runner:v2.11.22
+image: registry.gitlab.com/cyber-dojo/ci-runner:v2.11.23
 
 workflow:
   rules:
@@ -20,13 +20,13 @@ include:
 - template: Security/DAST.gitlab-ci.yml
 
 variables:
-  # KOSLI_DEBUG: false                     # Org env-var
-  # KOSLI_DRY_RUN: false                   # Org env-var
-  # KOSLI_FLOW: creator-ci                 # Repo env-var
-  # KOSLI_TRAIL: $CI_COMMIT_SHA            # Repo env-var (Expanded)
+  # KOSLI_ORG: cyber-dojo                  # Org env-var
   # KOSLI_HOST: https://app.kosli.com      # Org env-var
   # KOSLI_API_TOKEN: ...                   # Org env-var (Masked)
-  KOSLI_ORG: cyber-dojo
+  # KOSLI_FLOW: creator-ci                 # Repo env-var
+  # KOSLI_TRAIL: $CI_COMMIT_SHA            # Repo env-var (Expanded)
+  # KOSLI_DEBUG: false                     # Org env-var
+  # KOSLI_DRY_RUN: false                   # Org env-var
   DOCKER_HOST: tcp://docker:2376
   DOCKER_TLS_CERTDIR: "/certs"
   DOCKER_TLS_VERIFY: 1
@@ -50,6 +50,8 @@ setup:
   stage: setup-stage
   script:
     - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
+    - kosli create flow "${KOSLI_FLOW}"
+        --description="UX for Group/Kata creation"
     - kosli begin trail "${KOSLI_TRAIL}"
         --template-file=.kosli.yml
 
@@ -216,7 +218,7 @@ process-dast-report:
     - dast
   script:
     - echo "Processing DAST report..."
-    - kosli create attestation-type dast-report
+    - kosli create attestation-type dast-report --jq '[.vulnerabilities[] | select(.severity == "High")] | length == 0' --schema=./sh/dast-schema.json
     - kosli attest custom --type dast-report 
         --attestation-data=gl-dast-report.json 
         --name=dast-report
