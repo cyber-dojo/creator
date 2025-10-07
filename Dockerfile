@@ -5,6 +5,7 @@ RUN apk upgrade libcrypto3 libssl3       # https://security.snyk.io/vuln/SNYK-AL
 RUN apk upgrade git                      # https://security.snyk.io/vuln/SNYK-ALPINE320-GIT-10669667
 RUN apk upgrade libexpat                 # https://security.snyk.io/vuln/SNYK-ALPINE320-EXPAT-13003709
 RUN apk upgrade musl                     # https://security.snyk.io/vuln/SNYK-ALPINE320-MUSL-8720638
+RUN apk upgrade curl                     # https://security.snyk.io/vuln/SNYK-ALPINE320-CURL-13277280
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
