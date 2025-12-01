@@ -177,7 +177,7 @@ beta-approval:
     - kosli report approval ${IMAGE_NAME}
         --description="Approved in Gitlab pipeline"
         --environment=${KOSLI_AWS_BETA}
-        --approver="${GITLAB_USER_NAME} <${GITLAB_USER_EMAIL}>"
+        --approver="${GITLAB_USER_NAME} ${GITLAB_USER_EMAIL}"
 
 
 beta-deployment:
