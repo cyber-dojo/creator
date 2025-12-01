@@ -1,11 +1,5 @@
-FROM cyberdojo/sinatra-base:759c4e9@sha256:d5f87f343a9f88a598b810c0f02b81db0bb67319701a956aec3577cbd51c1c24
+FROM cyberdojo/sinatra-base:2a66f1d@sha256:2febea8c2c09f561a19afaa7115f1f673403ee18e184d90a7a0a3084958d0085
 LABEL maintainer=jon@jaggersoft.com
-
-RUN apk upgrade libcrypto3 libssl3       # https://security.snyk.io/vuln/SNYK-ALPINE322-OPENSSL-13174133
-RUN apk upgrade git                      # https://security.snyk.io/vuln/SNYK-ALPINE320-GIT-10669667
-RUN apk upgrade libexpat                 # https://security.snyk.io/vuln/SNYK-ALPINE320-EXPAT-13003709
-RUN apk upgrade musl                     # https://security.snyk.io/vuln/SNYK-ALPINE320-MUSL-8720638
-RUN apk upgrade curl                     # https://security.snyk.io/vuln/SNYK-ALPINE320-CURL-13277280
 
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
