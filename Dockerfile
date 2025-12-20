@@ -1,6 +1,8 @@
 FROM cyberdojo/sinatra-base:2a66f1d@sha256:2febea8c2c09f561a19afaa7115f1f673403ee18e184d90a7a0a3084958d0085
 LABEL maintainer=jon@jaggersoft.com
 
+RUN apk add --upgrade c-ares=1.34.6-r0   # https://security.snyk.io/vuln/SNYK-ALPINE322-CARES-14409293
+
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 
