@@ -143,6 +143,7 @@ unit-test:
 security-scan:
   stage: post-build-test-stage
   needs: [ build-image, setup ]
+  services: [ docker:24.0.5-dind ]
   script:
     - set +e
     - set -x
