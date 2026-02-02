@@ -143,12 +143,9 @@ unit-test:
 security-scan:
   stage: post-build-test-stage
   needs: [ build-image, setup ]
-  services: [ docker:24.0.5-dind ]
   script:
     - set +e
-    - set -x
-    - docker pull "${IMAGE_NAME}"
-    - snyk container test ${IMAGE_NAME} -d
+    - snyk container test ${IMAGE_NAME}
         --policy-path=.snyk
         --sarif
         --sarif-file-output=snyk.container.scan.json
