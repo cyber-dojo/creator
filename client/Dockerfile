@@ -1,4 +1,4 @@
-FROM cyberdojo/sinatra-base:db948c1
+FROM cyberdojo/sinatra-base:dd38f41@sha256:78e366649c6b28379a7666503149d71aa154960b9421e8a57721da13c1eb7ab1
 LABEL maintainer=jon@jaggersoft.com
 
 COPY --chown=nobody:nogroup . /

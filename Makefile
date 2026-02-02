@@ -5,13 +5,13 @@ IMAGE_NAME := cyberdojo/creator:${SHORT_SHA}
 .PHONY: image snyk-container
 
 assets:
-	@${PWD}/sh/build_assets.sh
+	@${PWD}/bin/build_assets.sh
 
 image: assets
-	bash -c ". ${PWD}/sh/build_tagged_images.sh && build_tagged_images"
+	bash -c ". ${PWD}/bin/build_tagged_images.sh && build_tagged_images"
 
 run-tests:
-	bash -c ". ${PWD}/sh/run_tests_with_coverage.sh && run_tests_with_coverage"
+	bash -c ". ${PWD}/bin/run_tests_with_coverage.sh && run_tests_with_coverage"
 
 snyk-container: image
 	snyk container test ${IMAGE_NAME} \
@@ -21,4 +21,4 @@ snyk-container: image
 		--sarif-file-output=snyk.container.scan.json
 
 demo:
-	@${PWD}/sh/demo.sh
+	@${PWD}/bin/demo.sh
