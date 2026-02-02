@@ -144,9 +144,6 @@ security-scan:
   stage: post-build-test-stage
   needs: [ build-image, setup ]
   script:
-    - set -x
-    - echo ":${IMAGE_NAME}:"
-    - docker pull ${IMAGE_NAME}
     - set +e
     - snyk container test ${IMAGE_NAME}
         --policy-path=.snyk
