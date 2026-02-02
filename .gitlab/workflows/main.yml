@@ -61,7 +61,7 @@ branch-rules:
   stage: pre-build-test-stage
   needs: [ setup ]
   script:
-    - bash ./sh/get_branch_rules.sh
+    - bash ./bin/get_branch_rules.sh
     - kosli create attestation-type branch-protection 
         --jq ".data.project.branchRules.nodes[] | select(.branchProtection) | .branchProtection.allowForcePush == false"
     - kosli attest custom --type branch-protection 
@@ -218,7 +218,7 @@ process-dast-report:
     - dast
   script:
     - echo "Processing DAST report..."
-    - kosli create attestation-type dast-report --jq '[.vulnerabilities[] | select(.severity == "High")] | length == 0' --schema=./sh/dast-schema.json
+    - kosli create attestation-type dast-report --jq '[.vulnerabilities[] | select(.severity == "High")] | length == 0' --schema=./bin/dast-schema.json
     - kosli attest custom --type dast-report 
         --attestation-data=gl-dast-report.json 
         --name=dast-report
