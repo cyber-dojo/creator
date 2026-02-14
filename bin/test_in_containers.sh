@@ -57,6 +57,11 @@ run_tests()
   local -r TEST_LOG=test.log
   local -r CONTAINER_REPORTS_DIR=/tmp/reports
 
+  local -r HOST_TEST_DIR="$(repo_root)/test/${TYPE}"   # where to extract to. untar will create reports/ dir
+  local -r HOST_REPORTS_DIR="${HOST_TEST_DIR}/reports" # where files will be
+
+  rm -rf "${HOST_REPORTS_DIR}" 2> /dev/null || true
+
   set +e
   docker exec \
     --env CODE_DIR="${CODE_DIR}" \
@@ -69,9 +74,6 @@ run_tests()
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Extract test-run results and coverage data from the container.
   # You can't [docker cp] from a tmpfs, so tar-piping coverage out
-
-  local -r HOST_TEST_DIR="$(repo_root)/test/${TYPE}"   # where to extract to. untar will create reports/ dir
-  local -r HOST_REPORTS_DIR="${HOST_TEST_DIR}/reports" # where files will be
 
   rm "${HOST_REPORTS_DIR}/${TEST_LOG}"   2> /dev/null || true
   rm "${HOST_REPORTS_DIR}/index.html"    2> /dev/null || true
