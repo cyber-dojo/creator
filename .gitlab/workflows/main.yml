@@ -130,7 +130,6 @@ unit-test:
 
     - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
     - kosli attest generic
-        --attachments=./test/evidence.json
         --attachments=./test/server/reports
         --attachments=./test/client/reports
         --compliant=${KOSLI_COMPLIANT}
