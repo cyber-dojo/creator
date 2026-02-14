@@ -120,7 +120,7 @@ unit-test:
   services: [ docker:24.0.5-dind ]
   script:
     - set +e
-    - make test
+    - make run-tests
     - STATUS=$?
     - set -e
 
