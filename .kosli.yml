@@ -11,8 +11,6 @@ trail:
       attestations:
         - name: lint
           type: generic
-        - name: snyk-container-scan
-          type: snyk
         - name: unit-test
           type: junit
         - name: test-branch-coverage

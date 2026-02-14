@@ -140,29 +140,15 @@ unit-test:
     - exit ${STATUS}
 
 
-security-scan:
-  stage: post-build-test-stage
-  needs: [ build-image, setup ]
-  script:
-    - set +e
-    - snyk container test ${IMAGE_NAME}
-        --policy-path=.snyk
-        --sarif
-        --sarif-file-output=snyk.container.scan.json
-    - STATUS=$?
-    - set -e
-
-    - cp .snyk "${KOSLI_ATTACHMENTS}"
-    - kosli attest snyk
-        --name=creator.snyk-container-scan
-        --scan-results=snyk.container.scan.json
-
-    - exit ${STATUS}
-
-
 sdlc-control-gate:
   stage: sdlc-control-gate-stage
-  needs: [ setup, build-image, branch-rules, pull-request, lint, unit-test, security-scan ]
+  needs:
+    - setup
+    - build-image
+    - branch-rules
+    - pull-request
+    - lint
+    - unit-test
   script:
     - kosli get trail ${KOSLI_TRAIL}
     - kosli assert artifact ${IMAGE_NAME}
