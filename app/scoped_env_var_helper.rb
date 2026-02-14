@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 module ScopedEnvVarHelper
   def scoped_env_var(name, value)
     old_value = ENV[name]

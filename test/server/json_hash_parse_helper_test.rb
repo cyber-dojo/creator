@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative 'creator_test_base'
 require_source 'json_hash_parse_helper'
 
