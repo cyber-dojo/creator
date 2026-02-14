@@ -10,7 +10,7 @@ assets:
 image: assets
 	bash -c ". ${PWD}/bin/build_tagged_images.sh && build_tagged_images"
 
-test:
+run-tests:
 	bash -c ". ${PWD}/bin/run_tests_with_coverage.sh && run_tests_with_coverage"
 
 snyk-container: image
