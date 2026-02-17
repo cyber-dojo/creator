@@ -49,6 +49,11 @@ variable "app_env_vars" {
   }
 }
 
+variable "app_env_specific_vars" {
+  type    = map(any)
+  default = {}
+}
+
 variable "ecr_replication_targets" {
   type    = list(map(string))
   default = []

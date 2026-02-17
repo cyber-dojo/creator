@@ -7,3 +7,7 @@ ecr_replication_targets = [
     "region"     = "eu-central-1"
   }
 ]
+
+app_env_specific_vars = {
+  CYBER_DOJO_ENV = "staging"
+}
