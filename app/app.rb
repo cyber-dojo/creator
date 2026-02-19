@@ -22,6 +22,7 @@ class App < AppBase
   get_delegate(Prober, :ready?)
 
   get '/home', provides: [:html] do
+    @hostname = ENV.fetch('CYBER_DOJO_ENV', 'none')
     respond_to do |wants|
       wants.html { erb :home }
     end
