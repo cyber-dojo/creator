@@ -21,6 +21,14 @@ $(() => {
     </div>
   </div>
 
+  <% if @hostname == 'staging' %>
+    <div class="edged-panel questions" style="background:red;">
+    You are on https://<i><b><u>beta</u></b></i>.cyber-dojo.org <br/>
+    These are <b><u>not</u></b> the pages you are looking for.<br/>
+    Please go to <a href="https://cyber-dojo.org">https://cyber-dojo.org</a>
+    </div>
+  <% end %>
+
   <div class="edged-panel buttons">
     <button type="button" class="large create">create a new practice</button>
     <button type="button" class="medium enter">enter an existing practice</button>
