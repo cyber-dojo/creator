@@ -155,20 +155,9 @@ sdlc-control-gate:
         --environment=${KOSLI_AWS_BETA}
 
 
-beta-approval:
-  stage: beta-approval-stage
-  needs: [ setup, build-image, sdlc-control-gate ]
-  allow_failure: false
-  script:
-    - kosli report approval ${IMAGE_NAME}
-        --description="Approved in Gitlab pipeline"
-        --environment=${KOSLI_AWS_BETA}
-        --approver="${GITLAB_USER_NAME} ${GITLAB_USER_EMAIL}"
-
-
 beta-deployment:
   stage: beta-deployment-stage
-  needs: [ setup, build-image, beta-approval ]
+  needs: [ setup, build-image, sdlc-control-gate ]
   services: [ docker:24.0.5-dind ]
   artifacts:
     paths: [ kosli/ ]
