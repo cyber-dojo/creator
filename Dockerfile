@@ -4,6 +4,8 @@ LABEL maintainer=jon@jaggersoft.com
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 
+RUN apk add --upgrade openssl=3.5.6-r0 # https://security.snyk.io/vuln/SNYK-ALPINE322-OPENSSL-15993406
+
 COPY --chown=nobody:nogroup . /
 WORKDIR /app
 USER nobody
