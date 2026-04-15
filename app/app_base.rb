@@ -17,6 +17,7 @@ class AppBase < Sinatra::Base
   end
 
   silently { register Sinatra::Contrib }
+  set :json_encoder, :to_json # avoid MultiJson.encode deprecation warning
   set :port, ENV['PORT']
   set :environment, Sprockets::Environment.new
 
