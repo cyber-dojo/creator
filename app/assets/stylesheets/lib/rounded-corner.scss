@@ -1,7 +1,5 @@
 
 @mixin rounded-corner($radius: 6px)
 {
-  -webkit-border-radius: $radius;
-  -khtml-border-radius: $radius;
   border-radius: $radius;
 }
