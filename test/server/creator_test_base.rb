@@ -1,7 +1,7 @@
 require_relative '../id58_test_base'
 require_source 'app'
 require_source 'externals'
-require 'cgi'
+require 'cgi/escape'
 require 'json'
 require 'ostruct'
 
