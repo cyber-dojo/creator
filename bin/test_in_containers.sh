@@ -102,6 +102,7 @@ run_tests()
   set +e
   docker run \
     --rm \
+    --platform linux/amd64 \
     --env CODE_DIR="${CODE_DIR}" \
     --env TEST_DIR="${TEST_DIR}" \
     --volume ${HOST_REPORTS_DIR}/${TEST_LOG}:${CONTAINER_TMP_DIR}/${TEST_LOG}:ro \

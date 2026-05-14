@@ -1,5 +1,6 @@
 require 'simplecov'
 require_relative 'simplecov_json'
+require_relative 'runs_text_reporter'
 
 SimpleCov.start do
   enable_coverage(:branch)
@@ -13,3 +14,8 @@ end
 formatters = [SimpleCov::Formatter::HTMLFormatter,
               SimpleCov::Formatter::JSONFormatter]
 SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(formatters)
+
+Minitest::Reporters.use!([
+  RunsTextReporter.new,
+  Minitest::Reporters::JUnitReporter.new("#{ENV.fetch('COVERAGE_ROOT')}/junit")
+])

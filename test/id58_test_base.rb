@@ -1,10 +1,7 @@
 # :nocov:
 require 'English'
 require 'minitest/autorun'
-require 'minitest/ci'
 require 'rack/test'
-
-Minitest::Ci.report_dir = "#{ENV['COVERAGE_ROOT']}/junit"
 
 def require_source(required)
   require_relative "../../app/#{required}"
@@ -75,8 +72,8 @@ class Id58TestBase < Minitest::Test
     puts
     puts "Slowest #{size} tests are..." if size != 0
     sorted.each_with_index do |(name, seconds), index|
-      puts format('%3.4f - %-72s', seconds, name)
       break if index === size
+      puts format('%3.4f - %-72s', seconds, name)
     end
     puts
   end

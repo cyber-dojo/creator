@@ -21,7 +21,9 @@ echo_env_vars()
   local -r commit_sha="$(cd "$(repo_root)" && git rev-parse HEAD)"
   local -r image_tag="${commit_sha:0:7}"
 
-  docker run --rm cyberdojo/versioner:latest
+  echo DOCKER_CLI_HINTS=false
+
+  docker run --rm --platform linux/amd64 cyberdojo/versioner:latest
   #
   echo CYBER_DOJO_CREATOR_SHA="${commit_sha}"
   echo CYBER_DOJO_CREATOR_TAG="${image_tag}"

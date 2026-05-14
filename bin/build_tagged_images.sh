@@ -67,6 +67,6 @@ image_tag()
 # - - - - - - - - - - - - - - - - - - - - - - - -
 sha_in_image()
 {
-  docker run --rm "$(image_name):$(image_tag)" sh -c 'echo -n ${SHA}'
+  docker run --rm --platform linux/amd64 "$(image_name):$(image_tag)" sh -c 'echo -n ${SHA}'
 }
 
