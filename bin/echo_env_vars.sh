@@ -23,7 +23,7 @@ echo_env_vars()
 
   echo DOCKER_CLI_HINTS=false
 
-  docker run --rm cyberdojo/versioner:latest
+  docker run --rm --platform linux/amd64 cyberdojo/versioner:latest
   #
   echo CYBER_DOJO_CREATOR_SHA="${commit_sha}"
   echo CYBER_DOJO_CREATOR_TAG="${image_tag}"

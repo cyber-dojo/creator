@@ -3,6 +3,7 @@ services:
 
   nginx:
     image: cyberdojo/nginx_creator_stub
+    platform: linux/amd64
     container_name: test_nginx
     ports: [ "${CYBER_DOJO_NGINX_PORT}:${CYBER_DOJO_NGINX_PORT}" ]
     user: root
@@ -18,6 +19,7 @@ services:
       args: [ COMMIT_SHA ]
       context: client
     image: ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
+    platform: linux/amd64
     container_name: ${CYBER_DOJO_CREATOR_CLIENT_CONTAINER_NAME}
     env_file: [ .env ]
     ports: [ "${CYBER_DOJO_CREATOR_CLIENT_PORT}:${CYBER_DOJO_CREATOR_CLIENT_PORT}" ]
@@ -45,6 +47,7 @@ services:
       args: [ COMMIT_SHA ]
       context: .
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
+    platform: linux/amd64
     container_name: ${CYBER_DOJO_CREATOR_SERVER_CONTAINER_NAME}
     env_file: [ .env ]
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
@@ -67,6 +70,7 @@ services:
 
   custom-start-points:
     image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
+    platform: linux/amd64
     user: nobody
     env_file: [ .env ]
     read_only: true
@@ -80,6 +84,7 @@ services:
 
   exercises-start-points:
     image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
+    platform: linux/amd64
     user: nobody
     env_file: [ .env ]
     read_only: true
@@ -93,6 +98,7 @@ services:
 
   languages-start-points:
     image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
+    platform: linux/amd64
     user: nobody
     env_file: [ .env ]
     read_only: true
@@ -106,6 +112,7 @@ services:
 
   runner:
     image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
+    platform: linux/amd64
     user: root
     env_file: [ .env ]
     read_only: true
@@ -120,6 +127,7 @@ services:
 
   saver:
     image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
+    platform: linux/amd64
     user: saver
     ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
     env_file: [ .env ]
@@ -132,10 +140,12 @@ services:
 
   selenium:
     image: selenium/standalone-firefox
+    platform: linux/amd64
     ports: [ "4444:4444" ]
 
   asset_builder:
     image: ${CYBER_DOJO_ASSET_BUILDER_IMAGE}:${CYBER_DOJO_ASSET_BUILDER_TAG}
+    platform: linux/amd64
     user: nobody
     container_name: ${CYBER_DOJO_ASSET_BUILDER_CONTAINER_NAME}
     ports: [ "${CYBER_DOJO_ASSET_BUILDER_PORT}:${CYBER_DOJO_ASSET_BUILDER_PORT}" ]
