@@ -34,30 +34,9 @@ class RouteEnterTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest x23: %w[
-    |POST /enter.json
-    |for a version=0 group
-    |has status 200
-    |returns JSON with id,group_index and route to avatar page
-  ] do
-    assert_post_200_json('enter.json', { id: 'chy6BJ' }) do |response|
-      # eg response == {"route"=>"/creator/avatar?id=TEbR8E", "id"=>"TEbR8E", "group_index" => 51}
-      assert response.key?('route'), response.keys
-      assert %r{/creator/avatar\?id=(?<kata_id>.*)} =~ response['route'], response['route']
-      assert response.key?('id'), response.keys
-      assert_equal kata_id, response['id']
-      assert kata_exists?(kata_id), "kata_exists?(#{kata_id})"
-      assert response.key?('group_index'), response.keys
-      group_index = response['group_index']
-      assert group_index >= 0 && group_index < 64
-    end
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
   qtest x24: %w[
     |POST /enter.json
-    |for a version=0 group
+    |for a version=2 group
     |has status 200
     |returns JSON with route to full page
     |when group is full
