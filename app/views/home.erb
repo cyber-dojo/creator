@@ -29,6 +29,13 @@ $(() => {
     </div>
   <% end %>
 
+  <% if @hostname == 'prod' %>
+    <div class="edged-panel questions" style="background:red;">
+    https://cyber-dojo.org will be down on Tuesday 16th June 2026, 07:00 - 07:30 GMT
+    for an infrastructure upgrade.
+    </div>
+  <% end %>
+
   <div class="edged-panel buttons">
     <button type="button" class="large create">create a new practice</button>
     <button type="button" class="medium enter">enter an existing practice</button>
