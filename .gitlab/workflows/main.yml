@@ -52,6 +52,11 @@ setup:
     - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
     - kosli create flow "${KOSLI_FLOW}"
         --description="UX for Group/Kata creation"
+    - kosli tag flow "${KOSLI_FLOW}"
+        --set env=${KOSLI_AWS_BETA}
+        --set kind=build
+        --set ci=gitlab
+        --set repo_url=${CI_PROJECT_URL}
     - kosli begin trail "${KOSLI_TRAIL}"
         --template-file=.kosli.yml
 
