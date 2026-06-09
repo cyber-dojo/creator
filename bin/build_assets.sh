@@ -16,7 +16,8 @@ docker compose --progress=plain up --detach --no-build --wait --wait-timeout=10 
 readonly assets_dir="${my_dir}/../app/assets"
 readonly url="http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}"
 
-# Inside a GitLab CI run, you cannot do a 'curl http://localhost:....'
+# Inside a CI run, you cannot always do a 'curl http://localhost:....'
+# so curl from inside the asset_builder container instead.
 # See https://stackoverflow.com/questions/78908814/gitlab-ci-fails-with-failed-to-connect-to-localhost
 
 docker exec asset_builder curl "${url}/assets/app.css" \

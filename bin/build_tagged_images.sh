@@ -11,6 +11,13 @@ export $(echo_env_vars)
 #- - - - - - - - - - - - - - - - - - - - - - - -
 build_tagged_images()
 {
+  if [ "${CI:-}" == 'true' ]; then
+    # In the CI workflow the image is built by a Github Action (secure-docker-build)
+    # and the tests run against that downloaded image. Building it here instead would
+    # test a different image to the one being attested and deployed.
+    stderr "In CI workflow, image must be built with Github Action"
+    exit_non_zero
+  fi
   remove_old_images
   build_images
   tag_images_to_latest

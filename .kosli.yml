@@ -4,8 +4,6 @@ trail:
   attestations:
     - name: pull-request
       type: pull_request
-    - name: branch-protection
-      type: custom:branch-protection
   artifacts:
     - name: creator
       attestations:
@@ -14,4 +12,6 @@ trail:
         - name: unit-test
           type: junit
         - name: test-branch-coverage
+          type: generic
+        - name: snyk-container-scan
           type: generic
