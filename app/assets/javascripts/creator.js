@@ -70,21 +70,34 @@ cd.setTip = (node, setTipCallBack) => {
 };
 
 cd.showHoverTip = (node, tip) => {
-  if (!node.attr('disabled')) {
-    if (!node.hasClass('mouse-has-left')) {
-      // position() is the jQuery UI plug-in
-      // https://jqueryui.com/position/
-      const hoverTip = $('<div>', {
-        'class': 'hover-tip'
-      }).html(tip).position({
-        my: 'top',
-        at: 'bottom',
-        of: node,
-        collision: 'fit'
-      });
-      cd.hoverTipContainer().html(hoverTip);
-    }
+  if (node.attr('disabled') || node.hasClass('mouse-has-left')) {
+    return;
   }
+  // Replaces the jQuery UI position() plug-in (https://jqueryui.com/position/)
+  // call: { my:'top', at:'bottom', of:node, collision:'fit' }
+  // ie place the tip's top-center just below node, kept within the viewport.
+  const hoverTip = $('<div>', {
+    'class': 'hover-tip'
+  }).html(tip);
+  // Attach to the DOM first so the tip can be measured.
+  cd.hoverTipContainer().html(hoverTip);
+
+  const nodeOffset = node.offset();
+  const atCenterX = nodeOffset.left + (node.outerWidth() / 2);
+  const belowNodeY = nodeOffset.top + node.outerHeight();
+  let left = atCenterX - (hoverTip.outerWidth() / 2); // my:'top' (center horizontally)
+  let top = belowNodeY;                               // at:'bottom'
+
+  // collision:'fit' - keep the tip inside the viewport.
+  const $window = $(window);
+  const minLeft = $window.scrollLeft();
+  const minTop = $window.scrollTop();
+  const maxLeft = minLeft + $window.width() - hoverTip.outerWidth();
+  const maxTop = minTop + $window.height() - hoverTip.outerHeight();
+  left = Math.max(minLeft, Math.min(left, maxLeft));
+  top = Math.max(minTop, Math.min(top, maxTop));
+
+  hoverTip.css('position', 'absolute').offset({ left: left, top: top });
 };
 
 cd.hoverTipContainer = () => {
