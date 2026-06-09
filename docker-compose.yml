@@ -1,7 +1,15 @@
 
 services:
 
-  nginx:
+  # The client/selenium tests run against this cut-down nginx stub, NOT the
+  # real cyber-dojo nginx (used in the demo - see docker-compose.demo.yml).
+  # The real nginx rate-limits /creator/ (zone=creator_choose, 60r/m burst 10).
+  # The selenium tests load several pages in quick succession, each pulling
+  # the html plus app.css and app.js through /creator/, which would trip the
+  # 429 rate-limit and make the tests flaky. The stub deliberately omits the
+  # rate-limiting (and the lazy resolver and the rest of the cyber-dojo
+  # routing) so the tests stay simple, isolated and deterministic.
+  nginx_stub:
     image: cyberdojo/nginx_creator_stub
     platform: linux/amd64
     container_name: test_nginx

@@ -16,7 +16,7 @@ client_up_healthy_and_clean()
     export SERVICE_NAME=client
     export CONTAINER_NAME="${CYBER_DOJO_CREATOR_CLIENT_CONTAINER_NAME}"
     export CONTAINER_PORT="${CYBER_DOJO_CREATOR_CLIENT_PORT}"
-    docker compose up --detach nginx
+    docker compose up --detach nginx_stub
     exit_non_zero_unless_healthy
   fi
 }
