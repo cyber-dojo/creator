@@ -1,19 +1,21 @@
 require 'simplecov'
-require_relative 'simplecov-json'
+require_relative 'simplecov_json'
+require_relative 'runs_text_reporter'
 
 SimpleCov.start do
   enable_coverage(:branch)
   filters.clear
-  add_filter("/usr/")
   coverage_dir(ENV['COVERAGE_ROOT'])
-  #add_group('debug') { |src| puts(src.filename); false }
-  code_dir = ENV['CODE_DIR']
-  test_dir = ENV['TEST_DIR']
-  add_group(code_dir) { |src| src.filename =~ %r"^/app/#{code_dir}/" }
-  add_group(test_dir) { |src| src.filename =~ %r"^/app/#{test_dir}/.*_test\.rb$" }
+  # add_group('debug') { |src| puts(src.filename); false }
+  add_group('app')  { |src| src.filename !~ /test/ }
+  add_group('test') { |src| src.filename =~ /test/ }
 end
 
-SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::HTMLFormatter,
-  SimpleCov::Formatter::JSONFormatter,
+formatters = [SimpleCov::Formatter::HTMLFormatter,
+              SimpleCov::Formatter::JSONFormatter]
+SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(formatters)
+
+Minitest::Reporters.use!([
+  RunsTextReporter.new,
+  Minitest::Reporters::JUnitReporter.new("#{ENV.fetch('COVERAGE_ROOT')}/junit")
 ])

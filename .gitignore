@@ -1,3 +1,7 @@
+snyk.container.scan.json
+
+test/evidence.json
+
 test/server/reports/*
 test/server/reports/.*
 

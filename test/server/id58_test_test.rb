@@ -1,7 +1,6 @@
 require_relative 'creator_test_base'
 
 class Id58TestTest < CreatorTestBase
-
   def self.id58_prefix
     :c89
   end
@@ -9,33 +8,33 @@ class Id58TestTest < CreatorTestBase
   # - - - - - - - - - - - - - - - - - - - - -
 
   test 'C80',
-  'test-id is available via environment variable' do
+       'test-id is available via environment variable' do
     assert_equal 'c89C80', ENV['ID58']
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '57B',
-  'test-id is also available via a method',
-  'and is the id58_prefix concatenated with the test-id' do
+       'test-id is also available via a method',
+       'and is the id58_prefix concatenated with the test-id' do
     assert_equal 'c8957B', id58
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test '18F',
-  'test-name is available via a method' do
+       'test-name is available via a method' do
     assert_equal 'test-name is available via a method', name58
   end
 
   # - - - - - - - - - - - - - - - - - - - - -
 
   test 'D30',
-  'test-name can be long',
-  'and split over many',
-  'comma separated lines',
-  'and will automatically be',
-  'joined with spaces' do
+       'test-name can be long',
+       'and split over many',
+       'comma separated lines',
+       'and will automatically be',
+       'joined with spaces' do
     expected = [
       'test-name can be long',
       'and split over many',
@@ -48,11 +47,11 @@ class Id58TestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test 'D31', %w(
+  test 'D31', %w[
     test-name can be long,
     and split over many lines with %w syntax,
     and will automatically be joined with spaces
-  ) do
+  ] do
     expected = [
       'test-name can be long,',
       'and split over many lines with %w syntax,',
@@ -63,14 +62,13 @@ class Id58TestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - - - -
 
-  test 'E3A', %w( id digits can be hex uppercase ) do
+  test 'E3A', %w[id digits can be hex uppercase] do
     assert_equal 'c89E3A', ENV['ID58']
     assert_equal 'c89E3A', id58
   end
 
-  test 'e3a', %w( id digits can be hex lowercase ) do
+  test 'e3a', %w[id digits can be hex lowercase] do
     assert_equal 'c89e3a', ENV['ID58']
     assert_equal 'c89e3a', id58
   end
-
 end

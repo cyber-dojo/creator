@@ -2,8 +2,10 @@ This repo has been moved to [Gitlab](https://gitlab.com/cyber-dojo/creator)
 [![Github Action (main)](https://github.com/cyber-dojo/creator/actions/workflows/main.yml/badge.svg)](https://github.com/cyber-dojo/creator/actions)
 
 - A [docker-containerized](https://registry.hub.docker.com/r/cyberdojo/creator) micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
-- The HTTP UI to configure and create (or re-enter) a group-exercise or an individual-exercise.
-- A [Kosli](https://www.kosli.com/) showcase for a [CI flow](https://app.kosli.com/cyber-dojo/flows/creator/artifacts/) and an [aws production environment](https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/)
+- The UI to configure and create (or re-enter) a group-exercise or an individual-exercise.
+- Demonstrates a [Kosli](https://www.kosli.com/) instrumented [GitHub Actions pipeline](https://app.kosli.com/cyber-dojo/flows/creator-ci/trails/) 
+  deploying to [staging](https://app.kosli.com/cyber-dojo/environments/aws-beta/snapshots/) and [production](https://app.kosli.com/cyber-dojo/environments/aws-prod/snapshots/) AWS environments.
 
 - - - -
-![cyber-dojo.org home page](https://github.com/cyber-dojo/cyber-dojo/blob/master/shared/home_page_snapshot.png)
+![choose-exercise](docs/choose_exercise.png)
+![choose-language-and-test-framework](docs/choose_language_and_test_framework.png)

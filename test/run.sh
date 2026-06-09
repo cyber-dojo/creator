@@ -1,4 +1,5 @@
-#!/bin/bash -Eeu
+#!/usr/bin/env bash
+set -Eeu
 
 readonly MY_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 export COVERAGE_ROOT="${1}" # /tmp/coverage
@@ -15,9 +16,9 @@ require '${MY_DIR}/coverage.rb'
   require file
 }"
 
-export RUBYOPT='-W2'
-mkdir -p ${COVERAGE_ROOT}
+mkdir -p "${COVERAGE_ROOT}"
 
 set +e
+export RUBYOPT='-W2 --enable-frozen-string-literal'
 ruby -e "${SCRIPT}" -- ${TEST_ARGS[@]} 2>&1 | tee ${COVERAGE_ROOT}/${TEST_LOG}
 set -e

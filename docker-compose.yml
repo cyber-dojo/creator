@@ -1,18 +1,14 @@
 
-# This is augmented with dependent services by
-# sh/augmented_docker_compose.sh
-
-version: '3.7'
-
 services:
 
   nginx:
     image: cyberdojo/nginx_creator_stub
+    platform: linux/amd64
     container_name: test_nginx
     ports: [ "${CYBER_DOJO_NGINX_PORT}:${CYBER_DOJO_NGINX_PORT}" ]
     user: root
     build:
-      context: source/nginx_stub
+      context: nginx_stub
     depends_on:
       - client
 
@@ -21,8 +17,9 @@ services:
   client:
     build:
       args: [ COMMIT_SHA ]
-      context: source/client
+      context: client
     image: ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
+    platform: linux/amd64
     container_name: ${CYBER_DOJO_CREATOR_CLIENT_CONTAINER_NAME}
     env_file: [ .env ]
     ports: [ "${CYBER_DOJO_CREATOR_CLIENT_PORT}:${CYBER_DOJO_CREATOR_CLIENT_PORT}" ]
@@ -35,16 +32,22 @@ services:
       - creator
     read_only: true
     restart: "no"
-    tmpfs: /tmp
-    volumes: [ "./test:/app/test/:ro" ]
+    volumes:
+      - "./test:/app/test/:ro"
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   creator:
     build:
       args: [ COMMIT_SHA ]
-      context: source/server
+      context: .
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
+    platform: linux/amd64
     container_name: ${CYBER_DOJO_CREATOR_SERVER_CONTAINER_NAME}
     env_file: [ .env ]
     ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
@@ -57,5 +60,103 @@ services:
       - saver
     read_only: true
     restart: "no"
-    tmpfs: /tmp
-    volumes: [ "./test:/app/test/:ro" ]
+    volumes:
+      - "./test:/app/test/:ro"
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
+
+  custom-start-points:
+    image: ${CYBER_DOJO_CUSTOM_START_POINTS_IMAGE}:${CYBER_DOJO_CUSTOM_START_POINTS_TAG}
+    platform: linux/amd64
+    user: nobody
+    env_file: [ .env ]
+    read_only: true
+    restart: "no"
+    volumes:
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
+
+  exercises-start-points:
+    image: ${CYBER_DOJO_EXERCISES_START_POINTS_IMAGE}:${CYBER_DOJO_EXERCISES_START_POINTS_TAG}
+    platform: linux/amd64
+    user: nobody
+    env_file: [ .env ]
+    read_only: true
+    restart: "no"
+    volumes:
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
+
+  languages-start-points:
+    image: ${CYBER_DOJO_LANGUAGES_START_POINTS_IMAGE}:${CYBER_DOJO_LANGUAGES_START_POINTS_TAG}
+    platform: linux/amd64
+    user: nobody
+    env_file: [ .env ]
+    read_only: true
+    restart: "no"
+    volumes:
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
+
+  runner:
+    image: ${CYBER_DOJO_RUNNER_IMAGE}:${CYBER_DOJO_RUNNER_TAG}
+    platform: linux/amd64
+    user: root
+    env_file: [ .env ]
+    read_only: true
+    restart: "no"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB
+
+  saver:
+    image: ${CYBER_DOJO_SAVER_IMAGE}:${CYBER_DOJO_SAVER_TAG}
+    platform: linux/amd64
+    user: saver
+    ports: [ "${CYBER_DOJO_SAVER_PORT}:${CYBER_DOJO_SAVER_PORT}" ]
+    env_file: [ .env ]
+    init: true
+    read_only: true
+    restart: "no"
+    tmpfs:
+      - /cyber-dojo:uid=19663,gid=65533
+      - /tmp:uid=19663,gid=65533
+
+  selenium:
+    image: selenium/standalone-firefox
+    platform: linux/amd64
+    ports: [ "4444:4444" ]
+
+  asset_builder:
+    image: ${CYBER_DOJO_ASSET_BUILDER_IMAGE}:${CYBER_DOJO_ASSET_BUILDER_TAG}
+    platform: linux/amd64
+    user: nobody
+    container_name: ${CYBER_DOJO_ASSET_BUILDER_CONTAINER_NAME}
+    ports: [ "${CYBER_DOJO_ASSET_BUILDER_PORT}:${CYBER_DOJO_ASSET_BUILDER_PORT}" ]
+    env_file: [ .env.asset_builder ]
+    read_only: true
+    restart: no
+    volumes:
+      - ./app/assets/stylesheets:/app/app/assets/stylesheets:ro
+      - ./app/assets/javascripts:/app/app/assets/javascripts:ro
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          mode: 01777
+          size: 10485760  # 10MB

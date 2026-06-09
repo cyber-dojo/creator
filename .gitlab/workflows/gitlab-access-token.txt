@@ -1,0 +1,23 @@
+
+main.yml contains a call to kosli-attest-pullrequest-gitlab, as follows:
+
+    - kosli attest pullrequest gitlab
+        --assert
+        --gitlab-token=${KOSLI_GITLAB_TOKEN}
+        --name=pull-request
+
+The KOSLI_GITLAB_TOKEN environment variable is a personal-access-token set as a masked env-var at the Org level.
+This access-token has an expiry date. When it expires you will need to create a new personal-access-token
+and update the KOSLI_GITLAB_TOKEN env-var.
+
+Create a new personal-access-token by following the instructions here:
+https://docs.gitlab.com/ee/user/profile/personal_access_tokens.html
+Note: When it says "On the left sidebar, select your avatar." it does not mean
+the GitLab Fox icon, it means the avatar to the right of that.
+
+The scopes required are:
+- read_api
+- read_repository
+
+
+

@@ -1,0 +1,33 @@
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - test/**/*
+
+Lint/PercentStringArray:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+# ENV['X'] is used deliberately for its nil-on-missing semantics (eg
+# scoped_env_var_helper.rb reads and later restores ENV[name]); ENV.fetch
+# would raise instead. So this cop does not fit this codebase.
+Style/FetchEnvVar:
+  Enabled: false
+
+# Strings are frozen globally at runtime via RUBYOPT=--enable-frozen-string-literal
+# (see app/config/up.sh, client/app/config/up.sh) so the per-file magic comment
+# is redundant. Mirrors the sibling repos (eg ../differ).
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - app/**/*
+    - client/**/*
+
+Style/EmptyElse:
+  Exclude:
+    - app/id_typer.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - app/app.rb

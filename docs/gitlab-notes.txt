@@ -1,0 +1,28 @@
+
+The default branch for the repo had to be set to 'main'
+
+From the Settings at the bottom on the lhs, select Repository.
+Expand Branch defaults
+Set the [Default branch] dropdown to 'main'
+Click [Save changes] button.
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
+The Git strategy settings had to be altered from the default:
+(otherwise [kosli report approval] is likely to fail)
+
+From the Settings at the bottom on the lhs, select CI/CD
+Expand General pipelines
+Set the [Git strategy] radio-button to [git clone]
+Set the [Git shallow clone] text field to [0]
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -
+
+The unit-tests take ~3 mins to run.
+The vast majority of this is docker pulling.
+The actual test durations are:
+- server: ~13s
+- client: ~21s
+Look into docker caching on Gitlab.
+
+# - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -1,0 +1,126 @@
+@import "lib/all";
+@import "home";
+@import "avatar-images";
+@import "buttons";
+@import "to_go";
+
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#home-page                  .edged-panel { width:625px; }
+
+#choose-problem-page        .edged-panel { width:835px; }
+#choose-custom-problem-page .edged-panel { width:835px; }
+#choose-ltf-page            .edged-panel { width:835px; }
+#choose-type-page           .edged-panel { width:835px; }
+
+#enter-page                 .edged-panel { width:835px; }
+#avatar-page                .edged-panel { width:316px; }
+#reenter-page               .edged-panel { width:400px; }
+#full-page                  .edged-panel { width:320px; }
+
+#error-page                 .edged-panel { width:314px; }
+
+#enter-page, #avatar-page, #reenter-page, #full-page
+{
+  @include non-code-font();
+  .sub-title { font-size:27px; margin: { left:0px; bottom:10px; } }
+  table { margin: { left:0px; bottom:10px; } }
+  .group-id, .kata-id { font-size:90px; }
+  .avatar-name { font-size:44px; margin: { left:0px; bottom:5px; } }
+}
+
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+#enter-page
+{
+  @include non-code-font();
+  input
+  {
+    @include non-code-font();
+    @include rounded-corner(6px);
+    margin: { left:0px; bottom:10px; }
+    font-size:41px;
+    width:220px;
+    padding-left:10px;
+    background:lighten($green, 20%);
+    color:$darker-color;
+    &.invalid { color:darken($red, 10%); }
+  }
+  .wait-spinner
+  {
+    display:none;
+    position:absolute;
+         top:146px;
+        left:554px;
+       width:56px;
+      height:56px;
+  }
+  .phonetic-id { font-size:26px; margin: { left:0px; bottom:10px; } }
+}
+
+//- - - - - - - - - - - - - - - - - - - - - - - - -
+
+.title
+{
+  @include non-code-font();
+  margin-left:0px;
+  font-size:56px;
+  color:$lighter-color;
+  text-align:left;
+  position:relative; top:-19px;
+}
+
+.sub-title
+{
+  @include non-code-font();
+  margin-left:0px;
+  font-size:30px;
+  margin-bottom:10px;
+  color:$lighter-color;
+  text-align:left;
+}
+
+.display-box
+{
+  @include centered();
+
+  .display-names   { width:300px; max-width:300px; height:320px; max-height:320px; }
+  .display-content { width:500px; max-width:500px; height:320px; max-height:320px; }
+  .display-names, .display-content
+  {
+    display:inline-block;
+    overflow-x:hidden;
+    overflow-y:auto;
+  }
+  .display-names
+  {
+    margin-right:5px;
+    padding: { top:6px; bottom:6px; }
+    position:relative; top:4px;
+  }
+  .display-name
+  {
+    @include wide-list-item();
+  }
+  .display-content
+  {
+    @include rounded-corner();
+    padding: { top:8px; left:8px; right:8px; bottom:0px; }
+    font-size:11px;
+    resize:none;
+  }
+}
+
+#choose-problem-page .help
+{
+  position: relative;
+  right: -310px;
+  top: -33px;
+}
+
+#choose-ltf-page .help
+{
+  position: relative;
+  right: -315px;
+  top: -33px;
+}

@@ -1,15 +1,14 @@
 require_relative '../id58_test_base'
 require_source 'app'
 require_source 'externals'
-require 'cgi'
+require 'cgi/escape'
 require 'json'
 require 'ostruct'
 
 class CreatorTestBase < Id58TestBase
+  include Rack::Test::Methods
 
-  include Rack::Test::Methods # [1]
-
-  def app # [1]
+  def app
     App.new(externals)
   end
 
@@ -19,44 +18,39 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - -
 
-  def assert_get_200_json(path, args={}, &block)
-    stdout,stderr = capture_io {
-      get path_with_args(path,args)
-    }
-    assert_equal 200, status, stderr+stdout
+  def assert_get_200_json(path, args = {}, &block)
+    stdout, stderr = capture_io do
+      get path_with_args(path, args)
+    end
+    assert_equal 200, status, stderr + stdout
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
-    assert_equal '', stdout, :sdout
+    assert_equal '', stdout, :stdout
     block.call(json_response)
   end
 
-  def assert_get_200_html(path, args={})
-    stdout,stderr = capture_io {
+  def assert_get_200_html(path, args = {})
+    stdout, stderr = capture_io do
       get path_with_args(path, args)
-    }
-    assert_equal 200, status, stderr+stdout
+    end
+    assert_equal 200, status, stderr + stdout
     assert html_content?, content_type
     assert_equal '', stderr, :stderr
-    assert_equal '', stdout, :sdout
+    assert_equal '', stdout, :stdout
   end
 
   def path_with_args(path, args)
-    route = '/' + path
-    unless args.empty?
-      route += '?' + args.map{|name,value|
-        "#{name.to_s}=#{CGI::escape(value)}"
-      }.join('&')
-    end
-    route
+    arg_pairs = args.map { |name, value| "#{name}=#{CGI.escape(value)}" }.join('&')
+    "/#{path}?#{arg_pairs}"
   end
 
   # - - - - - - - - - - - - - - - -
 
   def assert_post_200_json(path, args, &block)
-    stdout,stderr = capture_io {
-      json_post '/'+path, args
-    }
-    assert_equal 200, status, stderr+stdout
+    stdout, stderr = capture_io do
+      json_post "/#{path}", args
+    end
+    assert_equal 200, status, stderr + stdout
     assert json_content?, content_type
     assert_equal '', stderr, :stderr
     assert_equal '', stdout, :stdout
@@ -76,7 +70,7 @@ class CreatorTestBase < Id58TestBase
   JSON_REQUEST_HEADERS = {
     'CONTENT_TYPE' => 'application/json', # sent request
     'HTTP_ACCEPT' => 'application/json'   # received response
-  }
+  }.freeze
 
   private
 
@@ -99,7 +93,7 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - -
 
   def status?(expected)
-    status === expected
+    status == expected
   end
 
   def status
@@ -109,19 +103,19 @@ class CreatorTestBase < Id58TestBase
   # - - - - - - - - - - - - - - -
 
   def html_content?
-    content_type === 'text/html;charset=utf-8'
+    content_type == 'text/html;charset=utf-8'
   end
 
   def css_content?
-    content_type === 'text/css; charset=utf-8'
-  end
-
-  def json_content?
-    content_type === 'application/json'
+    content_type == 'text/css;charset=utf-8'
   end
 
   def js_content?
-    content_type === 'application/javascript'
+    content_type == 'text/javascript;charset=utf-8'
+  end
+
+  def json_content?
+    content_type == 'application/json'
   end
 
   def content_type
@@ -144,8 +138,6 @@ class CreatorTestBase < Id58TestBase
     saver.group_manifest(id)
   end
 
-  # - - - - - - - - - - - - - - -
-
   def kata_exists?(id)
     saver.kata_exists?(id)
   end
@@ -154,15 +146,10 @@ class CreatorTestBase < Id58TestBase
     saver.kata_manifest(id)
   end
 
-  def kata_event(id, index)
-    saver.kata_event(id, index)
-  end
-
   # - - - - - - - - - - - - - - -
 
   def display_name_div(display_name)
     name = Regexp.quote(escape_html(display_name))
-    /<div class="display-name"\s*data-name=".*"\s*data-index=".*">\s*#{name}\s*<\/div>/
+    %r{<div class="display-name"\s*data-name=".*"\s*data-index=".*">\s*#{name}\s*</div>}
   end
-
 end

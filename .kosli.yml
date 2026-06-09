@@ -1,0 +1,17 @@
+version: 1
+
+trail:
+  attestations:
+    - name: pull-request
+      type: pull_request
+  artifacts:
+    - name: creator
+      attestations:
+        - name: lint
+          type: generic
+        - name: unit-test
+          type: junit
+        - name: test-branch-coverage
+          type: generic
+        - name: snyk-container-scan
+          type: generic

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -Eeu
+
+repo_root() { git rev-parse --show-toplevel; }
+BIN_DIR="$(repo_root)/bin"
+source "${BIN_DIR}/containers_down.sh"
+source "${BIN_DIR}/containers_up_healthy_and_clean.sh"
+source "${BIN_DIR}/copy_in_saver_test_data.sh"
+source "${BIN_DIR}/echo_env_vars.sh"
+source "${BIN_DIR}/exit_zero_if_build_only.sh"
+source "${BIN_DIR}/exit_zero_if_show_help.sh"
+source "${BIN_DIR}/lib.sh"
+source "${BIN_DIR}/test_in_containers.sh"
+
+# shellcheck disable=SC2046
+export $(echo_env_vars)
+
+run_tests_with_coverage()
+{
+  set +e
+  exit_status=0
+
+  exit_zero_if_show_help "$@"
+  exit_non_zero_unless_installed docker jq
+
+  server_up_healthy_and_clean
+  client_up_healthy_and_clean "$@"
+  copy_in_saver_test_data
+  test_in_containers "$@" || exit_status=$?
+  containers_down
+  write_test_evidence_json "$@"
+  set -e
+
+  return ${exit_status}
+}

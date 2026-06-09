@@ -1,0 +1,204 @@
+
+image: registry.gitlab.com/cyber-dojo/ci-runner:v2.15.1
+
+workflow:
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /See merge request/ && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+stages:
+  - setup-stage
+  - pre-build-test-stage
+  - build-image-stage
+  - post-build-test-stage
+  - sdlc-control-gate-stage
+  - beta-approval-stage
+  - beta-deployment-stage
+  - dast
+  - post-dast
+
+include:
+- template: Security/DAST.gitlab-ci.yml
+
+variables:
+  # KOSLI_ORG: cyber-dojo                  # Org env-var
+  # KOSLI_HOST: https://app.kosli.com      # Org env-var
+  # KOSLI_API_TOKEN: ...                   # Org env-var (Masked)
+  # KOSLI_FLOW: creator-ci                 # Repo env-var
+  # KOSLI_TRAIL: $CI_COMMIT_SHA            # Repo env-var (Expanded)
+  # KOSLI_DEBUG: false                     # Org env-var
+  # KOSLI_DRY_RUN: false                   # Org env-var
+  DOCKER_HOST: tcp://docker:2376
+  DOCKER_TLS_CERTDIR: "/certs"
+  DOCKER_TLS_VERIFY: 1
+  DOCKER_CERT_PATH: "${DOCKER_TLS_CERTDIR}/client"
+
+
+default:
+  artifacts:
+    reports:
+      dotenv: kosli.env
+  before_script:
+    # See dev-readme.md : What is my branch?
+    - git checkout -b ${CI_COMMIT_BRANCH}
+    # Make dir for kosli auto-uploaded attachments
+    - echo "KOSLI_ATTACHMENTS=/tmp/kosli_attachments" >> kosli.env
+    - export $(cat kosli.env)
+    - mkdir -p "${KOSLI_ATTACHMENTS}"
+
+
+setup:
+  stage: setup-stage
+  script:
+    - echo "IMAGE_NAME=cyberdojo/${CI_PROJECT_NAME}:${CI_COMMIT_SHA:0:7}" >> kosli.env
+    - kosli create flow "${KOSLI_FLOW}"
+        --description="UX for Group/Kata creation"
+    - kosli tag flow "${KOSLI_FLOW}"
+        --set env=${KOSLI_AWS_BETA}
+        --set kind=build
+        --set ci=gitlab
+        --set repo_url=${CI_PROJECT_URL}
+    - kosli begin trail "${KOSLI_TRAIL}"
+        --template-file=.kosli.yml
+
+
+branch-rules:
+  stage: pre-build-test-stage
+  needs: [ setup ]
+  script:
+    - bash ./bin/get_branch_rules.sh
+    - kosli create attestation-type branch-protection 
+        --jq ".data.project.branchRules.nodes[] | select(.branchProtection) | .branchProtection.allowForcePush == false"
+    - kosli attest custom --type branch-protection 
+        --attestation-data=gitlab_branch_rules.json 
+        --name=branch-protection
+
+
+pull-request:
+  stage: pre-build-test-stage
+  needs: [ setup ]
+  script:
+    - kosli attest pullrequest gitlab 
+        --assert
+        --gitlab-token=${KOSLI_GITLAB_TOKEN} 
+        --name=pull-request
+
+
+lint:
+  stage: pre-build-test-stage
+  needs: [ setup ]
+  script:
+    - set +e
+    - rubocop --raise-cop-error . | tee "${KOSLI_ATTACHMENTS}"/rubocop.log
+    - STATUS=${PIPESTATUS[0]}
+    - set -e
+
+    - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
+    - cp .rubocop.yml ${KOSLI_ATTACHMENTS}
+    - kosli attest generic
+        --attachments="${KOSLI_ATTACHMENTS}"
+        --compliant="${KOSLI_COMPLIANT}"
+        --name=creator.lint
+
+    - exit ${STATUS}
+
+
+build-image:
+  stage: build-image-stage
+  needs: [ setup ]
+  services: [ docker:24.0.5-dind ]
+  script:
+    - make image
+    - echo "${DOCKER_PASSWORD}" | docker login --username "${DOCKER_USERNAME}" --password-stdin
+    - docker push ${IMAGE_NAME}
+    - export DOCKER_API_VERSION=1.43
+    - KOSLI_FINGERPRINT=$(kosli fingerprint ${IMAGE_NAME} --artifact-type=docker --debug=false)
+    - echo "KOSLI_FINGERPRINT=${KOSLI_FINGERPRINT}" >> kosli.env
+    - kosli attest artifact ${IMAGE_NAME}
+        --fingerprint=${KOSLI_FINGERPRINT}      
+        --name=creator
+
+
+unit-test:
+  stage: post-build-test-stage
+  needs: [ build-image, setup ]
+  services: [ docker:24.0.5-dind ]
+  script:
+    - set +e
+    - make run-tests
+    - STATUS=$?
+    - set -e
+
+    - kosli attest junit ${IMAGE_NAME}
+        --name=creator.unit-test
+        --results-dir=test/server/reports/junit
+
+    - KOSLI_COMPLIANT=$([ ${STATUS} = 0 ] && echo true || echo false)
+    - kosli attest generic
+        --attachments=./test/evidence.json
+        --attachments=./test/server/reports
+        --attachments=./test/client/reports
+        --compliant=${KOSLI_COMPLIANT}
+        --description="server & client branch-coverage"      
+        --name=creator.test-branch-coverage
+
+    - exit ${STATUS}
+
+
+sdlc-control-gate:
+  stage: sdlc-control-gate-stage
+  needs:
+    - setup
+    - build-image
+    - branch-rules
+    - pull-request
+    - lint
+    - unit-test
+  script:
+    - kosli get trail ${KOSLI_TRAIL}
+    - kosli assert artifact ${IMAGE_NAME}
+        --environment=${KOSLI_AWS_BETA}
+
+
+beta-deployment:
+  stage: beta-deployment-stage
+  needs: [ setup, build-image, sdlc-control-gate ]
+  services: [ docker:24.0.5-dind ]
+  artifacts:
+    paths: [ kosli/ ]
+  variables:
+    AWS_ACCESS_KEY_ID:     ${AWS_ACCESS_KEY_ID_BETA}
+    AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY_BETA}
+  script:
+    - docker pull ${IMAGE_NAME}
+    - export ECR_REPO=244531986313.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${CI_PROJECT_NAME}
+    - export TF_VAR_TAGGED_IMAGE=${ECR_REPO}:${CI_COMMIT_SHA:0:7}
+    - docker tag ${IMAGE_NAME} ${TF_VAR_TAGGED_IMAGE}
+    - aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_REPO}
+    - docker push ${TF_VAR_TAGGED_IMAGE}
+    - export TF_VAR_TAGGED_IMAGE=${ECR_REPO}:${CI_COMMIT_SHA:0:7}@sha256:${KOSLI_FINGERPRINT}
+    - cd deployment/terraform && tf.sh apply
+
+
+dast: # Dynamic Application Security Testing on the beta environment
+  stage: dast
+  needs: [ beta-deployment, setup ]
+  variables:
+    DAST_CRAWL_GRAPH: "true"
+  dast_configuration:
+    site_profile: "Beta-site-testing"
+    scanner_profile: "beta creator home profile"
+  before_script: []
+
+
+process-dast-report:
+  stage: post-dast
+  needs: [ dast, setup ]
+  dependencies:
+    - dast
+  script:
+    - echo "Processing DAST report..."
+    - kosli create attestation-type dast-report --jq '[.vulnerabilities[] | select(.severity == "High")] | length == 0' --schema=./bin/dast-schema.json
+    - kosli attest custom --type dast-report 
+        --attestation-data=gl-dast-report.json 
+        --name=dast-report
+    - cat gl-dast-report.json
