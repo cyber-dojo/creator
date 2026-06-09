@@ -4,7 +4,6 @@ LABEL maintainer=jon@jaggersoft.com
 ARG NGINX_DIR=/usr/share/nginx/html
 
 COPY images ${NGINX_DIR}/images
-COPY js     ${NGINX_DIR}/js
 
 RUN chmod -R +r ${NGINX_DIR}
 
