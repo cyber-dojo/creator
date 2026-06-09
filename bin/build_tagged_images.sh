@@ -28,7 +28,7 @@ build_tagged_images()
 build_images()
 {
   docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)" \
-    creator client nginx
+    creator client nginx_stub
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - -

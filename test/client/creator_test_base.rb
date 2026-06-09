@@ -14,7 +14,7 @@ class CreatorTestBase < Id58TestBase
   end
 
   def setup
-    Capybara.app_host = 'http://nginx:80'
+    Capybara.app_host = 'http://nginx_stub:80'
     Capybara.javascript_driver = :selenium
     Capybara.current_driver    = :selenium
     Capybara.run_server = false
