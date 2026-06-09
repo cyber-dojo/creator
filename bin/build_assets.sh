@@ -18,7 +18,6 @@ readonly url="http://localhost:${CYBER_DOJO_ASSET_BUILDER_PORT}"
 
 # Inside a CI run, you cannot always do a 'curl http://localhost:....'
 # so curl from inside the asset_builder container instead.
-# See https://stackoverflow.com/questions/78908814/gitlab-ci-fails-with-failed-to-connect-to-localhost
 
 docker exec asset_builder curl "${url}/assets/app.css" \
   > "${assets_dir}/stylesheets/pre-built-app.css"
