@@ -1,3 +1,5 @@
+This repo has been moved to [Gitlab](https://gitlab.com/cyber-dojo/creator)  
+[![Github Action (main)](https://github.com/cyber-dojo/creator/actions/workflows/main.yml/badge.svg)](https://github.com/cyber-dojo/creator/actions)
 
 - A [docker-containerized](https://registry.hub.docker.com/r/cyberdojo/creator) micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
 - The UI to configure and create (or re-enter) a group-exercise or an individual-exercise.
