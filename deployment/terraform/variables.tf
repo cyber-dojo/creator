@@ -31,6 +31,12 @@ variable "TAGGED_IMAGE" {
   type = string
 }
 
+variable "container_restart_policy_enabled" {
+  description = "Whether to enable restart policy for the container."
+  type        = bool
+  default     = true
+}
+
 # App variables
 variable "app_env_vars" {
   type = map(any)
