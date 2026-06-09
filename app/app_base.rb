@@ -65,7 +65,7 @@ class AppBase < Sinatra::Base
   end
 
   def json_payload
-    request.body.rewind  # Already been read in sinatra 4.0.0 !
+    request.body.rewind # Already been read in sinatra 4.0.0 !
     json_hash_parse(request.body.read)
   end
 
@@ -79,7 +79,7 @@ class AppBase < Sinatra::Base
       exception: {
         request: {
           path: request.path,
-          body: request.body ? request.body.read : nil
+          body: request.body&.read
         },
         backtrace: error.backtrace
       }

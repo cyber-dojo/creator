@@ -126,8 +126,7 @@ class App < AppBase
       wants.html do
         @group_id = params['id']
         @avatars = saver.group_joined(@group_id)
-                        .map { |group_index, v| [group_index.to_i, v['id']] }
-                        .to_h
+                        .to_h { |group_index, v| [group_index.to_i, v['id']] }
         erb :reenter
       end
     end
@@ -164,7 +163,7 @@ class App < AppBase
 
   def data_source=(start_points)
     manifests = start_points.manifests
-    @display_names = manifests.keys.sort_by { |name| name.downcase }
+    @display_names = manifests.keys.sort_by(&:downcase)
     @display_contents = []
     @display_names.each do |name|
       visible_files = manifests[name]['visible_files']

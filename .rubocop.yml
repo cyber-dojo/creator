@@ -1,7 +1,8 @@
 
 AllCops:
+  NewCops: enable
   Exclude:
-    - test/id58_test_base.rb
+    - test/**/*
 
 Lint/PercentStringArray:
   Enabled: false
@@ -9,24 +10,24 @@ Lint/PercentStringArray:
 Style/Documentation:
   Enabled: false
 
-Style/ClassAndModuleChildren:
+# ENV['X'] is used deliberately for its nil-on-missing semantics (eg
+# scoped_env_var_helper.rb reads and later restores ENV[name]); ENV.fetch
+# would raise instead. So this cop does not fit this codebase.
+Style/FetchEnvVar:
+  Enabled: false
+
+# Strings are frozen globally at runtime via RUBYOPT=--enable-frozen-string-literal
+# (see app/config/up.sh, client/app/config/up.sh) so the per-file magic comment
+# is redundant. Mirrors the sibling repos (eg ../differ).
+Style/FrozenStringLiteralComment:
   Exclude:
-    - test/simplecov_json.rb
+    - app/**/*
+    - client/**/*
 
 Style/EmptyElse:
   Exclude:
     - app/id_typer.rb
 
-Metrics/MethodLength:
-  Exclude:
-    - test/simplecov_json.rb
-
-Metrics/AbcSize:
-  Exclude:
-    - test/simplecov_json.rb
-
 Metrics/ClassLength:
   Exclude:
     - app/app.rb
-    - test/server/creator_test_base.rb
-    - test/server/route_probes_test.rb
