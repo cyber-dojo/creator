@@ -3,8 +3,6 @@
 server_up_healthy_and_clean()
 {
   export SERVICE_NAME=creator
-  export CONTAINER_NAME="${CYBER_DOJO_CREATOR_SERVER_CONTAINER_NAME}"
-  export CONTAINER_PORT="${CYBER_DOJO_CREATOR_PORT}"
   docker compose up --detach "${SERVICE_NAME}"
   exit_non_zero_unless_healthy
 }
@@ -14,8 +12,6 @@ client_up_healthy_and_clean()
 {
   if [ "${1:-}" != 'server' ]; then
     export SERVICE_NAME=client
-    export CONTAINER_NAME="${CYBER_DOJO_CREATOR_CLIENT_CONTAINER_NAME}"
-    export CONTAINER_PORT="${CYBER_DOJO_CREATOR_CLIENT_PORT}"
     docker compose up --detach nginx_stub
     exit_non_zero_unless_healthy
   fi
@@ -46,11 +42,16 @@ exit_non_zero_unless_healthy()
 # - - - - - - - - - - - - - - - - - - -
 healthy()
 {
-  docker ps --filter health=healthy --format '{{.Names}}' | grep -q "${CONTAINER_NAME}"
+  # Containers are no longer given fixed names (so concurrent demos/tests in
+  # sibling repos do not collide), so resolve the service's container id by
+  # its compose project+service label - see service_container in lib.sh.
+  local -r cid="$(service_container "${SERVICE_NAME}")"
+  [ -n "${cid}" ] && \
+    docker ps --filter health=healthy --format '{{.ID}}' | grep -q "${cid}"
 }
 
 # - - - - - - - - - - - - - - - - - - -
 echo_docker_log()
 {
-  docker logs "${CONTAINER_NAME}" 2>&1
+  docker logs "$(service_container "${SERVICE_NAME}")" 2>&1
 }

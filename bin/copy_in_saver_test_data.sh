@@ -2,7 +2,7 @@
 copy_in_saver_test_data()
 {
   local -r SRC_PATH=$(repo_root)/test/data
-  local -r SAVER_CID=$(docker ps --filter status=running --format '{{.Names}}' | grep "saver")
+  local -r SAVER_CID="$(service_container saver)"
   local -r DEST_PATH=/cyber-dojo
 
   # You cannot docker cp to a tmpfs, so tar-piping instead...

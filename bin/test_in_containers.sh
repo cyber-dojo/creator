@@ -25,7 +25,7 @@ run_client_tests()
 {
   run_tests \
     "${CYBER_DOJO_CREATOR_CLIENT_USER}" \
-    "${CYBER_DOJO_CREATOR_CLIENT_CONTAINER_NAME}" \
+    client \
     client "${@:-}";
 }
 
@@ -34,16 +34,21 @@ run_server_tests()
 {
   run_tests \
     "${CYBER_DOJO_CREATOR_SERVER_USER}" \
-    "${CYBER_DOJO_CREATOR_SERVER_CONTAINER_NAME}" \
+    creator \
     server "${@:-}";
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_tests()
 {
-  local -r USER="${1}"           # eg nobody
-  local -r CONTAINER_NAME="${2}" # eg test_creator_server
-  local -r TYPE="${3}"           # eg server
+  local -r USER="${1}"    # eg nobody
+  local -r SERVICE="${2}" # compose service, eg creator
+  local -r TYPE="${3}"    # eg server
+
+  # Containers are no longer given fixed names (so concurrent demos/tests in
+  # sibling repos do not collide), so resolve the service's container id by
+  # its compose project+service label - see service_container in lib.sh.
+  local -r CONTAINER_NAME="$(service_container "${SERVICE}")"
 
   echo '=================================='
   echo "Running ${TYPE} tests"
