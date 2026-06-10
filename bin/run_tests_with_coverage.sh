@@ -23,11 +23,26 @@ run_tests_with_coverage()
   exit_zero_if_show_help "$@"
   exit_non_zero_unless_installed docker jq
 
+  # Clear any containers a previous (failed) run left up for inspection, so
+  # this run starts from a clean slate.
+  containers_down
+
   server_up_healthy_and_clean
   client_up_healthy_and_clean "$@"
   copy_in_saver_test_data
   test_in_containers "$@" || exit_status=$?
-  containers_down
+  if [ "${exit_status}" -eq 0 ]; then
+    containers_down
+  else
+    # Leave the containers (and their volumes) up so their logs survive for
+    # diagnosing the failure - tearing them down here would discard exactly
+    # the evidence you need. The next test run clears them at its start.
+    echo
+    echo "Tests failed - leaving containers up so you can inspect them:"
+    echo "  docker compose logs            # all services"
+    echo "  docker compose logs creator    # just the server"
+    echo "  docker compose down --remove-orphans --volumes   # when done"
+  fi
   write_test_evidence_json "$@"
   set -e
 

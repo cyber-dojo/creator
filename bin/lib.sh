@@ -39,6 +39,20 @@ repo_root()
   git rev-parse --show-toplevel
 }
 
+service_container()
+{
+  # Echo the container id of the given docker-compose service within this
+  # repo's project. The project is COMPOSE_PROJECT_NAME (set by bin/demo.sh),
+  # defaulting to creator so the saver/test helpers also work against a plain
+  # test run, where Compose derives the same project name from the repo
+  # directory.
+  local -r service="${1}"
+  docker ps \
+    --filter "label=com.docker.compose.project=${COMPOSE_PROJECT_NAME:-creator}" \
+    --filter "label=com.docker.compose.service=${service}" \
+    --format '{{.ID}}'
+}
+
 git_commit_sha()
 {
   cd "$(repo_root)" && git rev-parse HEAD

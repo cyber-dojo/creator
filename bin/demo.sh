@@ -22,6 +22,15 @@ export DOCKER_DEFAULT_PLATFORM=linux/amd64
 # shellcheck disable=SC2046
 export $(echo_env_vars)
 
+# Each demo runs as its own docker-compose project so this repo's demo can
+# run alongside a sibling repo's demo (eg web) without their networks,
+# container names or host ports colliding. The backend services are no
+# longer published to the host (they talk over the project's private
+# network); only nginx is, on an overridable host port, eg:
+#   CYBER_DOJO_NGINX_HOST_PORT=81 bin/demo.sh
+# (creator is the one exception - api_demo below curls it directly on
+# CYBER_DOJO_CREATOR_PORT to bypass nginx's /creator/ rate-limit.)
+export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-creator}"
 export CYBER_DOJO_NGINX_HOST_PORT="${CYBER_DOJO_NGINX_HOST_PORT:-80}"
 
 compose()
