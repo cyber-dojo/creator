@@ -6,11 +6,18 @@ $(() => {
 
   $('button.next').click(() => {
     const name = encodeURIComponent(cd.selectedDisplayName);
-    cd.goto(`/creator/choose_ltf?exercise_name=${name}`);
+    cd.goto(`/creator/choose_ltf?${cd.urlParams()}&exercise_name=${name}`);
   });
 
-  $('button.skip').click(() => cd.goto('/creator/choose_ltf?exercise_name='));
-  $('button.switch').click(() => cd.goto('/creator/choose_custom_problem'));
+  // Only a 'single' practice (type=kata) may skip choosing an exercise;
+  // a 'classroom' practice (type=group) must choose one.
+  if (cd.urlParam('type') === 'kata') {
+    $('button.skip').click(() => cd.goto(`/creator/choose_ltf?${cd.urlParams()}&exercise_name=`));
+  } else {
+    $('button.skip').hide();
+  }
+
+  $('button.switch').click(() => cd.goto(`/creator/choose_custom_problem?${cd.urlParams()}`));
 
 });
 </script>
