@@ -6,7 +6,10 @@ $(() => {
 
   $('button.next').click(() => {
     const name = encodeURIComponent(cd.selectedDisplayName);
-    cd.goto(`/creator/choose_type?${cd.urlParams()}&language_name=${name}`);
+    const params = `${cd.urlParams()}&language_name=${name}`;
+    $.post('/creator/create.json', cd.toJSON(params), (response) => {
+      cd.goto(response.route);
+    });
   });
 
 });

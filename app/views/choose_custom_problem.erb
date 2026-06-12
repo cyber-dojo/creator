@@ -6,7 +6,10 @@ $(() => {
 
   $('button.next').click(() => {
     const name = encodeURIComponent(cd.selectedDisplayName);
-    cd.goto(`/creator/choose_type?display_name=${name}`);
+    const params = `${cd.urlParams()}&display_name=${name}`;
+    $.post('/creator/create.json', cd.toJSON(params), (response) => {
+      cd.goto(response.route);
+    });
   });
 
   $('button.switch').click(() => cd.goto(`/creator/choose_problem?${cd.urlParams()}`));

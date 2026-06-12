@@ -3,20 +3,10 @@
 $(() => {
 
   cd.setupHomeIcon();
-  
-  const setTypeButtonHandler = (name, type) => {
-	  $(`button.${name}`).click(() => {
-	    const params = cd.urlParams() + `&type=${type}`;
-	    $.post('/creator/create.json', cd.toJSON(params), (response) => {
-	      cd.goto(response.route);
-	    });
-	  });
-  };
-  
-  setTypeButtonHandler('solo', 'kata');
-  setTypeButtonHandler('ensemble', 'kata');
-  setTypeButtonHandler('classroom', 'group');
- 
+
+  $('button.kata' ).click(() => cd.goto('/creator/choose_problem?type=kata'));
+  $('button.group').click(() => cd.goto('/creator/choose_problem?type=group'));
+
 });
 </script>
 
@@ -24,21 +14,24 @@ $(() => {
   <div class="edged-panel">
     <div class="title">create a new practice</div>
     <div class="sub-title">choose your practice type</div>
-	  
-	<table>
-		<tr>
-			<td><button type="button" class="large ensemble">ensemble</button></td>
-			<td>We'll practice together, all taking turns on the <em>same</em> files</td>
-		</tr>
-		<tr>
-			<td><button type="button" class="large classroom">classroom</button></td>
-			<td>We'll practice separately, each using our <em>own</em> files</td>
-		</tr>
-		<tr>
-			<td><button type="button" class="large solo">solo</button></td>
-			<td>I'm working on my own</td>
-		</tr>
-	</table>
-			
+
+    <button class="group" type="button">
+      <span class="fork-option-name">classroom</span>
+      <ul>
+        <li>multiple avatars (eg, lion, salmon, tuna)</li>
+        <li>dashboard showing all avatars</li>
+        <li>each avatar has own source files</li>
+      </ul>
+    </button>
+    <button class="kata" type="button">
+      <span class="fork-option-name">single</span>
+      <ul>
+        <li>no avatar</li>
+        <li>no dashboard</li>
+        <li>one set of source files</li>
+      </ul>
+      <span class="fork-option-note">If you want an ensemble/mob style practice, choose this and take turns.</span>
+    </button>
+
   </div>
 </div>
