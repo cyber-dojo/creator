@@ -2,15 +2,12 @@ require_relative 'creator_test_base'
 require_source 'json_hash_parse_helper'
 
 class JsonHashParseTest < CreatorTestBase
-  def self.id58_prefix
-    :k3S
-  end
 
   include JsonHashParseHelper
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest u70: %w[
+  qtest k3Su70: %w[
     |json_hash_parse
     |returns {}
     |when body is ''
@@ -22,7 +19,7 @@ class JsonHashParseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest u71: %w[
+  qtest k3Su71: %w[
     |json_hash_parse
     |returns hash
     |when body is a hash
@@ -34,7 +31,7 @@ class JsonHashParseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest u72: %w[
+  qtest k3Su72: %w[
     |json_hash_parse
     |raises RuntimeError
     |when body is not a hash
@@ -47,7 +44,7 @@ class JsonHashParseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest u73: %w[
+  qtest k3Su73: %w[
     |json_hash_parse
     |raises RuntimeError
     |when body is not JSON

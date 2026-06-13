@@ -2,15 +2,12 @@ require_relative 'creator_test_base'
 require 'ostruct'
 
 class RouteProbesTest < CreatorTestBase
-  def self.id58_prefix
-    :a86
-  end
 
   # - - - - - - - - - - - - - - - - -
   # 200
   # - - - - - - - - - - - - - - - - -
 
-  qtest C15: %w[
+  qtest a86C15: %w[
     |GET/alive?
     |has status 200
     |returns true
@@ -24,7 +21,7 @@ class RouteProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest D15: %w[
+  qtest a86D15: %w[
     |when all http-proxy are ready
     |GET/ready?
     |has status 200
@@ -39,7 +36,7 @@ class RouteProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest E15: %w[
+  qtest a86E15: %w[
     |when custom_start_points http-proxy is not ready
     |GET/ready?
     |has status 200
@@ -53,7 +50,7 @@ class RouteProbesTest < CreatorTestBase
     end
   end
 
-  qtest E16: %w[
+  qtest a86E16: %w[
     |when exercises_start_points http-proxy is not ready
     |GET/ready?
     |has status 200
@@ -67,7 +64,7 @@ class RouteProbesTest < CreatorTestBase
     end
   end
 
-  qtest E17: %w[
+  qtest a86E17: %w[
     |when languages_start_points http-proxy is not ready
     |GET/ready?
     |has status 200
@@ -81,7 +78,7 @@ class RouteProbesTest < CreatorTestBase
     end
   end
 
-  qtest E19: %w[
+  qtest a86E19: %w[
     |when runner http-proxy is not ready
     |GET/ready?
     |has status 200
@@ -97,7 +94,7 @@ class RouteProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest F15: %w[
+  qtest a86F15: %w[
     |when saver http-proxy is not ready
     |GET/ready?
     |has status 200
@@ -113,7 +110,7 @@ class RouteProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest F16: %w[
+  qtest a86F16: %w[
     |GET/alive?
     |is used by external k8s probes
     |so obeys Postel's Law
@@ -127,7 +124,7 @@ class RouteProbesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest F17: %w[
+  qtest a86F17: %w[
     |GET/ready?
     |is used by external k8s probes
     |so obeys Postel's Law

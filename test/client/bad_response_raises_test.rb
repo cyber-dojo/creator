@@ -2,13 +2,10 @@ require_relative 'creator_test_base'
 require 'ostruct'
 
 class BadResponseRaisesTest < CreatorTestBase
-  def self.id58_prefix
-    :f2G
-  end
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest a34:
+  qtest f2Ga34:
   %w[http body not JSON raises] do
     creator_http_stub('{42:"sd"}')
     error = assert_raises(HttpJsonHash::ServiceError) { externals.creator.ready? }
@@ -18,7 +15,7 @@ class BadResponseRaisesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest b34:
+  qtest f2Gb34:
   %w[http body not JSON Hash raises] do
     creator_http_stub('42')
     error = assert_raises(HttpJsonHash::ServiceError) { externals.creator.ready? }
@@ -28,7 +25,7 @@ class BadResponseRaisesTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest c34:
+  qtest f2Gc34:
   %w[http body JSON without key for method name raises] do
     creator_http_stub('{}')
     error = assert_raises(HttpJsonHash::ServiceError) { externals.creator.ready? }

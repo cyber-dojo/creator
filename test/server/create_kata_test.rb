@@ -2,9 +2,6 @@ require_relative 'creator_test_base'
 require 'json'
 
 class CreateKataTest < CreatorTestBase
-  def self.id58_prefix
-    :p43
-  end
 
   def id58_setup
     @display_name = custom_start_points.names.sample
@@ -16,7 +13,7 @@ class CreateKataTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w9A: %w(
+  qtest p43w9A: %w(
     |POST /create.json
     |with [type=single,language_name,exercise_name] URL params
     |generates json route /creator/enter?id=ID
@@ -33,7 +30,7 @@ class CreateKataTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w9B: %w(
+  qtest p43w9B: %w(
     |POST /create.json
     |with [type=single,language_name] URL params
     |and empty exercise_name (skipped)
@@ -52,7 +49,7 @@ class CreateKataTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w9C: %w(
+  qtest p43w9C: %w(
     |POST /create.json
     |with [type=single,display_name] URL params
     |generates json route /creator/enter?id=ID

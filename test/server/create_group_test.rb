@@ -2,9 +2,6 @@ require_relative 'creator_test_base'
 require 'json'
 
 class CreateGroupTest < CreatorTestBase
-  def self.id58_prefix
-    :p42
-  end
 
   def id58_setup
     @display_name = custom_start_points.names.sample
@@ -16,7 +13,7 @@ class CreateGroupTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w9A: %w(
+  qtest p42w9A: %w(
     |POST /create.json
     |with [type=group,exercise_name,language_name] URL params
     |generates json route /creator/enter?id=ID
@@ -33,7 +30,7 @@ class CreateGroupTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w9B: %w(
+  qtest p42w9B: %w(
     |POST /create.json
     |with [type=group,language_name] URL params
     |and empty exercise_name (skipped)
@@ -52,7 +49,7 @@ class CreateGroupTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w9C: %w(
+  qtest p42w9C: %w(
     |POST /create.json
     |with [type=group,display_name] URL params
     |generates json route /creator/enter?id=ID

@@ -2,13 +2,10 @@ require_relative 'creator_test_base'
 require 'digest'
 
 class AssetsTest < CreatorTestBase
-  def self.id58_prefix
-    'Q3p'
-  end
 
   # - - - - - - - - - - - - - - - - -
 
-  test '2Je', %w[
+  test 'Q3p2Je', %w[
     |GET /assets/app.css is served
   ] do
     get '/assets/app.css'
@@ -18,7 +15,7 @@ class AssetsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '3Je', %w[
+  test 'Q3p3Je', %w[
     |GET /assets/app.js is served
   ] do
     get '/assets/app.js'
@@ -28,7 +25,7 @@ class AssetsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '4Je', %w[
+  test 'Q3p4Je', %w[
     |GET /assets/app.css is served with a long-lived immutable
     |Cache-Control header, so browsers do not re-pull it through
     |nginx's rate-limited /creator/ zone on every page navigation
@@ -41,7 +38,7 @@ class AssetsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '5Je', %w[
+  test 'Q3p5Je', %w[
     |GET /assets/app.js is served with a long-lived immutable
     |Cache-Control header, for the same reason as 4Je
   ] do
@@ -53,7 +50,7 @@ class AssetsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  test '6Je', %w[
+  test 'Q3p6Je', %w[
     |the layout references each asset with a ?v=<content-hash>
     |token, so any change to an asset's content yields a new URL
     |that safely busts the immutable browser cache on the next deploy

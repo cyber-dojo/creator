@@ -1,13 +1,10 @@
 require_relative 'creator_test_base'
 
 class RouteEnterTest < CreatorTestBase
-  def self.id58_prefix
-    :d4P
-  end
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest j3K: %w[
+  qtest d4Pj3K: %w[
     |POST /enter.json
     |for a version=2 group
     |has status 200
@@ -34,7 +31,7 @@ class RouteEnterTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest x24: %w[
+  qtest d4Px24: %w[
     |POST /enter.json
     |for a version=2 group
     |has status 200

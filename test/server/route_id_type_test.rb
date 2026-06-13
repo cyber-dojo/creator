@@ -1,13 +1,10 @@
 require_relative 'creator_test_base'
 
 class RouteIdTypeTest < CreatorTestBase
-  def self.id58_prefix
-    :qed
-  end
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest x23: %w[
+  qtest qedx23: %w[
     |GET /id_type
     |has status 200
     |returns 'group'
@@ -23,7 +20,7 @@ class RouteIdTypeTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest x24: %w[
+  qtest qedx24: %w[
     |GET /id_type
     |has status 200
     |returns 'single'
@@ -39,7 +36,7 @@ class RouteIdTypeTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest x25: %w[
+  qtest qedx25: %w[
     |GET /id_type
     |has status 200
     |returns nil

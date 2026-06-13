@@ -2,15 +2,12 @@ require_relative 'creator_test_base'
 require_source 'selected_helper'
 
 class LargestTest < CreatorTestBase
-  def self.id58_prefix
-    '5FF'
-  end
 
   include SelectedHelper
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '841', %w[
+  test '5FF841', %w[
     select readme.txt content when readme.txt present
     even if not largest content
   ] do
@@ -24,7 +21,7 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '842', %w[
+  test '5FF842', %w[
     selected filename when a single visible_file
   ] do
     expected = 'instructions'
@@ -36,7 +33,7 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '843', %w[
+  test '5FF843', %w[
     select filename containing the word 'test'
   ] do
     expected = 'hiker.test.js' # javascript-jest
@@ -49,7 +46,7 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '844', %w[
+  test '5FF844', %w[
     select filename containing the word 'spec'
   ] do
     expected = 'hiker-spec.js' # javascript-jasmine
@@ -62,7 +59,7 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '845', %w[
+  test '5FF845', %w[
     select filename containing the word 'feature'
   ] do
     expected = 'hiker.feature' # javascript-cucumber
@@ -75,7 +72,7 @@ class LargestTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  test '943', %w[
+  test '5FF943', %w[
     select filename with the largest content
     when more than one file and none are called readme.txt
   ] do
