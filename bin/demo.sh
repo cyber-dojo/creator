@@ -62,7 +62,6 @@ api_demo()
   curl_200 choose_problem 'Content-Type: text/html'
   curl_200 choose_custom_problem 'Content-Type: text/html'
   curl_200 choose_ltf?exercise_name=Fizz%20Buzz 'Content-Type: text/html'
-  curl_200 choose_type?exercise_name=Fizz%20Buzz\&language_name=Bash%2C%20bats 'Content-Type: text/html'
   echo
   curl_200 enter    'Content-Type: text/html'
   curl_200 avatar?id=5rTJv5   'Content-Type: text/html'

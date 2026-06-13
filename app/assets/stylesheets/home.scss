@@ -17,6 +17,10 @@
   {
     padding: { top:5px; bottom:5px; }
     height:160px;
+    // Centre the logo + tagline as a group within the now-wider panel,
+    // while keeping their internal left-aligned layout untouched.
+    text-align:center;
+    .lockup { display:inline-block; text-align:left; }
     .logo
     {
       img
@@ -55,12 +59,25 @@
 
   //------------------------------------------
 
-  .heading, .buttons, .questions { width:625px; }
+  // One shared width across the whole page so the three-button row
+  // (which needs the extra width) lines up with the other panels.
+  .heading, .buttons, .questions { width:860px; }
 
   .buttons
   {
-    padding-top:10px;
-    button.create, button.enter { width:425px; }
+    // Match (slightly exceed) the 20px bottom padding so the row is not
+    // top-heavy; the bare padding-top here overrides the panel's 20px top.
+    padding-top:24px;
+    display:flex;
+    gap:10px;
+    align-items:stretch;
+    button.kata, button.group, button.enter
+    {
+      flex:1;
+      width:auto;
+      margin:0;
+      .fork-option-name { white-space:nowrap; }
+    }
   }
 
   .questions
@@ -100,7 +117,7 @@
   .divider
   {
     margin: { top:5px; bottom:9px; }
-    width:625px;
+    width:860px;
     border-bottom: 1px dashed lighten($darker-color, 15%);
   }
 }

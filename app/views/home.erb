@@ -2,22 +2,25 @@
 'use strict';
 $(() => {
 
-  $('button.create').click(() => cd.goto('/creator/choose_type'));
-  $('button.enter' ).click(() => cd.goto('/creator/enter'));
+  $('button.kata' ).click(() => cd.goto('/creator/choose_problem?type=kata'));
+  $('button.group').click(() => cd.goto('/creator/choose_problem?type=group'));
+  $('button.enter').click(() => cd.goto('/creator/enter'));
 
 });
 </script>
 
 <div id="home-page">
   <div class="edged-panel heading">
-    <table class="logo">
-      <tr>
-        <td><img src="/images/cyber-dojo.png"></td>
-        <td class="cyber-dojo">cyber&#8209;dojo</td>
-      </tr>
-    </table>
-    <div class="a-place-to-practise-programming">
-      a&nbsp;place&nbsp;to&nbsp;<a href="https://blog.cyber-dojo.org/2015/05/do-more-deliberate-practice.html" target="_blank">practice</a>&nbsp;programming
+    <div class="lockup">
+      <table class="logo">
+        <tr>
+          <td><img src="/images/cyber-dojo.png"></td>
+          <td class="cyber-dojo">cyber&#8209;dojo</td>
+        </tr>
+      </table>
+      <div class="a-place-to-practise-programming">
+        a&nbsp;place&nbsp;to&nbsp;<a href="https://blog.cyber-dojo.org/2015/05/do-more-deliberate-practice.html" target="_blank">practice</a>&nbsp;programming
+      </div>
     </div>
   </div>
 
@@ -37,8 +40,30 @@ $(() => {
   <% end %>
 
   <div class="edged-panel buttons">
-    <button type="button" class="large create">create a new practice</button>
-    <button type="button" class="medium enter">enter an existing practice</button>
+    <button class="kata" type="button">
+      <span class="fork-option-name">Practise solo</span>
+      <span class="fork-option-note">Just you, your code and tests.</span>
+      <ul>
+        <li>No avatar</li>
+        <li>No dashboard</li>
+      </ul>
+    </button>
+    <button class="group" type="button">
+      <span class="fork-option-name">Practise as a group</span>
+      <span class="fork-option-note">A class or team practising together.</span>
+      <ul>
+        <li>Everyone gets an avatar</li>
+        <li>One shared dashboard</li>
+      </ul>
+    </button>
+    <button class="enter" type="button">
+      <span class="fork-option-name">Enter existing</span>
+      <span class="fork-option-note">Have a six-digit id?</span>
+      <ul>
+        <li>Join a group practice</li>
+        <li>Drop back in where you left off</li>
+      </ul>
+    </button>
   </div>
 
   <div class="edged-panel questions">
