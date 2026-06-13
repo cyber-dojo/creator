@@ -97,8 +97,7 @@ jobs:
         run: |
           set +e
           mkdir -p reports/rubocop
-          docker run --rm --volume "${PWD}:/app" cyberdojo/rubocop --raise-cop-error . \
-            | tee reports/rubocop/rubocop.log
+          make rubocop-lint | tee reports/rubocop/rubocop.log
           echo "LINT_STATUS=${PIPESTATUS[0]}" >> "${GITHUB_ENV}"
           set -e
 
@@ -169,7 +168,7 @@ jobs:
         # The build-image job pushed/saved the image as <ecr>/creator:<tag>.
         # docker-compose looks it up under ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
         # (cyberdojo/creator:<tag>, from cyberdojo/versioner). Retag the downloaded
-        # image to that name so 'make run-tests' uses the built artifact and does NOT
+        # image to that name so 'make test' uses the built artifact and does NOT
         # rebuild it from source.
         run: |
           source bin/echo_env_vars.sh
@@ -182,7 +181,7 @@ jobs:
       - name: Run server and client tests with branch coverage
         run: |
           set +e
-          make run-tests
+          make test
           echo "TEST_STATUS=$?" >> "${GITHUB_ENV}"
           set -e
 

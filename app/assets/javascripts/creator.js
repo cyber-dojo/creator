@@ -17,7 +17,7 @@ cd.setupDisplayNamesClickHandlers = () => {
     const content = $(`#contents_${index}`).val();
     $displayContent.val(content);
   });
-  $displayNames.random().click().scrollIntoView();
+  $displayNames.random().click()[0].scrollIntoView(); // scrollIntoView is a DOM method, not jQuery
 };
 
 cd.urlParams = () => {
