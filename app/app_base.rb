@@ -14,7 +14,7 @@ class AppBase < Sinatra::Base
   # change whenever its content does, which lets us cache it immutably for a
   # year. Browsers then serve it from cache instead of re-pulling it on every
   # page navigation (which previously tripped nginx's 429 rate-limit).
-  ASSET_CACHE_CONTROL = 'public, max-age=31536000, immutable'
+  ASSET_CACHE_CONTROL = 'public, max-age=31536000, immutable'.freeze
 
   def initialize(externals)
     @externals = externals
