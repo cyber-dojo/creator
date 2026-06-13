@@ -55,14 +55,6 @@ class App < AppBase
     end
   end
 
-  get '/choose_type', provides: [:html] do
-    respond_to do |wants|
-      wants.html do
-        erb :choose_type
-      end
-    end
-  end
-
   post '/create.json', provides: [:json] do
     respond_to do |wants|
       args = json_args

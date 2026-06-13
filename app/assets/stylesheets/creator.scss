@@ -6,12 +6,11 @@
 
 //- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-#home-page                  .edged-panel { width:625px; }
+#home-page                  .edged-panel { width:860px; }
 
 #choose-problem-page        .edged-panel { width:835px; }
 #choose-custom-problem-page .edged-panel { width:835px; }
 #choose-ltf-page            .edged-panel { width:835px; }
-#choose-type-page           .edged-panel { width:835px; }
 
 #enter-page                 .edged-panel { width:835px; }
 #avatar-page                .edged-panel { width:316px; }
@@ -111,13 +110,13 @@
   }
 }
 
-#choose-type-page button.kata, #choose-type-page button.group
+#home-page button.kata, #home-page button.group, #home-page button.enter
 {
   display: block;
   margin-top: 10px;
   margin-left: auto;
   margin-right: auto;
-  padding: 10px 12px;
+  padding: 10px 12px 10px 18px;
   @include non-code-font();
   width: 288px;
   text-align: left;
@@ -138,6 +137,7 @@
     font-weight: normal;
     list-style: disc;
     @include plaintext-font();
+    li { margin: { top:6px; bottom:6px; } }
   }
 
   .fork-option-note

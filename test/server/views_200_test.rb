@@ -21,13 +21,6 @@ class Views200Test < CreatorTestBase
     assert_get_200_html('/creator/choose_ltf', exercise_name: exercise_name)
   end
 
-  qtest a49AA3: %w[GET /creator/choose_type 200] do
-    exercise_name = exercises_start_points.names.sample
-    language_name = languages_start_points.names.sample
-    assert_get_200_html('/creator/choose_type', exercise_name: exercise_name, language_name: language_name)
-    assert_get_200_html('/creator/choose_type', exercise_name: exercise_name, language_name: language_name)
-  end
-
   # - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   qtest a49AC2: %w[GET /creator/enter 200] do
