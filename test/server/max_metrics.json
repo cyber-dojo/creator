@@ -9,7 +9,7 @@
 
   "code": {
     "lines": {
-       "total":439,
+       "total":444,
       "missed":0
     },
     "branches": {
@@ -20,7 +20,7 @@
 
   "test": {
     "lines": {
-       "total":556,
+       "total":565,
       "missed":0
     },
     "branches": {

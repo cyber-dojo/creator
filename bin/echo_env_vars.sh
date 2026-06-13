@@ -33,4 +33,14 @@ echo_env_vars()
   #
   echo CYBER_DOJO_CREATOR_CLIENT_USER=nobody
   echo CYBER_DOJO_CREATOR_SERVER_USER=nobody
+
+  # Here you can add SHA/TAG env-vars for any service whose
+  # local repos you have edited, have new git commits in,
+  # and have built new images from. Their build scripts
+  # finish by printing echo env-var statements you need to
+  # add to this function if you want the new images to be
+  # part of the dev-loop/demo. For example:
+  #
+  # echo CYBER_DOJO_SAVER_SHA=fef7a58e2eb3c3b16c51ef0f2c71fc6b7bfb53af
+  # echo CYBER_DOJO_SAVER_TAG=fef7a58
 }
