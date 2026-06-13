@@ -1,13 +1,10 @@
 require_relative 'creator_test_base'
 
 class ChooseLanguageTest < CreatorTestBase
-  def self.id58_prefix
-    :D73
-  end
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w18: %w[
+  qtest D73w18: %w[
     |GET/choose_ltf
     |offers all languages-start-points names
   ] do

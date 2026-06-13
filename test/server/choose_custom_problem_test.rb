@@ -1,13 +1,10 @@
 require_relative 'creator_test_base'
 
 class ChooseCustomProblemTest < CreatorTestBase
-  def self.id58_prefix
-    :A73
-  end
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w18: %w[
+  qtest A73w18: %w[
     |GET/choose_custom_problem
     |offers all custom_start_points names
   ] do

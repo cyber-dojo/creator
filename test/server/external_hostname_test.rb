@@ -7,15 +7,12 @@ require_source 'external_runner'
 require_source 'external_saver'
 
 class ExternalHostnameTest < CreatorTestBase
-  def self.id58_prefix
-    :Qs8
-  end
 
   include ScopedEnvVarHelper
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w10: %w[
+  qtest Qs8w10: %w[
     |ExternalCustomStartPoints
     |has hostname set from env-var
     |CYBER_DOJO_CUSTOM_START_POINTS_HOSTNAME
@@ -31,7 +28,7 @@ class ExternalHostnameTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w11: %w[
+  qtest Qs8w11: %w[
     |ExternalExercisesStartPoints
     |has hostname set from env-var
     |CYBER_DOJO_EXERCISES_START_POINTS_HOSTNAME
@@ -47,7 +44,7 @@ class ExternalHostnameTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w12: %w[
+  qtest Qs8w12: %w[
     |ExternalLanguagesStartPoints
     |has hostname set from env-var
     |CYBER_DOJO_LANGUAGES_START_POINTS_HOSTNAME
@@ -63,7 +60,7 @@ class ExternalHostnameTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w13: %w[
+  qtest Qs8w13: %w[
     |ExternalRunner
     |has hostname set from env-var
     |CYBER_DOJO_RUNNER_HOSTNAME
@@ -79,7 +76,7 @@ class ExternalHostnameTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest w14: %w[
+  qtest Qs8w14: %w[
     |ExternalSaver
     |has hostname set from env-var
     |CYBER_DOJO_SAVER_HOSTNAME

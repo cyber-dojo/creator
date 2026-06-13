@@ -1,13 +1,10 @@
 require_relative 'creator_test_base'
 
 class RouteShaTest < CreatorTestBase
-  def self.id58_prefix
-    :de3
-  end
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest p23: %w[
+  qtest de3p23: %w[
     |GET /sha
     |has status 200
     |returns the 40-char git commit sha used to create the image

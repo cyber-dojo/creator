@@ -2,13 +2,10 @@ require_relative 'creator_test_base'
 require 'ostruct'
 
 class RouteBadResponseTest < CreatorTestBase
-  def self.id58_prefix
-    :f28
-  end
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest QN4: %w[
+  qtest f28QN4: %w[
     |when an http-proxy
     |returns non-JSON in its response.body
     |it logs the exeption to stdout
@@ -19,7 +16,7 @@ class RouteBadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest QN6: %w[
+  qtest f28QN6: %w[
     |when an http-proxy
     |returns JSON-Hash in its response.body
     |which contains the key "exception"
@@ -32,7 +29,7 @@ class RouteBadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest QN7: %w[
+  qtest f28QN7: %w[
     |when an http-proxy
     |returns JSON-Hash in its response.body
     |which does not contain the requested method's key
@@ -49,7 +46,7 @@ class RouteBadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest QN8: %w[
+  qtest f28QN8: %w[
     |when an http-proxy
     |has a 500 error
     |you get the error.erb page
@@ -75,7 +72,7 @@ class RouteBadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest QN9: %w[
+  qtest f28QN9: %w[
     |when an http-proxy
     |has a 500 error
     |and the original exception is not ::HttpJsonHash::ServiceError
