@@ -48,3 +48,12 @@ run_tests_with_coverage()
 
   return ${exit_status}
 }
+
+# Allow this script to be run directly, eg
+#   bin/run_tests_with_coverage.sh server
+# as well as sourced-then-called (how the Makefile uses it). When the script is
+# executed, BASH_SOURCE[0] equals $0; when it is sourced, they differ - so this
+# only auto-runs on direct execution and leaves the sourced usage untouched.
+if [ "${BASH_SOURCE[0]}" = "${0}" ]; then
+  run_tests_with_coverage "$@"
+fi

@@ -73,7 +73,7 @@ run_tests()
     --env TEST_DIR="${TEST_DIR}" \
     --user "${USER}" \
     "${CONTAINER_NAME}" \
-      sh -c "/app/test/run.sh ${CONTAINER_REPORTS_DIR} ${TEST_LOG} ${TYPE} ${*:4}"
+      sh -c "/test/run.sh ${CONTAINER_REPORTS_DIR} ${TEST_LOG} ${TYPE} ${*:4}"
   set -e
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

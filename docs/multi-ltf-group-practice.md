@@ -1,11 +1,12 @@
-# Cross-repo plan: up to 4 LTFs per practice (Cluster + resolve-up design)
+# Cross-repo plan: up to 5 LTFs per practice (Cluster + resolve-up design)
 
 ## Goal
 
-A practice can offer **1-4 LTFs** (language-test-frameworks). Each LTF has its
-**own** 0-63 avatar pool (up to 4 x 64 = 256 avatars). A joiner picks one LTF; the
-dashboard shows one **tab per LTF**, each a full 64-avatar grid. **Every existing
-group must keep working unchanged.**
+A practice can offer **1-5 LTFs** (language-test-frameworks), and the same LTF may
+appear more than once. Each child group has its **own** 0-63 avatar pool (up to
+5 x 64 = 320 avatars). A joiner picks one LTF; the dashboard shows one **tab per
+child group**, each a full 64-avatar grid. **Every existing group must keep working
+unchanged.**
 
 Spans `saver` (data model), `creator` (create/join/enter), `dashboard` (the
 combined view) and `web` (the dashboard button on the edit/review pages).
@@ -18,7 +19,7 @@ combined view) and `web` (the dashboard button on the edit/review pages).
 
 A `Group_v2` already *is* "one LTF + one exercise + one 0-63 avatar pool + one
 roster" - exactly one LTF/tab. So a multi-LTF practice is a **cluster**: a new
-top-level entity referencing **N (1-4) ordinary `Group_v2` children**, one per LTF.
+top-level entity referencing **N (1-5) ordinary `Group_v2` children**, one per LTF.
 
 - **Each child** is a normal `Group_v2` (one LTF + the shared exercise). The
   existing `group_*` create/join/joined/manifest work on a child **unchanged**.
@@ -38,7 +39,9 @@ The system is a small hierarchy joined by **parent pointers**:
 
 **The dashboard, given any id, walks UP to the topmost entity and renders that:**
 
-- topmost is a **cluster** -> render one **tab per child group**.
+- topmost is a **cluster** -> render one **tab per child group** (one per
+  `group_id`, so duplicate-LTF children each get their own tab); each tab label
+  specifies **both the LTF and the group-id** to tell same-LTF tabs apart.
 - topmost is a **standalone `Group_v2`** -> render the single view (today).
 
 Every entry point just passes the id it has and lets resolve-up do the rest:
@@ -68,7 +71,7 @@ cluster) -> the group dashboard, unchanged.
   "id": "...",
   "created": [...],
   "exercise": "Tennis",            // group-wide
-  "children": [                    // 1..4
+  "children": [                    // 1..5
     { "ltf_display_name": "Python, unittest", "group_id": "<child id>" },
     { "ltf_display_name": "Ruby, MiniTest",   "group_id": "<child id>" }
   ]
@@ -121,18 +124,35 @@ Not affected:
 
 ### creator
 - Prerequisite: the **kind-first reorder** (kind -> exercise -> LTF).
-- **Create:** pick exercise, then 1-4 LTFs (group only). Gather the per-LTF
-  manifests (exercise-merged, as for single-group creation) and make **one**
-  `cluster_create` call; the saver creates the children + the cluster and returns
-  the cluster's 6-digit id.
+- **Create:** pick exercise, then 1-5 LTFs (group only). `POST /create.json`
+  dispatches on `type` (`app.rb` `create`): **`type: 'group'`** + `language_name`
+  -> `group_create` (today's bare `Group_v2`, unchanged single-LTF path);
+  **`type: 'cluster'`** + `language_names` ([String...], 2-5) -> `cluster_create`,
+  which builds a per-LTF manifest list (`Creator#cluster_create`) and makes one
+  `saver.cluster_create` call that creates the child groups + the cluster and
+  returns the cluster's 6-digit id. The UX sends `type: 'group'` for one LTF and
+  `type: 'cluster'` for 2-5. `group_create` keeps its original
+  `(language_name:, exercise_name:)` signature (untouched). New code: creator
+  `cluster_create` (the `app.rb` dispatch arm + `Creator#cluster_create` +
+  `ExternalSaver#cluster_create`) and the saver's `cluster_create` /
+  `cluster_manifest`. Display names contain commas, so `language_names` is a JSON
+  array, never a delimited string.
 - **Join:** enter id -> `id_type`; for a cluster, fetch `cluster_manifest`, show an
-  LTF picker from `children[].ltf_display_name`, resolve to the child id, call the
-  existing `group_join(child)`. Bare group / kata: today's flow.
+  LTF picker of the **distinct** `children[].ltf_display_name` values - duplicates
+  collapse to one entry, so a cluster with 3x `Java, JUnit` shows `Java, JUnit`
+  once. The joiner picks a display name; resolving that name to a specific child id
+  (when several children share it) and the rest of the join implementation are **to
+  be specified later**. It then calls the existing `group_join(child)`. Bare group /
+  kata: today's flow.
 - **reenter:** per-child grids.
 
 ### dashboard
-- Resolve the given id up to the topmost entity; **cluster -> tabs** (each tab the
-  existing single-group rendering of a child); **group -> single view** (today).
+- Resolve the given id up to the topmost entity; **cluster -> one tab per child
+  group** (per `group_id`, so duplicate-LTF children each get their own tab; each
+  tab the existing single-group rendering of a child); **group -> single view**
+  (today).
+- **Tab labels** specify both the **LTF** and the **group-id**, so several
+  `Java, JUnit` tabs are distinguishable.
 
 ### web
 - `_dashboard.erb`: pass the kata id to `/dashboard/show`. Nothing else.
@@ -183,6 +203,15 @@ Not affected:
 
 - **Single-LTF = bare `Group_v2`** (today's path); the cluster exists only for
   >1 LTF, leaving the single-LTF flow untouched.
+- **Transport / dispatch:** `POST /create.json` dispatches on `type`:
+  `type: 'group'` + `language_name` -> `group_create` (bare group, today's path,
+  signature unchanged); `type: 'cluster'` + `language_names` ([String...], 2-5) ->
+  `cluster_create` -> `saver.cluster_create`; otherwise kata. The UX sends
+  `type: 'group'` for one LTF and `type: 'cluster'` for 2-5. The single-LTF path is
+  untouched, so existing trainer scripts keep working. New code: creator
+  `cluster_create` and the saver's `cluster_create` / `cluster_manifest`. Display
+  names contain commas, so `language_names` is a JSON array, never a delimited
+  string.
 - **A cluster is a separate top-level entity** (not a group, not a group version);
   `group_*` and the `GROUPS` array are untouched.
 - **Hierarchy via parent pointers** (`kata.group_id`, `group.cluster_id`); the
@@ -190,6 +219,12 @@ Not affected:
 - **web's dashboard button passes the kata id**; the kata gains no `cluster_id`.
 - **Noun = `cluster`** - a set of parallel groups (one per LTF) doing the same
   exercise; one level above a group.
+- **Join picker shows DISTINCT LTFs** - duplicate children in a cluster collapse to
+  one entry, so a cluster with 3x `Java, JUnit` shows `Java, JUnit` once. (Which
+  duplicate child a joiner lands in is deferred - see Open decisions.)
+- **Dashboard shows one tab per child group-id** (NOT deduped, unlike the join
+  picker) - 3x `Java, JUnit` => 3 tabs. Each tab label specifies **both the LTF and
+  the group-id** so the same-LTF tabs are distinguishable.
 
 ## Open decisions
 
@@ -200,3 +235,9 @@ Not affected:
 3. **Empty tabs** - show all offered LTFs, or only those with >= 1 avatar.
 4. **Cluster storage / id space** - own dir (e.g. `clusters/`), ids from the shared
    `IdGenerator` so cluster/group/kata ids never clash.
+5. **Duplicate-child selection on join** - the join picker shows duplicates as a
+   single entry (see Decided), so when a cluster has several children sharing one
+   `ltf_display_name` (e.g. 3x `Java, JUnit`), **which** of them a joiner is placed
+   into - and the join implementation generally - is **to be specified later**.
+   (The dashboard already handles duplicates: one tab per child group-id - see
+   Decided.)

@@ -130,11 +130,17 @@ class App < AppBase
   include SelectedHelper
 
   def create(type, args)
-    if type == 'group'
+    if type == 'cluster'
+      create_cluster(args)
+    elsif type == 'group'
       create_group(args)
     else
       create_kata(args)
     end
+  end
+
+  def create_cluster(args)
+    creator.cluster_create(**args)
   end
 
   def create_group(args)

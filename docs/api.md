@@ -48,33 +48,64 @@ Creates a new individual exercise from the [custom-start-points](https://github.
   ```
 
 - - - -
-## POST group_create(exercise_name,languages_names,options)
-Creates a new group exercise by combining the [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest whose key is `exercise_name` with the
-[languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifest
-whose key is `languages_names[0]`, and returns its id.
+## POST group_create(exercise_name,language_name,options)
+Creates a new group exercise (a bare `Group_v2`) by combining the [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest
+whose key is `exercise_name` with the [languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifest
+whose key is `language_name`, and returns its id. This is the single-LTF path; for
+2 to 5 LTFs use `cluster_create` (below).
 - parameters [(JSON-in)](#json-in)
   * **exercise_name:String**.
   The name of an [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest.  
   For example, `"Fizz Buzz"`
-  * **languages_names:[String...]**.
-  The names of [languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifests.  
-  For example, `["C#, NUnit"]`.
-  At present only `languages_names[0]` is used.
-  The array is for a planned feature.
+  * **language_name:String**.
+  The name of a [languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifest.  
+  For example, `"C#, NUnit"`.
   * **options:Hash[String=>Boolean]**.
   Currently unused (and defaulted). For a planned feature.
 - returns [(JSON-out)](#json-out)
-  * the new exercise's id.
+  * the new group's id.
 - example
   ```bash
   $ curl \
-    --data '{"exercise_name":"Fizz Buzz","languages_names":["C#, NUnit"]}' \
+    --data '{"exercise_name":"Fizz Buzz","language_name":"C#, NUnit"}' \
     --header 'Content-type: application/json' \
     --silent \
     -X POST \
       http://${IP_ADDRESS}:${PORT}/group_create
 
   {"group_create":"MwA7SJ"}
+  ```
+
+- - - -
+## POST cluster_create(exercise_name,language_names,options)
+Creates a **cluster** (the saver's multi-LTF mechanism) by combining the [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest
+whose key is `exercise_name` with the 2 to 5 [languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifests
+whose keys are in `language_names`, and returns the cluster's id. One child group is
+created per LTF, all sharing `exercise_name`; a joiner later picks one LTF, and the
+same LTF may appear more than once.
+- parameters [(JSON-in)](#json-in)
+  * **exercise_name:String**.
+  The name of an [exercises-start-points](https://github.com/cyber-dojo/exercises-start-points) manifest.  
+  For example, `"Fizz Buzz"`
+  * **language_names:[String...]**.
+  The names of 2 to 5 [languages-start-points](https://github.com/cyber-dojo/languages-start-points) manifests.  
+  For example, `["Python, pytest", "Ruby, MiniTest"]`.
+  Display names can themselves contain commas (e.g. `"JavaScript, Mocha, Chai, Sinon"`),
+  so this is always a JSON array, never a delimited string.
+  * **options:Hash[String=>Boolean]**.
+  Currently unused (and defaulted). For a planned feature.
+- returns [(JSON-out)](#json-out)
+  * the new cluster's id.
+- example
+  ```bash
+  $ curl \
+    --data '{"exercise_name":"Fizz Buzz","language_names":["Python, pytest","Ruby, MiniTest"]}' \
+    --header 'Content-type: application/json' \
+    --silent \
+    -X POST \
+      http://${IP_ADDRESS}:${PORT}/cluster_create
+
+  {"cluster_create":"K2p9Lm"}
   ```
 
 - - - -

@@ -5,12 +5,8 @@ class Creator
     @externals = externals
   end
 
-  def group_create_custom(display_name:)
-    create_group(custom_manifest(display_name))
-  end
-
-  def kata_create_custom(display_name:)
-    create_kata(custom_manifest(display_name))
+  def cluster_create(language_names:, exercise_name:)
+    create_cluster(language_names.map { |language_name| manifest(language_name, exercise_name) })
   end
 
   def group_create(language_name:, exercise_name:)
@@ -21,7 +17,23 @@ class Creator
     create_kata(manifest(language_name, exercise_name))
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  def group_create_custom(display_name:)
+    create_group(custom_manifest(display_name))
+  end
+
+  def kata_create_custom(display_name:)
+    create_kata(custom_manifest(display_name))
+  end
+
   private
+
+  def create_cluster(manifests)
+    id = saver.cluster_create(manifests)
+    manifests.each { |manifest| pull_image_onto_nodes(id, manifest['image_name']) }
+    id
+  end
 
   def create_group(manifest)
     id = saver.group_create(manifest)
@@ -50,8 +62,7 @@ class Creator
   end
 
   def pull_image_onto_nodes(id, image_name)
-    # runner is deployed as a kubernetes daemonSet which
-    # means you cannot make http requests to individual runners.
+    # you cannot make http requests to individual runners.
     # So instead, send the request many times (it is asynchronous),
     # and rely on one request reaching each node. If a node is missed
     # it simply means the image will get pulled onto the node on the

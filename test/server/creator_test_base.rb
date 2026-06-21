@@ -130,16 +130,22 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - -
 
+  def cluster_exists?(id)
+    saver.cluster_exists?(id)
+  end
+
   def group_exists?(id)
     saver.group_exists?(id)
   end
 
-  def group_manifest(id)
-    saver.group_manifest(id)
-  end
-
   def kata_exists?(id)
     saver.kata_exists?(id)
+  end
+
+  # - - - - - - - - - - - - - - -
+
+  def group_manifest(id)
+    saver.group_manifest(id)
   end
 
   def kata_manifest(id)
