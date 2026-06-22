@@ -103,8 +103,13 @@ class AppBase < Sinatra::Base
         args: error.args,
         name: error.name,
         body: error.body,
+        status: error.status,
         message: error.message
       }
+      # Preserve a client error (4xx) from the downstream service instead of
+      # flattening it to 500; anything else stays a server error.
+      code = error.status.to_i
+      status(code) if (400..499).cover?(code)
     else
       exception[:message] = error.message
     end

@@ -27,6 +27,11 @@ run_tests_with_coverage()
   # this run starts from a clean slate.
   containers_down
 
+  # Build with the git commit-sha baked in (Dockerfile ENV SHA, via the
+  # COMMIT_SHA build-arg). Plain 'docker compose up' builds without it, leaving
+  # /sha empty (see RouteShaTest). Mirrors bin/demo.sh.
+  docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)" creator client
+
   server_up_healthy_and_clean
   client_up_healthy_and_clean "$@"
   copy_in_saver_test_data

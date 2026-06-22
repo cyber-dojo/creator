@@ -144,6 +144,10 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - -
 
+  def cluster_manifest(id)
+    saver.cluster_manifest(id)
+  end
+
   def group_manifest(id)
     saver.group_manifest(id)
   end

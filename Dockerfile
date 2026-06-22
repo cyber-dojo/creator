@@ -12,11 +12,17 @@ LABEL maintainer=jon@jaggersoft.com
 ARG COMMIT_SHA
 ENV SHA=${COMMIT_SHA}
 
-COPY --chown=nobody:nogroup . /
-WORKDIR /app
-COPY --from=assets --chown=nobody:nogroup /tmp/out/app.css /app/assets/stylesheets/pre-built-app.css
-COPY --from=assets --chown=nobody:nogroup /tmp/out/app.js  /app/assets/javascripts/pre-built-app.js
+# The code lives at ${APP_DIR}/source and the tests are mounted at ${APP_DIR}/test
+# (siblings under ${APP_DIR}), so they can both be live read-only-mounted without
+# nesting, and SimpleCov's root can be ${APP_DIR} to cover both. Mirrors ../saver.
+ARG APP_DIR=/app
+ENV APP_DIR=${APP_DIR}
+
+WORKDIR ${APP_DIR}/source
+COPY --chown=nobody:nogroup app/ .
+COPY --from=assets --chown=nobody:nogroup /tmp/out/app.css assets/stylesheets/pre-built-app.css
+COPY --from=assets --chown=nobody:nogroup /tmp/out/app.js  assets/javascripts/pre-built-app.js
 USER nobody
-HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD /app/config/healthcheck.sh
+HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./config/healthcheck.sh
 ENTRYPOINT [ "/sbin/tini", "-g", "--" ]
-CMD [ "/app/config/up.sh" ]
+CMD [ "./config/up.sh" ]

@@ -22,6 +22,10 @@ class ExternalSaver
     @http.get(__method__, { id: id })
   end
 
+  def cluster_manifest(id)
+    @http.get(__method__, { id: id })
+  end
+
   # - - - - - - - - - - - - - - - - -
 
   def group_create(manifest)

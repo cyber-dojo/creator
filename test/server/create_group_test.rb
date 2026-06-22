@@ -75,24 +75,4 @@ class CreateGroupTest < CreatorTestBase
     assert manifest.key?('exercise')
     assert_equal '', manifest['exercise'], :polyfilled
   end
-
-  # - - - - - - - - - - - - - - - - -
-
-  qtest p42w9D: %w(
-    |POST /create.json
-    |with [type=cluster,exercise_name,language_names] params
-    |where language_names holds 2+ LTFs
-    |generates json route /creator/enter?id=ID
-    |and a cluster with ID exists
-  ) do
-    language_names = languages_start_points.names.first(2)
-    args = {
-      exercise_name: exercise_name,
-      language_names: language_names,
-      type: 'cluster'
-    }
-    json_post '/create.json', args
-    id = json_response['id']
-    assert cluster_exists?(id), "id:#{id}:"
-  end
 end
