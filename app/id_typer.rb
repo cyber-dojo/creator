@@ -1,17 +1,20 @@
+require_relative 'http_json_hash/service_error'
+
 class IdTyper
   def initialize(externals)
     @externals = externals
   end
 
-  def id_type(args)
-    id = args['id']
-    if saver.group_exists?(id)
-      'group'
-    elsif saver.kata_exists?(id)
-      'single'
-    else
-      nil
-    end
+  # The first link of the saver's id_chain is the given id's own entry, so its
+  # type identifies the id. The saver names a kata 'kata'; we expose it as
+  # 'single'. An unknown id makes id_chain a 400 (RequestError); that is our nil.
+  def id_type(id)
+    type = saver.id_chain(id).first['type']
+    type == 'kata' ? 'single' : type
+  rescue ::HttpJsonHash::ServiceError => error
+    raise unless error.status.to_i == 400
+
+    nil
   end
 
   private

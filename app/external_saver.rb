@@ -14,6 +14,10 @@ class ExternalSaver
     @http.get(__method__, {})
   end
 
+  def id_chain(id)
+    @http.get(__method__, { id: id })
+  end
+
   def cluster_create(manifests)
     @http.post(__method__, { manifests: manifests })
   end

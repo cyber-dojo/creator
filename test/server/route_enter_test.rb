@@ -51,6 +51,29 @@ class RouteEnterTest < CreatorTestBase
     end
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  qtest d4Pk90: %w[
+    |POST /enter.json
+    |for a cluster id
+    |routes to the choose-LTF-to-join page
+    |and does not join a group
+  ] do
+    args = {
+      exercise_name: exercises_start_points.names.first,
+      language_names: languages_start_points.names.first(2),
+      type: 'cluster'
+    }
+    json_post '/create.json', args
+    cluster_id = json_response['id']
+    assert cluster_exists?(cluster_id), "cluster_exists?(#{cluster_id})"
+
+    assert_post_200_json('enter.json', { id: cluster_id }) do |response|
+      assert response.key?('route'), response.keys
+      assert_equal "/creator/choose_ltf_to_join?id=#{cluster_id}", response['route'], response
+    end
+  end
+
   private
 
   def json_post_create_group(args)
