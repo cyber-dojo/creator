@@ -7,11 +7,18 @@ trail:
   artifacts:
     - name: creator
       attestations:
+        - name: provenance
+          type: decision
+
+        - name: sbom
+          type: decision
+
+        - name: snyk-container-scan
+          type: decision
+
         - name: lint
           type: generic
         - name: unit-test
           type: junit
         - name: test-branch-coverage
-          type: generic
-        - name: snyk-container-scan
           type: generic
