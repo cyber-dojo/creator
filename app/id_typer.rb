@@ -11,8 +11,8 @@ class IdTyper
   def id_type(id)
     type = saver.id_chain(id).first['type']
     type == 'kata' ? 'single' : type
-  rescue ::HttpJsonHash::ServiceError => error
-    raise unless error.status.to_i == 400
+  rescue ::HttpJsonHash::ServiceError => e
+    raise unless e.status.to_i == 400
 
     nil
   end

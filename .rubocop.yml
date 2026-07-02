@@ -16,9 +16,11 @@ Style/Documentation:
 Style/FetchEnvVar:
   Enabled: false
 
-# Strings are frozen globally at runtime via RUBYOPT=--enable-frozen-string-literal
-# (see app/config/up.sh, client/app/config/up.sh) so the per-file magic comment
-# is redundant. Mirrors the sibling repos (eg ../differ).
+# By default this cop demands a "# frozen_string_literal: true" comment at the
+# top of every file. We deliberately add none: strings are already frozen
+# globally at runtime via RUBYOPT=--enable-frozen-string-literal (see
+# app/config/up.sh, client/app/config/up.sh), so such a comment would be
+# redundant. Mirrors the sibling repos (eg ../differ).
 Style/FrozenStringLiteralComment:
   Exclude:
     - app/**/*
@@ -27,6 +29,13 @@ Style/FrozenStringLiteralComment:
 Style/EmptyElse:
   Exclude:
     - app/id_typer.rb
+
+# ServiceError is a value object that mirrors the fields of a failed HTTP
+# response (path, args, name, body, status, message). All six are inherent to
+# what the error carries, so the constructor legitimately takes six arguments.
+Metrics/ParameterLists:
+  Exclude:
+    - app/http_json_hash/service_error.rb
 
 Metrics/ClassLength:
   Exclude:

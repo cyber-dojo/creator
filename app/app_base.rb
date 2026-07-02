@@ -98,14 +98,7 @@ class AppBase < Sinatra::Base
     }
     exception = info[:exception]
     if error.instance_of?(::HttpJsonHash::ServiceError)
-      exception[:http_service] = {
-        path: error.path,
-        args: error.args,
-        name: error.name,
-        body: error.body,
-        status: error.status,
-        message: error.message
-      }
+      exception[:http_service] = error.to_h
       # Preserve a client error (4xx) from the downstream service instead of
       # flattening it to 500; anything else stays a server error.
       code = error.status.to_i

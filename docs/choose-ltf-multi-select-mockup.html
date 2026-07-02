@@ -302,18 +302,21 @@
   }
 
   function add(name) {
-    if (chosen.length >= MAX) return;   // cap at MAX; duplicates are allowed
-    chosen.push(name);                  // copy into chosen; the available list is NOT consumed
+    if (chosen.length >= MAX) return;              // cap at MAX
+    available = available.filter(n => n !== name); // move out of the available list
+    chosen.push(name);
     render();
   }
-  function removeAt(index) {
-    chosen.splice(index, 1);            // remove just this one chosen entry (frees a slot)
+  function remove(name) {
+    chosen = chosen.filter(n => n !== name);       // move back into the available list
+    available.push(name);
+    available.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
     render();
   }
 
   function render() {
     $chosen.innerHTML = '';
-    chosen.forEach((name, index) => $chosen.appendChild(makeRow(name, () => removeAt(index))));
+    chosen.forEach((name) => $chosen.appendChild(makeRow(name, () => remove(name))));
     for (let i = chosen.length; i < MAX; i++) {
       const slot = document.createElement('div');
       slot.className = 'slot-empty';
