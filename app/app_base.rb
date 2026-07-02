@@ -18,9 +18,9 @@ class AppBase < Sinatra::Base
 
   def initialize(externals)
     @externals = externals
-    assets_dir = "#{__dir__}/assets"
-    @css = File.read("#{assets_dir}/stylesheets/pre-built-app.css")
-    @js  = File.read("#{assets_dir}/javascripts/pre-built-app.js")
+    assets_dir = "#{ENV.fetch('APP_DIR')}/assets"
+    @css = File.read("#{assets_dir}/app.css")
+    @js  = File.read("#{assets_dir}/app.js")
     @css_digest = Digest::SHA256.hexdigest(@css)[0, 8]
     @js_digest  = Digest::SHA256.hexdigest(@js)[0, 8]
     super(nil)
