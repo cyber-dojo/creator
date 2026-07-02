@@ -55,9 +55,6 @@ api_demo()
   curl_json_body_200 GET ready
   curl_json_body_200 GET sha
   echo
-  curl_200 assets/app.css 'Content-Type: text/css'
-  curl_200 assets/app.js  'Content-Type: application/javascript'
-  echo
   curl_200 home   'Content-Type: text/html'
   curl_200 choose_problem 'Content-Type: text/html'
   curl_200 choose_custom_problem 'Content-Type: text/html'
