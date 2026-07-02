@@ -15,25 +15,6 @@ source "${BIN_DIR}/test_in_containers.sh"
 # shellcheck disable=SC2046
 export $(echo_env_vars)
 
-build_assets_if_missing()
-{
-  # The creator container bind-mounts the host source tree over /app/source
-  # (docker-compose.yml), which shadows the pre-built CSS/JS the Dockerfile
-  # bakes into the image. AppBase#initialize reads those two files at boot, so
-  # a host checkout that lacks them crashes the container on boot with
-  # Errno::ENOENT. They are git-ignored build artifacts (see .gitignore), so a
-  # fresh checkout - eg CI - does not have them. Build them if either is
-  # missing; a checkout that already has them (eg a local dev loop) is left
-  # untouched so the inner loop stays fast.
-  local -r css="$(repo_root)/app/assets/stylesheets/pre-built-app.css"
-  local -r js="$(repo_root)/app/assets/javascripts/pre-built-app.js"
-  if [ -f "${css}" ] && [ -f "${js}" ]; then
-    return
-  fi
-  echo "Pre-built assets missing - running bin/build_assets.sh"
-  "$(repo_root)/bin/build_assets.sh"
-}
-
 run_tests_with_coverage()
 {
   set +e
@@ -50,11 +31,6 @@ run_tests_with_coverage()
   # COMMIT_SHA build-arg). Plain 'docker compose up' builds without it, leaving
   # /sha empty (see RouteShaTest). Mirrors bin/demo.sh.
   docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)" creator client
-
-  # Ensure the pre-built assets exist on the host tree before the creator
-  # container starts - the source bind-mount would otherwise hide the image's
-  # baked copy and the container would crash on boot.
-  build_assets_if_missing
 
   server_up_healthy_and_clean
   client_up_healthy_and_clean "$@"

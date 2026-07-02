@@ -2,10 +2,7 @@
 SHORT_SHA := $(shell git rev-parse HEAD | head -c7)
 IMAGE_NAME := cyberdojo/creator:${SHORT_SHA}
 
-.PHONY: assets image test test_server test_client rubocop-lint snyk-container demo
-
-assets:
-	${PWD}/bin/build_assets.sh
+.PHONY: image test test_server test_client rubocop-lint snyk-container demo
 
 image:
 	bash -c ". ${PWD}/bin/build_tagged_images.sh && build_tagged_images"

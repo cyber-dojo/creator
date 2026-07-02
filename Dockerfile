@@ -20,8 +20,8 @@ ENV APP_DIR=${APP_DIR}
 
 WORKDIR ${APP_DIR}/source
 COPY --chown=nobody:nogroup app/ .
-COPY --from=assets --chown=nobody:nogroup /tmp/out/app.css assets/stylesheets/pre-built-app.css
-COPY --from=assets --chown=nobody:nogroup /tmp/out/app.js  assets/javascripts/pre-built-app.js
+COPY --from=assets --chown=nobody:nogroup /tmp/out/app.css ${APP_DIR}/assets/app.css
+COPY --from=assets --chown=nobody:nogroup /tmp/out/app.js  ${APP_DIR}/assets/app.js
 USER nobody
 HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./config/healthcheck.sh
 ENTRYPOINT [ "/sbin/tini", "-g", "--" ]
