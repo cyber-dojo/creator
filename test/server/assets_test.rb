@@ -1,68 +1,57 @@
 require_relative 'creator_test_base'
-require 'digest'
 
 class AssetsTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
   test 'Q3p2Je', %w[
-    |GET /assets/app.css is served
+    |the fingerprinted CSS path is served as css with a one-year
+    |immutable Cache-Control header, so browsers do not re-pull it
+    |through nginx's rate-limited /creator/ zone on every navigation
   ] do
-    get '/assets/app.css'
+    get App::CSS_PATH
     assert status?(200), status
     assert css_content?, content_type
+    cache_control = last_response.headers['Cache-Control']
+    assert_includes cache_control, 'max-age=31536000', cache_control
+    assert_includes cache_control, 'immutable', cache_control
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test 'Q3p3Je', %w[
-    |GET /assets/app.js is served
+    |the fingerprinted JS path is served as javascript with the
+    |same one-year immutable Cache-Control header, as for 2Je
   ] do
-    get '/assets/app.js'
+    get App::JS_PATH
     assert status?(200), status
     assert js_content?, content_type
+    cache_control = last_response.headers['Cache-Control']
+    assert_includes cache_control, 'max-age=31536000', cache_control
+    assert_includes cache_control, 'immutable', cache_control
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test 'Q3p4Je', %w[
-    |GET /assets/app.css is served with a long-lived immutable
-    |Cache-Control header, so browsers do not re-pull it through
-    |nginx's rate-limited /creator/ zone on every page navigation
+    |each asset's URL path embeds a short hash of its content, so
+    |any change to the content yields a new URL that safely busts
+    |the immutable browser cache on the next deploy
   ] do
-    get '/assets/app.css'
-    assert status?(200), status
-    assert_equal 'public, max-age=31536000, immutable',
-                 last_response.headers['Cache-Control']
+    assert_match(%r{\A/assets/app-[0-9a-f]{8}\.css\z}, App::CSS_PATH, App::CSS_PATH)
+    assert_match(%r{\A/assets/app-[0-9a-f]{8}\.js\z}, App::JS_PATH, App::JS_PATH)
   end
 
   # - - - - - - - - - - - - - - - - -
 
   test 'Q3p5Je', %w[
-    |GET /assets/app.js is served with a long-lived immutable
-    |Cache-Control header, for the same reason as 4Je
+    |the layout links each asset by its fingerprinted path,
+    |prefixed with /creator so the request routes through nginx
   ] do
-    get '/assets/app.js'
-    assert status?(200), status
-    assert_equal 'public, max-age=31536000, immutable',
-                 last_response.headers['Cache-Control']
-  end
-
-  # - - - - - - - - - - - - - - - - -
-
-  test 'Q3p6Je', %w[
-    |the layout references each asset with a ?v=<content-hash>
-    |token, so any change to an asset's content yields a new URL
-    |that safely busts the immutable browser cache on the next deploy
-  ] do
-    get '/assets/app.css'
-    css_digest = Digest::SHA256.hexdigest(last_response.body)[0, 8]
-    get '/assets/app.js'
-    js_digest = Digest::SHA256.hexdigest(last_response.body)[0, 8]
     get '/home'
     assert status?(200), status
     html = last_response.body
-    assert html.include?("/creator/assets/app.css?v=#{css_digest}"), html
-    assert html.include?("/creator/assets/app.js?v=#{js_digest}"), html
+    assert html.include?(%Q{href="/creator#{App::CSS_PATH}"}), html
+    assert html.include?(%Q{src="/creator#{App::JS_PATH}"}), html
   end
 end
