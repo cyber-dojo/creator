@@ -4,6 +4,28 @@ class RouteIdTypeTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
+  qtest qedx22: %w[
+    |GET /id_type
+    |has status 200
+    |returns 'cluster'
+    |when id is of an existing cluster
+  ] do
+    args = {
+      exercise_name: exercises_start_points.names.first,
+      language_names: languages_start_points.names.first(2),
+      type: 'cluster'
+    }
+    json_post '/create.json', args
+    cluster_id = json_response['id']
+
+    assert_get_200_json('id_type', { id: cluster_id }) do |response|
+      assert_equal ['id_type'], response.keys, last_response.body
+      assert_equal 'cluster', response['id_type']
+    end
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   qtest qedx23: %w[
     |GET /id_type
     |has status 200

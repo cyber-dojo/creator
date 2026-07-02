@@ -39,6 +39,7 @@ services:
     read_only: true
     restart: "no"
     volumes:
+      - "./client/app:/app/source/:ro"
       - "./test:/app/test/:ro"
       - type: tmpfs
         target: /tmp
@@ -66,6 +67,7 @@ services:
     read_only: true
     restart: "no"
     volumes:
+      - "./app:/app/source/:ro"
       - "./test:/app/test/:ro"
       - type: tmpfs
         target: /tmp

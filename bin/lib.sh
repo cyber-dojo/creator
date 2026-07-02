@@ -53,6 +53,23 @@ service_container()
     --format '{{.ID}}'
 }
 
+service_container_any_state()
+{
+  # Like service_container, but also matches stopped/exited containers (via
+  # --all). service_container uses a running-only 'docker ps', which is right
+  # for the health check and for docker-exec-ing into a live container, but
+  # useless for diagnosing a container that crashed on boot: by the time we
+  # want its logs it has already exited, 'docker ps' returns nothing, and
+  # 'docker logs ""' dies with "invalid container name or ID: value is empty".
+  # This finds the exited container so echo_docker_log can still read its logs.
+  local -r service="${1}"
+  docker ps --all \
+    --filter "label=com.docker.compose.project=${COMPOSE_PROJECT_NAME:-creator}" \
+    --filter "label=com.docker.compose.service=${service}" \
+    --format '{{.ID}}' \
+    | head -n 1
+}
+
 git_commit_sha()
 {
   cd "$(repo_root)" && git rev-parse HEAD

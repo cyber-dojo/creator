@@ -106,8 +106,9 @@ class RouteBadResponseTest < CreatorTestBase
   end
 
   class HttpAdapterStub
-    def initialize(body)
+    def initialize(body, code = nil)
       @body = body
+      @code = code
     end
 
     def get(_uri)
@@ -117,7 +118,7 @@ class RouteBadResponseTest < CreatorTestBase
     def start(_hostname, _port, _req)
       self
     end
-    attr_reader :body
+    attr_reader :body, :code
   end
 
   def logs_exception_to_stdout(path)

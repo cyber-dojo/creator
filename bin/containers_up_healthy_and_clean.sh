@@ -53,5 +53,21 @@ healthy()
 # - - - - - - - - - - - - - - - - - - -
 echo_docker_log()
 {
-  docker logs "$(service_container "${SERVICE_NAME}")" 2>&1
+  # Dump the failed service's container log so a boot-crash is diagnosable in
+  # CI. Resolve the container in any state (it has usually exited by now - see
+  # service_container_any_state in lib.sh); a plain running-only lookup would
+  # find nothing and 'docker logs' would print "invalid container name or ID:
+  # value is empty", hiding exactly the crash we need to see.
+  local -r cid="$(service_container_any_state "${SERVICE_NAME}")"
+  if [ -n "${cid}" ]; then
+    echo "===== docker log for ${SERVICE_NAME} (container ${cid}) ====="
+    docker logs "${cid}" 2>&1
+    echo "===== end docker log for ${SERVICE_NAME} ====="
+  else
+    echo "No container found for service '${SERVICE_NAME}' in compose" \
+         "project '${COMPOSE_PROJECT_NAME:-creator}'. All project containers:"
+    docker ps --all \
+      --filter "label=com.docker.compose.project=${COMPOSE_PROJECT_NAME:-creator}" \
+      --format 'table {{.Names}}\t{{.Status}}'
+  fi
 }

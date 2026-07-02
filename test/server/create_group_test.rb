@@ -19,13 +19,17 @@ class CreateGroupTest < CreatorTestBase
     |generates json route /creator/enter?id=ID
     |and a group-exercise with ID exists
   ) do
-    json_post_create({
-                       exercise_name: exercise_name,
-                       language_name: language_name
-                     }) do |manifest|
-      assert_equal language_name, manifest['display_name'], manifest
-      assert_equal exercise_name, manifest['exercise'], manifest
-    end
+    args = {
+      exercise_name: exercise_name,
+      language_name: language_name,
+      type: 'group'
+    }
+    json_post '/create.json', args
+    id = json_response['id']
+    assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
+    manifest = group_manifest(id)
+    assert_equal language_name, manifest['display_name'], manifest
+    assert_equal exercise_name, manifest['exercise'], manifest
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -37,14 +41,18 @@ class CreateGroupTest < CreatorTestBase
     |generates json route /creator/enter?id=ID
     |and a group-exercise with ID exists
   ) do
-    json_post_create({
-                       exercise_name: '',
-                       language_name: language_name
-                     }) do |manifest|
-      assert_equal language_name, manifest['display_name'], manifest
-      assert manifest.key?('exercise')
-      assert_equal '', manifest['exercise'], :polyfilled
-    end
+    args = {
+      exercise_name: '',
+      language_name: language_name,
+      type: 'group'
+    }
+    json_post '/create.json', args
+    id = json_response['id']
+    assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
+    manifest = group_manifest(id)
+    assert_equal language_name, manifest['display_name'], manifest
+    assert manifest.key?('exercise')
+    assert_equal '', manifest['exercise'], :polyfilled
   end
 
   # - - - - - - - - - - - - - - - - -
@@ -55,22 +63,16 @@ class CreateGroupTest < CreatorTestBase
     |generates json route /creator/enter?id=ID
     |and a group-exercise with ID exists
   ) do
-    json_post_create({
-                       display_name: display_name
-                     }) do |manifest|
-      assert_equal display_name, manifest['display_name'], manifest
-      assert manifest.key?('exercise')
-      assert_equal '', manifest['exercise'], :polyfilled
-    end
-  end
-
-  private
-
-  def json_post_create(args)
-    args[:type] = 'group'
+    args = {
+      display_name: display_name,
+      type: 'group'
+    }
     json_post '/create.json', args
     id = json_response['id']
     assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
-    yield group_manifest(id)
+    manifest = group_manifest(id)
+    assert_equal display_name, manifest['display_name'], manifest
+    assert manifest.key?('exercise')
+    assert_equal '', manifest['exercise'], :polyfilled
   end
 end

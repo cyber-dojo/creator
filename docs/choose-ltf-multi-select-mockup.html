@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Group LTF selection - mockup</title>
+<style>
+  /* values taken verbatim from creator pre-built-app.css */
+  a:link, a:visited { color: khaki; }
+  body {
+    width: 100%; height: 100%;
+    color: #f6f0b9;
+    background: #262626;
+    margin: 8px 0;
+    text-align: center;
+    font-family: Impact, "Trebuchet MS", Tahoma, Arial, sans-serif;
+  }
+  .edged-panel {
+    font-family: Impact, "Trebuchet MS", Tahoma, Arial, sans-serif;
+    border-radius: 5px;
+    margin: 10px auto 7px;
+    padding: 20px;
+    text-align: left;
+    vertical-align: top;
+    background: #262626;
+    border: 1px solid #5a5a5a;
+    width: 835px;
+    max-width: calc(100% - 24px);
+  }
+  .title {
+    font-family: Impact, "Trebuchet MS", Tahoma, Arial, sans-serif;
+    margin-left: 0;
+    font-size: 56px;
+    color: #f6f0b9;
+    text-align: left;
+    position: relative; top: -19px;
+    margin-bottom: -10px;
+  }
+  .sub-title {
+    font-family: Impact, "Trebuchet MS", Tahoma, Arial, sans-serif;
+    margin-left: 0;
+    font-size: 30px;
+    margin-bottom: 28px;
+    color: #f6f0b9;
+    text-align: left;
+  }
+
+  /* two-column split: 300px list column | 500px content column */
+  .split { width: 805px; max-width: 100%; margin: 0 auto; text-align: left; }
+  .row { white-space: nowrap; }
+
+  .display-names {
+    width: 300px; max-width: 300px;
+    display: inline-block;
+    overflow-x: hidden; overflow-y: auto;
+    margin-right: 5px;
+    vertical-align: top;
+    white-space: normal;
+  }
+  .available-names {
+    height: 320px; max-height: 320px;
+    padding-top: 6px; padding-bottom: 6px;
+    width: 286px; max-width: 286px;           /* leave room for the 14px custom scrollbar */
+    margin-right: 0;
+    overflow-y: scroll;
+    scrollbar-width: none;                    /* Firefox: hide native, we draw our own */
+  }
+  .available-names::-webkit-scrollbar { width: 0; height: 0; display: none; }  /* hide native */
+
+  /* custom ALWAYS-ON scrollbar - a plain div, so it never fades */
+  .scroll-wrap {
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    width: 300px;
+    margin-right: 5px;
+  }
+  .cscroll-track {
+    position: absolute;
+    top: 6px; bottom: 6px; right: 0;
+    width: 14px;
+    background: #262626;                       /* same as main background, so it floats */
+    border-radius: 7px;
+  }
+  .cscroll-thumb {
+    position: absolute;
+    left: 0; top: 0;
+    width: 14px;
+    min-height: 24px;
+    background: #bdb784;                       /* dimmer than the row text */
+    border-radius: 7px;
+    border: 3px solid #262626;                /* inset matches background so the pill floats */
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+  .cscroll-thumb:hover { background: #d2cb96; }
+  .chosen-names    { margin-bottom: 6px; }
+
+  /* vertical double-headed arrow, centered under the 300px list column */
+  .move-arrow { width: 300px; max-width: 300px; text-align: center; margin: 2px 0 4px; line-height: 0; }
+
+  .display-content {
+    width: 486px; max-width: 486px;           /* leave room for the 14px custom scrollbar */
+    height: 320px; max-height: 320px;
+    box-sizing: border-box;
+    background: #ffffff;
+    color: #000000;
+    display: inline-block;
+    overflow-x: hidden; overflow-y: scroll;
+    border-radius: 6px;
+    padding: 8px 8px 0 8px;
+    font-size: 11px;
+    font-family: monospace;
+    vertical-align: top;
+    white-space: pre;
+    scrollbar-width: none;                     /* hide native, we draw our own */
+  }
+  .display-content::-webkit-scrollbar { width: 0; height: 0; display: none; }
+
+  /* preview pane's floating scrollbar: track matches the white pane,
+     thumb matches the pane's (black) text - same principle as the list */
+  .preview-wrap { width: 500px; max-width: 500px; margin-right: 0; }
+  .preview-track { background: #262626; }      /* same dark background, blends into the page */
+  .preview-thumb { background: #555555; border-color: #262626; }
+  .preview-thumb:hover { background: #6e6e6e; }
+
+  .display-name {
+    font-family: "Trebuchet MS", Tahoma, Arial, sans-serif;
+    color: #f6f0b9;
+    background: #262626;
+    text-align: left;
+    border: 1px solid #262626;
+    margin: 0;
+    padding-left: 6px; padding-right: 0;
+    cursor: pointer;
+    overflow-x: auto; overflow-y: hidden;
+    display: block;
+    white-space: nowrap;
+  }
+  .display-name:hover,
+  .display-name.preview-active { border: 1px dotted #666666; }
+  .display-name.selected { color: #262626; background: white; cursor: default; }
+
+  /* empty slot: same row metrics, faint dashed so the 5-cap reads */
+  .slot-empty {
+    font-family: "Trebuchet MS", Tahoma, Arial, sans-serif;
+    color: #555;
+    border: 1px dashed #444;
+    padding-left: 6px;
+    margin: 0;
+    white-space: nowrap;
+  }
+
+  /* button + button.large lifted verbatim */
+  button {
+    font-family: Impact, "Trebuchet MS", Tahoma, Arial, sans-serif;
+    border-radius: 6px;
+    background: #efe483;
+    display: inline-block;
+    cursor: pointer;
+    padding: 2px 15px 4px 15px;
+    text-align: left;
+    border: 2px solid #262626;
+    color: #000;
+  }
+  button:hover { border: 2px dotted #595959; }
+  button[disabled] { background: #595959; cursor: default; color: #2b2b2b; }
+  button[disabled]:hover { border: 2px solid #262626; }
+  button.large { font-size: 40px; }
+  button.next { vertical-align: middle; margin: 0; }
+
+  /* right-hand block: [next] beside its help text, above the textarea */
+  .next-block { display: inline-block; vertical-align: top; width: 500px; max-width: 500px; margin-bottom: 6px; }
+  .next-help {
+    display: inline-block;
+    vertical-align: middle;
+    white-space: normal;
+    margin: 0 0 0 12px;
+    padding-left: 20px;
+    width: 348px;
+    list-style: disc;
+    font-family: "Trebuchet MS", Tahoma, Arial, sans-serif;
+    font-size: 13px;
+    color: #f6f0b9;
+  }
+  .next-help li { margin-bottom: 6px; }
+  .next-help code { background: #1c1c1c; padding: 1px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+
+<div class="edged-panel" id="choose-ltf-page">
+  <div class="title">create a new practice</div>
+  <div class="sub-title">choose up to 5 language &amp; test-frameworks</div>
+
+  <div class="split">
+    <div class="row">
+      <div class="display-names chosen-names" id="chosen"></div>
+      <div class="next-block">
+        <button type="button" class="large next" id="next" disabled>next</button>
+        <ul class="next-help">
+          <li>On <code>next</code> the group is created with the chosen list; each joiner then picks one of them.</li>
+          <li><a href="https://github.com/cyber-dojo/cyber-dojo/blob/master/docs/how-to-contribute-to-start-points.md" target="_blank">I'd like to help</a> maintain the language &amp; test-frameworks</li>
+        </ul>
+      </div>
+    </div>
+    <div class="move-arrow" title="click an available entry to add a copy (up to 5; duplicates allowed); click a chosen entry to remove it">
+      <svg width="22" height="40" viewBox="0 0 24 48" fill="none"
+           stroke="#f6f0b9" stroke-linecap="round" stroke-linejoin="round"
+           aria-label="entries move in either direction">
+        <line x1="12" y1="6" x2="12" y2="42" stroke-width="6"/>
+        <polyline points="5,13 12,5 19,13" stroke-width="2.5"/>
+        <polyline points="5,35 12,43 19,35" stroke-width="2.5"/>
+      </svg>
+    </div>
+
+    <div class="row">
+      <div class="scroll-wrap">
+        <div class="display-names available-names" id="available"></div>
+        <div class="cscroll-track" id="ctrack"><div class="cscroll-thumb" id="cthumb"></div></div>
+      </div>
+      <div class="scroll-wrap preview-wrap">
+        <div class="display-content" id="preview"></div>
+        <div class="cscroll-track preview-track" id="ptrack"><div class="cscroll-thumb preview-thumb" id="pthumb"></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  'use strict';
+  const MAX = 5;
+
+  // Full list of language & test-frameworks, taken from
+  // https://beta.cyber-dojo.org/creator/choose_ltf?type=kata
+  const LTFS = [
+    "Asm, assert", "Bash, bash_unit", "Bash, bats", "Bash, shunit2",
+    "C (clang), assert", "C (clang), Cgreen", "C (gcc), assert", "C (gcc), Cgreen",
+    "C (gcc), CppUTest", "C (gcc), GoogleTest", "C#, Moq", "C#, NUnit", "C#, Reqnroll",
+    "C++ (clang++), assert", "C++ (clang++), Catch", "C++ (clang++), Cgreen",
+    "C++ (clang++), GoogleMock", "C++ (clang++), GoogleTest", "C++ (clang++), Igloo",
+    "C++ (g++), assert", "C++ (g++), Boost.Test", "C++ (g++), Catch", "C++ (g++), Cgreen",
+    "C++ (g++), CppUTest", "C++ (g++), Cucumber", "C++ (g++), GoogleMock",
+    "C++ (g++), GoogleTest", "C++ (g++), Igloo", "Clojure, clojure.test", "Clojure, Midje",
+    "CoffeeScript, jasmine", "D, unittest", "Elixir, ExUnit", "Erlang, eunit", "F#, NUnit",
+    "Fortran, FUnit", "Go, convey", "Go, testify", "Go, testing", "Groovy, JUnit",
+    "Groovy, Spock", "Java, Approval", "Java, Cucumber", "Java, Cucumber-Spring",
+    "Java, JMock", "Java, JUnit", "Java, Mockito", "Java, PowerMockito",
+    "Java, SQLite, JUnit", "JavaScript, assert", "JavaScript, Cucumber", "JavaScript, Jasmine",
+    "JavaScript, Jest", "JavaScript, jQuery, assert", "JavaScript, Mocha, Chai, Sinon",
+    "JavaScript, qunit, sinon", "jq, approvals", "Julia, test", "Kotlin, Kotest",
+    "Perl, Test::Simple", "PHP, PHPUnit", "Prolog, plunit", "Python, assert", "Python, behave",
+    "Python, pytest", "Python, pytest-approval", "Python, unittest", "Python, unittest-approval",
+    "R, RUnit", "ReScript, jest", "Ruby, Approval", "Ruby, Cucumber", "Ruby, MiniTest",
+    "Ruby, RSpec", "Ruby, Test::Unit", "Rust, test", "Swift, Swordfish", "Swift, XCTest",
+    "TypeScript, jest", "VHDL, assert", "VisualBasic, NUnit", "Zig, test"
+  ];
+
+  // Illustrative preview content (the real page serves the actual start files
+  // from the languages-start-points service).
+  function fileFor(name) {
+    const lines = [
+      "# " + name,
+      "#",
+      "# Illustrative preview of the starting files for this",
+      "# language & test-framework.",
+      "#",
+      "# In the real creator this panel shows the actual test",
+      "# file served by the languages-start-points service.",
+      "# The text below is filler so the preview pane scrolls.",
+      "# ----------------------------------------------------------"
+    ];
+    // bulk out the content so the preview pane overflows and scrolls
+    for (let i = 1; i <= 60; i++) {
+      lines.push("line " + String(i).padStart(2, "0") +
+        ": the quick brown fox jumps over the lazy dog (" + name + ")");
+    }
+    lines.push("");
+    lines.push("# end of " + name + " starting files");
+    return lines.join("\n");
+  }
+
+  let available = LTFS.slice().sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+  let chosen = [];
+
+  const $chosen = document.getElementById('chosen');
+  const $available = document.getElementById('available');
+  const $preview = document.getElementById('preview');
+  const $next = document.getElementById('next');
+  const $ctrack = document.getElementById('ctrack');
+  const $cthumb = document.getElementById('cthumb');
+  const $ptrack = document.getElementById('ptrack');
+  const $pthumb = document.getElementById('pthumb');
+
+  function makeRow(name, onClick) {
+    const el = document.createElement('div');
+    el.className = 'display-name';
+    el.textContent = name;
+    el.addEventListener('mouseenter', () => { setPreview(name); });
+    el.addEventListener('click', onClick);
+    return el;
+  }
+
+  function add(name) {
+    if (chosen.length >= MAX) return;              // cap at MAX
+    available = available.filter(n => n !== name); // move out of the available list
+    chosen.push(name);
+    render();
+  }
+  function remove(name) {
+    chosen = chosen.filter(n => n !== name);       // move back into the available list
+    available.push(name);
+    available.sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+    render();
+  }
+
+  function render() {
+    $chosen.innerHTML = '';
+    chosen.forEach((name) => $chosen.appendChild(makeRow(name, () => remove(name))));
+    for (let i = chosen.length; i < MAX; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'slot-empty';
+      slot.textContent = (i + 1);
+      $chosen.appendChild(slot);
+    }
+
+    $available.innerHTML = '';
+    available.forEach(name => $available.appendChild(makeRow(name, () => add(name))));
+
+    $next.disabled = chosen.length === 0;
+    updateAvail();
+  }
+
+  // generic always-on custom scrollbar: wire a track+thumb to a scrollable element.
+  // Returns an update() that re-sizes/positions the thumb from scroll state.
+  function wireScrollbar($scroll, $track, $thumb) {
+    function update() {
+      const ch = $scroll.clientHeight;
+      const sh = $scroll.scrollHeight;
+      const st = $scroll.scrollTop;
+      const trackH = $track.clientHeight;
+      const thumbH = sh > 0 ? Math.max(24, Math.round(trackH * ch / sh)) : trackH;
+      const maxScroll = sh - ch;
+      const maxThumbTop = trackH - thumbH;
+      const top = maxScroll > 0 ? Math.round((st / maxScroll) * maxThumbTop) : 0;
+      $thumb.style.height = thumbH + 'px';
+      $thumb.style.top = top + 'px';
+    }
+    $scroll.addEventListener('scroll', update);
+    window.addEventListener('resize', update);
+
+    let dragging = false, startY = 0, startScroll = 0;
+    $thumb.addEventListener('mousedown', (e) => {
+      dragging = true;
+      startY = e.clientY;
+      startScroll = $scroll.scrollTop;
+      document.body.style.userSelect = 'none';
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!dragging) return;
+      const maxScroll = $scroll.scrollHeight - $scroll.clientHeight;
+      const maxThumbTop = $track.clientHeight - $thumb.offsetHeight;
+      const dScroll = maxThumbTop > 0 ? ((e.clientY - startY) / maxThumbTop) * maxScroll : 0;
+      $scroll.scrollTop = startScroll + dScroll;
+    });
+    window.addEventListener('mouseup', () => {
+      if (!dragging) return;
+      dragging = false;
+      document.body.style.userSelect = '';
+    });
+
+    $track.addEventListener('mousedown', (e) => {
+      if (e.target === $thumb) return;
+      const thumbH = $thumb.offsetHeight;
+      const clickY = e.clientY - $track.getBoundingClientRect().top - thumbH / 2;
+      const ratio = Math.max(0, Math.min(1, clickY / ($track.clientHeight - thumbH)));
+      $scroll.scrollTop = ratio * ($scroll.scrollHeight - $scroll.clientHeight);
+    });
+
+    return update;
+  }
+
+  const updateAvail = wireScrollbar($available, $ctrack, $cthumb);
+  const updatePreview = wireScrollbar($preview, $ptrack, $pthumb);
+
+  function setPreview(name) {
+    $preview.textContent = fileFor(name);
+    updatePreview();
+  }
+
+  render();
+
+  // On load, pick a row at random and "hover" it so the preview is populated
+  // (mirrors the real page's $displayNames.random().click() behaviour).
+  function previewRandom() {
+    const rows = $available.querySelectorAll('.display-name');
+    if (rows.length === 0) { return; }
+    const row = rows[Math.floor(Math.random() * rows.length)];
+    $available.querySelectorAll('.preview-active').forEach(r => r.classList.remove('preview-active'));
+    row.classList.add('preview-active');
+    setPreview(row.textContent);
+    row.scrollIntoView({ block: 'nearest' });
+  }
+  previewRandom();
+</script>
+
+</body>
+</html>

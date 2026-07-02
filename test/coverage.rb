@@ -2,13 +2,18 @@ require 'simplecov'
 require_relative 'simplecov_json'
 require_relative 'runs_text_reporter'
 
+# The code is at ${APP_DIR}/source and the tests at the sibling ${APP_DIR}/test,
+# so SimpleCov's root is ${APP_DIR} to cover both groups (see Dockerfile, ../saver).
+APP_DIR = ENV['APP_DIR']
+
 SimpleCov.start do
   enable_coverage(:branch)
   filters.clear
   coverage_dir(ENV['COVERAGE_ROOT'])
+  root(APP_DIR)
   # add_group('debug') { |src| puts(src.filename); false }
-  add_group('app')  { |src| src.filename !~ /test/ }
-  add_group('test') { |src| src.filename =~ /test/ }
+  add_group('app')  { |src| src.filename.start_with?("#{APP_DIR}/source/") }
+  add_group('test') { |src| src.filename.start_with?("#{APP_DIR}/test/") }
 end
 
 formatters = [SimpleCov::Formatter::HTMLFormatter,

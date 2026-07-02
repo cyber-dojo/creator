@@ -74,20 +74,31 @@ class App < AppBase
     end
   end
 
-  get_delegate(IdTyper, :id_type)
+  get '/id_type', provides: [:json] do
+    respond_to do |wants|
+      wants.json do
+        json('id_type' => IdTyper.new(externals).id_type(params['id']))
+      end
+    end
+  end
 
   post '/enter.json', provides: [:json] do
     respond_to do |wants|
       wants.json do
-        group_id = json_args[:id]
-        kata_id = saver.group_join(group_id)
-        if kata_id.nil?
-          json('route' => "/creator/full?id=#{group_id}")
-        else
-          group_index = saver.kata_manifest(kata_id)['group_index']
-          json('route' => "/creator/avatar?id=#{kata_id}",
-               'id' => kata_id,
-               'group_index' => group_index)
+        id = json_args[:id]
+        type = IdTyper.new(externals).id_type(id)
+        if type == 'cluster'
+          json('route' => "/creator/choose_ltf_to_join?id=#{id}")
+        elsif type == 'group'
+          kata_id = saver.group_join(id)
+          if kata_id.nil?
+            json('route' => "/creator/full?id=#{id}")
+          else
+            group_index = saver.kata_manifest(kata_id)['group_index']
+            json('route' => "/creator/avatar?id=#{kata_id}",
+                 'id' => kata_id,
+                 'group_index' => group_index)
+          end
         end
       end
     end
@@ -130,11 +141,17 @@ class App < AppBase
   include SelectedHelper
 
   def create(type, args)
-    if type == 'group'
+    if type == 'cluster'
+      create_cluster(args)
+    elsif type == 'group'
       create_group(args)
     else
       create_kata(args)
     end
+  end
+
+  def create_cluster(args)
+    creator.cluster_create(**args)
   end
 
   def create_group(args)

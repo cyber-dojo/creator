@@ -14,6 +14,24 @@ class ExternalSaver
     @http.get(__method__, {})
   end
 
+  def id_chain(id)
+    @http.get(__method__, { id: id })
+  end
+
+  def cluster_create(manifests)
+    @http.post(__method__, { manifests: manifests })
+  end
+
+  def cluster_exists?(id)
+    @http.get(__method__, { id: id })
+  end
+
+  def cluster_manifest(id)
+    @http.get(__method__, { id: id })
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   def group_create(manifest)
     @http.post(__method__, { manifest: manifest })
   end
@@ -33,6 +51,8 @@ class ExternalSaver
   def group_joined(id)
     @http.get(__method__, { id: id })
   end
+
+  # - - - - - - - - - - - - - - - - -
 
   def kata_create(manifest)
     @http.post(__method__, { manifest: manifest })
