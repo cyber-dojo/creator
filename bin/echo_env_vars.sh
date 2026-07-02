@@ -43,7 +43,4 @@ echo_env_vars()
   #
   # echo CYBER_DOJO_SAVER_SHA=fef7a58e2eb3c3b16c51ef0f2c71fc6b7bfb53af
   # echo CYBER_DOJO_SAVER_TAG=fef7a58
-
-  echo CYBER_DOJO_SAVER_SHA=dbd99aaa23cd9b45b8f6200fd4fc9dfc10e6e866
-  echo CYBER_DOJO_SAVER_TAG=dbd99aa  
 }
