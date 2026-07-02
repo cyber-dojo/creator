@@ -1,35 +1,50 @@
 
+# Returns the absolute path of the repo's root directory.
 repo_root() { git rev-parse --show-toplevel; }
 
+# Echoes the versioner image's env-var statements (image names, SHAs, TAGs,
+# and PORTs for every cyber-dojo service). The versioner image is the single
+# source of truth for these; redirect its stderr to hide platform warnings.
+run_versioner()
+{
+  docker run --rm --platform linux/amd64 cyberdojo/versioner:latest >/tmp/log.stdout 2>/tmp/log.stderr
+  cat /tmp/log.stdout
+}
+
+# Generates .env and echoes the env-vars needed for docker-compose ${...}
+# substitution. Port numbers come solely from the versioner image, so .env
+# never duplicates (and cannot drift from) that single source of truth.
 echo_env_vars()
 {
   #--------------------
-  # Set env-vars for SCSS/JS asset-builder
+  # Generate .env, which docker-compose auto-loads for ${...} substitution and
+  # passes into each container via env_file. The ports come straight from the
+  # versioner image; CREATOR_CLIENT_PORT and CYBER_DOJO_ENV are repo-local
+  # settings versioner does not know about.
 
-  local -r asset_builder_port=5135
-  local -r asset_env_filename="$(repo_root)/.env.asset_builder"
-  echo "# This file is generated in bin/lib.sh echo_env_vars()" > "${asset_env_filename}"
-  echo CYBER_DOJO_ASSET_BUILDER_PORT=${asset_builder_port}     >> "${asset_env_filename}"
-  echo CYBER_DOJO_ASSET_BUILDER_PORT=${asset_builder_port}
-  echo CYBER_DOJO_ASSET_BUILDER_IMAGE=cyberdojo/asset_builder
-  echo CYBER_DOJO_ASSET_BUILDER_TAG=f2bcab7
-  echo CYBER_DOJO_ASSET_BUILDER_CONTAINER_NAME=asset_builder
+  local -r commit_sha="$(cd "$(repo_root)" && git rev-parse HEAD)"
+  local -r image_tag="${commit_sha:0:7}"
+  local -r creator_client_port=9999
+
+  {
+    echo "# This file is generated in bin/echo_env_vars.sh echo_env_vars()"
+    run_versioner | grep PORT
+    echo CYBER_DOJO_CREATOR_CLIENT_PORT=${creator_client_port}
+    echo CYBER_DOJO_ENV=staging
+  } > "$(repo_root)/.env"
 
   #--------------------
   # Set env-vars for this repo
 
-  local -r commit_sha="$(cd "$(repo_root)" && git rev-parse HEAD)"
-  local -r image_tag="${commit_sha:0:7}"
-
   echo DOCKER_CLI_HINTS=false
 
-  docker run --rm --platform linux/amd64 cyberdojo/versioner:latest
+  run_versioner
   #
   echo CYBER_DOJO_CREATOR_SHA="${commit_sha}"
   echo CYBER_DOJO_CREATOR_TAG="${image_tag}"
   #
   echo CYBER_DOJO_CREATOR_CLIENT_IMAGE=cyberdojo/client
-  echo CYBER_DOJO_CREATOR_CLIENT_PORT=9999
+  echo CYBER_DOJO_CREATOR_CLIENT_PORT=${creator_client_port}
   #
   echo CYBER_DOJO_CREATOR_CLIENT_USER=nobody
   echo CYBER_DOJO_CREATOR_SERVER_USER=nobody
@@ -41,6 +56,6 @@ echo_env_vars()
   # add to this function if you want the new images to be
   # part of the dev-loop/demo. For example:
   #
-  # echo CYBER_DOJO_SAVER_SHA=fef7a58e2eb3c3b16c51ef0f2c71fc6b7bfb53af
+  # echo CYBER_DOJO_SAVER_SHA=fef7a58e2eb3c3b16c51ef0f2c71fc6b7bfb53af
   # echo CYBER_DOJO_SAVER_TAG=fef7a58
 }
