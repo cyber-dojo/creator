@@ -23,6 +23,13 @@ services:
       - differ
       - dashboard
 
+  # Publish creator on the host for the demo only. bin/demo.sh's api_demo
+  # curls the creator server directly on CYBER_DOJO_CREATOR_PORT (not through
+  # nginx) to bypass nginx's /creator/ rate-limit. The base docker-compose.yml
+  # deliberately publishes no host ports (see its comment).
+  creator:
+    ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
+
   web:
     image: ${CYBER_DOJO_WEB_IMAGE}:${CYBER_DOJO_WEB_TAG}
     platform: linux/amd64
