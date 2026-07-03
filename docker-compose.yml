@@ -1,4 +1,12 @@
 
+# No service publishes a host port. The tests reach every service by its
+# compose service name over the project's private network (the browser in the
+# selenium container hits http://nginx_stub:80, the client reaches
+# http://selenium:4444/wd/hub, and so on), so nothing needs a host port. Not
+# publishing means several test runs - in this repo or in sibling repos - can
+# run at once without fighting over the same host ports (eg 80, 4444). The demo
+# overlay (docker-compose.demo.yml) publishes the few ports the demo needs.
+
 services:
 
   # The client/selenium tests run against this cut-down nginx stub, NOT the
@@ -12,7 +20,6 @@ services:
   nginx_stub:
     image: cyberdojo/nginx_creator_stub
     platform: linux/amd64
-    ports: [ "${CYBER_DOJO_NGINX_PORT}:${CYBER_DOJO_NGINX_PORT}" ]
     user: root
     build:
       context: nginx_stub
@@ -28,7 +35,6 @@ services:
     image: ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     platform: linux/amd64
     env_file: [ .env ]
-    ports: [ "${CYBER_DOJO_CREATOR_CLIENT_PORT}:${CYBER_DOJO_CREATOR_CLIENT_PORT}" ]
     user: ${CYBER_DOJO_CREATOR_CLIENT_USER}
     depends_on:
       - custom-start-points    # for test data
@@ -56,7 +62,6 @@ services:
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     platform: linux/amd64
     env_file: [ .env ]
-    ports: [ "${CYBER_DOJO_CREATOR_PORT}:${CYBER_DOJO_CREATOR_PORT}" ]
     user: ${CYBER_DOJO_CREATOR_SERVER_USER}
     depends_on:
       - custom-start-points
@@ -147,4 +152,3 @@ services:
   selenium:
     image: selenium/standalone-firefox
     platform: linux/amd64
-    ports: [ "4444:4444" ]
