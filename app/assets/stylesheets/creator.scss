@@ -101,6 +101,12 @@
   {
     @include wide-list-item();
   }
+  // Mimics the :hover border, used to show the initially-previewed random
+  // exercise as if the mouse were hovering over it.
+  .display-name.previewed
+  {
+    border: 1px dotted lighten($darker-color, 25%);
+  }
   .display-content
   {
     @include rounded-corner();
@@ -151,16 +157,73 @@
   }
 }
 
-#choose-problem-page .help
+// The chooser pages lay their controls out as two full-width rows that span
+// the edged-panel: a header row (sub-title on the left, top-right buttons on
+// the right) above the display box, and a footer row (the large action button
+// on the left, help link on the right) below it.
+.header-row,
+.footer-row
 {
-  position: relative;
-  right: -310px;
-  top: -33px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-#choose-ltf-page .help
+.corner-buttons
 {
-  position: relative;
-  right: -315px;
-  top: -33px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+// choose_problem's footer holds the large next button on the left and the two
+// smaller switch/skip buttons stacked on the right. align-items:stretch lets
+// the tallest item (next) set the row height so the stack matches it exactly.
+// padding-right lines the stack's right edge up with the display-content text
+// field, which stops a few px short of the panel edge (as the header does).
+#choose-problem-page .footer-row
+{
+  justify-content:flex-end;
+  gap:10px;
+  align-items:stretch;
+  padding-right:5px;
+}
+
+// Pull the next button left so its left edge lines up with the left edge of
+// the display-content text field (which starts after the 300px names column).
+// margin-right:auto keeps the stacked buttons grouped at the right. The 313px
+// is the names-column width plus the display box's left gap, so it must be
+// revisited if .display-names width changes.
+#choose-problem-page .footer-row .next
+{
+  margin-right:auto;
+  margin-left:313px;
+}
+
+// switch and skip sit one above the other, right-aligned. margin-top matches
+// the next button's own top margin so the stack's top lines up with next's
+// top; with the row stretched, the stack then fills next's exact height. The
+// column stretches both buttons to the width of the wider one (switch).
+#choose-problem-page .stacked-buttons
+{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  margin-top:10px;
+}
+
+#choose-problem-page .stacked-buttons button
+{
+  flex:1;
+  min-height:0;
+  font-size:16px;
+  margin:0;
+}
+
+// The display box is centred, so it stops a few px short of the panel's right
+// edge. Inset the header row to match, so the contribute link's right edge
+// lines up with the right edge of the display-content text field above it.
+#choose-problem-page .header-row
+{
+  padding-right:5px;
 }

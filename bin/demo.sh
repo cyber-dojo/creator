@@ -27,11 +27,13 @@ export $(echo_env_vars)
 # container names or host ports colliding. The backend services are no
 # longer published to the host (they talk over the project's private
 # network); only nginx is, on an overridable host port, eg:
-#   CYBER_DOJO_NGINX_HOST_PORT=81 bin/demo.sh
+#   CYBER_DOJO_NGINX_HOST_PORT=91 bin/demo.sh
 # (creator is the one exception - api_demo below curls it directly on
 # CYBER_DOJO_CREATOR_PORT to bypass nginx's /creator/ rate-limit.)
+# The default host port is unique per repo (web=80, creator=81, dashboard=82)
+# so each repo's demo can run at the same time without overriding the port.
 export COMPOSE_PROJECT_NAME="${COMPOSE_PROJECT_NAME:-creator}"
-export CYBER_DOJO_NGINX_HOST_PORT="${CYBER_DOJO_NGINX_HOST_PORT:-80}"
+export CYBER_DOJO_NGINX_HOST_PORT="${CYBER_DOJO_NGINX_HOST_PORT:-81}"
 
 compose()
 {
@@ -88,5 +90,9 @@ api_demo
 if [ "${1:-}" = '--no-browser' ]; then
   compose down --remove-orphans
 else
-  open "http://localhost:${CYBER_DOJO_NGINX_HOST_PORT}"
+  # Open /creator/home directly rather than the bare '/'. nginx rewrites '/' to
+  # /creator/home with an absolute 301 built from its internal listen port (80),
+  # not the published host port, which would strip the port and send the browser
+  # to :80. Hitting /creator/home skips that rewrite and stays on this port.
+  open "http://localhost:${CYBER_DOJO_NGINX_HOST_PORT}/creator/home"
 fi

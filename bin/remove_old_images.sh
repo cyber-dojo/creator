@@ -15,9 +15,8 @@ remove_all_but_latest()
   do
     if [ "${image_name}" != "${name}:latest" ]; then
       if [ "${image_name}" != "${name}:<none>" ]; then
-        docker image rm --force "${image_name}"
+        docker image rm --force "${image_name}" || echo "  skipped ${image_name} (in use)"
       fi
     fi
   done
-  docker system prune --force
 }
