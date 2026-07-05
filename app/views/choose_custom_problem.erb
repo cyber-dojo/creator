@@ -19,15 +19,11 @@ $(() => {
 <div id="choose-custom-problem-page">
   <div class="edged-panel">
     <div class="title">create a new practice</div>
-    <div class="header-row">
-      <div class="sub-title">choose your custom problem</div>
-      <div class="corner-buttons">
-        <button type="button" class="small switch">switch to problems</button>
-      </div>
-    </div>
+    <div class="sub-title">choose your custom exercise</div>
     <%= erb :'shared/display_names' %>
     <div class="footer-row">
-      <button type="button" class="large next">next</button>
+      <button type="button" class="large next" disabled>next</button>
+      <button type="button" class="switch">switch back to exercises</button>
     </div>
   </div>
 </div>

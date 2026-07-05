@@ -169,13 +169,6 @@
   align-items:center;
 }
 
-.corner-buttons
-{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
 // choose_problem's footer holds the large next button on the left and the two
 // smaller switch/skip buttons stacked on the right. align-items:stretch lets
 // the tallest item (next) set the row height so the stack matches it exactly.
@@ -191,10 +184,13 @@
 
 // Pull the next button left so its left edge lines up with the left edge of
 // the display-content text field (which starts after the 300px names column).
-// margin-right:auto keeps the stacked buttons grouped at the right. The 313px
-// is the names-column width plus the display box's left gap, so it must be
-// revisited if .display-names width changes.
-#choose-problem-page .footer-row .next
+// margin-right:auto pushes whatever follows (the stacked buttons on
+// choose_problem, the help link on choose_ltf) to the right. The 313px is the
+// names-column width plus the display box's left gap, so it must be revisited
+// if .display-names width changes.
+#choose-problem-page .footer-row .next,
+#choose-custom-problem-page .footer-row .next,
+#choose-ltf-page .footer-row .next
 {
   margin-right:auto;
   margin-left:313px;
@@ -202,22 +198,42 @@
 
 // switch and skip sit one above the other, right-aligned. margin-top matches
 // the next button's own top margin so the stack's top lines up with next's
-// top; with the row stretched, the stack then fills next's exact height. The
-// column stretches both buttons to the width of the wider one (switch).
+// top. The column stretches both buttons to the width of the wider one
+// (switch). The buttons keep their natural height rather than flex-growing to
+// fill the row, so switch looks identical whether or not skip is present -
+// skip is hidden for type=group (a group practice must choose an exercise).
+// gap is 0 so the two stacked buttons sum to the next button's own height;
+// any gap would make the stack taller than next and stretch next past its
+// natural height (leaving it taller here than on the other chooser pages).
 #choose-problem-page .stacked-buttons
 {
   display:flex;
   flex-direction:column;
-  gap:6px;
+  gap:0;
   margin-top:10px;
 }
 
 #choose-problem-page .stacked-buttons button
 {
-  flex:1;
-  min-height:0;
   font-size:16px;
   margin:0;
+}
+
+// Align choose_ltf's help link, and choose_custom_problem's switch button,
+// with the display-content text field's right edge (the same inset the
+// choose_problem header uses).
+#choose-ltf-page .footer-row,
+#choose-custom-problem-page .footer-row
+{
+  padding-right:5px;
+}
+
+// Match choose_problem's switch button: same font size, and top-aligned with
+// the next button rather than vertically centred against it.
+#choose-custom-problem-page .footer-row .switch
+{
+  align-self:flex-start;
+  font-size:16px;
 }
 
 // The display box is centred, so it stops a few px short of the panel's right
