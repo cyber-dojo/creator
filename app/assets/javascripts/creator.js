@@ -8,16 +8,53 @@ $.fn.random = function() {
 cd.setupDisplayNamesClickHandlers = () => {
   const $displayNames = $('.display-name');
   const $displayContent = $('.display-content');
-  $displayNames.click((event) => {
-    const $element = $(event.target);
+  const $next = $('button.next');
+
+  const showContent = ($element) => {
+    const index = $element.data('index');
+    $displayContent.val($(`#contents_${index}`).val());
+  };
+
+  // The exercise the textarea falls back to when the mouse is not over the
+  // names list: the selected exercise once one is clicked, or the random
+  // exercise previewed on open until then.
+  let $resting;
+
+  const select = ($element) => {
     cd.selectedDisplayName = $element.data('name').trim();
     $displayNames.removeClass('selected');
     $element.addClass('selected');
-    const index = $element.data('index');
-    const content = $(`#contents_${index}`).val();
-    $displayContent.val(content);
+    $resting = $element;
+    showContent($element);
+    $next.prop('disabled', false);
+  };
+
+  // Hovering an exercise name previews its file content in the textarea,
+  // without selecting it; leaving the names list reverts to the resting one.
+  $displayNames.mouseenter((event) => {
+    $displayNames.removeClass('previewed');
+    showContent($(event.currentTarget));
   });
-  $displayNames.random().click()[0].scrollIntoView(); // scrollIntoView is a DOM method, not jQuery
+  $('.display-names').mouseleave(() => showContent($resting));
+
+  // Only a click selects an exercise: it turns the name white and enables
+  // the next button.
+  $displayNames.click((event) => select($(event.currentTarget)));
+
+  const $random = $displayNames.random();
+  $random[0].scrollIntoView(); // scrollIntoView is a DOM method, not jQuery
+  if ($next.prop('disabled')) {
+    // The exercise chooser opens with next disabled. Preview a random exercise
+    // (shown as if the mouse were hovering over it) but leave it unselected, so
+    // next stays disabled until the user actually clicks a name.
+    $random.addClass('previewed');
+    $resting = $random;
+    showContent($random);
+  } else {
+    // The other choosers preselect the random name so their next button always
+    // has a valid selection.
+    select($random);
+  }
 };
 
 cd.urlParams = () => {
