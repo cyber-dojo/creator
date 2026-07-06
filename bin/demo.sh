@@ -90,9 +90,7 @@ api_demo
 if [ "${1:-}" = '--no-browser' ]; then
   compose down --remove-orphans
 else
-  # Open /creator/home directly rather than the bare '/'. nginx rewrites '/' to
-  # /creator/home with an absolute 301 built from its internal listen port (80),
-  # not the published host port, which would strip the port and send the browser
-  # to :80. Hitting /creator/home skips that rewrite and stays on this port.
-  open "http://localhost:${CYBER_DOJO_NGINX_HOST_PORT}/creator/home"
+  # nginx rewrites '/' to /creator/home with a relative 301 (absolute_redirect
+  # off), so the browser follows it while keeping this host port.
+  open "http://localhost:${CYBER_DOJO_NGINX_HOST_PORT}"
 fi

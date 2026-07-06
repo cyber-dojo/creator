@@ -2,9 +2,10 @@
 
 ## Status
 
-Worked around, not fixed. `bin/demo.sh` now opens `/creator/home` directly to
-sidestep the redirect. The underlying nginx behaviour is still present and
-worth looking into.
+Fixed. The cyber-dojo nginx image now sets `absolute_redirect off;`, so the
+`^/$` rewrite emits a relative `Location: /creator/home` and the browser keeps
+whatever port it is on. `bin/demo.sh` opens the bare root URL again; the earlier
+`/creator/home` workaround has been reverted.
 
 ## Symptom
 
@@ -68,21 +69,28 @@ to host port 81 (so the web and creator demos can run side by side without a
 port clash) exposed the mismatch between nginx's internal listen port and the
 published host port.
 
-## Workaround in place
+## The fix
 
-`bin/demo.sh` now opens the final URL directly:
+`absolute_redirect off;` was added to the server block in the cyber-dojo nginx
+image (`nginx.conf.template`). All the `permanent` rewrites in that block are
+same-host redirects, so relative `Location` headers are correct for each: the
+browser keeps whatever scheme, host and port it connected on.
 
 ```
-open "http://localhost:${CYBER_DOJO_NGINX_HOST_PORT}/creator/home"
+absolute_redirect off;
+
+rewrite ^/$              /creator/home permanent;
 ```
 
-## Options for a proper fix (to investigate)
+`bin/demo.sh` opens the bare root URL again:
 
-- Set `absolute_redirect off;` in the nginx config so the `^/$` rewrite emits a
-  relative `Location: /creator/home`; the browser then keeps whatever port it
-  is already on. This lives in the cyber-dojo nginx image, not this repo.
-- Or set `port_in_redirect off;` (weaker: only affects the port, and still
-  depends on the absolute form).
-- Confirm whether any other absolute redirects in the nginx config have the
-  same host-port assumption.
+```
+open "http://localhost:${CYBER_DOJO_NGINX_HOST_PORT}"
+```
+
+### Rejected alternative
+
+`port_in_redirect off;` also fixes this case but is weaker: it drops only the
+port and still depends on nginx constructing an absolute URL. `absolute_redirect
+off` sidesteps the absolute form entirely.
 ```
