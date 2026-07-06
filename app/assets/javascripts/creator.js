@@ -43,18 +43,12 @@ cd.setupDisplayNamesClickHandlers = () => {
 
   const $random = $displayNames.random();
   $random[0].scrollIntoView(); // scrollIntoView is a DOM method, not jQuery
-  if ($next.prop('disabled')) {
-    // The exercise chooser opens with next disabled. Preview a random exercise
-    // (shown as if the mouse were hovering over it) but leave it unselected, so
-    // next stays disabled until the user actually clicks a name.
-    $random.addClass('previewed');
-    $resting = $random;
-    showContent($random);
-  } else {
-    // The other choosers preselect the random name so their next button always
-    // has a valid selection.
-    select($random);
-  }
+  // The choosers open with next disabled. Preview a random exercise (shown as
+  // if the mouse were hovering over it) but leave it unselected, so next stays
+  // disabled until the user actually clicks a name.
+  $random.addClass('previewed');
+  $resting = $random;
+  showContent($random);
 };
 
 cd.urlParams = () => {
