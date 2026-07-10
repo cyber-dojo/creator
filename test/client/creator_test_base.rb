@@ -33,34 +33,8 @@ class CreatorTestBase < Id58TestBase
 
   # - - - - - - - - - - - - - - - - - - -
 
-  def group_exists?(id)
-    saver.group_exists?(id)
-  end
-
-  def group_manifest(id)
-    saver.group_manifest(id)
-  end
-
-  def kata_exists?(id)
-    saver.kata_exists?(id)
-  end
-
-  def kata_manifest(id)
-    saver.kata_manifest(id)
-  end
-
-  # - - - - - - - - - - - - - - - - - - -
-
-  def any_custom_start_points_display_name
-    custom_start_points.names.sample
-  end
-
   def any_exercises_start_points_display_name
     exercises_start_points.names.sample
-  end
-
-  def any_languages_start_points_display_name
-    languages_start_points.names.sample
   end
 
   # - - - - - - - - - - - - - - - - - - -

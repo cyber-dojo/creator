@@ -54,7 +54,33 @@
        width:56px;
       height:56px;
   }
-  .phonetic-id { font-size:26px; margin: { left:0px; bottom:10px; } }
+  // The phonetic spelling sits to the right of the id entry field, vertically
+  // centred against it, rather than on its own row below.
+  .phonetic-id
+  {
+    display:inline-block;
+    vertical-align:middle;
+    font-size:26px;
+    margin: { left:15px; bottom:10px; }
+  }
+  .ltf-name { font-size:26px; margin: { left:0px; bottom:10px; } }
+
+  // A cluster shows one button per child LTF, vertically stacked.
+  .cluster-ltf-buttons button
+  {
+    display: block;
+    margin-bottom: 10px;
+  }
+  // The dashboard button sits a little below the LTF buttons to set it apart,
+  // and is only as wide as its text (not full-width like the LTF buttons).
+  .cluster-ltf-buttons .cluster-dashboard
+  {
+    margin-top: 10px;
+    width: auto;
+  }
+  // A group's "open dashboard" button is only as wide as its text, not
+  // full-width like the group's other buttons.
+  .open.dashboard { width: auto; }
 }
 
 //- - - - - - - - - - - - - - - - - - - - - - - - -
@@ -83,20 +109,37 @@
 {
   @include centered();
 
-  .display-names   { width:300px; max-width:300px; height:320px; max-height:320px; }
+  // The names list sits in a 300px column (scroll-wrap) that leaves a 14px
+  // gutter on the right for an always-on custom scrollbar. text-align:left keeps
+  // the 286px list flush-left in the column even when the display box centres
+  // its columns (text-align:center from centered()).
+  .scroll-wrap
+  {
+    display:inline-block;
+    vertical-align:top;
+    position:relative;
+    width:300px;
+    max-width:300px;
+    margin-right:5px;
+    text-align:left;
+  }
+  .display-names   { width:286px; max-width:286px; height:320px; max-height:320px; }
   .display-content { width:500px; max-width:500px; height:320px; max-height:320px; }
   .display-names, .display-content
   {
     display:inline-block;
     overflow-x:hidden;
-    overflow-y:auto;
   }
+  // The list's native scrollbar is hidden; the custom track+thumb (wired in
+  // creator.js) reflect its scroll state instead.
   .display-names
   {
-    margin-right:5px;
     padding: { top:6px; bottom:6px; }
-    position:relative; top:4px;
+    overflow-y:scroll;
+    scrollbar-width:none;                        // Firefox: hide native
+    &::-webkit-scrollbar { width:0px; height:0px; display:none; }
   }
+  .display-content { overflow-y:auto; }          // plain native scrollbar
   .display-name
   {
     @include wide-list-item();
@@ -113,6 +156,30 @@
     padding: { top:8px; left:8px; right:8px; bottom:0px; }
     font-size:11px;
     resize:none;
+  }
+
+  // Always-on custom scrollbar for the names list: a dark track (blends into the
+  // page) with a khaki thumb matching the row text it scrolls.
+  .cscroll-track
+  {
+    position:absolute;
+    top:6px; bottom:6px; right:0px;
+    width:14px;
+    background:$darker-color;
+    @include rounded-corner(7px);
+  }
+  .cscroll-thumb
+  {
+    position:absolute;
+    left:0px; top:0px;
+    width:14px;
+    min-height:24px;
+    background:$lighter-color;
+    @include rounded-corner(7px);
+    border:3px solid $darker-color;              // inset matches background
+    box-sizing:border-box;
+    cursor:pointer;
+    &:hover { background:darken($lighter-color, 10%); }
   }
 }
 
@@ -242,4 +309,127 @@
 #choose-problem-page .header-row
 {
   padding-right:5px;
+}
+
+//- - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// choose_ltf group (classroom) flow: pick up to 5 language & test-frameworks.
+// The chosen list sits bottom-left, directly below the available list and to
+// the left of the next button; clicking moves an entry between the two lists.
+
+// A thin divider rule in the text colour runs across the 300px available-names
+// column, separating the chosen list below it from the available list above so
+// the two lists do not blur into one another. It is a filled 1px block (not a
+// border) so it renders as an even line with no thicker corner pixel.
+#choose-ltf-page.group .chosen-divider
+{
+  width:300px;
+  max-width:300px;
+  height:1px;
+  margin: { top:8px; bottom:8px; left:0px; right:0px; }
+  border:0;
+  background:$lighter-color;
+}
+
+// The chosen list aligns under the 300px available-names column. flex-shrink:0
+// stops the footer's help text from squeezing it narrower than 300px, which
+// would drag next left of the preview pane above it.
+#choose-ltf-page.group .chosen-ltfs
+{
+  width:300px;
+  max-width:300px;
+  flex-shrink:0;
+}
+
+// A chosen entry looks like an available one; clicking it moves it back to the
+// available list. Empty slots make the 5-cap visible.
+#choose-ltf-page.group .chosen-ltfs .display-name
+{
+  @include wide-list-item();
+  margin-bottom:4px;
+  overflow:visible;                             // don't clip the slot number,
+                                                // which hangs off the left edge
+}
+#choose-ltf-page.group .chosen-ltfs .slot-empty
+{
+  @include plaintext-font();
+  color:lighten($darker-color, 20%);
+  border:1px dashed lighten($darker-color, 15%);
+  text-align:left;
+  padding: { left:6px; right:0px; }
+  margin: { top:0px; bottom:4px; }
+  min-height:19px;                              // keep row height with the number
+  white-space:nowrap;                           // moved out of flow (see slot-num)
+}
+
+// Anchor for the number, which hangs in the gutter to the left of the box.
+#choose-ltf-page.group .chosen-ltfs .display-name,
+#choose-ltf-page.group .chosen-ltfs .slot-empty
+{
+  position:relative;
+}
+// The 1..5 number sits out of flow, in the gutter to the LEFT of the row box,
+// so the row's name text lines up with the available-list names rather than
+// being indented past the number.
+#choose-ltf-page.group .chosen-ltfs .slot-num
+{
+  position:absolute;
+  right:calc(100% + 4px);
+  top:0px;
+  color:lighten($darker-color, 30%);
+}
+
+// The group page lays its two columns out with flex, not inline-block:
+// inline-block leaves ~4px of whitespace between the columns (from the newline
+// in the markup), which would push the preview pane right of the next button
+// below it. flex gives an exact 5px gap and no stray whitespace. text-align:left
+// left-aligns the columns' contents (the shared .display-box centres them) so
+// the list lines up under the sub-title and the textarea lines up over next.
+// The list style and custom scrollbar themselves come from the shared .display-box.
+#choose-ltf-page.group .display-box
+{
+  display:flex;
+  justify-content:flex-start;
+  align-items:flex-start;
+  gap:5px;
+  text-align:left;
+}
+// The shared column's margin-right would double the flex gap, so drop it here.
+// flex-shrink:0 keeps the 300px column width.
+#choose-ltf-page.group .scroll-wrap
+{
+  margin-right:0px;
+  flex-shrink:0;
+}
+
+// Lay the chosen list, next button and help link out along the footer. The
+// chosen list already spans the 300px names column, so next follows it directly
+// (unlike the single-select footer, which indents next to align under the
+// preview pane); undo that indent here.
+// The display box centres its 805px of columns in the panel. Give the divider
+// and footer the same centred 805px box so the chosen list lines up under the
+// available list, and next lines up under the white preview pane.
+#choose-ltf-page.group .group-footer
+{
+  width:805px;
+  max-width:100%;
+  margin: { left:0px; right:0px; }
+}
+// gap 5px matches the available list's own right margin, so next's left edge
+// lines up with the left edge of the preview pane above it.
+#choose-ltf-page.group .footer-row
+{
+  justify-content:flex-start;
+  align-items:flex-start;
+  gap:5px;
+}
+#choose-ltf-page.group .footer-row .next
+{
+  margin-left:0px;
+  margin-right:0px;
+  margin-top:0px;
+  flex-shrink:0;
+}
+#choose-ltf-page.group .footer-row .help
+{
+  margin-left:auto;
 }

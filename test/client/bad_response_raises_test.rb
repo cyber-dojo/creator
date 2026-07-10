@@ -33,6 +33,16 @@ class BadResponseRaisesTest < CreatorTestBase
     assert_equal expected, error.message
   end
 
+  # - - - - - - - - - - - - - - - - -
+
+  qtest f2Gd34:
+  %w[http body JSON Hash with an embedded exception raises] do
+    creator_http_stub('{"exception":"boom"}')
+    error = assert_raises(HttpJsonHash::ServiceError) { externals.creator.ready? }
+    expected = 'body has embedded exception'
+    assert_equal expected, error.message
+  end
+
   private
 
   def creator_http_stub(body)

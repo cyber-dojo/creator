@@ -2,7 +2,7 @@
 {
   "failures":0,
   "errors":0,
-  "warnings":17,
+  "warnings":23,
   "skips":0,
 
   "duration":50,
@@ -10,18 +10,18 @@
   "code": {
     "lines": {
        "total":150,
-      "missed":21
+      "missed":0
     },
     "branches": {
        "total":6,
-      "missed":1
+      "missed":0
     }
   },
 
   "test": {
     "lines": {
-       "total":124,
-      "missed":9
+       "total":143,
+      "missed":0
     },
     "branches": {
        "total":0,

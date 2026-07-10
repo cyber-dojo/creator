@@ -17,6 +17,12 @@ source "${BIN_DIR}/curlers.sh"
 source "${BIN_DIR}/echo_env_vars.sh"
 source "${BIN_DIR}/lib.sh"
 
+# Fail fast if docker is missing or its daemon is down: echo_env_vars below runs
+# the versioner container, and a stopped daemon otherwise surfaces much later as
+# api_demo curling an empty CYBER_DOJO_CREATOR_PORT.
+exit_non_zero_unless_installed docker
+exit_non_zero_unless_docker_running
+
 # Suppress "requested image's platform does not match host platform" warnings on Apple Silicon
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 # shellcheck disable=SC2046
@@ -70,8 +76,6 @@ api_demo()
 }
 
 # - - - - - - - - - - - - - - - - - - - - - - -
-exit_non_zero_unless_installed docker
-
 # Tear down any previous demo (also frees host port 80 if a test left the stub up).
 compose down --remove-orphans 2>/dev/null || true
 
