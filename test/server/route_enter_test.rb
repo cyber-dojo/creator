@@ -53,28 +53,41 @@ class RouteEnterTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
-  qtest d4Pk90: %w[
-    |POST /enter.json
-    |for a cluster id
-    |routes to the choose-LTF-to-join page
-    |and does not join a group
-  ] do
-    args = {
-      exercise_name: exercises_start_points.names.first,
-      language_names: languages_start_points.names.first(2),
-      type: 'cluster'
-    }
-    json_post '/create.json', args
-    cluster_id = json_response['id']
-    assert cluster_exists?(cluster_id), "cluster_exists?(#{cluster_id})"
+  AVATAR_COUNT = 64
 
-    assert_post_200_json('enter.json', { id: cluster_id }) do |response|
-      assert response.key?('route'), response.keys
-      assert_equal "/creator/choose_ltf_to_join?id=#{cluster_id}", response['route'], response
-    end
+  qtest d4Pc36: %w[
+    |POST /enter.json across every group of a multi-LTF cluster
+    |spreads avatars so that filling the cluster to its 64-joiner capacity
+    |hands out each of the 64 avatars exactly once across all its groups;
+    |filling it a second time (to 128 joiners) hands out each avatar
+    |exactly twice - no animal appears three times anywhere in the cluster
+  ] do
+    child_group_ids = json_post_create_cluster({
+                                                 language_names: languages_start_points.names.first(2),
+                                                 exercise_name: exercises_start_points.names.first
+                                               })
+    joins_per_group = AVATAR_COUNT / child_group_ids.size
+
+    group_indexes = join_each_group(child_group_ids, joins_per_group)
+    assert_equal (0...AVATAR_COUNT).to_a, group_indexes.sort, group_indexes
+
+    group_indexes += join_each_group(child_group_ids, joins_per_group)
+    assert_equal ((0...AVATAR_COUNT).to_a * 2).sort, group_indexes.sort, group_indexes
   end
 
   private
+
+  def join_each_group(child_group_ids, joins_per_group)
+    group_indexes = []
+    child_group_ids.each do |child_group_id|
+      joins_per_group.times do
+        assert_post_200_json('enter.json', { id: child_group_id }) do |response|
+          group_indexes << response['group_index']
+        end
+      end
+    end
+    group_indexes
+  end
 
   def json_post_create_group(args)
     args[:type] = 'group'
@@ -82,5 +95,13 @@ class RouteEnterTest < CreatorTestBase
     id = json_response['id']
     assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
     yield group_manifest(id)
+  end
+
+  def json_post_create_cluster(args)
+    args[:type] = 'cluster'
+    json_post '/create.json', args
+    id = json_response['id']
+    assert cluster_exists?(id), "id:#{id}:"
+    cluster_manifest(id)['groups'].keys
   end
 end

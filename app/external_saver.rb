@@ -44,8 +44,10 @@ class ExternalSaver
     @http.get(__method__, { id: id })
   end
 
-  def group_join(id)
-    @http.post(__method__, { id: id })
+  def group_join(id, indexes = nil)
+    args = { id: id }
+    args[:indexes] = indexes unless indexes.nil?
+    @http.post(__method__, args)
   end
 
   def group_joined(id)

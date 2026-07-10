@@ -1,4 +1,5 @@
 require_relative 'app_base'
+require_relative 'cluster_avatar_order'
 require_relative 'creator'
 require_relative 'escape_html_helper'
 require_relative 'id_typer'
@@ -49,6 +50,7 @@ class App < AppBase
   get '/choose_ltf', provides: [:html] do
     respond_to do |wants|
       wants.html do
+        @type = params['type']
         self.data_source = externals.languages_start_points
         erb :choose_ltf
       end
@@ -82,23 +84,38 @@ class App < AppBase
     end
   end
 
+  get '/cluster_children', provides: [:json] do
+    respond_to do |wants|
+      wants.json do
+        groups = saver.cluster_manifest(params['id'])['groups']
+        children = groups.map do |group_id, manifest|
+          { 'id' => group_id, 'display_name' => manifest['display_name'] }
+        end
+        json('children' => children)
+      end
+    end
+  end
+
+  get '/group_display_name', provides: [:json] do
+    respond_to do |wants|
+      wants.json do
+        json('display_name' => saver.group_manifest(params['id'])['display_name'])
+      end
+    end
+  end
+
   post '/enter.json', provides: [:json] do
     respond_to do |wants|
       wants.json do
-        id = json_args[:id]
-        type = IdTyper.new(externals).id_type(id)
-        if type == 'cluster'
-          json('route' => "/creator/choose_ltf_to_join?id=#{id}")
-        elsif type == 'group'
-          kata_id = saver.group_join(id)
-          if kata_id.nil?
-            json('route' => "/creator/full?id=#{id}")
-          else
-            group_index = saver.kata_manifest(kata_id)['group_index']
-            json('route' => "/creator/avatar?id=#{kata_id}",
-                 'id' => kata_id,
-                 'group_index' => group_index)
-          end
+        group_id = json_args[:id]
+        kata_id = saver.group_join(group_id, cluster_avatar_order(group_id))
+        if kata_id.nil?
+          json('route' => "/creator/full?id=#{group_id}")
+        else
+          group_index = saver.kata_manifest(kata_id)['group_index']
+          json('route' => "/creator/avatar?id=#{kata_id}",
+               'id' => kata_id,
+               'group_index' => group_index)
         end
       end
     end
@@ -168,6 +185,23 @@ class App < AppBase
     else
       creator.kata_create(**args)
     end
+  end
+
+  # A group joined inside a cluster should hand out an avatar that is scarce
+  # across the whole cluster, so a given animal identifies one person across all
+  # its LTF groups. Resolve the group's cluster, count every avatar already used
+  # across its sibling groups, and return the group_join candidate order that
+  # prefers cluster-scarce avatars. Returns nil for a bare group (no cluster),
+  # leaving that join on the saver's own default ordering.
+  def cluster_avatar_order(group_id)
+    cluster_id = saver.group_manifest(group_id)['cluster_id']
+    return nil if cluster_id.nil?
+
+    sibling_group_ids = saver.cluster_manifest(cluster_id)['groups'].keys
+    used_indexes = sibling_group_ids.flat_map do |sibling_group_id|
+      saver.group_joined(sibling_group_id).keys.map(&:to_i)
+    end
+    ClusterAvatarOrder.new.candidate_indexes(used_indexes)
   end
 
   def data_source=(start_points)

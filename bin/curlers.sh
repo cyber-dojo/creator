@@ -4,9 +4,13 @@ curl_log_filename() { echo -n "${curl_tmpdir}/creator.log"; }
 curl_cleanup()
 {
     local -r exit_code=$?
-    if [ "${exit_code}" != "0" ]; then
-      cat "$(curl_log_filename)" || true
-      rm "$(curl_log_filename)" || true
+    # On a non-zero exit dump the last curl's log to aid debugging - but only if
+    # a curl actually ran and wrote it. An early exit (eg the docker-daemon check
+    # in bin/demo.sh) leaves no log, and cat/rm on the missing file would print
+    # their own spurious "No such file or directory" errors.
+    if [ "${exit_code}" != "0" ] && [ -f "$(curl_log_filename)" ]; then
+      cat "$(curl_log_filename)"
+      rm "$(curl_log_filename)"
     fi
     rm -rf "${curl_tmpdir}"
 }
