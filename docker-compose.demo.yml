@@ -44,6 +44,27 @@ services:
       - differ
       - runner
       - saver
+      - spooler
+
+  # web's async write path. web POSTs its event writes (kata_file_create ...
+  # kata_checked_out) to the spooler, which durably buffers them and drains
+  # them on to the saver in tab_seq order. Without it those writes never reach
+  # the saver, so a traffic-light shows in the browser but vanishes on refresh.
+  # web reaches it at hostname 'spooler' on CYBER_DOJO_SPOOLER_PORT (in .env).
+  # It buffers into its own /sqlite volume, owned by uid 19664 (the spooler
+  # user), separate from the saver's /cyber-dojo.
+  spooler:
+    image: ${CYBER_DOJO_SPOOLER_IMAGE}:${CYBER_DOJO_SPOOLER_TAG}
+    platform: linux/amd64
+    user: spooler
+    env_file: [ .env ]
+    read_only: true
+    restart: "no"
+    depends_on:
+      - saver
+    tmpfs:
+      - /sqlite:uid=19664,gid=65533
+      - /tmp
 
   differ:
     image: ${CYBER_DOJO_DIFFER_IMAGE}:${CYBER_DOJO_DIFFER_TAG}

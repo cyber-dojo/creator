@@ -190,7 +190,9 @@ $(() => {
               showLtfName();
             }
             if (idType === 'single') {
-              $openSingleButton.show();
+              // display:block puts the button on its own row, directly below
+              // the id entry field, so it is a short mouse move from typing.
+              $openSingleButton.show().css('display', 'block');
               $openSingleButton.attr('href', `/kata/edit/${urlId()}`);
               $openSingleButton.attr('target', "_blank");
             }
