@@ -46,6 +46,23 @@ class RouteBadResponseTest < CreatorTestBase
 
   # - - - - - - - - - - - - - - - - -
 
+  qtest f28QN5: %w[
+    |when an http-proxy
+    |returns JSON in its response.body
+    |which is not a Hash
+    |it returns the JSON unchanged
+  ] do
+    http = HttpAdapterStub.new('[1,2,3]')
+    hostname = 'saver'
+    port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
+    requester = HttpJsonHash::Requester.new(http, hostname, port)
+    saver = HttpJsonHash::Unpacker.new('saver', requester)
+    json = saver.get('/ready?', {})
+    assert_equal([1, 2, 3], json)
+  end
+
+  # - - - - - - - - - - - - - - - - -
+
   qtest f28QN8: %w[
     |when an http-proxy
     |has a 500 error

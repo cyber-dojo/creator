@@ -24,10 +24,11 @@ module CreatorApp
       private
 
       def unpacked(response, path, args)
-        body = response.body
-        json = JSON.parse!(body)
-        service_error(response, path, args, 'body has embedded exception') if json.is_a?(Hash) && json.key?('exception')
-        if json.is_a?(Hash) && json.key?(path)
+        json = JSON.parse!(response.body)
+        return json unless json.is_a?(Hash)
+
+        service_error(response, path, args, 'body has embedded exception') if json.key?('exception')
+        if json.key?(path)
           json[path]
         else
           json

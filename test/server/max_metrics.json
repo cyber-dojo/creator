@@ -13,14 +13,14 @@
       "missed":0
     },
     "branches": {
-       "total":48,
+       "total":50,
       "missed":0
     }
   },
 
   "test": {
     "lines": {
-       "total":651,
+       "total":659,
       "missed":0
     },
     "branches": {
