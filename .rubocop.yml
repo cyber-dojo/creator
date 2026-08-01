@@ -4,6 +4,13 @@ AllCops:
   Exclude:
     - test/**/*
 
+# Rubocop's default is 120, which is longer than anything this codebase actually
+# needs: the longest line in app/ or client/ is 102. Pinning the ceiling just
+# above that costs nothing today and stops lines drifting longer later. No sibling
+# repo sets a Max yet, so this one leads.
+Layout/LineLength:
+  Max: 105
+
 Lint/PercentStringArray:
   Enabled: false
 

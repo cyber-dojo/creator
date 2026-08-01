@@ -12,7 +12,7 @@ class IdTyperTest < CreatorTestBase
   ] do
     externals = OpenStruct.new(saver: RaisingSaver.new(500))
     id_typer = IdTyper.new(externals)
-    error = assert_raises(::HttpJsonHash::ServiceError) do
+    error = assert_raises(HttpJsonHash::ServiceError) do
       id_typer.id_type('anyId')
     end
     assert_equal 500, error.status, error.message
@@ -27,9 +27,11 @@ class IdTyperTest < CreatorTestBase
       @status = status
     end
 
-    # Raises a ServiceError carrying the configured status.
+    # Raises a ServiceError carrying the configured status. Qualified because this
+    # stub is nested inside the test class rather than inheriting from
+    # CreatorTestBase, so it does not pick up its include of CreatorApp.
     def id_chain(id)
-      raise ::HttpJsonHash::ServiceError.new(
+      raise CreatorApp::HttpJsonHash::ServiceError.new(
         '/id_chain', { id: }, 'id_chain', 'boom', @status, 'server error'
       )
     end

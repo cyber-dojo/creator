@@ -10,5 +10,5 @@ end
 
 require_relative '../app'
 require_relative '../externals'
-externals = Externals.new
-run App.new(externals)
+externals = CreatorApp::Externals.new
+run CreatorApp::App.new(externals)
