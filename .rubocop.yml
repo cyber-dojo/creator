@@ -4,12 +4,16 @@ AllCops:
   Exclude:
     - test/**/*
 
-# Rubocop's default is 120, which is longer than anything this codebase actually
-# needs: the longest line in app/ or client/ is 102. Pinning the ceiling just
-# above that costs nothing today and stops lines drifting longer later. No sibling
-# repo sets a Max yet, so this one leads.
+# Rubocop's default of 120 is far longer than this codebase needs. Long lines
+# here come from long identifiers rather than dense logic, so they gain nothing
+# from the extra room.
+#
+# This also works with Style/IfUnlessModifier, which demands the one-line
+# modifier form whenever it fits inside this Max, so the ceiling is what pushes
+# a long "do_something(...) if condition" out into an if/end block, the more
+# readable shape once the line gets long.
 Layout/LineLength:
-  Max: 105
+  Max: 80
 
 Lint/PercentStringArray:
   Enabled: false

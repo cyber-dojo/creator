@@ -7,7 +7,10 @@ module CreatorApp
     end
 
     def cluster_create(language_names:, exercise_name:)
-      create_cluster(language_names.map { |language_name| manifest(language_name, exercise_name) })
+      manifests = language_names.map do |language_name|
+        manifest(language_name, exercise_name)
+      end
+      create_cluster(manifests)
     end
 
     def group_create(language_name:, exercise_name:)
@@ -32,7 +35,9 @@ module CreatorApp
 
     def create_cluster(manifests)
       id = saver.cluster_create(manifests)
-      manifests.each { |manifest| pull_image_onto_nodes(id, manifest['image_name']) }
+      manifests.each do |manifest|
+        pull_image_onto_nodes(id, manifest['image_name'])
+      end
       id
     end
 
