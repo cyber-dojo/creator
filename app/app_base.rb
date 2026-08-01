@@ -9,17 +9,17 @@ require 'digest'
 
 module CreatorApp
   class AppBase < Sinatra::Base
-    # Compiled assets live in ${APP_DIR}/assets, a sibling of source/, populated
-    # by the Dockerfile from the asset_builder stage, which keeps the precompiled
-    # app.css/app.js out of the repo tree.
+    # Compiled assets live in ${APP_DIR}/assets, a sibling of source/,
+    # populated by the Dockerfile from the asset_builder stage, which keeps the
+    # precompiled app.css/app.js out of the repo tree.
     ASSETS_DIR = "#{ENV.fetch('APP_DIR')}/assets".freeze
 
-    # Returns the public URL path for a compiled asset, fingerprinted with a short
-    # hash of its content, eg "/assets/app-1a2b3c4d.css". Embedding the hash in the
-    # path gives each version a unique URL, so it can be cached immutably for a
-    # year; browsers then serve it from cache instead of re-pulling it on every
-    # page navigation through nginx's rate-limited /creator/ zone (which
-    # previously tripped a 429).
+    # Returns the public URL path for a compiled asset, fingerprinted with a
+    # short hash of its content, eg "/assets/app-1a2b3c4d.css". Embedding the
+    # hash in the path gives each version a unique URL, so it can be cached
+    # immutably for a year; browsers then serve it from cache instead of
+    # re-pulling it on every page navigation through nginx's rate-limited
+    # /creator/ zone (which previously tripped a 429).
     def self.asset_path(filename)
       src  = "#{ASSETS_DIR}/#{filename}"
       hash = Digest::SHA256.file(src).hexdigest[0, 8]
@@ -41,9 +41,10 @@ module CreatorApp
     set :json_encoder, :to_json # avoid MultiJson.encode deprecation warning
     set :port, ENV['PORT']
 
-    # Permit all Host headers; nginx fronts this app and validates Host. Without
-    # this, Sinatra's development-mode host authorization rejects any Host that is
-    # not localhost/.test (eg Rack::Test's example.org) with 'Host not permitted'.
+    # Permit all Host headers; nginx fronts this app and validates Host.
+    # Without this, Sinatra's development-mode host authorization rejects any
+    # Host that is not localhost/.test (eg Rack::Test's example.org) with
+    # 'Host not permitted'.
     set :host_authorization, {}
 
     # - - - - - - - - - - - - - - - -

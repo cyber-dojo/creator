@@ -27,18 +27,18 @@ module CreatorApp
         json = JSON.parse!(response.body)
         return json unless json.is_a?(Hash)
 
-        service_error(response, path, args, 'body has embedded exception') if json.key?('exception')
-        if json.key?(path)
-          json[path]
-        else
-          json
+        if json.key?('exception')
+          service_error(response, path, args, 'body has embedded exception')
         end
+        json.key?(path) ? json[path] : json
       rescue JSON::ParserError
         service_error(response, path, args, 'body is not JSON')
       end
 
       def service_error(response, path, args, message)
-        raise HttpJsonHash::ServiceError.new(path, args, @name, response.body, response.code, message)
+        raise HttpJsonHash::ServiceError.new(
+          path, args, @name, response.body, response.code, message
+        )
       end
     end
   end

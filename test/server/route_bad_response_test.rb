@@ -109,7 +109,7 @@ class RouteBadResponseTest < CreatorTestBase
   private
 
   def stub_exercises_start_points(body)
-    externals.instance_exec { @exercises_start_points_http = HttpAdapterStub.new(body) }
+    externals.instance_exec { @exercises_http = HttpAdapterStub.new(body) }
   end
 
   def stub_saver_http(body)

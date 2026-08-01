@@ -100,7 +100,8 @@ module CreatorApp
     get '/group_display_name', provides: [:json] do
       respond_to do |wants|
         wants.json do
-          json('display_name' => saver.group_manifest(params['id'])['display_name'])
+          manifest = saver.group_manifest(params['id'])
+          json('display_name' => manifest['display_name'])
         end
       end
     end
@@ -189,11 +190,12 @@ module CreatorApp
     end
 
     # A group joined inside a cluster should hand out an avatar that is scarce
-    # across the whole cluster, so a given animal identifies one person across all
-    # its LTF groups. Resolve the group's cluster, count every avatar already used
-    # across its sibling groups, and return the group_join candidate order that
-    # prefers cluster-scarce avatars. Returns nil for a bare group (no cluster),
-    # leaving that join on the saver's own default ordering.
+    # across the whole cluster, so a given animal identifies one person across
+    # all its LTF groups. Resolve the group's cluster, count every avatar
+    # already used across its sibling groups, and return the group_join
+    # candidate order that prefers cluster-scarce avatars. Returns nil for a
+    # bare group (no cluster), leaving that join on the saver's own default
+    # ordering.
     def cluster_avatar_order(group_id)
       cluster_id = saver.group_manifest(group_id)['cluster_id']
       return nil if cluster_id.nil?
