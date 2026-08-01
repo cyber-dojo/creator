@@ -38,8 +38,8 @@ class RouteBadResponseTest < CreatorTestBase
     http = HttpAdapterStub.new('{"wibble":42}')
     hostname = 'saver'
     port = ENV['CYBER_DOJO_SAVER_PORT'].to_i
-    requester = ::HttpJsonHash::Requester.new(http, hostname, port)
-    saver = ::HttpJsonHash::Unpacker.new('saver', requester)
+    requester = HttpJsonHash::Requester.new(http, hostname, port)
+    saver = HttpJsonHash::Unpacker.new('saver', requester)
     json = saver.get('/ready?', {})
     assert_equal({ 'wibble' => 42 }, json)
   end
@@ -75,7 +75,7 @@ class RouteBadResponseTest < CreatorTestBase
   qtest f28QN9: %w[
     |when an http-proxy
     |has a 500 error
-    |and the original exception is not ::HttpJsonHash::ServiceError
+    |and the original exception is not HttpJsonHash::ServiceError
     |the exception message is logged to stdout
   ] do
     http = HttpRaiserStub.new

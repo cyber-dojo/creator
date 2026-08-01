@@ -8,6 +8,12 @@ require 'ostruct'
 class CreatorTestBase < Id58TestBase
   include Rack::Test::Methods
 
+  # The server app lives in the CreatorApp namespace. Including it here puts that
+  # module in the ancestor chain of every test class, so tests name App, Externals,
+  # HttpJsonHash::ServiceError and friends unqualified, as they did before the
+  # namespace existed.
+  include CreatorApp
+
   def app
     App.new(externals)
   end

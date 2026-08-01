@@ -6,6 +6,11 @@ class CreatorTestBase < Id58TestBase
   include Capybara::DSL
   include Capybara::Minitest::Assertions
 
+  # The client app lives in the CreatorClient namespace. Including it here puts
+  # that module in the ancestor chain of every client test class, so tests name
+  # Externals and HttpJsonHash::ServiceError unqualified.
+  include CreatorClient
+
   Capybara.register_driver :selenium do |app|
     Capybara::Selenium::Driver.new(app,
                                    browser: :remote,
