@@ -1,4 +1,12 @@
 require_relative '../id58_test_base'
+
+# The image copies source/server/ to /app/source, so the server app sits at
+# /app/source/creator in its container. The client's container has its own
+# layout, so each suite names its own path here rather than sharing one.
+def require_source(required)
+  require_relative "../../source/creator/#{required}"
+end
+
 require_source 'app'
 require_source 'externals'
 require 'cgi/escape'
