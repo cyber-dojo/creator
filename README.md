@@ -30,9 +30,9 @@ $ make {test_server|test_client} tids="p42 p9F"
 $ make demo
 ```
 
-The source is bind-mounted read-only into the containers, so edits to `app/`
-(or `client/app/`) and `test/` are picked up by re-running the tests - no
-`make image` rebuild needed.
+The source is bind-mounted read-only into the containers, so edits to
+`source/server/creator/` (or `source/client/`) and `test/` are picked up by
+re-running the tests - no `make image` rebuild needed.
 
 - - - -
 ![choose-exercise](docs/choose_exercise.png)

@@ -1,5 +1,13 @@
 require_relative '../id58_test_base'
 require 'capybara/minitest'
+
+# The client container mounts its own tree at /app/source, so its ruby sits
+# flat there. The server's container nests the app one level deeper, which is
+# why each suite defines this rather than sharing one definition.
+def require_source(required)
+  require_relative "../../source/#{required}"
+end
+
 require_source 'externals'
 
 class CreatorTestBase < Id58TestBase

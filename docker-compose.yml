@@ -31,7 +31,7 @@ services:
   client:
     build:
       args: [ COMMIT_SHA ]
-      context: client
+      context: source/client
     image: ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     platform: linux/amd64
     env_file: [ .env ]
@@ -45,7 +45,7 @@ services:
     read_only: true
     restart: "no"
     volumes:
-      - "./client/app:/app/source/:ro"
+      - "./source/client:/app/source/:ro"
       - "./test:/app/test/:ro"
       - type: tmpfs
         target: /tmp
@@ -72,7 +72,7 @@ services:
     read_only: true
     restart: "no"
     volumes:
-      - "./app:/app/source/:ro"
+      - "./source/server:/app/source/:ro"
       - "./test:/app/test/:ro"
       - type: tmpfs
         target: /tmp
