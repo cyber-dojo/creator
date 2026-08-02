@@ -30,12 +30,11 @@ Style/FetchEnvVar:
 # By default this cop demands a "# frozen_string_literal: true" comment at the
 # top of every file. We deliberately add none: strings are already frozen
 # globally at runtime via RUBYOPT=--enable-frozen-string-literal (see
-# source/server/config/up.sh, client/app/config/up.sh), so such a comment would
-# be redundant. Mirrors the sibling repos (eg ../differ).
+# source/server/config/up.sh, source/client/config/up.sh), so such a comment
+# would be redundant. Mirrors the sibling repos (eg ../differ).
 Style/FrozenStringLiteralComment:
   Exclude:
     - source/**/*
-    - client/**/*
 
 Style/EmptyElse:
   Exclude:

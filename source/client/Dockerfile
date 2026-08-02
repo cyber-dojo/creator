@@ -11,7 +11,7 @@ ARG APP_DIR=/app
 ENV APP_DIR=${APP_DIR}
 
 WORKDIR ${APP_DIR}/source
-COPY --chown=nobody:nogroup app/ .
+COPY --chown=nobody:nogroup . .
 USER nobody
 HEALTHCHECK --interval=1s --timeout=1s --retries=5 --start-period=5s CMD ./config/healthcheck.sh
 ENTRYPOINT [ "/sbin/tini", "-g", "--" ]
