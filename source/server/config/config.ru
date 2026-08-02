@@ -11,4 +11,10 @@ end
 require_relative '../creator/app'
 require_relative '../creator/externals'
 externals = CreatorApp::Externals.new
-run CreatorApp::App.new(externals)
+app = CreatorApp::App.new(externals)
+
+# Mounted at both prefixes for the cutover. nginx currently rewrites
+# /creator/... down to /..., which the / mount serves exactly as before; once
+# that rewrite goes, the intact path arrives and the /creator mount serves it.
+# The / mount is deleted last, so nginx and the app never release together.
+run Rack::URLMap.new('/' => app, '/creator' => app)
