@@ -27,15 +27,13 @@ build_tagged_images()
 #- - - - - - - - - - - - - - - - - - - - - - - -
 build_images()
 {
-  docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)" \
-    creator client nginx_stub
+  docker compose build --build-arg COMMIT_SHA="$(git_commit_sha)" creator
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - -
 tag_images_to_latest()
 {
-  docker tag "${CYBER_DOJO_CREATOR_IMAGE}:$(image_tag)"        "${CYBER_DOJO_CREATOR_IMAGE}:latest"
-  docker tag "${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:$(image_tag)" "${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:latest"
+  docker tag "${CYBER_DOJO_CREATOR_IMAGE}:$(image_tag)" "${CYBER_DOJO_CREATOR_IMAGE}:latest"
   echo
   echo "  echo CYBER_DOJO_CREATOR_SHA=$(git_commit_sha)"
   echo "  echo CYBER_DOJO_CREATOR_TAG=$(image_tag)"

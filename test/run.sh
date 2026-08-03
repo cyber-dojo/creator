@@ -21,4 +21,9 @@ mkdir -p "${COVERAGE_ROOT}"
 set +e
 export RUBYOPT='-W2 --enable-frozen-string-literal'
 ruby -e "${SCRIPT}" -- ${TEST_ARGS[@]} 2>&1 | tee ${COVERAGE_ROOT}/${TEST_LOG}
+# Exit with ruby's status, not tee's. A suite whose metrics are not pinned has
+# nothing else to report a failure: tee always succeeds.
+readonly RUBY_STATUS=${PIPESTATUS[0]}
 set -e
+
+exit "${RUBY_STATUS}"

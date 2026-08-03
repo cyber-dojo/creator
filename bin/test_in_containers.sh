@@ -23,9 +23,11 @@ test_in_containers()
 # - - - - - - - - - - - - - - - - - - - - - - - - - -
 run_client_tests()
 {
+  # The browser tests run in the creator container, like the server tests, and
+  # reach the app through nginx and selenium.
   run_tests \
-    "${CYBER_DOJO_CREATOR_CLIENT_USER}" \
-    client \
+    "${CYBER_DOJO_CREATOR_SERVER_USER}" \
+    creator \
     client "${@:-}";
 }
 
@@ -74,6 +76,9 @@ run_tests()
     --user "${USER}" \
     "${CONTAINER_NAME}" \
       sh -c "/app/test/run.sh ${CONTAINER_REPORTS_DIR} ${TEST_LOG} ${TYPE} ${*:4}"
+  # For a gated suite the metrics checker below reports failures from the log.
+  # An ungated suite has nothing else to speak for it, so keep this status.
+  local -r RUN_STATUS=$?
   set -e
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -96,11 +101,22 @@ run_tests()
   exit_non_zero_unless_file_exists "${HOST_REPORTS_DIR}/index.html"
   exit_non_zero_unless_file_exists "${HOST_REPORTS_DIR}/coverage.json"
 
-  # Check metrics limits file exists
-  exit_non_zero_unless_file_exists "${HOST_TEST_DIR}/max_metrics.json"
-
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Process test-run results and coverage data.
+  #
+  # A suite is gated only if it pins metrics. The browser tests do not: they
+  # drive the served app through nginx and Firefox, so in-process line and
+  # branch coverage says nothing about what they exercised, and creator's
+  # zero-missed pins could never be met by them.
+
+  if [ ! -f "${HOST_TEST_DIR}/max_metrics.json" ]; then
+    echo "${TYPE} test branch-coverage report is at"
+    echo "${HOST_REPORTS_DIR}/index.html"
+    echo "${TYPE} tests pin no metrics, so only the run's own status counts."
+    echo "${TYPE} test status == ${RUN_STATUS}"
+    echo
+    return "${RUN_STATUS}"
+  fi
 
   local -r CONTAINER_TMP_DIR=/tmp # fs is read-only with tmpfs at /tmp
 

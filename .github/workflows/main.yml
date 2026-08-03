@@ -178,7 +178,7 @@ jobs:
             "${{ needs.build-image.outputs.tagged_image_name }}" \
             "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}"
 
-      - name: Run server and client tests with branch coverage
+      - name: Run server tests with branch coverage, and the browser tests
         run: |
           set +e
           make test
@@ -201,7 +201,7 @@ jobs:
             --attachments=./test/server/reports \
             --attachments=./test/client/reports \
             --compliant="${KOSLI_COMPLIANT}" \
-            --description="server & client branch-coverage" \
+            --description="server branch-coverage, plus the browser test run" \
             --name=creator.test-branch-coverage
 
       - name: Fail job if tests failed

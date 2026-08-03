@@ -1,6 +1,6 @@
-require_relative 'creator_test_base'
+require_relative 'browser_test_base'
 
-class View200Test < CreatorTestBase
+class View200Test < BrowserTestBase
 
   # - - - - - - - - - - - - - - - - -
 
