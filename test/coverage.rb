@@ -1,6 +1,7 @@
 require 'simplecov'
 require_relative 'simplecov_json'
 require_relative 'runs_text_reporter'
+require_relative 'slim_json_reporter'
 
 # The code is at ${APP_DIR}/source and the tests at the sibling ${APP_DIR}/test,
 # so SimpleCov's root is ${APP_DIR} to cover both groups (see Dockerfile, ../saver).
@@ -12,7 +13,7 @@ SimpleCov.start do
   coverage_dir(ENV['COVERAGE_ROOT'])
   root(APP_DIR)
   # add_group('debug') { |src| puts(src.filename); false }
-  add_group('app')  { |src| src.filename.start_with?("#{APP_DIR}/source/") }
+  add_group('code') { |src| src.filename.start_with?("#{APP_DIR}/source/") }
   add_group('test') { |src| src.filename.start_with?("#{APP_DIR}/test/") }
 end
 
@@ -22,5 +23,6 @@ SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(formatters)
 
 Minitest::Reporters.use!([
   RunsTextReporter.new,
+  Minitest::Reporters::SlimJsonReporter.new,
   Minitest::Reporters::JUnitReporter.new("#{ENV.fetch('COVERAGE_ROOT')}/junit")
 ])

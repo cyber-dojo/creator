@@ -59,8 +59,6 @@ run_tests()
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Run tests (with branch coverage) inside the container.
 
-  local -r CODE_DIR=app
-  local -r TEST_DIR=test
   local -r TEST_LOG=test.log
   local -r CONTAINER_REPORTS_DIR=/tmp/reports
 
@@ -71,8 +69,6 @@ run_tests()
 
   set +e
   docker exec \
-    --env CODE_DIR="${CODE_DIR}" \
-    --env TEST_DIR="${TEST_DIR}" \
     --user "${USER}" \
     "${CONTAINER_NAME}" \
       sh -c "/app/test/run.sh ${CONTAINER_REPORTS_DIR} ${TEST_LOG} ${TYPE} ${*:4}"
@@ -85,9 +81,11 @@ run_tests()
   # Extract test-run results and coverage data from the container.
   # You can't [docker cp] from a tmpfs, so tar-piping coverage out
 
-  rm "${HOST_REPORTS_DIR}/${TEST_LOG}"   2> /dev/null || true
-  rm "${HOST_REPORTS_DIR}/index.html"    2> /dev/null || true
-  rm "${HOST_REPORTS_DIR}/coverage.json" 2> /dev/null || true
+  rm "${HOST_REPORTS_DIR}/${TEST_LOG}"             2> /dev/null || true
+  rm "${HOST_REPORTS_DIR}/index.html"              2> /dev/null || true
+  rm "${HOST_REPORTS_DIR}/coverage_metrics.json"   2> /dev/null || true
+  rm "${HOST_REPORTS_DIR}/test_metrics.json"       2> /dev/null || true
+  rm "${HOST_REPORTS_DIR}/log_metrics.json"        2> /dev/null || true
 
   docker exec \
     "${CONTAINER_NAME}" \
@@ -99,7 +97,9 @@ run_tests()
   # Check we generated expected files.
   exit_non_zero_unless_file_exists "${HOST_REPORTS_DIR}/${TEST_LOG}"
   exit_non_zero_unless_file_exists "${HOST_REPORTS_DIR}/index.html"
-  exit_non_zero_unless_file_exists "${HOST_REPORTS_DIR}/coverage.json"
+  exit_non_zero_unless_file_exists "${HOST_REPORTS_DIR}/coverage_metrics.json"
+  exit_non_zero_unless_file_exists "${HOST_REPORTS_DIR}/test_metrics.json"
+  exit_non_zero_unless_file_exists "${HOST_REPORTS_DIR}/log_metrics.json"
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   # Process test-run results and coverage data.
@@ -109,7 +109,7 @@ run_tests()
   # branch coverage says nothing about what they exercised, and creator's
   # zero-missed pins could never be met by them.
 
-  if [ ! -f "${HOST_TEST_DIR}/max_metrics.json" ]; then
+  if [ ! -d "${HOST_TEST_DIR}/config" ]; then
     echo "${TYPE} test branch-coverage report is at"
     echo "${HOST_REPORTS_DIR}/index.html"
     echo "${TYPE} tests pin no metrics, so only the run's own status counts."
@@ -120,22 +120,32 @@ run_tests()
 
   local -r CONTAINER_TMP_DIR=/tmp # fs is read-only with tmpfs at /tmp
 
+  # One data file, one limits file, one run each. The evaluator is generic: it
+  # walks a dotted path into the json and applies the operator the limits file
+  # names, so a limit changes in a file that holds nothing but limits. Mirrors
+  # ../saver, which is where this shape comes from.
   set +e
-  docker run \
-    --rm \
-    --platform linux/amd64 \
-    --env CODE_DIR="${CODE_DIR}" \
-    --env TEST_DIR="${TEST_DIR}" \
-    --volume ${HOST_REPORTS_DIR}/${TEST_LOG}:${CONTAINER_TMP_DIR}/${TEST_LOG}:ro \
-    --volume ${HOST_REPORTS_DIR}/coverage.json:${CONTAINER_TMP_DIR}/coverage.json:ro \
-    --volume ${HOST_TEST_DIR}/max_metrics.json:${CONTAINER_TMP_DIR}/max_metrics.json:ro \
-    cyberdojo/check-test-metrics:latest \
-      "${CONTAINER_TMP_DIR}/${TEST_LOG}" \
-      "${CONTAINER_TMP_DIR}/coverage.json" \
-      "${CONTAINER_TMP_DIR}/max_metrics.json" \
-    | tee -a "${HOST_REPORTS_DIR}/${TEST_LOG}"
-
-  local -r STATUS=${PIPESTATUS[0]}
+  local STATUS=0
+  local pair
+  for pair in \
+    "test_metrics.json test_metrics_limits" \
+    "coverage_metrics.json coverage_metrics_limits" \
+    "log_metrics.json log_metrics_limits"
+  do
+    set -- ${pair}
+    local data_file="${1}"
+    local limits_file="${2}"
+    docker run \
+      --rm \
+      --platform linux/amd64 \
+      --volume ${HOST_REPORTS_DIR}/${data_file}:${CONTAINER_TMP_DIR}/${data_file}:ro \
+      --volume ${HOST_TEST_DIR}/config/check_metrics.rb:${CONTAINER_TMP_DIR}/check_metrics.rb:ro \
+      --volume ${HOST_TEST_DIR}/config/${limits_file}.rb:${CONTAINER_TMP_DIR}/${limits_file}.rb:ro \
+      "${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}" \
+        sh -c "ruby ${CONTAINER_TMP_DIR}/check_metrics.rb ${CONTAINER_TMP_DIR}/${data_file} ${limits_file}" \
+      | tee -a "${HOST_REPORTS_DIR}/${TEST_LOG}"
+    if [ "${PIPESTATUS[0]}" -ne 0 ]; then STATUS=1; fi
+  done
   set -e
 
   #- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
