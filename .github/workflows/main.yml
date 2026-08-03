@@ -85,7 +85,7 @@ jobs:
             --name=pull-request
 
 
-  lint:
+  rubocop-lint:
     runs-on: ubuntu-latest
     needs: [setup]
     steps:
@@ -94,26 +94,16 @@ jobs:
       - uses: cyber-dojo/setup-kosli-cli@main
 
       - name: Run Rubocop linter on source
-        run: |
-          set +e
-          mkdir -p reports/rubocop
-          make rubocop-lint | tee reports/rubocop/rubocop.log
-          echo "LINT_STATUS=${PIPESTATUS[0]}" >> "${GITHUB_ENV}"
-          set -e
+        run:
+          make rubocop-lint
 
-      - name: Attest lint evidence to Kosli
+      - name: Attest rubocop evidence to Kosli
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
-        run: |
-          KOSLI_COMPLIANT=$([ "${LINT_STATUS}" = 0 ] && echo true || echo false)
-          cp .rubocop.yml reports/rubocop/
-          kosli attest generic \
-            --attachments=reports/rubocop \
-            --compliant="${KOSLI_COMPLIANT}" \
-            --name=creator.lint
-
-      - name: Fail job if lint failed
-        if: ${{ always() }}
-        run: exit "${LINT_STATUS}"
+        run:
+          kosli attest junit
+            --name=creator.rubocop-lint
+            --results-dir=./reports/rubocop
+            --attachments=./.rubocop.yml
 
 
   build-image:
@@ -192,7 +182,7 @@ jobs:
             --name=creator.unit-test
             --results-dir=test/server/reports/junit
 
-      - name: Attest branch-coverage evidence to Kosli
+      - name: Attest unit-test-coverage evidence to Kosli
         if: ${{ github.ref == 'refs/heads/main' && (success() || failure()) }}
         run: |
           KOSLI_COMPLIANT=$([ "${TEST_STATUS}" = 0 ] && echo true || echo false)
@@ -202,7 +192,7 @@ jobs:
             --attachments=./test/client/reports \
             --compliant="${KOSLI_COMPLIANT}" \
             --description="server branch-coverage, plus the browser test run" \
-            --name=creator.test-branch-coverage
+            --name=creator.unit-test-coverage
 
       - name: Fail job if tests failed
         if: ${{ always() }}
@@ -215,7 +205,7 @@ jobs:
     needs:
       - build-image
       - pull-request
-      - lint
+      - rubocop-lint
       - unit-test
       - snyk-container-scan
     steps:

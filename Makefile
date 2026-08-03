@@ -19,7 +19,7 @@ test_client:
 	@${PWD}/bin/run_tests_with_coverage.sh client ${tids}
 
 rubocop-lint:
-	@DOCKER_CLI_HINTS=false docker run --rm --volume "${PWD}:/app" cyberdojo/rubocop --raise-cop-error
+	@${PWD}/bin/rubocop-lint.sh
 
 snyk-container: image
 	snyk container test ${IMAGE_NAME} \

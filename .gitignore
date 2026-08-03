@@ -1,5 +1,8 @@
 snyk.container.scan.json
 
+reports/*
+reports/.*
+
 test/evidence.json
 
 test/server/reports/*
