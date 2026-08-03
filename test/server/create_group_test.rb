@@ -24,7 +24,7 @@ class CreateGroupTest < CreatorTestBase
       language_name: language_name,
       type: 'group'
     }
-    json_post '/create.json', args
+    json_post mounted_path('create.json'), args
     id = json_response['id']
     assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
     manifest = group_manifest(id)
@@ -46,7 +46,7 @@ class CreateGroupTest < CreatorTestBase
       language_name: language_name,
       type: 'group'
     }
-    json_post '/create.json', args
+    json_post mounted_path('create.json'), args
     id = json_response['id']
     assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
     manifest = group_manifest(id)
@@ -67,7 +67,7 @@ class CreateGroupTest < CreatorTestBase
       display_name: display_name,
       type: 'group'
     }
-    json_post '/create.json', args
+    json_post mounted_path('create.json'), args
     id = json_response['id']
     assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
     manifest = group_manifest(id)

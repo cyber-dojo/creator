@@ -68,7 +68,7 @@ class CreateKataTest < CreatorTestBase
 
   def json_post_create(args)
     args[:type] = 'single'
-    json_post '/create.json', args
+    json_post mounted_path('create.json'), args
     id = json_response['id']
     assert kata_exists?(id), "id:#{id}:" # eg "xCSKgZ"
     yield kata_manifest(id)

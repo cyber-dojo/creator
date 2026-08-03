@@ -11,8 +11,7 @@ end
 require_relative '../creator/app'
 require_relative '../creator/externals'
 externals = CreatorApp::Externals.new
-app = CreatorApp::App.new(externals)
 
-# The app owns its prefix: nginx passes /creator/... through untouched, so
-# there is one mount, and SCRIPT_NAME tells the app where it is mounted.
-run Rack::URLMap.new('/creator' => app)
+# The app owns its prefix: nginx passes it through untouched, so the app
+# mounts itself there and SCRIPT_NAME tells it where it is.
+run CreatorApp::App.mounted(externals)

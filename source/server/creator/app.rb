@@ -8,6 +8,15 @@ require_relative 'selected_helper'
 
 module CreatorApp
   class App < AppBase
+    # Where nginx sends this app's traffic, and where it therefore mounts
+    # itself. Named here so config.ru and the tests mount it identically.
+    MOUNT_PATH = '/creator'.freeze
+
+    # The rack app to run: this app under its mount point.
+    def self.mounted(externals)
+      Rack::URLMap.new(MOUNT_PATH => new(externals))
+    end
+
     def initialize(externals)
       super(externals)
       @externals = externals

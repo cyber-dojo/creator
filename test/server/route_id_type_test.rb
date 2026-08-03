@@ -15,7 +15,7 @@ class RouteIdTypeTest < CreatorTestBase
       language_names: languages_start_points.names.first(2),
       type: 'cluster'
     }
-    json_post '/create.json', args
+    json_post mounted_path('create.json'), args
     cluster_id = json_response['id']
 
     assert_get_200_json('id_type', { id: cluster_id }) do |response|

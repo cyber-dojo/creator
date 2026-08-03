@@ -7,7 +7,7 @@ class RouteGroupDisplayNameTest < CreatorTestBase
     |returns the group's LTF display_name
   ] do
     language_name = languages_start_points.names.first
-    json_post '/create.json', {
+    json_post mounted_path('create.json'), {
       language_name: language_name,
       exercise_name: exercises_start_points.names.first,
       type: 'group'

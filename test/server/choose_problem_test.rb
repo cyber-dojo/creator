@@ -8,7 +8,7 @@ class ChooseProblemTest < CreatorTestBase
     |GET/choose_problem
     |offers all exercise_start_point names
   ] do
-    get '/choose_problem'
+    get mounted_path('choose_problem')
     assert status?(200), status
     html = last_response.body
     exercises_start_points.names.each do |name|
