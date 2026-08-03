@@ -15,6 +15,10 @@ curl_cleanup()
     rm -rf "${curl_tmpdir}"
 }
 trap "curl_cleanup" EXIT
+# These curl the creator container directly on its published port, so nothing
+# strips or adds a path prefix on the way. The app mounts itself at /creator
+# and serves nothing at the root, so the URLs below carry that prefix - see
+# App::MOUNT_PATH, which this script cannot reach.
 creator_port() { echo -n "${CYBER_DOJO_CREATOR_PORT}"; }
 tab() { printf '\t'; }
 
@@ -36,7 +40,7 @@ curl_json_body_200()
     --request "${type}" \
     --silent \
     --verbose \
-      "http://localhost:$(creator_port)/${route}" \
+      "http://localhost:$(creator_port)/creator/${route}" \
       > "$(curl_log_filename)" 2>&1
 
   grep --quiet 200 "$(curl_log_filename)"             # eg HTTP/1.1 200 OK
@@ -58,7 +62,7 @@ curl_200()
     --request GET \
     --silent \
     --verbose \
-      "http://localhost:$(creator_port)/${route}" \
+      "http://localhost:$(creator_port)/creator/${route}" \
       > "$(curl_log_filename)" 2>&1
 
   grep --quiet 200 "$(curl_log_filename)" # eg HTTP/1.1 200 OK
