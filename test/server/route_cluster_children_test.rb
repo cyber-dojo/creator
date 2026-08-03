@@ -10,7 +10,7 @@ class RouteClusterChildrenTest < CreatorTestBase
     |each carrying the group's id and its LTF display_name
   ] do
     language_names = languages_start_points.names.first(2)
-    json_post '/create.json', {
+    json_post mounted_path('create.json'), {
       exercise_name: exercises_start_points.names.first,
       language_names: language_names,
       type: 'cluster'

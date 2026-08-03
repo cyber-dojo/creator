@@ -24,7 +24,7 @@ class CreateClusterTest < CreatorTestBase
       language_names: language_names,
       type: 'cluster'
     }
-    json_post '/create.json', args
+    json_post mounted_path('create.json'), args
     id = json_response['id']
     assert cluster_exists?(id), "id:#{id}:"
 
@@ -49,7 +49,7 @@ class CreateClusterTest < CreatorTestBase
       type: 'cluster'
     }
     stdout, stderr = capture_io do
-      json_post '/create.json', args
+      json_post mounted_path('create.json'), args
     end
     assert status?(400), status
     assert last_response.body.include?('<div id="error-page">'), last_response.body
@@ -70,7 +70,7 @@ class CreateClusterTest < CreatorTestBase
       type: 'cluster'
     }
     stdout, stderr = capture_io do
-      json_post '/create.json', args
+      json_post mounted_path('create.json'), args
     end
     assert status?(400), status
     assert last_response.body.include?('<div id="error-page">'), last_response.body
@@ -91,7 +91,7 @@ class CreateClusterTest < CreatorTestBase
       type: 'cluster'
     }
     stdout, stderr = capture_io do
-      json_post '/create.json', args
+      json_post mounted_path('create.json'), args
     end
     assert status?(400), status
     assert last_response.body.include?('<div id="error-page">'), last_response.body

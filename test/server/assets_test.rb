@@ -9,7 +9,7 @@ class AssetsTest < CreatorTestBase
     |immutable Cache-Control header, so browsers do not re-pull it
     |through nginx's rate-limited /creator/ zone on every navigation
   ] do
-    get App::CSS_PATH
+    get mounted_asset_path(App::CSS_PATH)
     assert status?(200), status
     assert css_content?, content_type
     cache_control = last_response.headers['Cache-Control']
@@ -23,7 +23,7 @@ class AssetsTest < CreatorTestBase
     |the fingerprinted JS path is served as javascript with the
     |same one-year immutable Cache-Control header, as for 2Je
   ] do
-    get App::JS_PATH
+    get mounted_asset_path(App::JS_PATH)
     assert status?(200), status
     assert js_content?, content_type
     cache_control = last_response.headers['Cache-Control']
@@ -48,10 +48,10 @@ class AssetsTest < CreatorTestBase
     |the layout links each asset by its fingerprinted path,
     |prefixed with /creator so the request routes through nginx
   ] do
-    get '/home'
+    get mounted_path('home')
     assert status?(200), status
     html = last_response.body
-    assert html.include?(%Q{href="/creator#{App::CSS_PATH}"}), html
-    assert html.include?(%Q{src="/creator#{App::JS_PATH}"}), html
+    assert html.include?(%Q{href="#{mounted_asset_path(App::CSS_PATH)}"}), html
+    assert html.include?(%Q{src="#{mounted_asset_path(App::JS_PATH)}"}), html
   end
 end

@@ -22,8 +22,10 @@ class CreatorTestBase < Id58TestBase
   # namespace existed.
   include CreatorApp
 
+  # Mounted the way config.ru mounts it, so a test drives the URLs a browser
+  # drives and the app builds the same URLs back. Only the externals differ.
   def app
-    App.new(externals)
+    App.mounted(externals)
   end
 
   def externals
@@ -53,16 +55,29 @@ class CreatorTestBase < Id58TestBase
     assert_equal '', stdout, :stdout
   end
 
+  # The URL a browser uses for a route: the app's mount point plus the route.
+  # Takes a bare route name, eg 'home'. It does not strip a leading slash:
+  # accepting both forms is how '/creator/home' once became '//creator/home'.
+  def mounted_path(route)
+    "#{App::MOUNT_PATH}/#{route}"
+  end
+
+  # The same, for a path that already starts with a slash, eg the
+  # fingerprinted asset paths in App::CSS_PATH and App::JS_PATH.
+  def mounted_asset_path(path)
+    "#{App::MOUNT_PATH}#{path}"
+  end
+
   def path_with_args(path, args)
     arg_pairs = args.map { |name, value| "#{name}=#{CGI.escape(value)}" }.join('&')
-    "/#{path}?#{arg_pairs}"
+    "#{mounted_path(path)}?#{arg_pairs}"
   end
 
   # - - - - - - - - - - - - - - - -
 
   def assert_post_200_json(path, args, &block)
     stdout, stderr = capture_io do
-      json_post "/#{path}", args
+      json_post mounted_path(path), args
     end
     assert_equal 200, status, stderr + stdout
     assert json_content?, content_type

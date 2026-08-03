@@ -115,7 +115,7 @@ $(() => {
   // A group's LTF (language + test-framework) name, shown as a row below the
   // phonetic id whenever the entered id is a group.
   const showLtfName = () => {
-    const route = `/creator/group_display_name?id=${urlId()}`;
+    const route = cd.mountedPath(`/group_display_name?id=${urlId()}`);
     $.get(route, (response) => $ltfName.text(response.display_name).show());
   };
 
@@ -130,7 +130,7 @@ $(() => {
 
   const showClusterButtons = () => {
     const clusterId = urlId();
-    const route = `/creator/cluster_children?id=${clusterId}`;
+    const route = cd.mountedPath(`/cluster_children?id=${clusterId}`);
     $.get(route, (response) => {
       $clusterButtons.empty();
       response.children.forEach((child) => {
@@ -177,7 +177,7 @@ $(() => {
       return;
     }
     $waitSpinner.fadeIn('fast', () => {
-      const route = `/creator/id_type?id=${encodeURIComponent(id)}`;
+      const route = cd.mountedPath(`/id_type?id=${encodeURIComponent(id)}`);
       $.get(route, (response) => {
         idType = response.id_type;
         $waitSpinner.fadeOut('fast', () => {
@@ -222,10 +222,10 @@ $(() => {
 
   $enterGroupButton.click(() => {
     const json = JSON.stringify({"id":id});
-    $.post(`/creator/enter.json`, json, (response) => cd.goto(response.route));
+    $.post(cd.mountedPath('/enter.json'), json, (response) => cd.goto(response.route));
   });
 
-  $reenterGroupButton.click (() => cd.goto(`/creator/reenter?id=${urlId()}`));
+  $reenterGroupButton.click (() => cd.goto(cd.mountedPath(`/reenter?id=${urlId()}`)));
 
   $openDashboardButton.click(() => cd.windowOpen(`/dashboard/show/${urlId()}`));
 

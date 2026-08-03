@@ -1,5 +1,11 @@
 
-const cd = {};
+// A window property, not a bare const: a top-level const lives in the script
+// lexical scope, which the pages can see but selenium's evaluate_script cannot.
+window.cd = {};
+
+// The URL for a route under wherever this app is mounted. Mirrors path_to()
+// in ruby; cd.mountPath is set by layout.erb from SCRIPT_NAME.
+cd.mountedPath = (route) => `${cd.mountPath}${route}`;
 
 $.fn.random = function() {
   return this.eq(Math.floor(Math.random() * this.length));
@@ -202,14 +208,14 @@ cd.setupGroupLtfChooser = () => {
     if (chosen.length === 1) {
       const name = encodeURIComponent(chosen[0].name);
       const params = `${cd.urlParams()}&language_name=${name}`;
-      $.post('/creator/create.json', cd.toJSON(params), (response) => cd.goto(response.route));
+      $.post(cd.mountedPath('/create.json'),cd.toJSON(params), (response) => cd.goto(response.route));
     } else {
       const body = JSON.stringify({
         type: 'cluster',
         exercise_name: cd.urlParam('exercise_name') || '',
         language_names: chosen.map((e) => e.name)
       });
-      $.post('/creator/create.json', body, (response) => cd.goto(response.route));
+      $.post(cd.mountedPath('/create.json'),body, (response) => cd.goto(response.route));
     }
   });
 };

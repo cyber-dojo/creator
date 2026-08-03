@@ -59,7 +59,7 @@ $(() => {
   $('button.next').click(() => {
     const name = encodeURIComponent(cd.selectedDisplayName);
     const params = `${cd.urlParams()}&language_name=${name}`;
-    $.post('/creator/create.json', cd.toJSON(params), (response) => {
+    $.post(cd.mountedPath('/create.json'), cd.toJSON(params), (response) => {
       cd.goto(response.route);
     });
   });

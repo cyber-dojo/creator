@@ -91,7 +91,7 @@ class RouteEnterTest < CreatorTestBase
 
   def json_post_create_group(args)
     args[:type] = 'group'
-    json_post '/create.json', args
+    json_post mounted_path('create.json'), args
     id = json_response['id']
     assert group_exists?(id), "id:#{id}:" # eg "xCSKgZ"
     yield group_manifest(id)
@@ -99,7 +99,7 @@ class RouteEnterTest < CreatorTestBase
 
   def json_post_create_cluster(args)
     args[:type] = 'cluster'
-    json_post '/create.json', args
+    json_post mounted_path('create.json'), args
     id = json_response['id']
     assert cluster_exists?(id), "id:#{id}:"
     cluster_manifest(id)['groups'].keys

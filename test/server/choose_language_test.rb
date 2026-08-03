@@ -8,7 +8,7 @@ class ChooseLanguageTest < CreatorTestBase
     |GET/choose_ltf
     |offers all languages-start-points names
   ] do
-    get '/choose_ltf'
+    get mounted_path('choose_ltf')
     assert status?(200), status
     html = last_response.body
     languages_start_points.names.each do |name|
