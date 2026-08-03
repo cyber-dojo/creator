@@ -1,7 +1,7 @@
 
 # No service publishes a host port. The tests reach every service by its
 # compose service name over the project's private network (the browser in the
-# selenium container hits http://nginx_stub:80, the client reaches
+# selenium container hits http://nginx:80, the creator container reaches
 # http://selenium:4444/wd/hub, and so on), so nothing needs a host port. Not
 # publishing means several test runs - in this repo or in sibling repos - can
 # run at once without fighting over the same host ports (eg 80, 4444). The demo
@@ -9,49 +9,27 @@
 
 services:
 
-  # The client/selenium tests run against this cut-down nginx stub, NOT the
-  # real cyber-dojo nginx (used in the demo - see docker-compose.demo.yml).
-  # The real nginx rate-limits /creator/ (zone=creator_choose, 60r/m burst 10).
-  # The selenium tests load several pages in quick succession, each pulling
-  # the html plus app.css and app.js through /creator/, which would trip the
-  # 429 rate-limit and make the tests flaky. The stub deliberately omits the
-  # rate-limiting (and the lazy resolver and the rest of the cyber-dojo
-  # routing) so the tests stay simple, isolated and deterministic.
-  nginx_stub:
-    image: cyberdojo/nginx_creator_stub
+  # The browser tests drive Firefox in the selenium container, which loads the
+  # app through this nginx - the same image production runs, so the tests
+  # exercise the real routing rather than a stub kept in step with it by hand.
+  # The /creator/ rate limit is turned up for the test run: several pages load
+  # in quick succession, each pulling html plus app.css and app.js through that
+  # zone, which is sized for a human at a keyboard. Every other zone keeps its
+  # production value, and nginx's own tests assert them.
+  nginx:
+    image: ${CYBER_DOJO_NGINX_IMAGE}:${CYBER_DOJO_NGINX_TAG}
     platform: linux/amd64
     user: root
-    build:
-      context: nginx_stub
+    init: true
+    environment:
+      # Passed through only when the caller sets it, which the browser-test
+      # run does (see bin/containers_up_healthy_and_clean.sh). Unset - as in
+      # the demo - nginx uses the production value baked into its image, so
+      # nothing here can silently disable a rate limit.
+      - CYBER_DOJO_CREATOR_CHOOSE_RATE
     depends_on:
-      - client
-
-  # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  client:
-    build:
-      args: [ COMMIT_SHA ]
-      context: source/client
-    image: ${CYBER_DOJO_CREATOR_CLIENT_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
-    platform: linux/amd64
-    env_file: [ .env ]
-    user: ${CYBER_DOJO_CREATOR_CLIENT_USER}
-    depends_on:
-      - custom-start-points    # for test data
-      - exercises-start-points # for test data
-      - languages-start-points # for test data
-      - selenium
       - creator
-    read_only: true
     restart: "no"
-    volumes:
-      - "./source/client:/app/source/:ro"
-      - "./test:/app/test/:ro"
-      - type: tmpfs
-        target: /tmp
-        tmpfs:
-          mode: 01777
-          size: 10485760  # 10MB
 
   # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 

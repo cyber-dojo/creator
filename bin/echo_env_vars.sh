@@ -19,17 +19,15 @@ echo_env_vars()
   #--------------------
   # Generate .env, which docker-compose auto-loads for ${...} substitution and
   # passes into each container via env_file. The ports come straight from the
-  # versioner image; CREATOR_CLIENT_PORT and CYBER_DOJO_ENV are repo-local
-  # settings versioner does not know about.
+  # versioner image; CYBER_DOJO_ENV is a repo-local setting versioner does not
+  # know about.
 
   local -r commit_sha="$(cd "$(repo_root)" && git rev-parse HEAD)"
   local -r image_tag="${commit_sha:0:7}"
-  local -r creator_client_port=9999
 
   {
     echo "# This file is generated in bin/echo_env_vars.sh echo_env_vars()"
     run_versioner | grep PORT
-    echo CYBER_DOJO_CREATOR_CLIENT_PORT=${creator_client_port}
     echo CYBER_DOJO_ENV=staging
   } > "$(repo_root)/.env"
 
@@ -43,10 +41,6 @@ echo_env_vars()
   echo CYBER_DOJO_CREATOR_SHA="${commit_sha}"
   echo CYBER_DOJO_CREATOR_TAG="${image_tag}"
   #
-  echo CYBER_DOJO_CREATOR_CLIENT_IMAGE=cyberdojo/client
-  echo CYBER_DOJO_CREATOR_CLIENT_PORT=${creator_client_port}
-  #
-  echo CYBER_DOJO_CREATOR_CLIENT_USER=nobody
   echo CYBER_DOJO_CREATOR_SERVER_USER=nobody
 
   # Here you can add SHA/TAG env-vars for any service whose

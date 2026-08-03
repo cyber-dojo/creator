@@ -5,8 +5,8 @@ set -Eeu
 # they route to) behind the REAL cyber-dojo nginx, so you can create a
 # group/kata in creator and then edit it in web.
 #
-# The client/selenium tests instead use the cut-down nginx_stub (see
-# docker-compose.yml) because the real nginx rate-limits /creator/.
+# The browser tests use the same real nginx (see docker-compose.yml), with the
+# /creator/ rate limit turned up so a run of page loads does not trip it.
 #
 # Usage: bin/demo.sh [--no-browser]
 

@@ -11,10 +11,43 @@ server_up_healthy_and_clean()
 client_up_healthy_and_clean()
 {
   if [ "${1:-}" != 'server' ]; then
-    export SERVICE_NAME=client
-    docker compose up --detach nginx_stub
-    exit_non_zero_unless_healthy
+    # What the browser tests need besides the creator container they run in.
+    # The nginx image defines no HEALTHCHECK, so there is nothing to poll for;
+    # --wait blocks until each service is running, and healthy too where the
+    # image does define one.
+    #
+    # The browser tests load several pages in quick succession, each pulling
+    # html plus app.css and app.js through /creator/, whose limit is sized for
+    # a human at a keyboard. Only this run turns it up; anything else bringing
+    # nginx up, the demo included, gets the production value from the image.
+    export CYBER_DOJO_CREATOR_CHOOSE_RATE=6000r/m
+    docker compose up --detach --wait nginx selenium
+    exit_non_zero_unless_selenium_grid_ready
   fi
+}
+
+# - - - - - - - - - - - - - - - - - - -
+exit_non_zero_unless_selenium_grid_ready()
+{
+  # A healthy selenium container is not the same as a listening grid: the java
+  # process binds 4444 a second or two after the container reports healthy, and
+  # a test starting in that window dies with ECONNREFUSED. Ask the grid itself,
+  # from the container the tests run in, so this proves the exact path they use.
+  local -r cid="$(service_container creator)"
+  local -r MAX_TRIES=100
+  printf "Waiting until the selenium grid answers"
+  for _ in $(seq ${MAX_TRIES})
+  do
+    if docker exec "${cid}" wget --quiet --output-document=- \
+         http://selenium:4444/status >/dev/null 2>&1; then
+      echo; echo "selenium grid is ready."
+      return
+    fi
+    printf .
+    sleep 0.1
+  done
+  echo; echo "selenium grid did not answer after ${MAX_TRIES} tries."
+  exit_non_zero
 }
 
 # - - - - - - - - - - - - - - - - - - -

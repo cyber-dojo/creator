@@ -2,11 +2,13 @@
 #
 #   docker compose -f docker-compose.yml -f docker-compose.demo.yml up nginx
 #
-# Unlike the tests (which use the cut-down nginx_stub in docker-compose.yml),
-# the demo runs the REAL cyber-dojo nginx and the full set of services it
-# routes to, so you can create a group/kata in creator and then edit it in
-# web. Bringing up nginx cascades (via depends_on) to web, creator, differ,
-# dashboard and the services they need. See bin/demo.sh.
+# The demo runs the same nginx image the tests do, plus the full set of
+# services it routes to, so you can create a group/kata in creator and then
+# edit it in web. Bringing up nginx cascades (via depends_on) to web, creator,
+# differ, dashboard and the services they need. See bin/demo.sh.
+#
+# The demo keeps production's rate limits: only the browser-test run exports an
+# override, and this overlay does not.
 
 services:
 

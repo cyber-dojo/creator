@@ -4,7 +4,6 @@ remove_old_images()
   echo Removing old images
   local -r dil=$(docker image ls --format "{{.Repository}}:{{.Tag}}")
   remove_all_but_latest "${dil}" "${CYBER_DOJO_CREATOR_IMAGE}"
-  remove_all_but_latest "${dil}" "${CYBER_DOJO_CREATOR_CLIENT_IMAGE}"
 }
 
 remove_all_but_latest()
