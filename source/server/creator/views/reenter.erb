@@ -49,7 +49,7 @@ $(() => {
     if (empty) {
       $('.title').html("sorry, it's empty");
       $('button.ok').show().click(() => {
-        cd.goto(`/creator/enter?id=${groupId}`);
+        cd.goto(cd.mountedPath(`/enter?id=${groupId}`));
       });
     }
   });

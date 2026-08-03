@@ -4,7 +4,7 @@ $(() => {
 
   cd.setupHomeIcon();
   const groupId = "<%= @group_id %>";
-  $('button.ok').click(() => cd.goto(`/creator/enter?id=${groupId}`));
+  $('button.ok').click(() => cd.goto(cd.mountedPath(`/enter?id=${groupId}`)));
 
 });
 </script>

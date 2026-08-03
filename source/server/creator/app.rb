@@ -72,7 +72,7 @@ module CreatorApp
         args = json_args
         type = args.delete(:type)
         id = create(type, args)
-        url = "/creator/enter?id=#{id}"
+        url = path_to("/enter?id=#{id}")
         wants.json { json({ 'route' => url, 'id' => id }) }
       end
     end
@@ -121,10 +121,10 @@ module CreatorApp
           group_id = json_args[:id]
           kata_id = saver.group_join(group_id, cluster_avatar_order(group_id))
           if kata_id.nil?
-            json('route' => "/creator/full?id=#{group_id}")
+            json('route' => path_to("/full?id=#{group_id}"))
           else
             group_index = saver.kata_manifest(kata_id)['group_index']
-            json('route' => "/creator/avatar?id=#{kata_id}",
+            json('route' => path_to("/avatar?id=#{kata_id}"),
                  'id' => kata_id,
                  'group_index' => group_index)
           end
