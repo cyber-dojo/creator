@@ -26,4 +26,10 @@ ruby -e "${SCRIPT}" -- ${TEST_ARGS[@]} 2>&1 | tee ${COVERAGE_ROOT}/${TEST_LOG}
 readonly RUBY_STATUS=${PIPESTATUS[0]}
 set -e
 
+# The log is complete now, so turn the part of it that is a metric into data the
+# gate can read. See test/log_metrics.rb.
+ruby "${MY_DIR}/log_metrics.rb" \
+  "${COVERAGE_ROOT}/${TEST_LOG}" \
+  "${COVERAGE_ROOT}/log_metrics.json"
+
 exit "${RUBY_STATUS}"

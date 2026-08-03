@@ -20,9 +20,9 @@ trail:
         - name: snyk-container-scan
           type: decision
 
-        - name: lint
-          type: generic
+        - name: rubocop-lint
+          type: junit
         - name: unit-test
           type: junit
-        - name: test-branch-coverage
+        - name: unit-test-coverage
           type: generic
