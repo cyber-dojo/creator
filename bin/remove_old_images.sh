@@ -3,19 +3,24 @@ remove_old_images()
 {
   echo Removing old images
   local -r dil=$(docker image ls --format "{{.Repository}}:{{.Tag}}")
-  remove_all_but_latest "${dil}" "${CYBER_DOJO_CREATOR_IMAGE}"
+  remove_all_but_current "${dil}" "${CYBER_DOJO_CREATOR_IMAGE}"
 }
 
-remove_all_but_latest()
+# Keeps :latest, which holds the image-layer build cache, and this commit's
+# tag, which names the build just made. Every older tag goes, and an earlier
+# build whose last tag was one of those goes with it.
+remove_all_but_current()
 {
   local -r docker_image_ls="${1}"
   local -r name="${2}"
-  for image_name in $(echo "${docker_image_ls}" | grep "${name}:")
+  # grep exits non-zero when the machine holds no creator image, eg one whose
+  # images have just been cleared, so an empty list must not end the build.
+  local tagged_name
+  for tagged_name in $(echo "${docker_image_ls}" | grep "^${name}:" || true)
   do
-    if [ "${image_name}" != "${name}:latest" ]; then
-      if [ "${image_name}" != "${name}:<none>" ]; then
-        docker image rm --force "${image_name}" || echo "  skipped ${image_name} (in use)"
-      fi
+    if [ "${tagged_name}" != "${name}:latest" ] \
+    && [ "${tagged_name}" != "${name}:$(image_tag)" ]; then
+      docker image rm --force "${tagged_name}" || echo "  skipped ${tagged_name} (in use)"
     fi
   done
 }
