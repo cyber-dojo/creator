@@ -1,9 +1,14 @@
 require 'simplecov'
 require 'json'
 
-class SimpleCov::Formatter::JSONFormatter
-  # based on https://github.com/vicentllongo/simplecov-json
-
+# A SimpleCov formatter writing coverage_metrics.json, which check_metrics
+# reads. SimpleCov ships its own JSON formatter, shaped per file, so this one
+# carries its own name rather than reopening that class and redefining its
+# format method. Redefining it makes ruby -w report the redefinition, and the
+# suite counts warnings.
+#
+# based on https://github.com/vicentllongo/simplecov-json
+class CoverageMetricsFormatter
   # Each group sits at the top level, so a limits file can name a metric by the
   # path that reads like one: code.lines.total. Mirrors ../saver.
   def format(result)
