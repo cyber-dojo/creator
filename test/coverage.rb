@@ -12,13 +12,13 @@ SimpleCov.start do
   filters.clear
   coverage_dir(ENV['COVERAGE_ROOT'])
   root(APP_DIR)
-  # add_group('debug') { |src| puts(src.filename); false }
-  add_group('code') { |src| src.filename.start_with?("#{APP_DIR}/source/") }
-  add_group('test') { |src| src.filename.start_with?("#{APP_DIR}/test/") }
+  # group('debug') { |path| puts(path.filename); false }
+  group('code') { |path| path.filename.start_with?("#{APP_DIR}/source/") }
+  group('test') { |path| path.filename.start_with?("#{APP_DIR}/test/") }
 end
 
 formatters = [SimpleCov::Formatter::HTMLFormatter,
-              SimpleCov::Formatter::JSONFormatter]
+              CoverageMetricsFormatter]
 SimpleCov.formatters = SimpleCov::Formatter::MultiFormatter.new(formatters)
 
 Minitest::Reporters.use!([

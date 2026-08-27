@@ -1,4 +1,4 @@
-# :nocov:
+# simplecov:disable
 require 'English'
 require 'minitest/autorun'
 require 'rack/test'
@@ -115,4 +115,4 @@ class Id58TestBase < Minitest::Test
 
   attr_reader :id58, :name58
 end
-# :nocov:
+# simplecov:enable
