@@ -19,10 +19,9 @@ build_tagged_images()
     exit_non_zero
   fi
   build_images
-  tag_images_to_latest
-  # After tagging, so removing an earlier build's tags takes its last tag with
-  # them and the image itself goes, rather than being left dangling when
-  # :latest moves to this build.
+  echo_env_var_statements
+  # After building, so this build is protected by its own tag, and removing an
+  # earlier build's tags takes its last tag with them and the image itself goes.
   remove_old_images
   check_embedded_env_var
 }
@@ -34,9 +33,10 @@ build_images()
 }
 
 #- - - - - - - - - - - - - - - - - - - - - - - -
-tag_images_to_latest()
+# Echoes the statements to paste into echo_env_vars() in any repo whose
+# dev-loop or demo needs the image just built.
+echo_env_var_statements()
 {
-  docker tag "${CYBER_DOJO_CREATOR_IMAGE}:$(image_tag)" "${CYBER_DOJO_CREATOR_IMAGE}:latest"
   echo
   echo "  echo CYBER_DOJO_CREATOR_SHA=$(git_commit_sha)"
   echo "  echo CYBER_DOJO_CREATOR_TAG=$(image_tag)"
