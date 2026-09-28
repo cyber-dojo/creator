@@ -1,4 +1,4 @@
-[![Github Action (main)](https://github.com/cyber-dojo/creator/actions/workflows/main.yml/badge.svg)](https://github.com/cyber-dojo/creator/actions)
+[![Github Action (main)](https://github.com/cyber-dojo/creator/actions/workflows/main-creator.yml/badge.svg?branch=main)](https://github.com/cyber-dojo/creator/actions)
 
 - A [docker-containerized](https://registry.hub.docker.com/r/cyberdojo/creator) micro-service for [https://cyber-dojo.org](http://cyber-dojo.org).
 - The UI to configure and create (or re-enter) a group-exercise or an individual-exercise.
@@ -13,27 +13,27 @@ There are two sets of tests:
 
 ```bash
 # Build the creator image
-$ make image
+$ make creator_image
 
 # Run all the tests (server and client)
-$ make test
+$ make creator_test
 
 # Run only the server (or client) tests
-$ make {test_server|test_client}
+$ make {creator_test_server|creator_test_client}
 
 # Run only tests whose id starts with p42
 # (tids takes one or more space-separated id prefixes)
-$ make {test_server|test_client} tids=p42
-$ make {test_server|test_client} tids="p42 p9F"
+$ make {creator_test_server|creator_test_client} tids=p42
+$ make {creator_test_server|creator_test_client} tids="p42 p9F"
 
 # Bring up a full local demo (creator + web behind the real nginx)
-$ make demo
+$ make creator_demo
 ```
 
 The source is bind-mounted read-only into the containers, so edits to
-`source/server/creator/` (or `source/client/`) and `test/` are picked up by
-re-running the tests - no `make image` rebuild needed.
+`creator/source/server/creator/` and `creator/test/` are picked up by
+re-running the tests - no `make creator_image` rebuild needed.
 
 - - - -
-![choose-exercise](docs/choose_exercise.png)
-![choose-language-and-test-framework](docs/choose_language_and_test_framework.png)
+![choose-exercise](creator/docs/choose_exercise.png)
+![choose-language-and-test-framework](creator/docs/choose_language_and_test_framework.png)

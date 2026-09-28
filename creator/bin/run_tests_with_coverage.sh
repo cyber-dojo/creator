@@ -2,7 +2,7 @@
 set -Eeu
 
 repo_root() { git rev-parse --show-toplevel; }
-BIN_DIR="$(repo_root)/bin"
+BIN_DIR="$(repo_root)/creator/bin"
 source "${BIN_DIR}/containers_down.sh"
 source "${BIN_DIR}/containers_up_healthy_and_clean.sh"
 source "${BIN_DIR}/copy_in_saver_test_data.sh"

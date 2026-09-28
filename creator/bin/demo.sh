@@ -11,7 +11,7 @@ set -Eeu
 # Usage: bin/demo.sh [--no-browser]
 
 repo_root() { git rev-parse --show-toplevel; }
-readonly BIN_DIR="$(repo_root)/bin"
+readonly BIN_DIR="$(repo_root)/creator/bin"
 source "${BIN_DIR}/copy_in_saver_test_data.sh"
 source "${BIN_DIR}/curlers.sh"
 source "${BIN_DIR}/echo_env_vars.sh"

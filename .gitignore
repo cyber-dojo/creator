@@ -1,12 +1,12 @@
 snyk.container.scan.json
 
-reports/*
-reports/.*
+creator/reports/*
+creator/reports/.*
 
-test/evidence.json
+creator/test/evidence.json
 
-test/server/reports/*
-test/server/reports/.*
+creator/test/server/reports/*
+creator/test/server/reports/.*
 
-test/client/reports/*
-test/client/reports/.*
+creator/test/client/reports/*
+creator/test/client/reports/.*

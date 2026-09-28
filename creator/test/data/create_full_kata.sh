@@ -2,7 +2,7 @@
 set -Eeu
 
 repo_root() { git rev-parse --show-toplevel; }
-SH_DIR="$(repo_root)/sh"
+SH_DIR="$(repo_root)/creator/bin"
 source "${SH_DIR}/build_tagged_images.sh"
 source "${SH_DIR}/containers_down.sh"
 source "${SH_DIR}/containers_up_healthy_and_clean.sh"
@@ -12,6 +12,11 @@ source "${SH_DIR}/remove_old_images.sh"
 
 # shellcheck disable=SC2046
 export $(echo_env_vars)
+
+# The curlers reach creator from the host, on localhost, and only the demo
+# overlay publishes creator's port. Every bare `docker compose` below reads
+# both files.
+export COMPOSE_FILE="$(repo_root)/docker-compose.yml:$(repo_root)/docker-compose.demo.yml"
 
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 reset_saver()
@@ -24,7 +29,7 @@ reset_saver()
 #- - - - - - - - - - - - - - - - - - - - - - - - - - -
 create_full_kata()
 {
-  local -r saver_cid=$(docker ps --filter status=running --format '{{.Names}}' | grep "saver")
+  local -r saver_cid="$(service_container saver)"
 
   reset_saver "${saver_cid}"
   curl_json_body_200 POST create.json \
@@ -42,7 +47,7 @@ create_full_kata()
   # Tar-pipe /cyber-dojo out of saver container
   # tar-file compression is not done inside the container
   # because `tar -z` fails in a read-only file-system
-  local -r filename="$(repo_root)/test/data/full-group-${gid}.tgz"
+  local -r filename="$(repo_root)/creator/test/data/full-group-${gid}.tgz"
   local -r src_dir="/cyber-dojo/"
   docker exec "${saver_cid}" tar -cf - -C "$(dirname ${src_dir})" "$(basename ${src_dir})" \
     | gzip > "${filename}"

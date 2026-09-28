@@ -23,7 +23,7 @@ services:
     init: true
     environment:
       # Passed through only when the caller sets it, which the browser-test
-      # run does (see bin/containers_up_healthy_and_clean.sh). Unset - as in
+      # run does (see creator/bin/containers_up_healthy_and_clean.sh). Unset - as in
       # the demo - nginx uses the production value baked into its image, so
       # nothing here can silently disable a rate limit.
       - CYBER_DOJO_CREATOR_CHOOSE_RATE
@@ -37,6 +37,7 @@ services:
     build:
       args: [ COMMIT_SHA ]
       context: .
+      target: creator
     image: ${CYBER_DOJO_CREATOR_IMAGE}:${CYBER_DOJO_CREATOR_TAG}
     platform: linux/amd64
     env_file: [ .env ]
@@ -50,8 +51,8 @@ services:
     read_only: true
     restart: "no"
     volumes:
-      - "./source/server:/app/source/:ro"
-      - "./test:/app/test/:ro"
+      - "./creator/source/server:/app/source/:ro"
+      - "./creator/test:/app/test/:ro"
       - type: tmpfs
         target: /tmp
         tmpfs:
