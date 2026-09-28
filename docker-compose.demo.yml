@@ -5,7 +5,7 @@
 # The demo runs the same nginx image the tests do, plus the full set of
 # services it routes to, so you can create a group/kata in creator and then
 # edit it in web. Bringing up nginx cascades (via depends_on) to web, creator,
-# differ, dashboard and the services they need. See bin/demo.sh.
+# differ, dashboard and the services they need. See creator/bin/demo.sh.
 #
 # The demo keeps production's rate limits: only the browser-test run exports an
 # override, and this overlay does not.
@@ -25,7 +25,7 @@ services:
       - differ
       - dashboard
 
-  # Publish creator on the host for the demo only. bin/demo.sh's api_demo
+  # Publish creator on the host for the demo only. creator/bin/demo.sh's api_demo
   # curls the creator server directly on CYBER_DOJO_CREATOR_PORT (not through
   # nginx) to bypass nginx's /creator/ rate-limit. The base docker-compose.yml
   # deliberately publishes no host ports (see its comment).

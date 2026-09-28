@@ -62,7 +62,7 @@ run_tests()
   local -r TEST_LOG=test.log
   local -r CONTAINER_REPORTS_DIR=/tmp/reports
 
-  local -r HOST_TEST_DIR="$(repo_root)/test/${TYPE}"   # where to extract to. untar will create reports/ dir
+  local -r HOST_TEST_DIR="$(repo_root)/creator/test/${TYPE}"   # where to extract to. untar will create reports/ dir
   local -r HOST_REPORTS_DIR="${HOST_TEST_DIR}/reports" # where files will be
 
   rm -rf "${HOST_REPORTS_DIR}" 2> /dev/null || true

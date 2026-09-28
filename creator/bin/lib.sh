@@ -106,10 +106,10 @@ write_test_evidence_json()
 {
   {
     echo '{ "server": '
-    cat "$(repo_root)/test/server/reports/coverage_metrics.json"
+    cat "$(repo_root)/creator/test/server/reports/coverage_metrics.json"
     if [ "${1:-}" != 'server' ]; then
       echo ', "client": '
-      cat "$(repo_root)/test/client/reports/coverage_metrics.json"
+      cat "$(repo_root)/creator/test/client/reports/coverage_metrics.json"
     fi
     echo '}'
   } | jq . > "$(test_evidence_json_path)"
@@ -117,5 +117,5 @@ write_test_evidence_json()
 
 test_evidence_json_path()
 {
-  echo "$(repo_root)/test/evidence.json"
+  echo "$(repo_root)/creator/test/evidence.json"
 }

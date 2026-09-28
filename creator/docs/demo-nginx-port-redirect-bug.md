@@ -4,12 +4,12 @@
 
 Fixed. The cyber-dojo nginx image now sets `absolute_redirect off;`, so the
 `^/$` rewrite emits a relative `Location: /creator/home` and the browser keeps
-whatever port it is on. `bin/demo.sh` opens the bare root URL again; the earlier
+whatever port it is on. `creator/bin/demo.sh` opens the bare root URL again; the earlier
 `/creator/home` workaround has been reverted.
 
 ## Symptom
 
-`make demo` (which runs `bin/demo.sh`) brings the creator demo up correctly on
+`make creator_demo` (which runs `creator/bin/demo.sh`) brings the creator demo up correctly on
 host port 81:
 
 ```
@@ -23,7 +23,7 @@ no port shown) instead of port 81. With the demo published on 81 (and nothing on
 
 ## Cause
 
-`bin/demo.sh` opened the bare root URL `http://localhost:81`. The cyber-dojo
+`creator/bin/demo.sh` opened the bare root URL `http://localhost:81`. The cyber-dojo
 nginx image rewrites `/` to `/creator/home` and issues it as an absolute 301
 built from its own listen port, not the client's `Host` header. Because nginx
 listens on 80 inside the container, the redirect target is port 80.
@@ -49,7 +49,7 @@ rewrite ^/$ /creator/home permanent;
 
 Chain of events:
 
-1. `bin/demo.sh` opens `http://localhost:81/`.
+1. `creator/bin/demo.sh` opens `http://localhost:81/`.
 2. nginx matches `rewrite ^/$ /creator/home permanent;`.
 3. With `absolute_redirect` on (the nginx default), nginx builds an absolute
    `Location` from `server_name` (`localhost`) and its internal listen port
@@ -82,7 +82,7 @@ absolute_redirect off;
 rewrite ^/$              /creator/home permanent;
 ```
 
-`bin/demo.sh` opens the bare root URL again:
+`creator/bin/demo.sh` opens the bare root URL again:
 
 ```
 open "http://localhost:${CYBER_DOJO_NGINX_HOST_PORT}"
